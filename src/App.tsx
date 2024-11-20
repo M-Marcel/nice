@@ -1,25 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
+import { Route, Routes} from "react-router-dom";
+
 import './App.css';
+import Home from "./pages/home";
+import Features from "./pages/features";
+import Community from "./pages/community";
+import Integrations from "./pages/integrations";
+import Pricing from "./pages/pricing";
+import WaitList from "./pages/waitlist";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/features" element={<Features />} />
+      <Route path="/community" element={<Community />} />
+      <Route path="/integrations" element={<Integrations />} />
+      <Route path="/pricing" element={<Pricing />} />
+      <Route path="/waitlist" element={<WaitList />} />
+
+    </Routes>
   );
 }
 

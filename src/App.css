@@ -1,38 +1,27 @@
-.App {
-  text-align: center;
+.custom-bg{
+   background: linear-gradient(75deg, #3EB0F7, #2EA3ED);
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.Hero-section{
+    background-image: url('./assets/frame.jpg');
+    background-size: cover;
+ 
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.purpose-bg{
+    background-image: url('./assets/dots.png');
+    background-size: contain;
+}
+.join-bg{
+    background-image: url('./assets/joinframe.jpg');
+    background-size: cover;
+}
+.custom-blue{
+    background: #1D689D36;
+}
+.hide-scrollbar::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Edge */
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  
+  .hide-scrollbar {
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+    scrollbar-width: none; /* For Firefox */
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
