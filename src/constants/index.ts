@@ -5,6 +5,7 @@ import Copy from '../assets/copy.png'
 import Elipse from '../assets/elipse.png'
 
 
+
 export const navigation = [
     {
       id: "0",
@@ -63,6 +64,16 @@ export const navigation = [
      {
       id:2,
       image:Slide3,
+      title:'City explorer app',
+      author:'Tanjiro',
+      btnText:'Use this app',
+      totalUsers:48,
+      copy:Copy,
+      elipse:Elipse,
+     },
+     {
+      id:3,
+      image:Slide1,
       title:'City explorer app',
       author:'Tanjiro',
       btnText:'Use this app',

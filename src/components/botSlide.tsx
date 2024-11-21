@@ -5,48 +5,67 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 const BotSlide = () => {
-    let settings = {
-        dots: true,
+    const settings = {
+        dots: false,
         infinite: true,
         speed: 500,
         slidesToShow: 3,
-        slidesToScroll: 2,
-      };
+        slidesToScroll: 1,
+        draggable: true,
+        swipe: true,
+        touchMove: true,
+        adaptiveHeight: true,
+        responsive: [
+            {
+                breakpoint: 768, // Tablet and mobile view
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                    draggable: true,
+                    swipe: true,
+                    adaptiveHeight: true,
+                },
+            },
+        ],
+    };
     return (
-        <div className="h-auto bg-white mt-8 m-auto" >
-            <div className="h-auto w-[90%] border-red-600 border">
+        <div className="bg-white" >
+            <div className="w-[100%] lg:w-[90%] mx-auto slider-container">
                 <Slider {...settings}>
-                {
-                    communityBots.map((item) => (
-                        <div key={item.id}>
-                            <div className="flex flex-col">
-                                <img
-                                    src={item.image}
-                                    alt="img"
-                                    className="w-40 m-auto"
-                                />
-                                <div className="mt-5">
-                                    <div className="flex justify-between items-center mb-2">
-                                        <h2 className="text-black-300 text-md">{item.title}</h2>
-                                        <Button className="custom-bg rounded-lg px-4 py-2 text-white text-sm">{item.btnText}</Button>
+                    {
+                        communityBots.map((item) => (
+                            <div key={item.id}>
+                                <div className="flex flex-col border border-gray-600 rounded-xl
+                                px-4 py-4">
+                                    <div className="w-[100%] purpose-bg">
+                                        <img
+                                            src={item.image}
+                                            alt="img"
+                                            className="w-[100%] m-auto block object-contain"
+                                        />
                                     </div>
-                                    <div>
-                                        <p className="flex gap-1 items-center mb-2">
-                                            <img src={item.elipse} alt="elipse" className="w-[10px] h-[10px]" />
-                                            <span className="text-black-400 text-xs">by</span>
-                                            <span className="text-black-300 text-sm">{item.author}</span>
-                                        </p>
-                                        <p className="flex items-center gap-1">
-                                            <img src={item.copy} alt="copy" className="w-[10px] h-[10px]" />
-                                            <span className="text-black-400 text-xs">{item.totalUsers}</span>
-                                            <span className="text-black-400 text-xs">users</span>
-                                        </p>
+                                    <div className="mt-5">
+                                        <div className="flex flex-col lg:flex-row justify-between lg:items-center mb-2">
+                                            <h2 className="text-black-300 text-md">{item.title}</h2>
+                                            <Button className="custom-bg rounded-lg px-4 py-2 text-white text-sm">{item.btnText}</Button>
+                                        </div>
+                                        <div>
+                                            <p className="flex gap-1 items-center mb-2">
+                                                <img src={item.elipse} alt="elipse" className="w-[10px] h-[10px]" />
+                                                <span className="text-black-400 text-xs">by</span>
+                                                <span className="text-black-300 text-sm">{item.author}</span>
+                                            </p>
+                                            <p className="flex items-center gap-1">
+                                                <img src={item.copy} alt="copy" className="w-[10px] h-[10px]" />
+                                                <span className="text-black-400 text-xs">{item.totalUsers}</span>
+                                                <span className="text-black-400 text-xs">users</span>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ))
-                }
+                        ))
+                    }
                 </Slider>
             </div>
         </div>

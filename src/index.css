@@ -6,9 +6,33 @@
 .custom-bg{
   background:linear-gradient(45deg, rgb(0, 0, 0,));
 }
-.slick-slide{
+.slick-slide>div{
    margin: 0 10px;
 }
 body{
   @apply font-title
+}
+.slick-slide {
+  margin: 0;
+  padding: 0;
+  height: auto!important; /* Adjust this value as needed */
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  overflow: hidden !important; 
+ 
+}
+
+/* Override default height */
+.slick-slide img {
+  height: auto !important; /* Ensure images scale properly */
+  max-height: 100%;         /* Prevent excessive image height */
+}
+
+/* Ensure the container does not stretch */
+.slick-track {
+  display: flex;
+  align-items: center; /* Center content if needed */
+  height: auto !important; /* Adjust the track height */
+  
 }
