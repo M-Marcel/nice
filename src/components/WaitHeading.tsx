@@ -4,7 +4,7 @@ import Button from './Button'
 
 const WaitHeading = () => {
     return (
-        <div className="flex justify-center items-center mt-[60px] ">
+        <div className="flex justify-center items-center mt-[200px] ">
             <div className='flex flex-col justify-center items-center'>
                 <img src={WaitGroup} alt='waitgroup' width={400} height={200} />
                 <p className='w-[60%] text-center text-black-400 mt-4 text-md'>Start building bots and mini apps before we fully launch</p>

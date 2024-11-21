@@ -4,7 +4,7 @@ import LogoText from '../assets/logotext.png'
 const Footer = () => {
     return (
         <div className="footer relative bottom-[0]">
-            <div className='mx-12 py-8 px-12'>
+            <div className='mx-auto lg:mx-12 py-8 px-12'>
                 <div className='flex items-center gap-2'>
                     <img src={Logo} alt="logo" width={20} height={20} />
                     <img src={LogoText} alt="logo" width={80} height={80} />

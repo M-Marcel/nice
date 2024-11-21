@@ -1,5 +1,5 @@
 import Zero from '../assets/zero.png'
-import BotDesign from '../assets/botdesign.png'
+import BotDesign from '../assets/zrobot.png'
 import Button from './Button'
 import Avatar from './avatar'
 
@@ -11,7 +11,7 @@ const Heading = () => {
                     2k+ bots built
                 </Avatar>
                 <div className='flex flex-col items-center max-w-sm justify-center'>
-                    <h2 className='text-5xl mb-3 text-black-300 text-center  leading-none'>
+                    <h2 className='font-title text-5xl mb-3 text-black-300 text-center  leading-none'>
                         Build bots and mini apps with
                     </h2>
                     <div className='mb-3'>

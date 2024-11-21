@@ -1,5 +1,4 @@
 
-
 type HeroProps = {
     children: React.ReactNode
 }
