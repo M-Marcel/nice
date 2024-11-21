@@ -6,6 +6,9 @@
 .custom-bg{
   background:linear-gradient(45deg, rgb(0, 0, 0,));
 }
+.slick-slide{
+   margin: 0 10px;
+}
 body{
   @apply font-title
 }

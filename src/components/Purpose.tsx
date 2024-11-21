@@ -5,7 +5,7 @@ import Earn from '../assets/earn.png'
 
 const Purpose = () => {
     return (
-        <div className="mt-[190px]">
+        <div className="mt-[370px]">
             <div className="flex flex-col mb-10">
                 <div className="flex justify-center items-center flex-col text-center">
                     <h2 className="text-4xl mb-3 text-black-300">Bots for every purpose</h2>
@@ -25,8 +25,8 @@ const Purpose = () => {
                     <div className="lg:col-start-2 lg:col-span-3 mb-4">
                         <div className="purpose-bg border border-gray-100 rounded-lg px-4 py-5 h-[auto]
                         flex flex-col justify-end">
-                            <div className='flex justify-center items-center mb-[124px]'>
-                                <img src={Trading} alt='trading' width={600} height={600} />
+                            <div className='flex justify-center items-center mb-[72px]'>
+                                <img src={Trading} alt='trading' width={500} height={500} />
                             </div>
                             <h2 className="text-black-300 text-xl mb-4 font-medium">Trading Bot</h2>
                             <p className="text-black-400 text-sm">Automate crypto trading within Telegram. Create or import wallets, trade tokens, and monitor transactions with advanced security.</p>
@@ -55,22 +55,22 @@ const Purpose = () => {
                     <div className="mb-4">
                         <div className="purpose-bg border border-gray-100 rounded-lg px-4 py-5 h-[auto]
                         flex flex-col justify-end">
-                            <h2 className="text-black-300 text-xl mb-4 w-[auto] lg:w-[40%] font-medium">Wallet Creation and Import Bot</h2>
-                            <p className="text-black-400 text-sm w-[auto] lg:w-[60%] leading-5">Easily create or import crypto wallets. Secure and convenient, this bot simplifies blockchain interaction for everyone</p>
+                            <h2 className="text-black-300 text-xl mb-4 w-[auto] lg:w-[60%] font-medium">Wallet Creation and Import Bot</h2>
+                            <p className="text-black-400 text-sm w-[auto] lg:w-[90%] leading-5">Easily create or import crypto wallets. Secure and convenient, this bot simplifies blockchain interaction for everyone</p>
                         </div>
                     </div>
                     <div className="mb-4">
                         <div className="purpose-bg border border-gray-100 rounded-lg px-4 py-5 h-[auto]
                         flex flex-col justify-end">
                             <h2 className="text-black-300 text-xl mb-11 font-medium">Monitor Wallet Bot</h2>
-                            <p className="text-black-400 text-sm w-[auto] lg:w-[60%] leading-5">Get instant updates on wallet activity. Track your transactions or monitor others for insights and security</p>
+                            <p className="text-black-400 text-sm w-[auto] lg:w-[80%] leading-5">Get instant updates on wallet activity. Track your transactions or monitor others for insights and security</p>
                         </div>
                     </div>
                     <div className="mb-4">
                         <div className="purpose-bg border border-gray-100 rounded-lg px-4 py-5 h-[auto]
                         flex flex-col justify-end">
                             <h2 className="text-black-300 text-xl mb-11 font-medium">Monitor Token Bot</h2>
-                            <p className="text-black-400 text-sm w-[auto] lg:w-[60%] leading-5">Stay updated on token prices, volumes, and market trends in real time. Never miss a critical crypto change.</p>
+                            <p className="text-black-400 text-sm w-[auto] lg:w-[80%] leading-5">Stay updated on token prices, volumes, and market trends in real time. Never miss a critical crypto change.</p>
                         </div>
                     </div>
                 </div>

@@ -1,3 +1,5 @@
+
+
 const CommunityBot = () => {
     return (
         <div className="mt-[180px]">
@@ -7,7 +9,7 @@ const CommunityBot = () => {
                     <p className="text-black-400 text-md text-center w-auto lg:w-[20%]"></p>
                 </div>
                 <div className="px-5 lg:px-7.5 xl:px-10 lg:mx-8">
-                    
+                  
                 </div>
             </div>
         </div>
