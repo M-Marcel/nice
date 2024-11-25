@@ -8,6 +8,7 @@ import Community from "./pages/community";
 import Integrations from "./pages/integrations";
 import Pricing from "./pages/pricing";
 import WaitList from "./pages/waitlist";
+import DragandDrop from "./components/DragandDrop";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       <Route path="/integrations" element={<Integrations />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/waitlist" element={<WaitList />} />
+      <Route path="/draganddrop" element={ <DragandDrop />  } />
 
     </Routes>
   );

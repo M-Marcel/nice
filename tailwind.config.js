@@ -25,7 +25,10 @@ module.exports = {
         },
         fontFamily:{
           title:['Inter', 'sans-serif']
-        }
+        },
+        backgroundImages: {
+          'custom-bg': "url('/src/assets/dots.png')",
+        },
      }
   },
   plugins: [],
