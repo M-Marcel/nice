@@ -3,9 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.custom-bg{
-  background:linear-gradient(45deg, rgb(0, 0, 0,));
-}
 .slick-slide>div{
    margin: 0 10px;
 }
