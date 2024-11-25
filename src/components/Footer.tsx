@@ -25,6 +25,7 @@ const Footer = () => {
                     <p className='text-gray-300 text-sm'>©2024 Zroleak. All rights reserved.</p>
                 </div>
             </div>
+            
         </div>
     )
 }
