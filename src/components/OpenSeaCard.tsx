@@ -3,11 +3,11 @@ import BoatImg from '../assets/Boat.png'
 
 const OpenSeaIcon = () => {
   return (
-    <div className="rounded-t-xl px-1 mx-3  bg-gradient-to-b from-[#18C55D] to-[#9EE7BB] mb-2">
+    <div className="rounded-t-xl px-1 mx-1  openSea mb-3">
       <div className="max-w-sm  mt-39] border-none shadow dark:bg-gray-800 dark:border-gray-700">
         <div className="flex p-2 gap-3 justify-between text-white ">
           <div className="flex gap-2">
-          <img src={BoatImg} alt="logo" width={30} height={5} />
+          <img src={BoatImg} alt="logo" className='botoimg' width={30} height={15} />
             <p className="mb-2 text-sm text-white-300  tracking-tight  dark:text-white">
               OpenSea-Monitor portfolio
             </p>
@@ -51,7 +51,7 @@ const OpenSeaIcon = () => {
         </div>
 
         <div className="block bg-[#FFFFFF]   rounded-lg p-4">
-          <p className="mb-3 font-normal text-gray-500 ">
+          <p className="mb-3 font-normal text-gray-500 text-sm ">
             Get Notification when an account invests in a new collection
           </p>
           <a

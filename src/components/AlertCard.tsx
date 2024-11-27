@@ -3,9 +3,9 @@ import BookImg from '../assets/Book.png';
 
 const AlertIcon = () => {
   return (
-    <div className="rounded-t-xl px-1 mx-3  bg-gradient-to-b from-[#9047EE] to-[#D8BEF9] mb-2">
-      <div className="max-w-sm  mt-39] border-none shadow dark:bg-gray-800 dark:border-gray-700">
-        <div className="flex  p-2 gap-3 justify-between text-white  ">
+    <div className="rounded-t-xl px-1 mx-1 mb-3  alert">
+      <div className="max-w-lg   border-none shadow dark:bg-gray-800 dark:border-gray-700  ">
+        <div className="flex  p-2 gap-3 justify-between text-white ">
           <div className="flex gap-2">
             <svg
               className="w-6 h-6 text-white-800 dark:text-white"
@@ -67,8 +67,8 @@ const AlertIcon = () => {
           </div>
         </div>
 
-        <div className="block bg-[#FFFFFF]   rounded-lg p-4">
-          <p className="mb-3 font-normal text-gray-500 ">
+        <div className=" bg-[#FFFFFF]    rounded-lg p-3">
+          <p className="mb-3 font-normal text-gray-500 text-sm ">
             Activate when value hits threshold from above or below
           </p>
           <a

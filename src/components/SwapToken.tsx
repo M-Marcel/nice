@@ -3,11 +3,11 @@ import CoinImg from '../assets/coins-swap.png'
 
 const SwapTokenIcon = () => {
   return (
-    <div className="rounded-t-xl px-1 mx-3  bg-gradient-to-b from-[#FD903E] to-[#FECFAB] mb-2">
+    <div className="rounded-t-xl px-1 mx-1  tokenSwap mb-3">
       <div className="max-w-sm  mt-39] border-none shadow dark:bg-gray-800 dark:border-gray-700">
         <div className="flex p-2 gap-3 justify-between text-white ">
           <div className="flex gap-2">
-          <img src={CoinImg} alt="logo" width={25} height={20} className='text-white' />
+          <img src={CoinImg} alt="logo"  width={25} height={20} className='swapimg' />
             <p className="mb-2 text-sm text-white-300  tracking-tight  dark:text-white">
               Swap Token (ERC20)
             </p>
@@ -51,7 +51,7 @@ const SwapTokenIcon = () => {
         </div>
 
         <div className="block bg-[#FFFFFF]   rounded-lg p-4">
-          <p className="mb-3 font-normal text-gray-500 ">
+          <p className="mb-3 font-normal text-gray-500 text-sm ">
             Use Uniswap V2 to swap ERC20 tokens
           </p>
           <a

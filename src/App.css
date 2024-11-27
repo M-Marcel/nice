@@ -25,3 +25,39 @@
     -ms-overflow-style: none; /* For Internet Explorer and Edge */
     scrollbar-width: none; /* For Firefox */
   }
+  .draganddrop {
+    background-image: url('./assets/dots.png');
+    background-size: contain; 
+  }
+  .alert {
+    background: linear-gradient(to bottom, #9047EE, #D8BEF9, #FFFFFF )
+  }
+  .openSea {
+    background: linear-gradient(to bottom, #18C55D, #9EE7BB, #FFFFFF )
+  }
+  .tokenSwap {
+    background: linear-gradient(to bottom, #FD903E, #FECFAB, #FFFFFF )
+  }
+  .telegram {
+    background: linear-gradient(to bottom, #FD903E, #FECFAB, #FFFFFF )
+  }
+  .botoimg {
+    width:25px;
+    height: 22px;
+  }
+  .teleimg {
+    width:25px;
+    height: 22px;
+  }
+  .swapimg {
+    width:25px;
+    height: 22px;
+  }
+  .voiceimg {
+    width:30px;
+    height: 30px;
+  }
+  .swapimg {
+    width:25px;
+    height: 22px;
+  }
