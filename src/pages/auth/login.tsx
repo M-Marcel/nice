@@ -3,8 +3,16 @@ import Button from '../../components/Button'
 import Google from '../../assets/Google.png'
 import Microsoft from '../../assets/Microsoft.png'
 import Github from '../../assets/GitHub.png'
+import { useState } from 'react'
+import OpenEye from '../../assets/svg/OpenEye'
+import CloseEye from '../../assets/svg/CloseEye'
 
 const Login = () => {
+    const [passWordVisible, setPassWordVisible] = useState<boolean>(false)
+
+    const togglePassWordVisibility = () => {
+        setPassWordVisible(!passWordVisible)
+    }
     return (
         <div className="bg-white px-4 py-4 h-full">
             <div className="flex flex-col gap-2 mb-3">
@@ -26,10 +34,23 @@ const Login = () => {
                     <label htmlFor="password" className="text-sm text-gray-400">
                         Password
                     </label>
-                    <input
-                        type="password"
-                        className="px-4 py-2 border border-gray-600 rounded-lg outline-none"
-                    />
+                    <div className="relative w-full">
+                            <input
+                                type={passWordVisible ? 'text' : 'password'}
+                                className="w-full px-4 py-2 border border-gray-600 rounded-lg outline-none"
+                            />
+                            <Button type="button" className="flex justify-center items-center absolute top-2 left-[320px]  text-gray-800" onClick={togglePassWordVisibility}>
+                                {passWordVisible ?
+                                    (
+                                        <OpenEye />
+                                    ) : (
+
+                                        <CloseEye />
+                                    )
+
+                                }
+                            </Button>
+                        </div>
                 </div>
                 <div className="flex justify-between">
                     <div className="flex items-center gap-2">

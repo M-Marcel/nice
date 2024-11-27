@@ -9,6 +9,7 @@ import Integrations from "./pages/integrations";
 import Pricing from "./pages/pricing";
 import WaitList from "./pages/waitlist";
 import DragandDrop from "./components/DragandDrop";
+import LetUsKnowYou from "./pages/auth/let-us-know-you";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/waitlist" element={<WaitList />} />
       <Route path="/draganddrop" element={ <DragandDrop />  } />
+      <Route path="/let-us-know-you" element={ <LetUsKnowYou />} />
 
     </Routes>
   );
