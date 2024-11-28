@@ -1,27 +1,29 @@
-import BookImg from '../assets/Book.png'
-import BoatImg from '../assets/Boat.png'
+import BookImg from "../assets/Book.png";
+import BoatImg from "../assets/Boat.png";
 
 const OpenSeaIcon = () => {
   return (
-    <div className="rounded-t-xl px-1 mx-1  openSea mb-3">
+    <div className="rounded-t-xl px-1 mx-2  openSea mb-3">
       <div className="max-w-sm  mt-39] border-none shadow dark:bg-gray-800 dark:border-gray-700">
         <div className="flex p-2 gap-3 justify-between text-white ">
           <div className="flex gap-2">
-          <img src={BoatImg} alt="logo" className='botoimg' width={30} height={15} />
+            <img
+              src={BoatImg}
+              alt="logo"
+              className="botoimg"
+              width={30}
+              height={15}
+            />
             <p className="mb-2 text-sm text-white-300  tracking-tight  dark:text-white">
               OpenSea-Monitor portfolio
             </p>
           </div>
           <div className="flex gap-2">
-            <a
-              href="#"
-              className="mb-2 text-sm text-white-200 tracking-tight   "
+            <button
+              className="mb-3 text-xs text-white-200 tracking-tight rounded-lg  outline-none px-2  border border-none bg-green-500 py-1   "
             >
-              {" "}
-              <button className="rounded-lg  outline-none px-2  border border-none bg-green-400 py-1">
-                Data
-              </button>{" "}
-            </a>
+              Data
+            </button>
 
             <button
               id="dropdownButton"
@@ -54,12 +56,8 @@ const OpenSeaIcon = () => {
           <p className="mb-3 font-normal text-gray-500 text-sm ">
             Get Notification when an account invests in a new collection
           </p>
-          <a
-            href="#"
-            className="inline-flex font-medium items-center text-blue-600 hover:underline"
-          >
-           <img src={BookImg} alt="logo" width={30} height={30} />
-          </a>
+        
+            <img src={BookImg} className="inline-flex font-medium items-center text-blue-600 hover:underline" alt="logo" width={30} height={30} />
         </div>
       </div>
     </div>

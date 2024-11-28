@@ -1,27 +1,29 @@
-import TelegramImg from '../assets/telegram.png'
-import BookImg from '../assets/Book.png'
+import TelegramImg from "../assets/telegram.png";
+import BookImg from "../assets/Book.png";
 
 const TelegramIcon = () => {
   return (
-    <div className="rounded-t-xl px-1 mx-1  telegram mb-3">
+    <div className="rounded-t-xl px-1 mx-2  telegram mb-3">
       <div className="max-w-sm  mt-39] border-none shadow dark:bg-gray-800 dark:border-gray-700">
         <div className="flex p-2 gap-3 justify-between text-white ">
           <div className="flex gap-2">
-          <img src={TelegramImg} alt="logo" className='teleimg' width={30} height={30} />
-            <p className="mb-2 text-sm text-white-300  tracking-tight  dark:text-white">
+            <img
+              src={TelegramImg}
+              alt="logo"
+              className="teleimg"
+              width={25}
+              height={20}
+            />
+            <p className="mb-2 text-sm text-white-300 flex  tracking-tight  dark:text-white">
               Telegram - Send Message
             </p>
           </div>
           <div className="flex gap-2">
-            <a
-              href="#"
-              className="mb-2 text-sm text-white-200 tracking-tight   "
+            <button
+              className="mb-3 text-xs text-white-200 tracking-tight rounded-lg  outline-none px-2  border border-none bg-orange-500 py-1 "
             >
-              {" "}
-              <button className="rounded-lg  outline-none px-2  border border-none bg-orange-300 py-1">
-                Action
-              </button>{" "}
-            </a>
+              Action
+            </button>
 
             <button
               id="dropdownButton"
@@ -54,12 +56,7 @@ const TelegramIcon = () => {
           <p className="mb-3 font-normal text-gray-500 text-sm ">
             Activate when value hits threshold from above or below
           </p>
-          <a
-            href="#"
-            className="inline-flex font-medium items-center text-blue-600 hover:underline"
-          >
-            <img src={BookImg} alt="logo" width={30} height={30} />
-          </a>
+            <img className="inline-flex font-medium items-center text-blue-600 hover:underline" src={BookImg} alt="logo" width={30} height={30} />
         </div>
       </div>
     </div>

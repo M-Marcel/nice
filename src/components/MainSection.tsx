@@ -12,38 +12,19 @@ const MainSection = () => {
   return (
     <div className=" grid grid-cols-[8fr_3fr]  rows-[70px_2fr] items-center  ">
       <div className="sidebar-left pt-20 ">
-        <div className=""> </div>
-        <div className="absolute bottom-0 left-0  w-lvh inset-x-0   outline-none border-t  border-blue-200 pl-2 w-40 flex gap-2">
-          <div>
-          <img className="addimg" src={addImg} alt="logo" width={30} height={30} />
-            
-          </div>
-
-          <div>
-          <img className="removeimg" src={removeImg} alt="logo" width={30} height={30} />
-          </div>
-
-          <div>
-          <img className="voiceimg" src={voiceidImg} alt="logo" width={30} height={30} />
-          </div>
-
-          <div>
-          <img className="squareimg" src={squareImg} alt="logo" width={30} height={30} />
-          </div>
-
-
-        </div>
+        
+        
       </div>
 
-      <div className="sidebar-right border border-gray-100 w-90 mx-3  rounded-lg focus:outline-none focus:border-blue-600 transition mt-3">
-        <div className="flex gap-3 pl-2 ">
+      <div className="sidebar-right border border-gray-100 w-90 mx-3  rounded-xl focus:outline-none focus:border-blue-600 transition mt-3">
+        <div className="flex gap-4 pl-2 ">
           <div className="relative  pt-2 max-w-md">
             <input
               type="text"
-              placeholder="Search..."
-              className="w-64 pl-10 pr-4 py-2 border border-gray-100 rounded-xl focus:outline-none focus:ring-1 focus:ring-none focus:border-blue-300"
+              placeholder="Search for anything"
+              className="w-64 pl-10 pr-4 py-2 text-xs border border-gray-100 rounded-xl focus:outline-none focus:ring-1 focus:ring-none focus:border-blue-300"
             />
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pt-3">
+            <div className="absolute inset-y-0 left-0 pt-3 flex items-center pl-3 ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 text-gray-400  "
@@ -62,41 +43,42 @@ const MainSection = () => {
             className="px-auto mt-1"
             src={SquqreImg}
             alt="logo"
-            width={50}
-            height={40}
+            width={40}
+            height={20}
           />
         </div>
 
-        <div className="flex flex-col items-center w-[4/5] p-2  ">
+        <div className="flex flex-col items-center w-[4/5] p-2   ">
           <div className="flex space-x-1   ">
             <ul className="flex flex-wrap mb-2 text-xs font-medium text-center text-gray-500  border-gray-200 dark:border-gray-700 dark:text-gray-400">
               <li className="me-2">
-                <a className="inline-block px-5 py-2  text-white bg-black-500 rounded-full  hover:text-white-600  border-black focus:outline-none focus:border-blue-600 transition">
+                <button   className="inline-block px-5 py-2  text-white bg-black-500 rounded-full  hover:text-white-600  border-black focus:outline-none focus:border-blue-600 transition">
                   All
-                </a>
+                </button>
               </li>
               <li className="me-2">
-                <a className=" inline-block px-3 py-2 text-black-600 border border-gray-100 rounded-full    hover:text-blue-600   focus:outline-none focus:border-blue-600 transition">
+                <button   className=" inline-block px-3 py-2 text-black-600 border border-gray-100 rounded-full    hover:text-blue-600   focus:outline-none focus:border-blue-600 transition">
                   Trigger
-                </a>
+                </button>
               </li>
               <li className="me-2">
-                <a className=" inline-block px-3 py-2 text-black-600 border border-gray-100 rounded-full  hover:text-blue-600   focus:outline-none focus:border-blue-600 transition">
+                <button   className=" inline-block px-3 py-2 text-black-600 border border-gray-100 rounded-full  hover:text-blue-600   focus:outline-none focus:border-blue-600 transition">
                   Data
-                </a>
+                </button>
               </li>
               <li className="me-2">
-                <a className=" inline-block px-2 py-2 text-black-600 border border-gray-100 rounded-full  hover:text-blue-600   focus:outline-none focus:border-blue-600 transition">
+                <button   className=" inline-block px-2 py-2 text-black-600 border border-gray-100 rounded-full  hover:text-blue-600   focus:outline-none focus:border-blue-600 transition">
                   Logic
-                </a>
+                </button>
               </li>
               <li className="me-1">
-                <a className=" inline-block px-2 py-2 text-black-600 border border-gray-100 rounded-full  hover:text-blue-600   focus:outline-none focus:border-blue-600 transition">
+                <button   className=" inline-block px-2 py-2 text-black-600 border border-gray-100 rounded-full  hover:text-blue-600   focus:outline-none focus:border-blue-600 transition">
                   Action
-                </a>
+                </button>
               </li>
             </ul>
           </div>
+          
         </div>
 
         <div className="">
@@ -104,8 +86,27 @@ const MainSection = () => {
           <OpenSeaIcon />
           <TelegramIcon />
           <SwapTokenIcon />
-        </div>
+        </div> 
       </div>
+      <div className="mb-10  outline-none border-t  border-blue-200 pl-2 w-40 flex gap-2">
+          <div>
+          <img className="addimg" src={addImg} alt="logo" width={30} height={30} /> 
+          </div>
+
+          <div>
+          <img className="removeimg" src={removeImg} alt="logo" width={30} height={30} />
+          </div>
+
+          <div>
+          <img className="voiceimg" src={voiceidImg} alt="logo" width={30} height={30} />
+          </div>
+
+          <div>
+          <img className="squareimg" src={squareImg} alt="logo" width={30} height={30} />
+          </div>
+
+
+        </div>
     </div>
   );
 };

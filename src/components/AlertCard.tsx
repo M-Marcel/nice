@@ -3,7 +3,7 @@ import BookImg from '../assets/Book.png';
 
 const AlertIcon = () => {
   return (
-    <div className="rounded-t-xl px-1 mx-1 mb-3  alert">
+    <div className="rounded-t-xl px-1 mx-2 mb-3  alert">
       <div className="max-w-lg   border-none shadow dark:bg-gray-800 dark:border-gray-700  ">
         <div className="flex  p-2 gap-3 justify-between text-white ">
           <div className="flex gap-2">
@@ -29,16 +29,14 @@ const AlertIcon = () => {
               Alert filter
             </p>
           </div>
-          <div className="flex gap-2">
-            <a
-              href="#"
-              className="mb-2 text-sm text-white-200 tracking-tight  "
+          <div className="flex gap-2 ">
+            <button
+              
+              className="mb-3 text-xs text-white-200 tracking-tight rounded-lg  px-2  border border-none bg-purple-500 py-1  "
             >
-              {" "}
-              <button className="rounded-lg  px-2  border border-none bg-purple-800 py-1">
                 Logic
-              </button>{" "}
-            </a>
+              
+            </button>
 
             <button
               id="dropdownButton"
@@ -71,12 +69,7 @@ const AlertIcon = () => {
           <p className="mb-3 font-normal text-gray-500 text-sm ">
             Activate when value hits threshold from above or below
           </p>
-          <a
-            href="#"
-            className="inline-flex font-medium items-center text-blue-600 hover:underline"
-          >
-            <img src={BookImg} alt="logo" width={30} height={30} />
-          </a>
+            <img className="inline-flex font-medium items-center text-blue-600 hover:underline" src={BookImg} alt="logo" width={30} height={30} />
         </div>
       </div>
     </div>

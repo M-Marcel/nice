@@ -1,5 +1,5 @@
 import LogoImg from '../assets/logo.png'
-import LogoText from '../assets/logotext.png'
+
 
 const LogoDrag = () => {
     return (
