@@ -1,4 +1,5 @@
 type ButtonProps = {
+    id?:string
     className:string
     children:React.ReactNode
     href?:string
@@ -6,11 +7,13 @@ type ButtonProps = {
     type?:"submit" | "reset" | "button" 
 }
 
-const Button = ({className, type, children, href, onClick }:ButtonProps) => {
+const Button = ({id, className, type, children, href, onClick }:ButtonProps) => {
     return(
-        <button type={type} className={className} onClick={onClick}>
+        <button id={id} type={type} className={className} onClick={onClick}>
             {children}
         </button>
+
+       
     )
 }
 

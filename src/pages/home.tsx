@@ -10,6 +10,7 @@ import Purpose from "../components/Purpose"
 import SignUp from "./auth/signup"
 import Login from "./auth/login"
 
+
 const Home = () => {
 
     const [showModal, setShowModal] = useState<boolean>(false)
@@ -36,6 +37,7 @@ const Home = () => {
             <Modal isVisible={showModal2} onClose={() => setShowModal2(false)}>
                <Login />
             </Modal>
+       
         </>
 
     )

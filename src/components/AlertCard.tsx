@@ -1,76 +1,39 @@
 import BookImg from '../assets/Book.png';
+import Bell from '../assets/svg/Bell';
+import MenuBar from '../assets/svg/MenuBar';
+import Button from './Button';
+
 
 
 const AlertIcon = () => {
   return (
-    <div className="rounded-t-xl px-1 mx-2 mb-3  alert">
-      <div className="max-w-lg   border-none shadow dark:bg-gray-800 dark:border-gray-700  ">
-        <div className="flex  p-2 gap-3 justify-between text-white ">
-          <div className="flex gap-2">
-            <svg
-              className="w-6 h-6 text-white-800 dark:text-white"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 5.365V3m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175 0 .593 0 1.292-.538 1.292H5.538C5 18 5 17.301 5 16.708c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 12 5.365ZM8.733 18c.094.852.306 1.54.944 2.112a3.48 3.48 0 0 0 4.646 0c.638-.572 1.236-1.26 1.33-2.112h-6.92Z"
-              />
-            </svg>
-
-            <p className="mb-2 text-sm text-white-300  tracking-tight  dark:text-white">
-              Alert filter
-            </p>
-          </div>
-          <div className="flex gap-2 ">
-            <button
-              
-              className="mb-3 text-xs text-white-200 tracking-tight rounded-lg  px-2  border border-none bg-purple-500 py-1  "
-            >
-                Logic
-              
-            </button>
-
-            <button
-              id="dropdownButton"
-              data-dropdown-toggle="dropdown"
-              className=" text-white-500 dark:text-gray-400 pb-3 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm "
-              type="button"
-            >
-              <span className="sr-only">Open dropdown</span>
-              <svg
-                className="w-6 h-6 text-white-800 dark:text-white"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke="currentColor"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5Zm16 14a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2ZM4 13a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-6Zm16-2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v6Z"
-                />
-              </svg>
-            </button>
-          </div>
+    <div className="h-[20vh] rounded-t-xl px-1 mx-2 mb-14 alert-bg relative">
+      <div className='flex justify-between px-2 py-2 items-center'>
+        <div className='flex gap-2 items-center'>
+          <Bell />
+          <p className='text-white'>Alert filter</p>
         </div>
-
-        <div className=" bg-[#FFFFFF]    rounded-lg p-3">
-          <p className="mb-3 font-normal text-gray-500 text-sm ">
-            Activate when value hits threshold from above or below
-          </p>
-            <img className="inline-flex font-medium items-center text-blue-600 hover:underline" src={BookImg} alt="logo" width={30} height={30} />
+        <div className='flex gap-2 items-center'>
+          <Button
+            className='text-xs text-white tracking-tight rounded-lg px-2 border border-none bg-purple-500 py-1'
+            type='button'>
+              Logic
+          </Button>
+          <Button
+             id="dropdownButton"
+             data-dropdown-toggle="dropdown"
+             className="text-white px-1 py-1 hover:bg-gray-100 hover:text-black-200 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg text-sm"
+             type="button"
+          >
+             <span className="sr-only">Open dropdown</span>
+            <MenuBar />
+          </Button>
+          
         </div>
+      </div>
+      <div className='bg-white absolute w-[97%] h-auto px-[8px] py-4 flex flex-col rounded-lg'>
+          <p className='text-sm text-gray-200 ml-2'>Activates when value hits the threshold from above or below</p>
+          <img className="mt-5 ml-2" src={BookImg} alt="logo" width={30} height={30} />
       </div>
     </div>
   );

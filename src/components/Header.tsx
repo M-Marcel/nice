@@ -20,7 +20,7 @@ const Header = ({ showModal, setShowModal, showModal2, setShowModal2 }: HeaderPr
     const [openNavigation, setOpenNavigation] = useState<boolean>(false)
 
     const toggleNavigation = () => {
-        if (openNavigation) {
+        if(openNavigation) {
             setOpenNavigation(false)
             enablePageScroll()
         } else {

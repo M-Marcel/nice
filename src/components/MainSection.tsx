@@ -8,15 +8,15 @@ import squareImg from '../assets/square-unlock-01 (1).png'
 import removeImg from '../assets/remove-01 (1).png'
 import addImg from '../assets/add-01.png'
 
+
 const MainSection = () => {
   return (
     <div className=" grid grid-cols-[8fr_3fr]  rows-[70px_2fr] items-center  ">
       <div className="sidebar-left pt-20 ">
-        
-        
-      </div>
 
-      <div className="sidebar-right border border-gray-100 w-90 mx-3  rounded-xl focus:outline-none focus:border-blue-600 transition mt-3">
+
+      </div>
+      <div className="sidebar-right mt-[120px] border border-gray-100 w-90 mx-3 rounded-xl focus:outline-none focus:border-blue-600 transition">
         <div className="flex gap-4 pl-2 ">
           <div className="relative  pt-2 max-w-md">
             <input
@@ -52,33 +52,33 @@ const MainSection = () => {
           <div className="flex space-x-1   ">
             <ul className="flex flex-wrap mb-2 text-xs font-medium text-center text-gray-500  border-gray-200 dark:border-gray-700 dark:text-gray-400">
               <li className="me-2">
-                <button   className="inline-block px-5 py-2  text-white bg-black-500 rounded-full  hover:text-white-600  border-black focus:outline-none focus:border-blue-600 transition">
+                <button className="inline-block px-5 py-2  text-white bg-black-500 rounded-full  hover:text-white-600  border-black focus:outline-none focus:border-blue-600 transition">
                   All
                 </button>
               </li>
               <li className="me-2">
-                <button   className=" inline-block px-3 py-2 text-black-600 border border-gray-100 rounded-full    hover:text-blue-600   focus:outline-none focus:border-blue-600 transition">
+                <button className=" inline-block px-3 py-2 text-black-600 border border-gray-100 rounded-full    hover:text-blue-600   focus:outline-none focus:border-blue-600 transition">
                   Trigger
                 </button>
               </li>
               <li className="me-2">
-                <button   className=" inline-block px-3 py-2 text-black-600 border border-gray-100 rounded-full  hover:text-blue-600   focus:outline-none focus:border-blue-600 transition">
+                <button className=" inline-block px-3 py-2 text-black-600 border border-gray-100 rounded-full  hover:text-blue-600   focus:outline-none focus:border-blue-600 transition">
                   Data
                 </button>
               </li>
               <li className="me-2">
-                <button   className=" inline-block px-2 py-2 text-black-600 border border-gray-100 rounded-full  hover:text-blue-600   focus:outline-none focus:border-blue-600 transition">
+                <button className=" inline-block px-2 py-2 text-black-600 border border-gray-100 rounded-full  hover:text-blue-600   focus:outline-none focus:border-blue-600 transition">
                   Logic
                 </button>
               </li>
               <li className="me-1">
-                <button   className=" inline-block px-2 py-2 text-black-600 border border-gray-100 rounded-full  hover:text-blue-600   focus:outline-none focus:border-blue-600 transition">
+                <button className=" inline-block px-2 py-2 text-black-600 border border-gray-100 rounded-full  hover:text-blue-600   focus:outline-none focus:border-blue-600 transition">
                   Action
                 </button>
               </li>
             </ul>
           </div>
-          
+
         </div>
 
         <div className="">
@@ -86,27 +86,25 @@ const MainSection = () => {
           <OpenSeaIcon />
           <TelegramIcon />
           <SwapTokenIcon />
-        </div> 
+        </div>
       </div>
       <div className="mb-10  outline-none border-t  border-blue-200 pl-2 w-40 flex gap-2">
-          <div>
-          <img className="addimg" src={addImg} alt="logo" width={30} height={30} /> 
-          </div>
-
-          <div>
-          <img className="removeimg" src={removeImg} alt="logo" width={30} height={30} />
-          </div>
-
-          <div>
-          <img className="voiceimg" src={voiceidImg} alt="logo" width={30} height={30} />
-          </div>
-
-          <div>
-          <img className="squareimg" src={squareImg} alt="logo" width={30} height={30} />
-          </div>
-
-
+        <div>
+          <img className="addimg" src={addImg} alt="logo" width={30} height={30} />
         </div>
+
+        <div>
+          <img className="removeimg" src={removeImg} alt="logo" width={30} height={30} />
+        </div>
+
+        <div>
+          <img className="voiceimg" src={voiceidImg} alt="logo" width={30} height={30} />
+        </div>
+
+        <div>
+          <img className="squareimg" src={squareImg} alt="logo" width={30} height={30} />
+        </div>
+      </div>
     </div>
   );
 };
