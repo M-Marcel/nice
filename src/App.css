@@ -29,7 +29,7 @@
     background-image: url('./assets/dots.png');
     background-size: contain; 
   }
-  .alert {
+  .alert-bg {
     background: linear-gradient(to bottom, #9047EE, #D8BEF9, #FFFFFF )
   }
   .openSea {

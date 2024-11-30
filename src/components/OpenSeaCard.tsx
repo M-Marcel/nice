@@ -4,7 +4,7 @@ import BoatImg from "../assets/Boat.png";
 const OpenSeaIcon = () => {
   return (
     <div className="rounded-t-xl px-1 mx-2  openSea mb-3">
-      <div className="max-w-sm  mt-39] border-none shadow dark:bg-gray-800 dark:border-gray-700">
+      <div className="max-w-sm  mt-[39] border-none shadow">
         <div className="flex p-2 gap-3 justify-between text-white ">
           <div className="flex gap-2">
             <img
@@ -14,7 +14,7 @@ const OpenSeaIcon = () => {
               width={30}
               height={15}
             />
-            <p className="mb-2 text-sm text-white-300  tracking-tight  dark:text-white">
+            <p className="mb-2 text-sm text-white-300  tracking-tight">
               OpenSea-Monitor portfolio
             </p>
           </div>
