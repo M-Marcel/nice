@@ -24,9 +24,9 @@ function App() {
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/waitlist" element={<WaitList />} />
         <Route path="/draganddrop" element={<DragandDrop />} />
-        <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route path="/verifyEmail" element={<VerifyEmail />} />
         <Route path="/let-us-know-you" element={<LetUsKnowYou />} />
-
+        
       </Routes>
       <ToastContainer />
     </>

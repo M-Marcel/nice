@@ -9,8 +9,6 @@ import { toast } from 'react-toastify'
 import { register, reset } from '../../slices/auth/authSlice'
 import SubmitButton from '../../components/SubmitButton'
 
-
-
 const SignUp = () => {
 
     const [formData, setFormData] = useState<SignUpFormData>({

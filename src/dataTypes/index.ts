@@ -18,3 +18,20 @@ export type SignUpFormData = {
     lastName:string
     email:string
 }
+export type LoginFormData = {
+    email:string
+    password:string
+}
+
+export type ForgotFormData = {
+    email:string
+}
+
+export type ValidateFormData = {
+    email:string
+    otp:string
+}
+export type ResetPasswordFormData = {
+    email:string
+    newPassword:string
+}

@@ -4,7 +4,7 @@ import Logo from "../components/Logo"
 import WaitHeading from "../components/WaitHeading"
 
 const WaitList = () => {
-    return(
+    return (
         <div className="waitlist">
             <Hero>
                 <div className="flex justify-center items-center pt-8 pb-4">
