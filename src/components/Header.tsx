@@ -8,13 +8,11 @@ import Logo from './Logo'
 
 
 type HeaderProps = {
-    showModal: boolean
-    showModal2: boolean
-    setShowModal: React.Dispatch<React.SetStateAction<boolean>>
-    setShowModal2: React.Dispatch<React.SetStateAction<boolean>>
+    openSignUpModal:() => void;
+    openLoginModal:() => void
 }
 
-const Header = ({ showModal, setShowModal, showModal2, setShowModal2 }: HeaderProps) => {
+const Header = ({openSignUpModal, openLoginModal}: HeaderProps) => {
 
     const pathname = useLocation()
     const [openNavigation, setOpenNavigation] = useState<boolean>(false)
@@ -60,13 +58,13 @@ const Header = ({ showModal, setShowModal, showModal2, setShowModal2 }: HeaderPr
                 <div className='flex gap-3'>
                     <Button
                         className="hidden px-3 py-2 rounded-md lg:flex custom-bg text-white"
-                        onClick={() => setShowModal(true)}
+                        onClick={openSignUpModal}
                     >
                         Try it
                     </Button>
                     <Button
                         className="hidden px-3 py-2 bg-white  backdrop-blur-md rounded-md lg:flex"
-                        onClick={() => setShowModal2(true)}
+                        onClick={openLoginModal}
                     >
                         Login
                     </Button>

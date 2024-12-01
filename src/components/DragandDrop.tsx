@@ -4,7 +4,7 @@ import MainSection from './MainSection'
 
 const DragandDrop = () => {
   return (
-    <div className='draganddrop  bg-custom-bg bg-contain h-full sm:min-w-lg' >
+    <div className='draganddrop bg-custom-bg bg-contain h-full sm:min-w-lg' >
       <Navbar />
       <MainSection />
     </div>

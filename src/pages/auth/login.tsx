@@ -3,12 +3,68 @@ import Button from '../../components/Button'
 import Google from '../../assets/Google.png'
 import Microsoft from '../../assets/Microsoft.png'
 import Github from '../../assets/GitHub.png'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import OpenEye from '../../assets/svg/OpenEye'
 import CloseEye from '../../assets/svg/CloseEye'
+import SubmitButton from '../../components/SubmitButton'
+import { useAppDispatch, useAppSelector } from '../../hooks'
+import { toast } from 'react-toastify'
+import { login, reset } from '../../slices/auth/authSlice'
+import { useNavigate } from 'react-router-dom'
 
-const Login = () => {
+
+
+type LoginProps = {
+    openForgotPasswordModal: () => void;
+}
+
+const Login = ({ openForgotPasswordModal}: LoginProps) => {
+    const navigate = useNavigate()
+
     const [passWordVisible, setPassWordVisible] = useState<boolean>(false)
+
+    const [formData, setFormData] = useState({
+        email: '',
+        password: ''
+    })
+    const { email, password } = formData
+
+    const dispatch = useAppDispatch()
+
+    const { user, isLoading, isLoginSuccess, isError, message } = useAppSelector((state) => state.auth)
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(message)
+        }
+        if (isLoginSuccess) {
+            toast.success('loggedin successfully');
+            navigate('/dashboard')
+        }
+
+        dispatch(reset())
+    }, [user, isError, isLoginSuccess, message, dispatch, navigate])
+
+
+    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value
+        }))
+    }
+
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!email || !password) {
+            toast.error('please fill in the fields')
+        } else {
+            const userData = {
+                email,
+                password
+            }
+            dispatch(login(userData))
+        }
+    }
 
     const togglePassWordVisibility = () => {
         setPassWordVisible(!passWordVisible)
@@ -20,47 +76,64 @@ const Login = () => {
                 <h2 className="text-black-500 text-xl">What’s your email?</h2>
                 <p className="text-gray-500 text-sm">Enter your email address</p>
             </div>
-            <form className="h-[55vh] overflow-y-scroll hide-scrollbar">
-                <div className="flex flex-col gap-2">
+            <form onSubmit={onSubmit} className="h-[55vh] overflow-y-scroll hide-scrollbar">
+                <div className="flex flex-col gap-2 mb-3">
                     <label htmlFor="email" className="text-sm text-gray-400">
                         Email
                     </label>
                     <input
                         type="text"
+                        name="email"
+                        value={email}
+                        onChange={onChange}
                         className="px-4 py-2 border border-gray-600 rounded-lg outline-none"
                     />
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 mb-3">
                     <label htmlFor="password" className="text-sm text-gray-400">
                         Password
                     </label>
                     <div className="relative w-full">
-                            <input
-                                type={passWordVisible ? 'text' : 'password'}
-                                className="w-full px-4 py-2 border border-gray-600 rounded-lg outline-none"
-                            />
-                            <Button type="button" className="flex justify-center items-center absolute top-2 left-[320px]  text-gray-800" onClick={togglePassWordVisibility}>
-                                {passWordVisible ?
-                                    (
-                                        <OpenEye />
-                                    ) : (
+                        <input
+                            type={passWordVisible ? 'text' : 'password'}
+                            name="password"
+                            value={password}
+                            onChange={onChange}
+                            className="w-full px-4 py-2 border border-gray-600 rounded-lg outline-none"
+                        />
+                        <Button type="button" className="flex justify-center items-center absolute top-2 left-[320px]  text-gray-800" onClick={togglePassWordVisibility}>
+                            {passWordVisible ?
+                                (
+                                    <OpenEye />
+                                ) : (
 
-                                        <CloseEye />
-                                    )
+                                    <CloseEye />
+                                )
 
-                                }
-                            </Button>
-                        </div>
+                            }
+                        </Button>
+                    </div>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between mb-3">
                     <div className="flex items-center gap-2">
                         <input type="checkbox" />
                         <span className="text-black-500 text-sm">Remember me</span>
                     </div>
-                    <a href="/" className="text-black-500 text-sm">Forgot password?</a>
+                    <Button
+                        type='button'
+                        className="text-black-500 text-sm cursor-pointer"
+                        onClick={openForgotPasswordModal}
+                    >
+                        Forgot password?
+                    </Button>
                 </div>
-
-                <Button className="mt-5 custom-bg w-full text-white px-4 py-2 rounded-lg text-md font-semibold">Log in</Button>
+                <SubmitButton
+                    isLoading={isLoading}
+                    className={`px-4 py-2 w-full text-white rounded-lg text-md ${isLoading ? 'bg-blue-100/55' : 'custom-bg'
+                        }`}
+                >
+                    Login
+                </SubmitButton>
                 <div className="flex justify-center items-center">
                     <p className="text-gray-400 mt-2 text-sm">or login with</p>
                 </div>

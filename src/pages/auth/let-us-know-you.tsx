@@ -9,6 +9,27 @@ const LetUsKnowYou = () => {
     const [passWordVisible, setPassWordVisible] = useState<boolean>(false)
     const [confirmPassWordVisible, setConfirmPassWordVisible] = useState<boolean>(false)
 
+    // const [formData, setFormData] = useState({
+    //     email: '',
+    //     password: '',
+    //     userWorkRole: '',
+    //     userCompanySize: '',
+    //     userUseForZroleak: '',
+    //     userTechnicalExperience: ''
+
+    // })
+    // const {
+    //     email,
+    //     password,
+    //     userWorkRole,
+    //     userCompanySize,
+    //     userUseForZroleak,
+    //     userTechnicalExperience,
+    // } = formData
+
+ 
+
+
     const togglePassWordVisibility = () => {
         setPassWordVisible(!passWordVisible)
     }
@@ -29,7 +50,10 @@ const LetUsKnowYou = () => {
                         <label htmlFor="password" className="text-sm text-gray-400 mb-2">
                             Which best describes your role?
                         </label>
-                        <InputChecker className="custom-checkbox" type="checkbox">
+                        <InputChecker
+                            className="custom-checkbox"
+                            type="checkbox"
+                        >
                             Business Owner
                         </InputChecker>
                         <InputChecker className="custom-checkbox" type="checkbox">
