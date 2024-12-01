@@ -2,6 +2,7 @@ import axios from "axios";
 import { User } from "../dataTypes";
 
 const API_URL = "https://zroleak-core-service-bbf444d92e4f.herokuapp.com/api/v1/auth"
+const VERIFY_API_URL = "https://lanepact.vercel.app/verifyEmail/"
 
 
 const register = async (userData: { firstName: string; lastName: string; email: string }): Promise<{ user: User; message: string }> => {
@@ -24,7 +25,7 @@ const register = async (userData: { firstName: string; lastName: string; email: 
 }
 
 const verifyEmail = async (token: string) => {
-    const response = await axios.get(`${API_URL}/signup/confirm`, {
+    const response = await axios.get(`${VERIFY_API_URL}`, {
         params: { token }
     });
     return response.data
