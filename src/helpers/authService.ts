@@ -2,7 +2,7 @@ import axios from "axios";
 import { User } from "../dataTypes";
 
 const API_URL = "https://zroleak-core-service-bbf444d92e4f.herokuapp.com/api/v1/auth"
-const VERIFY_API_URL = "https://lanepact.vercel.app/verifyEmail"
+const VERIFY_API_URL = "https://lanepact.vercel.app/verifyEmail?token="
 
 
 const register = async (userData: { firstName: string; lastName: string; email: string }): Promise<{ user: User; message: string }> => {
