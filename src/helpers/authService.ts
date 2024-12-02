@@ -2,7 +2,7 @@ import axios from "axios";
 import { User } from "../dataTypes";
 
 const API_URL = "https://zroleak-core-service-bbf444d92e4f.herokuapp.com/api/v1/auth"
-const VERIFY_API_URL = "https://lanepact.vercel.app/verifyEmail?token="
+const VERIFY_API_URL = "https://zroleak-core-service-bbf444d92e4f.herokuapp.com/api/v1/auth/signup/confirm?token="
 
 
 const register = async (userData: { firstName: string; lastName: string; email: string }): Promise<{ user: User; message: string }> => {
@@ -27,20 +27,20 @@ const register = async (userData: { firstName: string; lastName: string; email: 
 
 
 const verifyEmail = async (token: string) => {
-  try {
-    const response = await axios.get(VERIFY_API_URL, {
-      params: { token },
-    });
-    return response.data;
-  } catch (error: any) {
-    console.error('Error during email verification:', error);
+    try {
+        const response = await axios.get(VERIFY_API_URL, {
+            params: { token },
+        });
+        return response.data;
+    } catch (error: any) {
+        console.error('Error during email verification:', error);
 
-    if (error.response && error.response.data?.message) {
-      throw new Error(error.response.data.message);
-    } else {
-      throw new Error('An error occurred while verifying your email. Please try again.');
+        if (error.response && error.response.data?.message) {
+            throw new Error(error.response.data.message);
+        } else {
+            throw new Error('An error occurred while verifying your email. Please try again.');
+        }
     }
-  }
 };
 
 
@@ -64,7 +64,7 @@ const login = async (userData: { email: string; password: string }): Promise<{ u
 
 }
 
-const forgotPassword = async (userData: { email:string }): Promise<{ user: User; message: string }> => {
+const forgotPassword = async (userData: { email: string }): Promise<{ user: User; message: string }> => {
     const response = await axios.post(`${API_URL}/forgot-password`, userData, {
         headers: {
             'Content-Type': 'application/json',
@@ -83,7 +83,7 @@ const forgotPassword = async (userData: { email:string }): Promise<{ user: User;
 
 }
 
-const validateOtp = async(userData: { email:string; otp:string }): Promise<{ user: User; message: string }> => {
+const validateOtp = async (userData: { email: string; otp: string }): Promise<{ user: User; message: string }> => {
     const response = await axios.post(`${API_URL}/validate-otp`, userData, {
         headers: {
             'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ const validateOtp = async(userData: { email:string; otp:string }): Promise<{ use
     throw new Error('failed');
 }
 
-const resetPassword = async(userData: { email:string; newPassword:string }): Promise<{ user: User; message: string }> => {
+const resetPassword = async (userData: { email: string; newPassword: string }): Promise<{ user: User; message: string }> => {
     const response = await axios.patch(`${API_URL}/reset-password`, userData, {
         headers: {
             'Content-Type': 'application/json',
@@ -119,13 +119,42 @@ const resetPassword = async(userData: { email:string; newPassword:string }): Pro
     throw new Error('failed');
 }
 
+const completeSignUp = async (userData: {
+    email: string;
+    password: string;
+    userWorkRole: string;
+    userCompanySize: string;
+    userUseForZroleak: string[];
+    userTechnicalExperience: string
+}): Promise<{ user: User; message: string }> => {
+
+    const response = await axios.post(`${API_URL}/signup/complete`, userData, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+    })
+
+    if (response.data) {
+        localStorage.setItem('user', JSON.stringify(response.data))
+        console.log(response.data);
+        return {
+            user: response.data,
+            message: response.data.message,
+        };
+    }
+    throw new Error('failed');
+
+}
+
 const authService = {
     register,
     verifyEmail,
     login,
     forgotPassword,
     validateOtp,
-    resetPassword
+    resetPassword,
+    completeSignUp
 }
 
 export default authService

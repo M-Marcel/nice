@@ -1,11 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { ForgotFormData, LoginFormData, ResetPasswordFormData, SignUpFormData, User, ValidateFormData } from "../../dataTypes";
+import { CompleteSignUpFormData, ForgotFormData, LoginFormData, ResetPasswordFormData, SignUpFormData, User, ValidateFormData } from "../../dataTypes";
 import authService from "../../helpers/authService";
+import { toast } from "react-toastify";
 
 type InitialState = {
     user: User | null
     isError: boolean
     isSuccess: boolean
+    isCompleteSignUpSuccess:boolean
     isForgotPasswordSuccess: boolean
     isLoginSuccess: boolean
     isValidationSuccess: boolean
@@ -21,6 +23,7 @@ const initialState: InitialState = {
     user: user ? user : null,
     isError: false,
     isSuccess: false,
+    isCompleteSignUpSuccess:false,
     isForgotPasswordSuccess: false,
     isLoginSuccess: false,
     isValidationSuccess: false,
@@ -103,6 +106,19 @@ export const resetPassword = createAsyncThunk<{ user: User; message: string }, R
 }
 )
 
+export const completeSignUp = createAsyncThunk<{ user: User; message: string }, CompleteSignUpFormData, { rejectValue: string }>('auth/complete-signup', async (userData, thunkApi) => {
+    try {
+        const response = await authService.completeSignUp(userData)
+        return response
+    } catch (error: any) {
+        const message = error.response?.data?.message || error.message || 'Complete Signup failed';
+        console.log(message)
+        return thunkApi.rejectWithValue(message)
+    }
+}
+
+)
+
 
 const authSlice = createSlice({
     name: 'auth',
@@ -111,6 +127,7 @@ const authSlice = createSlice({
         reset: (state) => {
             state.isLoading = false
             state.isSuccess = false
+            state.isCompleteSignUpSuccess = false
             state.isForgotPasswordSuccess = false
             state.isLoginSuccess = false
             state.isError = false
@@ -133,6 +150,7 @@ const authSlice = createSlice({
                 state.isError = true
                 state.message = action.payload as string
                 state.user = null
+                toast.error(action.payload)
             })
             .addCase(verifyEmail.pending, (state) => {
                 state.isLoading = true
@@ -140,12 +158,13 @@ const authSlice = createSlice({
             .addCase(verifyEmail.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.message = 'Account verified successfully'
+                state.message = action.payload.message
             })
             .addCase(verifyEmail.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload as string
+                
             })
             .addCase(login.pending, (state) => {
                 state.isLoading = true
@@ -154,13 +173,14 @@ const authSlice = createSlice({
                 state.isLoading = false
                 state.isLoginSuccess = true
                 state.user = action.payload.user
-                state.message = 'Logged in successfully'
+                state.message = action.payload.message
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload as string
                 state.user = null
+                toast.error(action.payload)
             })
             .addCase(forgotPassword.pending, (state) => {
                 state.isLoading = true
@@ -169,13 +189,14 @@ const authSlice = createSlice({
                 state.isLoading = false
                 state.isForgotPasswordSuccess = true
                 state.user = action.payload.user
-                state.message = 'An OTP has been sent to yor email'
+                state.message = action.payload.message
             })
             .addCase(forgotPassword.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.user = null
                 state.message = action.payload as string
+                toast.error(action.payload)
             })
             .addCase(validateOtp.pending, (state) => {
                 state.isLoading = true
@@ -184,13 +205,15 @@ const authSlice = createSlice({
                 state.isLoading = false
                 state.isValidationSuccess = true
                 state.user = action.payload.user
-                state.message = 'OTP validated successfully'
+                state.message = action.payload.message
+                toast.success('validation successful');
             })
             .addCase(validateOtp.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.user = null
                 state.message = action.payload as string
+                toast.error(action.payload)
             })
             .addCase(resetPassword.pending, (state) => {
                 state.isLoading = true
@@ -199,13 +222,31 @@ const authSlice = createSlice({
                 state.isLoading = false
                 state.isResetPasswordSuccess = true
                 state.user = action.payload.user
-                state.message = 'Password reset successful'
+                state.message = action.payload.message
+                toast.success('password reset successful');
             })
             .addCase(resetPassword.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.user = null
                 state.message = action.payload as string
+                toast.error(action.payload)
+            })
+            .addCase(completeSignUp.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(completeSignUp.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isCompleteSignUpSuccess = true
+                state.user = action.payload.user
+                state.message = action.payload.message
+            })
+            .addCase(completeSignUp.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.user = null
+                state.message = action.payload as string
+                toast.error(action.payload)
             })
     }
 

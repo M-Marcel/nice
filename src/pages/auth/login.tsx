@@ -12,8 +12,6 @@ import { toast } from 'react-toastify'
 import { login, reset } from '../../slices/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
 
-
-
 type LoginProps = {
     openForgotPasswordModal: () => void;
 }
@@ -23,6 +21,10 @@ const Login = ({ openForgotPasswordModal}: LoginProps) => {
 
     const [passWordVisible, setPassWordVisible] = useState<boolean>(false)
 
+    const togglePassWordVisibility = () => {
+        setPassWordVisible(!passWordVisible)
+    }
+
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -31,20 +33,7 @@ const Login = ({ openForgotPasswordModal}: LoginProps) => {
 
     const dispatch = useAppDispatch()
 
-    const { user, isLoading, isLoginSuccess, isError, message } = useAppSelector((state) => state.auth)
-
-    useEffect(() => {
-        if (isError) {
-            toast.error(message)
-        }
-        if (isLoginSuccess) {
-            toast.success('loggedin successfully');
-            navigate('/dashboard')
-        }
-
-        dispatch(reset())
-    }, [user, isError, isLoginSuccess, message, dispatch, navigate])
-
+    const { isLoading, isLoginSuccess, message } = useAppSelector((state) => state.auth)
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prevState) => ({
@@ -56,7 +45,7 @@ const Login = ({ openForgotPasswordModal}: LoginProps) => {
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!email || !password) {
-            toast.error('please fill in the fields')
+           return toast.error('please fill in the fields')
         } else {
             const userData = {
                 email,
@@ -65,10 +54,17 @@ const Login = ({ openForgotPasswordModal}: LoginProps) => {
             dispatch(login(userData))
         }
     }
+    useEffect(() => {
+        if (isLoginSuccess) {
+            toast.success('loggedin successfully');
+            navigate('/dashboard')
+        }
 
-    const togglePassWordVisibility = () => {
-        setPassWordVisible(!passWordVisible)
-    }
+        return() => {
+            dispatch(reset())
+        }
+    }, [isLoginSuccess, message, dispatch, navigate])
+
     return (
         <div className="bg-white px-4 py-4 h-full">
             <div className="flex flex-col gap-2 mb-3">

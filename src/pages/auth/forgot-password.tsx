@@ -6,12 +6,12 @@ import { toast } from 'react-toastify'
 import { forgotPassword, reset } from '../../slices/auth/authSlice'
 
 
-type ForgotPasswordProps= {
-    openValidateOtpModal:() => void
+type ForgotPasswordProps = {
+    openValidateOtpModal: () => void
     setEmail: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ForgotPassword = ({openValidateOtpModal, setEmail}:ForgotPasswordProps) => {
+const ForgotPassword = ({ openValidateOtpModal, setEmail }: ForgotPasswordProps) => {
     const [formData, setFormData] = useState({
         email: '',
     })
@@ -19,21 +19,7 @@ const ForgotPassword = ({openValidateOtpModal, setEmail}:ForgotPasswordProps) =>
 
     const dispatch = useAppDispatch()
 
-    const { user, isLoading, isForgotPasswordSuccess, isError, message } = useAppSelector((state) => state.auth)
-
-    useEffect(() => {
-        if (isError) {
-            toast.error(message)
-        }
-        if (isForgotPasswordSuccess) {
-            toast.success('an OTP has been sent to your mail');
-            setEmail(email)
-            openValidateOtpModal()
-        }
-
-        dispatch(reset())
-    }, [user, isError, isForgotPasswordSuccess, message, dispatch, email, setEmail, openValidateOtpModal])
-
+    const { isLoading, isForgotPasswordSuccess, message } = useAppSelector((state) => state.auth)
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prevState) => ({
@@ -45,14 +31,26 @@ const ForgotPassword = ({openValidateOtpModal, setEmail}:ForgotPasswordProps) =>
     const handleForgot = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!email) {
-            toast.error('please provide your email')
+            return toast.error('please provide your email')
         } else {
             const userData = {
                 email,
             }
-            dispatch(forgotPassword(userData))  
+            dispatch(forgotPassword(userData))
         }
     }
+
+    useEffect(() => {
+        if (isForgotPasswordSuccess) {
+            toast.success('an OTP has been sent to your mail');
+            setEmail(email)
+            openValidateOtpModal()
+        }
+        return () => {
+            dispatch(reset())
+        }
+
+    }, [isForgotPasswordSuccess, message, dispatch, email, setEmail, openValidateOtpModal])
 
     return (
         <div className="bg-white px-4 py-4 h-full">
