@@ -6,10 +6,10 @@ type InitialState = {
     user: User | null
     isError: boolean
     isSuccess: boolean
-    isForgotPasswordSuccess:boolean
-    isLoginSuccess:boolean
-    isValidationSuccess:boolean
-    isResetPasswordSuccess:boolean
+    isForgotPasswordSuccess: boolean
+    isLoginSuccess: boolean
+    isValidationSuccess: boolean
+    isResetPasswordSuccess: boolean
     isLoading: boolean
     message: string
 }
@@ -21,10 +21,10 @@ const initialState: InitialState = {
     user: user ? user : null,
     isError: false,
     isSuccess: false,
-    isForgotPasswordSuccess:false,
-    isLoginSuccess:false,
-    isValidationSuccess:false,
-    isResetPasswordSuccess:false,
+    isForgotPasswordSuccess: false,
+    isLoginSuccess: false,
+    isValidationSuccess: false,
+    isResetPasswordSuccess: false,
     isLoading: false,
     message: ""
 }
@@ -44,13 +44,16 @@ export const verifyEmail = createAsyncThunk(
     'auth/verifyEmail',
     async (token: string, thunkApi) => {
         try {
-            const response = await authService.verifyEmail(token)
-            return response
+            const response = await authService.verifyEmail(token);
+            return response;
         } catch (error: any) {
-            return thunkApi.rejectWithValue(error.response?.data?.message || 'Verification failed')
+            console.error('Error in verifyEmail thunk:', error);
+            const errorMessage =
+                error.response?.data?.message || 'Verification failed. Please try again.';
+            return thunkApi.rejectWithValue(errorMessage);
         }
     }
-)
+);
 
 export const login = createAsyncThunk<{ user: User; message: string }, LoginFormData, { rejectValue: string }>('auth/login', async (userData, thunkApi) => {
     try {
@@ -64,23 +67,23 @@ export const login = createAsyncThunk<{ user: User; message: string }, LoginForm
 }
 )
 
-export const forgotPassword = createAsyncThunk<{user:User; message:string}, ForgotFormData, { rejectValue: string }>('auth/forgot-password', async (userData, thunkApi) => {
-        try{
-            const response = await authService.forgotPassword(userData)
-            return response
-        }catch(error:any){
-            const message = error.response?.data?.message || error.message || 'failed';
-            console.log(message)
-            return thunkApi.rejectWithValue(message)
-        }
+export const forgotPassword = createAsyncThunk<{ user: User; message: string }, ForgotFormData, { rejectValue: string }>('auth/forgot-password', async (userData, thunkApi) => {
+    try {
+        const response = await authService.forgotPassword(userData)
+        return response
+    } catch (error: any) {
+        const message = error.response?.data?.message || error.message || 'failed';
+        console.log(message)
+        return thunkApi.rejectWithValue(message)
     }
+}
 )
 
-export const validateOtp = createAsyncThunk<{user:User; message:string}, ValidateFormData, { rejectValue: string }>('auth/validate-otp', async (userData, thunkApi) => {
-    try{
+export const validateOtp = createAsyncThunk<{ user: User; message: string }, ValidateFormData, { rejectValue: string }>('auth/validate-otp', async (userData, thunkApi) => {
+    try {
         const response = await authService.validateOtp(userData)
         return response
-    }catch(error:any){
+    } catch (error: any) {
         const message = error.response?.data?.message || error.message || 'OTP validation failed';
         console.log(message)
         return thunkApi.rejectWithValue(message)
@@ -88,11 +91,11 @@ export const validateOtp = createAsyncThunk<{user:User; message:string}, Validat
 }
 
 )
-export const resetPassword = createAsyncThunk<{user:User; message:string}, ResetPasswordFormData, { rejectValue: string }>('auth/reset-password', async (userData, thunkApi) => {
-    try{
+export const resetPassword = createAsyncThunk<{ user: User; message: string }, ResetPasswordFormData, { rejectValue: string }>('auth/reset-password', async (userData, thunkApi) => {
+    try {
         const response = await authService.resetPassword(userData)
         return response
-    }catch(error:any){
+    } catch (error: any) {
         const message = error.response?.data?.message || error.message || 'Password Reset failed';
         console.log(message)
         return thunkApi.rejectWithValue(message)

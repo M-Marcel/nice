@@ -2,7 +2,7 @@ import axios from "axios";
 import { User } from "../dataTypes";
 
 const API_URL = "https://zroleak-core-service-bbf444d92e4f.herokuapp.com/api/v1/auth"
-const VERIFY_API_URL = "https://lanepact.vercel.app/verifyEmail/"
+const VERIFY_API_URL = "https://lanepact.vercel.app/verifyEmail"
 
 
 const register = async (userData: { firstName: string; lastName: string; email: string }): Promise<{ user: User; message: string }> => {
@@ -24,12 +24,25 @@ const register = async (userData: { firstName: string; lastName: string; email: 
     throw new Error('Registration failed')
 }
 
+
+
 const verifyEmail = async (token: string) => {
-    const response = await axios.get(`${VERIFY_API_URL}`, {
-        params: { token }
+  try {
+    const response = await axios.get(VERIFY_API_URL, {
+      params: { token },
     });
-    return response.data
-}
+    return response.data;
+  } catch (error: any) {
+    console.error('Error during email verification:', error);
+
+    if (error.response && error.response.data?.message) {
+      throw new Error(error.response.data.message);
+    } else {
+      throw new Error('An error occurred while verifying your email. Please try again.');
+    }
+  }
+};
+
 
 
 const login = async (userData: { email: string; password: string }): Promise<{ user: User; message: string }> => {
