@@ -19,7 +19,10 @@ const VerifyEmail = () => {
 
     const handleEmailVerification = async () => {
       try {
-        await dispatch(verifyEmail(token)).unwrap();
+       const user = await dispatch(verifyEmail(token)).unwrap();
+        if (user?.email) {
+          localStorage.setItem('userEmail', user.email);
+        }
         toast.success('Email verified successfully!');
         navigate('/let-us-know-you');
       } catch (error: any) {

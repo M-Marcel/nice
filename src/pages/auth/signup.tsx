@@ -20,18 +20,9 @@ const SignUp = () => {
     const { firstName, lastName, email } = formData
 
     const dispatch = useAppDispatch();
-    const { user, isLoading, isSuccess, isError, message } = useAppSelector((state) => state.auth)
+    const { isLoading, isSuccess, message } = useAppSelector((state) => state.auth)
 
-    useEffect(() => {
-        if (isError) {
-            toast.error(message)
-        }
-        if (isSuccess) {
-            toast.success('A verification link has been sent to your email.'); // Display success message as toast
-        }
 
-        dispatch(reset())
-    }, [user, isError, isSuccess, message, dispatch])
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prevState) => ({
@@ -43,19 +34,28 @@ const SignUp = () => {
     const handleContinue = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!firstName || !lastName || !email) {
-            toast.error('please fill in the fields')
+            return toast.error('please fill in the fields')
         } else {
+            // Save the email in localStorage
+            localStorage.setItem('userEmail', email);
             const userData = {
                 firstName,
                 lastName,
                 email
             }
             dispatch(register(userData))
-
         }
-
     }
 
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success('A verification link has been sent to your email.');
+        }
+        return () => {
+            dispatch(reset())
+        }
+
+    }, [isSuccess, message, dispatch])
 
     return (
         <div className="bg-white px-4 py-4 h-full">

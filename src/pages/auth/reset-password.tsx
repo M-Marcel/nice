@@ -9,33 +9,25 @@ import CloseEye from '../../assets/svg/CloseEye'
 import Button from '../../components/Button'
 
 type ResetPasswordProps = {
-    email:string
-    openPasswordChangeSuccessModal:() => void
+    email: string
+    openPasswordChangeSuccessModal: () => void
 }
-const ResetPassword = ({email, openPasswordChangeSuccessModal}:ResetPasswordProps) => {
+const ResetPassword = ({ email, openPasswordChangeSuccessModal }: ResetPasswordProps) => {
     const [passWordVisible, setPassWordVisible] = useState<boolean>(false)
+    const togglePassWordVisibility = () => {
+        setPassWordVisible(!passWordVisible)
+    }
 
     const [formData, setFormData] = useState({
         email: email,
-        newPassword:''
+        newPassword: '',
+        confirmNewPassword: ''
     })
-    const { newPassword } = formData
+    const { newPassword, confirmNewPassword } = formData
 
     const dispatch = useAppDispatch()
 
-    const { user, isLoading, isResetPasswordSuccess, isError, message } = useAppSelector((state) => state.auth)
-
-    useEffect(() => {
-        if (isError) {
-            toast.error(message)
-        }
-        if(isResetPasswordSuccess) {
-            toast.success('password reset successful');
-            openPasswordChangeSuccessModal()
-        }
-        dispatch(reset())
-    }, [user, isError, isResetPasswordSuccess, message, dispatch, openPasswordChangeSuccessModal])
-
+    const { isLoading, isResetPasswordSuccess, message } = useAppSelector((state) => state.auth)
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prevState) => ({
@@ -47,18 +39,30 @@ const ResetPassword = ({email, openPasswordChangeSuccessModal}:ResetPasswordProp
     const handleForgot = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!email || !newPassword) {
-            toast.error('please enter new password')
+            return toast.error('please enter new password')
+        }
+        if (newPassword !== confirmNewPassword) {
+            toast.error('passwords do not match')
+
         } else {
             const userData = {
                 email,
                 newPassword
             }
-            dispatch(resetPassword(userData))  
+
+            dispatch(resetPassword(userData))
         }
     }
-    const togglePassWordVisibility = () => {
-        setPassWordVisible(!passWordVisible)
-    }
+
+    useEffect(() => {
+        if (isResetPasswordSuccess) {
+            openPasswordChangeSuccessModal()
+        }
+        return () => {
+            dispatch(reset())
+        }
+
+    }, [isResetPasswordSuccess, message, dispatch, openPasswordChangeSuccessModal])
 
     return (
         <div className="bg-white px-4 py-4 h-full">
@@ -69,7 +73,7 @@ const ResetPassword = ({email, openPasswordChangeSuccessModal}:ResetPasswordProp
             </div>
             <form onSubmit={handleForgot} className="h-[55vh] overflow-y-scroll hide-scrollbar">
                 <div className="flex flex-col gap-2 mb-3">
-                    <label htmlFor="email" className="text-sm text-gray-400">
+                    <label htmlFor="email" className="text-sm hidden text-gray-400">
                         Email
                     </label>
                     <input
@@ -77,19 +81,44 @@ const ResetPassword = ({email, openPasswordChangeSuccessModal}:ResetPasswordProp
                         name="email"
                         readOnly
                         value={formData.email}
-                        // style={{ display: 'none' }}
+                        style={{ display: 'none' }}
                         className="px-4 py-2 border border-gray-600 rounded-lg outline-none"
                     />
                 </div>
                 <div className="flex flex-col gap-2 mb-3">
                     <label htmlFor="password" className="text-sm text-gray-400">
-                        Password
+                        New Password
                     </label>
                     <div className="relative w-full">
                         <input
                             type={passWordVisible ? 'text' : 'password'}
                             name="newPassword"
                             value={newPassword}
+                            onChange={onChange}
+                            className="w-full px-4 py-2 border border-gray-600 rounded-lg outline-none"
+                        />
+                        <Button type="button" className="flex justify-center items-center absolute top-2 left-[320px]  text-gray-800" onClick={togglePassWordVisibility}>
+                            {passWordVisible ?
+                                (
+                                    <OpenEye />
+                                ) : (
+
+                                    <CloseEye />
+                                )
+
+                            }
+                        </Button>
+                    </div>
+                </div>
+                <div className="flex flex-col gap-2 mb-3">
+                    <label htmlFor="password" className="text-sm text-gray-400">
+                        Confirm New Password
+                    </label>
+                    <div className="relative w-full">
+                        <input
+                            type={passWordVisible ? 'text' : 'password'}
+                            name="confirmNewPassword"
+                            value={confirmNewPassword}
                             onChange={onChange}
                             className="w-full px-4 py-2 border border-gray-600 rounded-lg outline-none"
                         />

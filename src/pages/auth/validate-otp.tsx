@@ -21,21 +21,7 @@ const ValidateOtp = ({ email, openResetPasswordModal }: ValidateOtpProps) => {
 
     const dispatch = useAppDispatch()
 
-    const {isLoading, isValidationSuccess, isError, message } = useAppSelector((state) => state.auth)
-
-    useEffect(() => {
-        if (isError) {
-            toast.error(message)
-        }
-        if (isValidationSuccess) {
-            toast.success('validation successful');
-            openResetPasswordModal()
-        }
-
-        dispatch(reset())
-      
-    }, [isError, isValidationSuccess, message, dispatch, openResetPasswordModal])
-
+    const {isLoading, isValidationSuccess, message } = useAppSelector((state) => state.auth)
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const { value } = e.target;
@@ -64,6 +50,18 @@ const ValidateOtp = ({ email, openResetPasswordModal }: ValidateOtpProps) => {
             dispatch(validateOtp(userData))
         }
     }
+
+    useEffect(() => {
+        if (isValidationSuccess) {
+            openResetPasswordModal()
+        }
+        return() => {
+
+            dispatch(reset())
+        }
+        
+      
+    }, [isValidationSuccess, message, dispatch, openResetPasswordModal])
 
     return (
         <div className="bg-white px-4 py-4 h-full flex flex-col justify-center items-center">

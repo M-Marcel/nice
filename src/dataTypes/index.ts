@@ -35,3 +35,12 @@ export type ResetPasswordFormData = {
     email:string
     newPassword:string
 }
+
+export type CompleteSignUpFormData = {
+    email:string
+    password: string;
+    userWorkRole: string;
+    userCompanySize: string;
+    userUseForZroleak: string[];
+    userTechnicalExperience: string
+}
