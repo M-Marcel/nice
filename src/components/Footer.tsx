@@ -1,5 +1,5 @@
-import Logo from '../assets/logo.png'
-import LogoText from '../assets/logotext.png'
+import Logo from '../assets/lanepact-logo.png'
+import LogoText from '../assets/lanepact-logo-text.png'
 
 const Footer = () => {
     return (
