@@ -57,16 +57,16 @@ const Header = ({openSignUpModal, openLoginModal}: HeaderProps) => {
                 </nav>
                 <div className='flex gap-3'>
                     <Button
-                        className="hidden px-3 py-2 rounded-md lg:flex custom-bg text-white"
+                        className="hidden px-3 py-2 rounded-md backdrop-blur-md  lg:flex  text-black"
                         onClick={openSignUpModal}
                     >
-                        Try it
+                        Login
                     </Button>
                     <Button
-                        className="hidden px-3 py-2 bg-white  backdrop-blur-md rounded-md lg:flex"
+                        className="hidden px-3 py-2 custom-bg text-white  rounded-xl lg:flex"
                         onClick={openLoginModal}
                     >
-                        Login
+                        Join Beta
                     </Button>
                 </div>
                 <Button onClick={toggleNavigation} className="button ml-auto lg:hidden">

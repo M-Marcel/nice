@@ -23,16 +23,11 @@ export const navigation = [
   },
   {
     id: "3",
-    title: "Integrations",
+    title: "Request a feature",
     url: "/integrations",
   },
   {
     id: "4",
-    title: "Pricing",
-    url: "/pricing",
-  },
-  {
-    id: "5",
     title: "Login",
     url: "/login",
     onlyMobile: true,
