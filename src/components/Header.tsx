@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { navigation } from '../constants'
 import Button from './Button'
 import MenuSvg from '../assets/svg/MenuSvg'
@@ -8,17 +8,18 @@ import Logo from './Logo'
 
 
 type HeaderProps = {
-    openSignUpModal:() => void;
-    openLoginModal:() => void
+    openSignUpModal: () => void;
+    openLoginModal: () => void
 }
 
-const Header = ({openSignUpModal, openLoginModal}: HeaderProps) => {
+const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
 
     const pathname = useLocation()
     const [openNavigation, setOpenNavigation] = useState<boolean>(false)
+    const [scrolled, setScrolled] = useState<boolean>(false);
 
     const toggleNavigation = () => {
-        if(openNavigation) {
+        if (openNavigation) {
             setOpenNavigation(false)
             enablePageScroll()
         } else {
@@ -33,8 +34,24 @@ const Header = ({openSignUpModal, openLoginModal}: HeaderProps) => {
         setOpenNavigation(false)
     }
 
+     useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 50) {
+                setScrolled(true);
+            } else {
+                setScrolled(false);
+            }
+        };
+        
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
-        <div className={`fixed top-5 left-0 w-full z-50`}>
+        <div className={`fixed top-5 left-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white shadow-lg -top-[8px]' : 'bg-transparent'}`}>
             <div className="flex items-center justify-between px-5 lg:px-7.5
             xl:px-10 py-4 max-lg:py-4">
                 <a href="/">
@@ -57,16 +74,16 @@ const Header = ({openSignUpModal, openLoginModal}: HeaderProps) => {
                 </nav>
                 <div className='flex gap-3'>
                     <Button
+                        className="hidden px-3 py-2 custom-l-bg backdrop-blur-md rounded-md lg:flex"
+                        onClick={openLoginModal}
+                    >
+                        Login
+                    </Button>
+                    <Button
                         className="hidden px-3 py-2 rounded-md lg:flex custom-bg text-white"
                         onClick={openSignUpModal}
                     >
                         Join Beta
-                    </Button>
-                    <Button
-                        className="hidden px-3 py-2 bg-white  backdrop-blur-md rounded-md lg:flex"
-                        onClick={openLoginModal}
-                    >
-                        Login
                     </Button>
                 </div>
                 <Button onClick={toggleNavigation} className="button ml-auto lg:hidden">

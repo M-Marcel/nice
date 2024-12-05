@@ -5,6 +5,8 @@ import Hero from "../components/Hero"
 import { useModal } from "../context/ModalContext";
 import Modals from "../components/Modals";
 import ContactForm from "../components/ContactForm";
+import Join from "../components/Join";
+import Footer from "../components/Footer";
 
 
 
@@ -14,7 +16,7 @@ const Contact = () => {
 
     return (
         <>
-            <div className="">
+            <div className="lg:mb-[240px]">
                 <Hero>
                     <Header
                         openSignUpModal={() => setActiveModal("signup")}
@@ -28,7 +30,7 @@ const Contact = () => {
                                         We’re Here to Help
                                     </h2>
 
-                                    <p className='text-center w-auto lg:w-[70%] text-black-400 mb-1'>
+                                    <p className='text-center w-auto lg:w-[80%] text-black-400 mb-1'>
                                         Have questions or feedback? Get in touch with us, and we’ll get back to you as soon as possible
                                     </p>
                                 </div>
@@ -41,6 +43,8 @@ const Contact = () => {
                 </Hero>
             </div>
             <Modals email={email} setEmail={setEmail} />
+            <Join />
+            <Footer />
         </>
 
     )
