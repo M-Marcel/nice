@@ -1,7 +1,11 @@
+import LeftSidebar from "../components/LeftSidebar"
+
 const Dashboard = () => {
     return(
         <div className="dashboard">
-            Welcome
+            <LeftSidebar />
         </div>
     )
 }
+
+export default Dashboard
