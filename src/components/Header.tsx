@@ -60,7 +60,7 @@ const Header = ({openSignUpModal, openLoginModal}: HeaderProps) => {
                         className="hidden px-3 py-2 rounded-md backdrop-blur-md  lg:flex  text-black"
                         onClick={openSignUpModal}
                     >
-                        Login
+                        Join Beta
                     </Button>
                     <Button
                         className="hidden px-3 py-2 custom-bg text-white  rounded-xl lg:flex"

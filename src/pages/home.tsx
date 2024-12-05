@@ -5,18 +5,19 @@ import Header from "../components/Header";
 import Heading from "../components/Heading";
 import Hero from "../components/Hero";
 import Join from "../components/Join";
-import Modal from "../components/Modal";
 import Purpose from "../components/Purpose";
-import SignUp from "./auth/signup";
-import Login from "./auth/login";
-import ForgotPassword from "./auth/forgot-password";
-import ValidateOtp from "./auth/validate-otp";
-import ResetPassword from "./auth/reset-password";
-import PasswordChangeSuccess from "../components/PasswordChangeSuccess";
+import Modals from "../components/Modals";
+import { useModal } from "../context/ModalContext";
+import Button from "../components/Button";
+import Zero from '../assets/zero.png'
+import BotDesign from '../assets/zrobot.png'
+import Avatar from "../components/avatar";
 
 const Home = () => {
-    const [activeModal, setActiveModal] = useState<string | null>(null);
+    const { setActiveModal } = useModal()
     const [email, setEmail] = useState<string>("");
+
+
 
     return (
         <>
@@ -26,7 +27,34 @@ const Home = () => {
                         openSignUpModal={() => setActiveModal("signup")}
                         openLoginModal={() => setActiveModal("login")}
                     />
-                    <Heading />
+                    <Heading className="">
+                        <div className="relative top-[150px]">
+                            <div className='flex flex-col items-center justify-center '>
+                                <Avatar className="">
+                                    2k+ bots built
+                                </Avatar>
+                                <div className='flex flex-col items-center max-w-sm justify-center'>
+                                    <h2 className='font-title text-5xl mb-3 text-black-300 text-center  leading-none'>
+                                        Build bots and mini apps with
+                                    </h2>
+                                    <div className='mb-3'>
+                                        <img src={Zero} alt='zero' width={250} height={80} />
+                                    </div>
+                                    <p className='text-center w-auto lg:w-[70%] text-black-400 mb-3'>
+                                        Start building bots and mini apps before we fully launch
+                                    </p>
+                                    <div>
+                                        <Button className='custom-bg text-white font-bold text-sm px-6 py-3 rounded-lg'>
+                                           Start building
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div className='mt-4'>
+                                    <img src={BotDesign} alt='botDesign' width={1000} height={1000} />
+                                </div>
+                            </div>
+                        </div>
+                    </Heading>
                 </Hero>
                 <Purpose />
                 <CommunityBot />
@@ -35,32 +63,7 @@ const Home = () => {
             </div>
 
             {/* Modals */}
-            <Modal isVisible={activeModal === "signup"} onClose={() => setActiveModal(null)}>
-                <SignUp />
-            </Modal>
-            <Modal isVisible={activeModal === "login"} onClose={() => setActiveModal(null)}>
-                <Login openForgotPasswordModal={() => setActiveModal("forgotPassword")} />
-            </Modal>
-            <Modal isVisible={activeModal === "forgotPassword"} onClose={() => setActiveModal(null)}>
-                <ForgotPassword
-                    openValidateOtpModal={() => setActiveModal("validateOtp")}
-                    setEmail={setEmail}
-                />
-            </Modal>
-            <Modal isVisible={activeModal === "validateOtp"} onClose={() => setActiveModal(null)}>
-                <ValidateOtp openResetPasswordModal={() => setActiveModal("resetPassword")} email={email} />
-            </Modal>
-            <Modal isVisible={activeModal === "resetPassword"} onClose={() => setActiveModal(null)}>
-                <ResetPassword
-                    email={email}
-                    openPasswordChangeSuccessModal={() => setActiveModal("passwordChangeSuccess")}
-                />
-            </Modal>
-            <Modal isVisible={activeModal === "passwordChangeSuccess"} onClose={() => setActiveModal(null)}>
-                <PasswordChangeSuccess
-                    openLoginModal={() => setActiveModal("login")}
-                />
-            </Modal>
+            <Modals email={email} setEmail={setEmail} />
         </>
     );
 };

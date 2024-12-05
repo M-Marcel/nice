@@ -24,7 +24,7 @@ export const navigation = [
   {
     id: "3",
     title: "Request a feature",
-    url: "/integrations",
+    url: "/request-feature",
   },
   {
     id: "4",
@@ -76,4 +76,16 @@ export const communityBots = [
     elipse: Elipse,
   },
 
+]
+
+export const votedBots = [
+  {
+    id:0,
+    btnText:'vote',
+    createdAt:'December, 2024',
+    botName:'Custom bot name or pfp',
+    voteCount:78,
+    image:Elipse,
+    author:'Suki'
+  }
 ]
