@@ -1,7 +1,6 @@
-// import logo from './logo.svg';
 import { Route, Routes } from "react-router-dom";
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import Home from "./pages/home";
 import Features from "./pages/features";
@@ -12,10 +11,12 @@ import WaitList from "./pages/waitlist";
 import DragandDrop from "./components/DragandDrop";
 import LetUsKnowYou from "./pages/auth/let-us-know-you";
 import VerifyEmail from "./pages/auth/verifyEmail";
+import { ModalProvider } from "./context/ModalContext"; // Import ModalProvider
+import Contact from "./pages/contact";
 
 function App() {
   return (
-    <>
+    <ModalProvider> {/* Wrap the entire Routes component */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/features" element={<Features />} />
@@ -26,11 +27,10 @@ function App() {
         <Route path="/draganddrop" element={<DragandDrop />} />
         <Route path="/verifyEmail" element={<VerifyEmail />} />
         <Route path="/let-us-know-you" element={<LetUsKnowYou />} />
-        
+        <Route path="/contact-us" element={<Contact />} />
       </Routes>
       <ToastContainer />
-    </>
-
+    </ModalProvider>
   );
 }
 

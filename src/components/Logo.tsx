@@ -1,5 +1,5 @@
-import LogoImg from '../assets/logo.png'
-import LogoText from '../assets/logotext.png'
+import LogoImg from '../assets/lanepact-logo.png'
+import LogoText from '../assets/lanepact-logo-text.png'
 
 const Logo = () => {
     return (
