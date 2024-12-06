@@ -35,7 +35,7 @@ const Header = ({openSignUpModal, openLoginModal}: HeaderProps) => {
 
     return (
         <div className={`fixed top-5 left-0 w-full z-50`}>
-            <div className="flex items-center justify-between px-5 lg:px-7.5
+            <div className="flex items-center mx-20 justify-between px-5 lg:px-7.5
             xl:px-10 py-4 max-lg:py-4">
                 <a href="/">
                     <Logo />
@@ -60,7 +60,7 @@ const Header = ({openSignUpModal, openLoginModal}: HeaderProps) => {
                         className="hidden px-3 py-2 rounded-md backdrop-blur-md  lg:flex  text-black"
                         onClick={openSignUpModal}
                     >
-                        Join Beta
+                        Login
                     </Button>
                     <Button
                         className="hidden px-3 py-2 custom-bg text-white  rounded-xl lg:flex"

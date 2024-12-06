@@ -86,6 +86,51 @@ export const votedBots = [
     botName:'Custom bot name or pfp',
     voteCount:78,
     image:Elipse,
-    author:'Suki'
-  }
+    author:'by Suki'
+  },
+  {
+    id:1,
+    btnText:'vote',
+    createdAt:'December, 2024',
+    botName:'Custom bot name or pfp',
+    voteCount:78,
+    image:Elipse,
+    author:'by Suki'
+  },
+  {
+    id:2,
+    btnText:'vote',
+    createdAt:'December, 2024',
+    botName:'Custom bot name or pfp',
+    voteCount:78,
+    image:Elipse,
+    author:'by Suki'
+  },
+  {
+    id:3,
+    btnText:'vote',
+    createdAt:'December, 2024',
+    botName:'Custom bot name or pfp',
+    voteCount:78,
+    image:Elipse,
+    author:'by Suki'
+  },
+  {
+    id:4,
+    btnText:'vote',
+    createdAt:'December, 2024',
+    botName:'Custom bot name or pfp',
+    voteCount:78,
+    image:Elipse,
+    author:'by Suki'
+  },
+  {
+    id:5,
+    btnText:'vote',
+    createdAt:'December, 2024',
+    botName:'Custom bot name or pfp',
+    voteCount:78,
+    image:Elipse,
+    author:'by Suki'
+  },
 ]
