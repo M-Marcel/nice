@@ -1,5 +1,4 @@
 
-
 type HeadingProps = {
     children:React.ReactNode
     className:string

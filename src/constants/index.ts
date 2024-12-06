@@ -3,6 +3,9 @@ import Slide2 from '../assets/slide2.png'
 import Slide3 from '../assets/slide3.png'
 import Copy from '../assets/copy.png'
 import Elipse from '../assets/elipse.png'
+import DashboardIcon from '../assets/dashboard.png'
+import UserIcon from '../assets/user.png'
+import Thumbs from "../assets/thumbs.png"
 
 
 export const navigation = [
@@ -34,6 +37,20 @@ export const navigation = [
   },
 ];
 
+export const SidebarLinks = [
+  {
+    id:0,
+    title:"Dashboard",
+    image: DashboardIcon,
+    url:"/dashboard"
+  },
+  {
+    id:2,
+    title:"Community",
+    image: UserIcon,
+    url:"/community"
+  }
+]
 export const communityBots = [
   {
     id: 0,
@@ -78,6 +95,7 @@ export const communityBots = [
 
 ]
 
+
 export const votedBots = [
   {
     id:0,
@@ -86,6 +104,37 @@ export const votedBots = [
     botName:'Custom bot name or pfp',
     voteCount:78,
     image:Elipse,
+    thumb:Thumbs,
+    author:'Suki'
+  },
+  {
+    id:1,
+    btnText:'vote',
+    createdAt:'December, 2024',
+    botName:'Custom bot name or pfp',
+    voteCount:78,
+    image:Elipse,
+    thumb:Thumbs,
+    author:'Suki'
+  },
+  {
+    id:2,
+    btnText:'vote',
+    createdAt:'December, 2024',
+    botName:'Custom bot name or pfp',
+    voteCount:78,
+    image:Elipse,
+    thumb:Thumbs,
+    author:'Suki'
+  },
+  {
+    id:3,
+    btnText:'vote',
+    createdAt:'December, 2024',
+    botName:'Custom bot name or pfp',
+    voteCount:78,
+    image:Elipse,
+    thumb:Thumbs,
     author:'Suki'
   }
 ]

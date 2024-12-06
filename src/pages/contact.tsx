@@ -16,7 +16,7 @@ const Contact = () => {
 
     return (
         <>
-            <div className="lg:mb-[240px]">
+            <div className="mb-[180px] lg:mb-[240px]">
                 <Hero>
                     <Header
                         openSignUpModal={() => setActiveModal("signup")}
@@ -25,8 +25,8 @@ const Contact = () => {
                     <Heading className="">
                         <div className="relative top-[150px]">
                             <div className='flex flex-col items-center justify-center '>
-                                <div className='flex flex-col items-center max-w-lg justify-center'>
-                                    <h2 className='font-title text-5xl mb-3 text-black-300 text-center leading-[48px]'>
+                                <div className='flex flex-col items-center max-w-lg justify-center px-2 lg:px-0'>
+                                    <h2 className='font-title text-4xl lg:text-5xl mb-3 text-black-300 text-center leading-[48px]'>
                                         We’re Here to Help
                                     </h2>
 
