@@ -6,7 +6,9 @@ import DashboardHero from "../assets/dashboardHero.png"
 import BotDesign from '../assets/zrobot.png'
 
 
+
 const Dashboard = () => {
+   
     return (
         <div className="dashboard flex flex-col lg:flex-row px-2">
             <LeftSidebar />
@@ -19,7 +21,7 @@ const Dashboard = () => {
                             <Search />
                         </div>
                     </div>
-                    <Button className="hidden md:block bg-black-500 text-sm text-white px-4 py-2
+                    <Button className="hidden lg:block bg-black-500 text-sm text-white px-4 py-2
                      rounded-md">Beta</Button>
                 </div>
                 <div className="flex flex-col lg:flex-row gap-8 mt-8">
@@ -27,9 +29,19 @@ const Dashboard = () => {
                         <div className="mt-10 mb-4">
                             <img src={DashboardHero} alt="dashboardHero" width={1000} />
                         </div>
+                        <div className="flex justify-between px-2">
+                            <div>
+                                <p className="text-xs text-gray-500 w-[60%]">You're <span className="font-500 text-black-500">#45</span> out of <span className="font-500 text-black-500">1000</span> waiting to get access</p>
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <p className="text-xs w-[50%] text-black-500">Invite friends to move up the list!</p>
+                                <Button className="bg-black-500 text-white text-xs px-4 py-2 rounded-full">14 votes</Button>
+                            </div>
+                        </div>
                         <div className="mt-8 py-10 purpose-bg flex justify-center items-center">
                             <img src={BotDesign} alt="dashboardHero" width={400} />
                         </div>
+                        
                         <div className="flex justify-center items-center">
                             <div className="w-[80%] flex flex-col items-center">
                                 <h1 className="text-center text-black-500 font-600 mb-2">View product progress</h1>
