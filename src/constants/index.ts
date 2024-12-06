@@ -29,12 +29,7 @@ export const navigation = [
     title: "Request a feature",
     url: "/request-feature",
   },
-  {
-    id: "4",
-    title: "Login",
-    url: "/login",
-    onlyMobile: true,
-  },
+ 
 ];
 
 export const SidebarLinks = [

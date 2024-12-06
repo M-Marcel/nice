@@ -47,7 +47,7 @@ const Community = () => {
             </div>
             <Modals email={email} setEmail={setEmail} />
             <div className="px-5 lg:px-7.5 xl:px-10 lg:mx-8 mt-[180px] lg:mt-[100px]">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center relative z-50">
                     <div className="w-[80%]">
                         <input type="text" placeholder="Search for anything" className="w-full border border-gray-600 py-2 outline-none px-2 rounded-md" />
                     </div>
