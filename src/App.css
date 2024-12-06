@@ -1,13 +1,18 @@
+body{
+ 
+}
 .custom-bg{
    background: linear-gradient(75deg, #1E7FF5, #025ECF);
 }
 .custom-l-bg{
   background: linear-gradient(75deg, #34A9F14D, #ffff);
 }
+.custom-l-bg2{
+  background: linear-gradient(75deg, #f0f1f1e5, #4aa2bd);
+}
 .Hero-section{
     background-image: url('./assets/frame.jpg');
     background-size: cover;
- 
 }
 .purpose-bg{
     background-image: url('./assets/dots.png');

@@ -2,9 +2,10 @@
   
 type Menuprops = {
     openNavigation : boolean
+    scrolled:boolean
 }
 
-const MenuSvg = ({ openNavigation }: Menuprops) => {
+const MenuSvg = ({ openNavigation, scrolled }: Menuprops) => {
   return (
     <svg
       className="overflow-visible"
@@ -18,7 +19,7 @@ const MenuSvg = ({ openNavigation }: Menuprops) => {
         width="20"
         height="2"
         rx="1"
-        fill="white"
+        fill={`${scrolled ? '#025ECF' : 'white'}`}
         transform={`rotate(${openNavigation ? "45" : "0"})`}
       />
       <rect
@@ -27,7 +28,16 @@ const MenuSvg = ({ openNavigation }: Menuprops) => {
         width="20"
         height="2"
         rx="1"
-        fill="white"
+        fill={`${scrolled ? '#025ECF' : 'white'}`}
+        transform={`rotate(${openNavigation ? "-45" : "0"})`}
+      />
+      <rect
+        className="transition-all origin-center"
+        y={openNavigation ? "5" : "10"}
+        width="20"
+        height="2"
+        rx="1"
+        fill={`${scrolled ? '#025ECF' : 'white'}`}
         transform={`rotate(${openNavigation ? "-45" : "0"})`}
       />
     </svg>

@@ -46,8 +46,8 @@ const BotSlide = () => {
                                     </div>
                                     <div className="mt-5">
                                         <div className="flex flex-col lg:flex-row justify-between lg:items-center mb-2">
-                                            <h2 className="text-black-300 text-md">{item.title}</h2>
-                                            <Button className="custom-bg rounded-lg px-4 py-2 text-white text-sm">{item.btnText}</Button>
+                                            <h2 className="text-black-300 text-md mb-2">{item.title}</h2>
+                                            <Button className="custom-bg rounded-lg px-4 py-2 text-white text-xs lg:text-sm">{item.btnText}</Button>
                                         </div>
                                         <div>
                                             <p className="flex gap-1 items-center mb-2">

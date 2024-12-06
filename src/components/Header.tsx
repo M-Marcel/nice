@@ -33,8 +33,17 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
         enablePageScroll()
         setOpenNavigation(false)
     }
+    const handleMobileLoginOpenModal = () =>{
+        setOpenNavigation(false)
+        return openLoginModal()
+   }
 
-     useEffect(() => {
+    const handleMobileRegisterModal = () =>{
+         setOpenNavigation(false)
+         return openSignUpModal()
+    }
+
+    useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 50) {
                 setScrolled(true);
@@ -42,7 +51,7 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
                 setScrolled(false);
             }
         };
-        
+
         window.addEventListener('scroll', handleScroll);
 
         return () => {
@@ -61,16 +70,31 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
                 bottom-0 lg:static lg:mx-auto lg:bg-white rounded-full
                 '>
                     <div className={`${openNavigation ? 'flex' : 'hidden'} flex-col items-center lg:flex lg:flex-row gap-4
-                    bg-white px-3 py-2 rounded-full`}>
+                    bg-white w-full px-3 py-2 rounded-full text-xs lg:text-sm`}>
                         {navigation.map((item) => (
                             <a key={item.id} href={item.url} onClick={handleClick}
                                 className={`block relative transition-colors
-                                hover:bg-black-100 hover:rounded-full hover:text-black-200 px-3 py-2 ${item.onlyMobile ? 'lg:hidden' : ''}
+                                hover:bg-black-100 hover:rounded-full hover:text-black-200 px-3 py-2
                                 ${item.url === pathname.pathname ? 'z-2 lg:text-black-200' : 'lg:text-black-200/55'}`}>
                                 {item.title}
                             </a>
                         ))}
+                        <div className='flex flex-col lg:hidden'>
+                            <Button
+                                className="mb-6 px-3 py-2 custom-l-bg backdrop-blur-md rounded-md lg:flex"
+                                onClick={handleMobileLoginOpenModal}
+                            >
+                                Login
+                            </Button>
+                            <Button
+                                className="px-3 py-2 rounded-md lg:flex custom-bg text-white"
+                                onClick={handleMobileRegisterModal}
+                            >
+                                Join Beta
+                            </Button>
+                        </div>
                     </div>
+
                 </nav>
                 <div className='flex gap-3'>
                     <Button
@@ -87,7 +111,7 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
                     </Button>
                 </div>
                 <Button onClick={toggleNavigation} className="button ml-auto lg:hidden">
-                    <MenuSvg openNavigation={openNavigation} />
+                    <MenuSvg openNavigation={openNavigation} scrolled={scrolled} />
                 </Button>
 
             </div>
