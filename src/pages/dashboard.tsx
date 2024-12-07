@@ -12,7 +12,7 @@ const Dashboard = () => {
     return (
         <div className="dashboard flex flex-col lg:flex-row px-2">
             <LeftSidebar />
-            <div className="px-4 w-[100%] lg:w-[83%] relative lg:left-[225px]">
+            <div className="px-4 w-[100%] lg:w-[83%] lg:ml-[220px]">
                 <div className="flex items-center justify-between w-[90%] md:w-[92%] lg:w-[79%] bg-white py-4 px-2 fixed">
                     <div className="relative">
                         <input type="text" placeholder="Search for anything" className="border border-gray-600 outline-0 rounded-lg

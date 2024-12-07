@@ -11,7 +11,7 @@ import { useModal } from "../context/ModalContext";
 import Button from "../components/Button";
 import Zero from '../assets/zero.png'
 import BotDesign from '../assets/zrobot.png'
-import Avatar from "../components/avatar";
+import Social from "../components/social";
 
 const Home = () => {
     const { setActiveModal } = useModal()
@@ -30,9 +30,7 @@ const Home = () => {
                     <Heading className="">
                         <div className="relative top-[150px]">
                             <div className='flex flex-col items-center justify-center '>
-                                <Avatar className="">
-                                    2k+ bots built
-                                </Avatar>
+                                <Social />
                                 <div className='flex flex-col items-center max-w-sm justify-center'>
                                     <h2 className='font-title text-5xl mb-3 text-black-300 text-center  leading-none'>
                                         Build bots and mini apps with
@@ -44,8 +42,11 @@ const Home = () => {
                                         Start building bots and mini apps before we fully launch
                                     </p>
                                     <div>
-                                        <Button className='custom-bg text-white font-bold text-sm px-6 py-3 rounded-lg'>
-                                           Start building
+                                        <Button 
+                                        className='custom-bg text-white font-bold text-sm px-6 py-3 rounded-lg'
+                                        onClick={() => setActiveModal("signup")}
+                                        >
+                                           Join Beta
                                         </Button>
                                     </div>
                                 </div>

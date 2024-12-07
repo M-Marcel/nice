@@ -77,6 +77,7 @@ const LetUsKnowYou = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         console.log('Form submitted:', formData)
         console.log(formData.email)
         if (isLoading) return;
@@ -84,6 +85,12 @@ const LetUsKnowYou = () => {
         if (!email || !password || !userWorkRole ||
             !userCompanySize || !userUseForZroleak || !userTechnicalExperience) {
             return toast.error('please provide all details')
+        }
+        if(password.length < 8 ){
+            return toast.error('password too short, should not be less than 8 characters')
+        }
+        if(!passwordRegex.test(password)){
+            return toast.error('password must contain alphabets, number and special character');
         }
         if (password !== confirmPassword) {
             toast.error('passwords do not match')
@@ -230,7 +237,7 @@ const LetUsKnowYou = () => {
                                 onChange={handleInputChange}
                                 className="w-full px-4 py-2 border border-gray-600 rounded-lg outline-none"
                             />
-                            <Button type="button" className="flex justify-center items-center absolute top-2 left-[360px]  text-gray-800" onClick={togglePassWordVisibility}>
+                            <Button type="button" className="flex justify-center items-center absolute top-2 left-[348px] lg:left-[360px]  text-gray-800" onClick={togglePassWordVisibility}>
                                 {passWordVisible ?
                                     (
                                         <OpenEye />
@@ -255,7 +262,7 @@ const LetUsKnowYou = () => {
                                 onChange={handleInputChange}
                                 className="w-full px-4 py-2 border border-gray-600 rounded-lg outline-none"
                             />
-                            <Button type="button" className="flex justify-center items-center absolute top-2 left-[360px]  text-gray-800" onClick={togglePassWordVisibility2}>
+                            <Button type="button" className="flex justify-center items-center absolute top-2  left-[348px] lg:left-[360px] text-gray-800" onClick={togglePassWordVisibility2}>
                                 {confirmPassWordVisible ?
                                     (
                                         <OpenEye />
