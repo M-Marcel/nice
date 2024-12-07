@@ -6,6 +6,11 @@ import Elipse from '../assets/elipse.png'
 import DashboardIcon from '../assets/dashboard.png'
 import UserIcon from '../assets/user.png'
 import Thumbs from "../assets/thumbs.png"
+import Social1 from "../assets/social1.png"
+import Social2 from "../assets/social2.png"
+import Social3 from "../assets/social3.png"
+import Social4 from "../assets/socila4.png"
+import Social5 from "../assets/social5.png"
 
 
 export const navigation = [
@@ -132,4 +137,27 @@ export const votedBots = [
     thumb:Thumbs,
     author:'Suki'
   }
+]
+
+export const socialLinks = [
+   {
+    id:0,
+    image:Social1
+   },
+   {
+    id:1,
+    image:Social2
+   },
+   {
+    id:2,
+    image:Social3
+   },
+   {
+    id:3,
+    image:Social4
+   },
+   {
+    id:4,
+    image:Social5
+   },
 ]

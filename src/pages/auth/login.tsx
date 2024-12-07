@@ -66,7 +66,7 @@ const Login = ({ openForgotPasswordModal}: LoginProps) => {
     }, [isLoginSuccess, message, dispatch, navigate])
 
     return (
-        <div className="bg-white px-4 py-4 h-full">
+        <div className="bg-white px-4 py-4 h-full mx-4 lg:mx-0">
             <div className="flex flex-col gap-2 mb-3">
                 <img src={LogoImage} alt="logoImg" width={20} height={20} />
                 <h2 className="text-black-500 text-xl">What’s your email?</h2>
@@ -97,7 +97,7 @@ const Login = ({ openForgotPasswordModal}: LoginProps) => {
                             onChange={onChange}
                             className="w-full px-4 py-2 border border-gray-600 rounded-lg outline-none"
                         />
-                        <Button type="button" className="flex justify-center items-center absolute top-2 left-[320px]  text-gray-800" onClick={togglePassWordVisibility}>
+                        <Button type="button" className="flex justify-center items-center absolute top-2 left-[285px] lg:left-[320px]  text-gray-800" onClick={togglePassWordVisibility}>
                             {passWordVisible ?
                                 (
                                     <OpenEye />

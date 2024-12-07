@@ -23,7 +23,7 @@ const LeftSidebar = () => {
             <div className={`fixed top-0 left-0 h-[100vh] bg-white border-r border-gray-600 z-50 shadow-lg transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
                 } lg:translate-x-0 transition-transform duration-300 lg:w-[18%] flex flex-col gap-4 px-4 py-4`}>
                 <div className="py-4">
-                    <Logo />
+                    <a href="/"> <Logo /></a>    
                 </div>
                 <div className="flex justify-between items-center border border-gray-900 py-4 px-2
             rounded-xl">

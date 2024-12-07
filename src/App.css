@@ -1,6 +1,4 @@
-body{
- 
-}
+
 .custom-bg{
    background: linear-gradient(75deg, #1E7FF5, #025ECF);
 }
@@ -13,6 +11,7 @@ body{
 .Hero-section{
     background-image: url('./assets/frame.jpg');
     background-size: cover;
+
 }
 .purpose-bg{
     background-image: url('./assets/dots.png');
