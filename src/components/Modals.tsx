@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { useModal } from "../context/ModalContext"
 import ForgotPassword from "../pages/auth/forgot-password"
 import Login from "../pages/auth/login"
@@ -17,24 +16,15 @@ type ModalsProps = {
 const Modals = ({email, setEmail}:ModalsProps) => {
     const { activeModal, setActiveModal } = useModal()
    
-     useEffect(() => {
         if (activeModal) {
             const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth; // Calculate scrollbar width
             document.body.style.overflow = "hidden"; 
             document.body.style.paddingRight = `${scrollbarWidth}px`; 
 
         } else {
-           
             document.body.style.overflow = "auto"; 
             document.body.style.paddingRight = "0"; 
         }
-
-       
-        return () => {
-            document.body.style.overflow = "auto";
-            document.body.style.paddingRight = "0";
-        };
-    }, [activeModal]);
 
     return(
         <>
