@@ -27,7 +27,7 @@ const Community = () => {
                     />
                     <Heading className="">
                         <div className="relative top-[150px]">
-                            <div className='flex flex-col items-center justify-center '>
+                            <div className='flex flex-col items-center justify-center mx-[8px] lg:mx-[0]'>
                                 <div className='flex flex-col items-center max-w-lg justify-center'>
                                     <h2 className='font-title text-4xl lg:text-5xl mb-3 text-black-300 text-center leading-[48px]'>
                                         Discover and Use Bots Built by the Community
@@ -47,7 +47,7 @@ const Community = () => {
             </div>
             <Modals email={email} setEmail={setEmail} />
             <div className="px-5 lg:px-7.5 xl:px-10 lg:mx-8 mt-[180px] lg:mt-[100px]">
-                <div className="flex justify-between items-center relative z-50">
+                <div className="flex justify-between items-center">
                     <div className="w-[80%]">
                         <input type="text" placeholder="Search for anything" className="w-full border border-gray-600 py-2 outline-none px-2 rounded-md" />
                     </div>

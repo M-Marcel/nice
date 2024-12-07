@@ -66,8 +66,8 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
                 <a href="/">
                     <Logo />
                 </a>
-                <nav className='fixed top-[7rem] left-0 right-0
-                bottom-0 lg:static lg:mx-auto lg:bg-white rounded-full
+                <nav className='fixed top-[7rem] left-0 right-0 lg:left-0 lg:right-0
+                lg:bottom-0 lg:static lg:mx-auto lg:bg-white rounded-full
                 '>
                     <div className={`${openNavigation ? 'flex' : 'hidden'} flex-col items-center lg:flex lg:flex-row gap-4
                     bg-white w-full px-3 py-2 rounded-full text-xs lg:text-sm`}>

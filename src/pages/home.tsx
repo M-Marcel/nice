@@ -23,7 +23,7 @@ const Home = () => {
         <>
             <div className="home">
                 <Hero>
-                    <Header
+                    <Header 
                         openSignUpModal={() => setActiveModal("signup")}
                         openLoginModal={() => setActiveModal("login")}
                     />
@@ -55,8 +55,9 @@ const Home = () => {
                                 </div>
                             </div>
                         </div>
-                    </Heading>
+                    </Heading>    
                 </Hero>
+            
                 <Purpose />
                 <CommunityBot />
                 <Join />

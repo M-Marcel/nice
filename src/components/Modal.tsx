@@ -9,9 +9,11 @@ type ModalProps = {
 const Modal = ({ isVisible, onClose, children }: ModalProps) => {
     if (!isVisible) return null
 
+    
     // const handleClose = (e: any) => {
     //     if (e.target.id === "wrapper") onClose()
     // }
+    
     return (
         <div
             id="wrapper"
