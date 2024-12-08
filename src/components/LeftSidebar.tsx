@@ -29,7 +29,9 @@ const LeftSidebar = () => {
             rounded-xl">
                     <div className="flex gap-2 items-center">
                         <img src={Elipse} alt="elipse" width={18} height={18} />
-                        <p className="text-sm">Tanjiro Kamado</p>
+                        <a href="/profile">
+                            <p className="text-sm">Tanjiro Kamado</p>
+                        </a>     
                     </div>
                     <img src={UnfoldIcon} alt="unfold" width={15} height={15} />
                 </div>
