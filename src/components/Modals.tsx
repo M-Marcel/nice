@@ -7,6 +7,7 @@ import SignUp from "../pages/auth/signup"
 import ValidateOtp from "../pages/auth/validate-otp"
 import Modal from "./Modal"
 import PasswordChangeSuccess from "./PasswordChangeSuccess"
+import { disablePageScroll, enablePageScroll } from "scroll-lock"
 
 type ModalsProps = {
     email:string
@@ -22,11 +23,13 @@ const Modals = ({email, setEmail}:ModalsProps) => {
             const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth; // Calculate scrollbar width
             document.body.style.overflow = "hidden"; 
             document.body.style.paddingRight = `${scrollbarWidth}px`; 
+            disablePageScroll()
 
         } else {
            
             document.body.style.overflow = "auto"; 
             document.body.style.paddingRight = "0"; 
+            enablePageScroll()
         }
 
        
