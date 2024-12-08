@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import { useModal } from "../context/ModalContext"
 import ForgotPassword from "../pages/auth/forgot-password"
 import Login from "../pages/auth/login"
@@ -6,7 +7,7 @@ import SignUp from "../pages/auth/signup"
 import ValidateOtp from "../pages/auth/validate-otp"
 import Modal from "./Modal"
 import PasswordChangeSuccess from "./PasswordChangeSuccess"
-import { disablePageScroll, enablePageScroll } from "scroll-lock"
+
 
 type ModalsProps = {
     email:string
@@ -17,17 +18,24 @@ type ModalsProps = {
 const Modals = ({email, setEmail}:ModalsProps) => {
     const { activeModal, setActiveModal } = useModal()
    
-        if (activeModal) {
-            const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth; // Calculate scrollbar width
-            document.body.style.overflow = "hidden"; 
-            document.body.style.paddingRight = `${scrollbarWidth}px`; 
-            disablePageScroll()
+    useEffect(() => {
+        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
 
+        if (activeModal) {
+            document.body.style.overflow = "hidden";
+            document.body.style.paddingRight = `${scrollbarWidth}px`;
         } else {
-            document.body.style.overflow = "auto"; 
-            document.body.style.paddingRight = "0"; 
-            enablePageScroll()
+            document.body.style.overflow = "auto";
+            document.body.style.paddingRight = "0";
         }
+
+        return () => {
+           
+            document.body.style.overflow = "auto";
+            document.body.style.paddingRight = "0";
+        };
+    }, [activeModal]);
+
 
     return(
         <>
