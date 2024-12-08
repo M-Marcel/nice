@@ -14,6 +14,7 @@ import VerifyEmail from "./pages/auth/verifyEmail";
 import { ModalProvider } from "./context/ModalContext"; // Import ModalProvider
 import Contact from "./pages/contact";
 import Dashboard from "./pages/dashboard";
+import Profile from "./pages/profile";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/let-us-know-you" element={<LetUsKnowYou />} />
         <Route path="/contact-us" element={<Contact />} />
         <Route path="/dashboard" element={<Dashboard />}  />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       <ToastContainer />
     </ModalProvider>
