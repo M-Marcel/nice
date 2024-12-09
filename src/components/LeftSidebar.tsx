@@ -4,6 +4,11 @@ import UnfoldIcon from "../assets/unfold.png"
 import UserIcon from "../assets/user.png"
 import { SidebarLinks } from "../constants"
 import { useState } from "react"
+import Button from "./Button"
+import { useAppDispatch } from "../hooks"
+import { logout } from "../slices/auth/authSlice"
+import { useNavigate } from "react-router-dom"
+import Logout from "../assets/svg/Logout"
 
 const LeftSidebar = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -11,6 +16,17 @@ const LeftSidebar = () => {
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);
     };
+
+    const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+
+    const handleLogout = () => {
+        // Dispatch the logout action
+        dispatch(logout());
+        
+        // Redirect the user to the login page
+        navigate('/');
+      };
 
     return (
         <>
@@ -52,6 +68,11 @@ const LeftSidebar = () => {
                     <img src={UserIcon} alt="dashboard" width={18} height={18} />
                     <p className="text-sm">Contact us</p>
                 </a>
+
+                <Button onClick={handleLogout} className="flex gap-2 items-center bg-white text-sm">
+                    <Logout />
+                    <span className="text-red-600">Logout</span> 
+                </Button>
 
 
             </div>

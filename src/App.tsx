@@ -14,10 +14,24 @@ import Contact from "./pages/contact";
 import Dashboard from "./pages/dashboard";
 import Profile from "./pages/profile";
 import RequestAFeature from "./pages/request-a-feature";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { useEffect } from "react";
+import { useAppDispatch } from "./hooks";
+import { setToken } from "./slices/auth/authSlice";
 
 function App() {
+
+  const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        const storedToken = localStorage.getItem("token");
+        if (storedToken) {
+            dispatch(setToken(storedToken));
+        }
+    }, [dispatch]);
+ 
   return (
-    <ModalProvider> {/* Wrap the entire Routes component */}
+    <ModalProvider> 
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/features" element={<Features />} />
@@ -28,8 +42,12 @@ function App() {
         <Route path="/verifyEmail" element={<VerifyEmail />} />
         <Route path="/let-us-know-you" element={<LetUsKnowYou />} />
         <Route path="/contact-us" element={<Contact />} />
-        <Route path="/dashboard" element={<Dashboard />}  />
-        <Route path="/profile" element={<Profile />} />
+        <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<Profile />} />
+        </Route>
+      
+      
       </Routes>
       <ToastContainer />
     </ModalProvider>

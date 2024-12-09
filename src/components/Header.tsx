@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import { navigation } from '../constants'
 import Button from './Button'
 import MenuSvg from '../assets/svg/MenuSvg'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { disablePageScroll, enablePageScroll } from "scroll-lock"
 import Logo from './Logo'
+import authService from '../helpers/authService'
 
 
 type HeaderProps = {
@@ -13,6 +14,8 @@ type HeaderProps = {
 }
 
 const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
+
+    const navigate = useNavigate()
 
     const pathname = useLocation()
     const [openNavigation, setOpenNavigation] = useState<boolean>(false)
@@ -43,6 +46,12 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
          return openSignUpModal()
     }
 
+    const handleLogout = () => {
+        authService.logout()
+        navigate('/')
+    }
+
+
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 50) {
@@ -58,6 +67,10 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+
+
+    // Check if the user is logged in by looking for a token
+    const isLoggedIn = !!localStorage.getItem('token');
 
     return (
         <div className={`fixed header top-5 left-0 w-full z-50 transition-all duration-1000 ${scrolled ? 'bg-white shadow-lg top-[0px]' : 'bg-transparent'}`}>
@@ -80,37 +93,77 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
                             </a>
                         ))}
                         <div className='flex flex-col lg:hidden'>
-                            <Button
-                                className="mb-6 px-3 py-2 custom-l-bg backdrop-blur-md rounded-md lg:flex"
-                                onClick={handleMobileLoginOpenModal}
-                            >
-                                Login
-                            </Button>
-                            <Button
-                                className="px-3 py-2 rounded-md lg:flex custom-bg text-white"
-                                onClick={handleMobileRegisterModal}
-                            >
-                                Join Beta
-                            </Button>
+                        {!isLoggedIn ? (
+                                <>
+                                    <Button
+                                        className="mb-6 px-3 py-2 custom-l-bg backdrop-blur-md rounded-md lg:flex"
+                                        onClick={handleMobileLoginOpenModal}
+                                    >
+                                        Login
+                                    </Button>
+                                    <Button
+                                        className="px-3 py-2 rounded-md lg:flex custom-bg text-white"
+                                        onClick={handleMobileRegisterModal}
+                                    >
+                                        Join Beta
+                                    </Button>
+                                </>
+                            ) : (
+                                <>
+                                    <Button
+                                        className="mb-6 px-3 py-2 custom-l-bg backdrop-blur-md rounded-md lg:flex"
+                                        onClick={handleLogout}
+                                    >
+                                        Logout
+                                    </Button>
+                                    <Button
+                                        className="px-3 py-2 rounded-md lg:flex custom-bg text-white"
+                                        onClick={() => navigate('/dashboard')}
+                                    >
+                                        Go to Dashboard
+                                    </Button>
+                                </>
+                            )}
                         </div>
                     </div>
 
                 </nav>
                 <div className='flex gap-3'>
-                    <Button
-
-
-                        className="hidden px-3 py-2 custom-l-bg backdrop-blur-md rounded-md lg:flex"
-                        onClick={openLoginModal}
-                    >
-                        Login
-                    </Button>
-                    <Button
-                        className="hidden px-3 py-2 rounded-md lg:flex custom-bg text-white"
-                        onClick={openSignUpModal}
-                    >
-                        Join Beta
-                    </Button>
+                {!isLoggedIn ? (
+                        <>
+                            <Button
+                                className="hidden px-3 py-2 custom-l-bg backdrop-blur-md rounded-md lg:flex"
+                                onClick={openLoginModal}
+                            >
+                                Login
+                            </Button>
+                            <Button
+                                className="hidden px-3 py-2 rounded-md lg:flex custom-bg text-white"
+                                onClick={openSignUpModal}
+                            >
+                                Join Beta
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <Button
+                                className="hidden px-3 py-2 custom-l-bg backdrop-blur-md rounded-md lg:flex"
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </Button>
+                            <Button
+                                className="hidden px-3 py-2 rounded-md lg:flex custom-bg text-white"
+                                onClick={() => {
+                                    console.log('Navigating to Dashboard');
+                                    navigate('/dashboard'); 
+                                }}
+                            >
+                                Go to Dashboard
+                            </Button>
+                        </>
+                    )}
+                       
                 </div>
                 <Button onClick={toggleNavigation} className="button ml-auto lg:hidden">
                     <MenuSvg openNavigation={openNavigation} scrolled={scrolled} />

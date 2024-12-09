@@ -77,7 +77,7 @@ const LetUsKnowYou = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         console.log('Form submitted:', formData)
         console.log(formData.email)
         if (isLoading) return;

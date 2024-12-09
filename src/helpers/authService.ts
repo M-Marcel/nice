@@ -45,7 +45,7 @@ const verifyEmail = async (token: string) => {
 
 
 
-const login = async (userData: { email: string; password: string }): Promise<{ user: User; message: string }> => {
+const login = async (userData: { email: string; password: string }): Promise<{ user: User; token: string; message: string }> => {
     const response = await axios.post(`${API_URL}/login`, userData, {
         headers: {
             'Content-Type': 'application/json',
@@ -53,12 +53,10 @@ const login = async (userData: { email: string; password: string }): Promise<{ u
         withCredentials: true,
     })
     if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data))
-        console.log(response.data);
-        return {
-            user: response.data,
-            message: response.data.message,
-        };
+        const { user, token, message } = response.data;
+        localStorage.setItem("token", token);
+        return { user, token, message };
+
     }
     throw new Error('login failed');
 
@@ -147,6 +145,13 @@ const completeSignUp = async (userData: {
 
 }
 
+const logout = () => {
+    // Clear user data from localStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    return;
+}
+
 const authService = {
     register,
     verifyEmail,
@@ -154,7 +159,8 @@ const authService = {
     forgotPassword,
     validateOtp,
     resetPassword,
-    completeSignUp
+    completeSignUp,
+    logout
 }
 
 export default authService

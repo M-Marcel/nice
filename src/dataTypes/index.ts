@@ -1,43 +1,56 @@
 
 export type WaitUser = {
-    fullName:string
-    email:string
+    fullName: string
+    email: string
 }
 export type User = {
-    firstName:string
-    lastName:string
-    email:string
+    _id: string;
+    email: string;
+    createdAt: string;
+    emailConfirmToken: string | null;
+    emailConfirmTokenExpiry: string | null;
+    emailConfirmed: boolean;
+    firstName: string;
+    freemium: boolean;
+    lastName: string;
+    premium: boolean;
+    role: string;
+    otp: string | null;
+    otpExpiry: string | null;
+    userUseForZroleak: string[];
+    token?: string;
 }
+
 export type WaitListFormData = {
-    fullName:string
-    email:string
+    fullName: string
+    email: string
 }
 
 export type SignUpFormData = {
-    firstName:string
-    lastName:string
-    email:string
+    firstName: string
+    lastName: string
+    email: string
 }
 export type LoginFormData = {
-    email:string
-    password:string
+    email: string
+    password: string
 }
 
 export type ForgotFormData = {
-    email:string
+    email: string
 }
 
 export type ValidateFormData = {
-    email:string
-    otp:string
+    email: string
+    otp: string
 }
 export type ResetPasswordFormData = {
-    email:string
-    newPassword:string
+    email: string
+    newPassword: string
 }
 
 export type CompleteSignUpFormData = {
-    email:string
+    email: string
     password: string;
     userWorkRole: string;
     userCompanySize: string;
@@ -45,12 +58,20 @@ export type CompleteSignUpFormData = {
     userTechnicalExperience: string
 }
 export type Feature = {
-    title:string
-    tag:string
-    description:string
+    _id: string;
+    title: string;
+    tag: string;
+    description: string;
+    createdBy: string;
+    likeCount: number;
+    status: string;
+    likedUsers: string[];
+    createdAt: string;
+    __v: number;
 }
+
 export type FeatureFormData = {
-    title:string
-    tag:string
-    description:string
+    title: string
+    tag: string
+    description: string
 }
