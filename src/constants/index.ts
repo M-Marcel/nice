@@ -32,7 +32,7 @@ export const navigation = [
   {
     id: "3",
     title: "Request a feature",
-    url: "/request-feature",
+    url: "/request-a-feature",
   },
  
 ];
@@ -49,7 +49,8 @@ export const SidebarLinks = [
     title:"Community",
     image: UserIcon,
     url:"/community"
-  }
+  },
+  
 ]
 export const communityBots = [
   {
@@ -102,7 +103,10 @@ export const votedBots = [
     createdAt:'December, 2024',
     botName:'Custom bot name or pfp',
     voteCount:78,
-    image:Elipse
+    image:Elipse,
+    author:"Suki",
+    thumb:Thumbs
+
   },
   {
     id:1,
@@ -111,6 +115,9 @@ export const votedBots = [
     botName:'Custom bot name or pfp',
     voteCount:78,
     image:Elipse,
+    author:"Suki",
+    thumb:Thumbs
+
   },
   {
     id:2,
@@ -119,6 +126,9 @@ export const votedBots = [
     botName:'Custom bot name or pfp',
     voteCount:78,
     image:Elipse,
+    author:"Suki",
+    thumb:Thumbs
+
   },
   {
     id:3,
@@ -127,6 +137,8 @@ export const votedBots = [
     botName:'Custom bot name or pfp',
     voteCount:78,
     image:Elipse,
+    author:"Suki",
+    thumb:Thumbs
 
   }
 ]

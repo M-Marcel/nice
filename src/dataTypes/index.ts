@@ -44,3 +44,13 @@ export type CompleteSignUpFormData = {
     userUseForZroleak: string[];
     userTechnicalExperience: string
 }
+export type Feature = {
+    title:string
+    tag:string
+    description:string
+}
+export type FeatureFormData = {
+    title:string
+    tag:string
+    description:string
+}

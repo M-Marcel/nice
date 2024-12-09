@@ -1,5 +1,5 @@
 import Button from "../../components/Button"
-import LogoImage from "../../assets/logo.png"
+import LogoImage from "../../assets/lanepact-logo.png"
 import InputChecker from "../../components/InputChecker"
 import { useEffect, useState } from "react"
 import CloseEye from "../../assets/svg/CloseEye"
@@ -124,8 +124,8 @@ const LetUsKnowYou = () => {
             <div className="bg-white px-4 py-4 h-full">
                 <div className="flex flex-col gap-2 mb-3 items-center">
                     <img src={LogoImage} alt="logoImg" width={30} height={30} />
-                    <h2 className="text-black-500 text-4xl mt-4 font-semibold">Let’s know you better</h2>
-                    <p className="text-gray-500 text-md mb-4">Share a few details with us</p>
+                    <h2 className="text-black-500 text-2xl lg:text-4xl mt-4 font-semibold">Let’s know you better</h2>
+                    <p className="text-gray-500 text-sm lg:text-md mb-4">Share a few details with us</p>
                 </div>
                 <form onSubmit={handleSubmit} className="h-[75vh] overflow-y-scroll hide-scrollbar">
                     <div className="flex flex-col gap-2">

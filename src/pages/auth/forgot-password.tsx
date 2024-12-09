@@ -1,4 +1,4 @@
-import LogoImage from '../../assets/logo.png'
+import LogoImage from '../../assets/lanepact-logo.png'
 import { useEffect, useState } from 'react'
 import SubmitButton from '../../components/SubmitButton'
 import { useAppDispatch, useAppSelector } from '../../hooks'

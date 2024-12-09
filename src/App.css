@@ -130,3 +130,7 @@
     height: 100%;
     width: 100%;
 }
+select option:focus {
+  background-color: #f0f0f0; /* Hover background color */
+  color: #000; /* Text color */
+}
