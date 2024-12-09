@@ -1,5 +1,4 @@
 
-
 type HeadingProps = {
     children:React.ReactNode
     className:string
@@ -8,7 +7,7 @@ type HeadingProps = {
 
 const Heading = ({children, className} : HeadingProps ) => {
     return (
-        <div className={className}>
+        <div className={`{className}`}>
             {children}
         </div>
     )

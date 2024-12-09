@@ -3,6 +3,14 @@ import Slide2 from '../assets/slide2.png'
 import Slide3 from '../assets/slide3.png'
 import Copy from '../assets/copy.png'
 import Elipse from '../assets/elipse.png'
+import DashboardIcon from '../assets/dashboard.png'
+import UserIcon from '../assets/user.png'
+import Thumbs from "../assets/thumbs.png"
+import Social1 from "../assets/social1.png"
+import Social2 from "../assets/social2.png"
+import Social3 from "../assets/social3.png"
+import Social4 from "../assets/socila4.png"
+import Social5 from "../assets/social5.png"
 
 
 export const navigation = [
@@ -26,14 +34,23 @@ export const navigation = [
     title: "Request a feature",
     url: "/request-feature",
   },
-  {
-    id: "4",
-    title: "Login",
-    url: "/login",
-    onlyMobile: true,
-  },
+ 
 ];
 
+export const SidebarLinks = [
+  {
+    id:0,
+    title:"Dashboard",
+    image: DashboardIcon,
+    url:"/dashboard"
+  },
+  {
+    id:2,
+    title:"Community",
+    image: UserIcon,
+    url:"/community"
+  }
+]
 export const communityBots = [
   {
     id: 0,
@@ -85,8 +102,7 @@ export const votedBots = [
     createdAt:'December, 2024',
     botName:'Custom bot name or pfp',
     voteCount:78,
-    image:Elipse,
-    author:'by Suki'
+    image:Elipse
   },
   {
     id:1,
@@ -95,7 +111,6 @@ export const votedBots = [
     botName:'Custom bot name or pfp',
     voteCount:78,
     image:Elipse,
-    author:'by Suki'
   },
   {
     id:2,
@@ -104,7 +119,6 @@ export const votedBots = [
     botName:'Custom bot name or pfp',
     voteCount:78,
     image:Elipse,
-    author:'by Suki'
   },
   {
     id:3,
@@ -113,24 +127,30 @@ export const votedBots = [
     botName:'Custom bot name or pfp',
     voteCount:78,
     image:Elipse,
-    author:'by Suki'
-  },
-  {
+
+  }
+]
+
+export const socialLinks = [
+   {
+    id:0,
+    image:Social1
+   },
+   {
+    id:1,
+    image:Social2
+   },
+   {
+    id:2,
+    image:Social3
+   },
+   {
+    id:3,
+    image:Social4
+   },
+   {
     id:4,
-    btnText:'vote',
-    createdAt:'December, 2024',
-    botName:'Custom bot name or pfp',
-    voteCount:78,
-    image:Elipse,
-    author:'by Suki'
-  },
-  {
-    id:5,
-    btnText:'vote',
-    createdAt:'December, 2024',
-    botName:'Custom bot name or pfp',
-    voteCount:78,
-    image:Elipse,
-    author:'by Suki'
-  },
+    image:Social5
+   },
+
 ]

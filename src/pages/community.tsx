@@ -27,9 +27,9 @@ const Community = () => {
                     />
                     <Heading className="">
                         <div className="relative top-[150px]">
-                            <div className='flex flex-col items-center justify-center '>
+                            <div className='flex flex-col items-center justify-center mx-[8px] lg:mx-[0]'>
                                 <div className='flex flex-col items-center max-w-lg justify-center'>
-                                    <h2 className='font-title text-5xl mb-3 text-black-300 text-center leading-[48px]'>
+                                    <h2 className='font-title text-4xl lg:text-5xl mb-3 text-black-300 text-center leading-[48px]'>
                                         Discover and Use Bots Built by the Community
                                     </h2>
 
@@ -46,7 +46,7 @@ const Community = () => {
                 </Hero>
             </div>
             <Modals email={email} setEmail={setEmail} />
-            <div className="px-5 lg:px-7.5 xl:px-10 lg:mx-8 mt-[100px]">
+            <div className="px-5 lg:px-7.5 xl:px-10 lg:mx-8 mt-[180px] lg:mt-[100px]">
                 <div className="flex justify-between items-center">
                     <div className="w-[80%]">
                         <input type="text" placeholder="Search for anything" className="w-full border border-gray-600 py-2 outline-none px-2 rounded-md" />
@@ -59,7 +59,7 @@ const Community = () => {
             </div>
 
             <div className="px-5 lg:px-7.5 xl:px-10 lg:mx-8 mt-[40px]">
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
                     {
                         communityBots.map((item) => (
                             <div key={item.id}>
@@ -74,7 +74,7 @@ const Community = () => {
                                     </div>
                                     <div className="mt-5">
                                         <div className="flex flex-col lg:flex-row justify-between lg:items-center mb-2">
-                                            <h2 className="text-black-300 text-md">{item.title}</h2>
+                                            <h2 className="text-black-300 text-md mb-2 lg:mb-0">{item.title}</h2>
                                             <Button className="custom-bg rounded-lg px-4 py-2 text-white text-sm">{item.btnText}</Button>
                                         </div>
                                         <div>
