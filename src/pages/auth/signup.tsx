@@ -1,4 +1,4 @@
-import LogoImage from '../../assets/logo.png'
+import LogoImage from '../../assets/lanepact-logo.png'
 import Google from '../../assets/Google.png'
 import Microsoft from '../../assets/Microsoft.png'
 import Github from '../../assets/GitHub.png'
@@ -65,7 +65,7 @@ const SignUp = () => {
                 <p className="text-gray-500 text-sm mb-3">What is your email address</p>
             </div>
             <form onSubmit={handleContinue} className="h-[55vh] overflow-y-scroll hide-scrollbar">
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 mb-3">
                     <label htmlFor="firstName" className="text-sm text-gray-400">
                         Firstname
                     </label>
@@ -78,7 +78,7 @@ const SignUp = () => {
 
                     />
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 mb-3">
                     <label htmlFor="lastName" className="text-sm text-gray-400">
                         Lastname
                     </label>

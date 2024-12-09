@@ -4,7 +4,7 @@ const VotedBots = () => {
     return (
         <div className="mt-6">
             {votedBots.map((item) => (
-                <div className="flex flex-col rounded-2xl border bg-gray-700/100 border-gray-100/85 px-4 py-2 mb-4">
+                <div key={item.id} className="flex flex-col rounded-2xl border bg-gray-700/100 border-gray-100/85 px-4 py-2 mb-4">
                     <div className="flex gap-4 items-center py-1">
                         <div className="border border-gray-600/90 flex flex-col items-center justify-center
                                         px-3 py-3 rounded-lg">

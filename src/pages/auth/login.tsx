@@ -1,4 +1,4 @@
-import LogoImage from '../../assets/logo.png'
+import LogoImage from '../../assets/lanepact-logo.png'
 import Button from '../../components/Button'
 import Google from '../../assets/Google.png'
 import Microsoft from '../../assets/Microsoft.png'
