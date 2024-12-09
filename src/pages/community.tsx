@@ -37,7 +37,7 @@ const Community = () => {
                                         Build and automate faster with bots created and shared by people like you.
                                     </p>
                                 </div>
-                                <div className='mt-2'>
+                                <div className='mt-2 '>
                                     <img src={CommunityFrame} alt='communityFrame' width={400} height={400} />
                                 </div>
                             </div>

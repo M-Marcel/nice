@@ -95,7 +95,6 @@ export const communityBots = [
 
 ]
 
-
 export const votedBots = [
   {
     id:0,
@@ -103,9 +102,7 @@ export const votedBots = [
     createdAt:'December, 2024',
     botName:'Custom bot name or pfp',
     voteCount:78,
-    image:Elipse,
-    thumb:Thumbs,
-    author:'Suki'
+    image:Elipse
   },
   {
     id:1,
@@ -114,8 +111,6 @@ export const votedBots = [
     botName:'Custom bot name or pfp',
     voteCount:78,
     image:Elipse,
-    thumb:Thumbs,
-    author:'Suki'
   },
   {
     id:2,
@@ -124,8 +119,6 @@ export const votedBots = [
     botName:'Custom bot name or pfp',
     voteCount:78,
     image:Elipse,
-    thumb:Thumbs,
-    author:'Suki'
   },
   {
     id:3,
@@ -134,8 +127,7 @@ export const votedBots = [
     botName:'Custom bot name or pfp',
     voteCount:78,
     image:Elipse,
-    thumb:Thumbs,
-    author:'Suki'
+
   }
 ]
 
@@ -160,4 +152,5 @@ export const socialLinks = [
     id:4,
     image:Social5
    },
+
 ]
