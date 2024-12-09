@@ -6,8 +6,9 @@ import { toast } from "react-toastify";
 type InitialState = {
     user: User | null
     isError: boolean
+    token: string | null
     isSuccess: boolean
-    isCompleteSignUpSuccess:boolean
+    isCompleteSignUpSuccess: boolean
     isForgotPasswordSuccess: boolean
     isLoginSuccess: boolean
     isValidationSuccess: boolean
@@ -18,12 +19,14 @@ type InitialState = {
 
 const storedRegisterUser = localStorage.getItem('user');
 const user = storedRegisterUser ? JSON.parse(storedRegisterUser) : null;
+const storedToken = localStorage.getItem("token");
 
 const initialState: InitialState = {
     user: user ? user : null,
+    token: storedToken,
     isError: false,
     isSuccess: false,
-    isCompleteSignUpSuccess:false,
+    isCompleteSignUpSuccess: false,
     isForgotPasswordSuccess: false,
     isLoginSuccess: false,
     isValidationSuccess: false,
@@ -58,10 +61,10 @@ export const verifyEmail = createAsyncThunk(
     }
 );
 
-export const login = createAsyncThunk<{ user: User; message: string }, LoginFormData, { rejectValue: string }>('auth/login', async (userData, thunkApi) => {
+export const login = createAsyncThunk<{ user: User; token: string; message: string }, LoginFormData, { rejectValue: string }>('auth/login', async (userData, thunkApi) => {
     try {
         const response = await authService.login(userData)
-        return response
+        return { user: response.user, token: response.token, message: response.message }; // Add token here
     } catch (error: any) {
         const message = error.response?.data?.message || error.message || 'login failed';
         console.log(message)
@@ -118,12 +121,28 @@ export const completeSignUp = createAsyncThunk<{ user: User; message: string }, 
 }
 
 )
+export const logout = createAsyncThunk('auth/logout', async () => {
+     await authService.logout()
+    return;
+});
 
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
+        setToken: (state, action) => {
+            state.token = action.payload; 
+        },
+        logout: (state) => {
+            state.user = null;
+            state.token = null;
+            state.isLoginSuccess = false;
+            state.isError = false;
+            state.message = '';
+    
+          
+        },
         reset: (state) => {
             state.isLoading = false
             state.isSuccess = false
@@ -164,7 +183,7 @@ const authSlice = createSlice({
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload as string
-                
+
             })
             .addCase(login.pending, (state) => {
                 state.isLoading = true
@@ -172,15 +191,22 @@ const authSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isLoginSuccess = true
-                state.user = action.payload.user
+                state.user = action.payload.user;
+                state.token = action.payload.token;
                 state.message = action.payload.message
+
+                // Save token to localStorage
+                localStorage.setItem("token", action.payload.token);
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload as string
-                state.user = null
-                toast.error(action.payload)
+                // Cast action.payload to string
+                const errorMessage = action.payload as string;
+                state.message = errorMessage;
+                state.user = null;
+                toast.error(errorMessage);
             })
             .addCase(forgotPassword.pending, (state) => {
                 state.isLoading = true
@@ -252,5 +278,5 @@ const authSlice = createSlice({
 
 })
 
-export const { reset } = authSlice.actions
+export const { reset, setToken } = authSlice.actions
 export default authSlice.reducer

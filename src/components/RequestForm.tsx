@@ -5,14 +5,18 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { toast } from "react-toastify";
 import { createFeatureRequest, reset } from "../slices/feature/featureSlice";
 import SubmitButton from "./SubmitButton";
+import { useNavigate } from "react-router-dom";
 
 
 const RequestForm = () => {
 
+  const navigate = useNavigate()
+
   const options = [
-    { value: "personal", label: "Personal" },
-    { value: "web2", label: "Web2" },
-    { value: "web3", label: "Web3" },
+    { value: "Web2", label: "Web2" },
+    { value: "Web3", label: "Web3" },
+    { value: "Web4", label: "Web4" },
+    { value: "Web5", label: "Web5" },
   ];
 
 
@@ -52,6 +56,12 @@ const RequestForm = () => {
 
   const handleContinue = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast.error("You must be logged in to submit a feature request.");
+      navigate("/"); 
+      return;
+    }
     if (!title || !description || !tag) {
       return toast.error('please fill in the fields')
     } else {
