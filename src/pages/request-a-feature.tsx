@@ -12,7 +12,6 @@ import VotedBots from "../components/VotedBots"
 import RequestForm from "../components/RequestForm"
 
 const RequestAFeature = () => {
-
   const [email, setEmail] = useState<string>("");
   const { setActiveModal } = useModal()
   const BlockOptions = ["Block1", "Block2", "Block3"];

@@ -23,12 +23,18 @@ function App() {
 
   const dispatch = useAppDispatch();
 
-    useEffect(() => {
-        const storedToken = localStorage.getItem("token");
-        if (storedToken) {
-            dispatch(setToken(storedToken));
-        }
-    }, [dispatch]);
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
+
+    if (storedToken) {
+        dispatch(setToken(storedToken));
+    }
+    if (storedUser) {
+        dispatch({ type: 'auth/userRestored', payload: JSON.parse(storedUser) });
+    }
+}, [dispatch]);
+
  
   return (
     <ModalProvider> 

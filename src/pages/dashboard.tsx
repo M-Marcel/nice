@@ -1,14 +1,19 @@
 import Button from "../components/Button"
 import LeftSidebar from "../components/LeftSidebar"
-import DashboardHero from "../assets/dashboardHero.png"
+import DashboardHero from "../assets/dbherro.png"
 import BotDesign from '../assets/zrobot.png'
 import ComputerIcon from '../assets/computer-white.png'
 import Search from "../components/Search"
 import VotedBots from "../components/VotedBots"
+import { useAppSelector } from "../hooks"
+import Person from '../assets/person.png'
+import Alarm from '../assets/alarm.png'
 
 
 
 const Dashboard = () => {
+
+    const user = useAppSelector((state) => state.auth.user);
 
     return (
         <div className="dashboard flex flex-col lg:flex-row px-2">
@@ -24,8 +29,16 @@ const Dashboard = () => {
                 </div>
                 <div className="flex flex-col lg:flex-row gap-8 mt-8">
                     <div className="w-[100%] lg:w-[65%] px-4 py-4 h-auto lg:h-[100vh]">
-                        <div className="mt-10 mb-4">
-                            <img src={DashboardHero} alt="dashboardHero" width={1000} />
+                        <div className="mt-10 mb-4 relative">
+                            <img src={DashboardHero} alt="dashboardHero" className="" />
+                            <p className="text-white absolute top-[10%] left-4 md:left-6 text-sm leading-5 md:leading-7 md:text-2xl w-[40%] md:w-[30%] font-semibold">You’re on the list  {user?.firstName || "User"}!</p>
+                            <p className="mt-2 text-xs md:text-sm text-white font-500 top-[40%] left-4 md:left-6 absolute">Get Ready for the Launch</p>
+                            <p className="text-xs md:text-sm text-white absolute top-[70%] md:top-[80%] left-4 md:left-6 flex gap-1 items-center md:items-center ">
+                                <img src={Alarm} alt="alarm" className="w-[30px]" />
+                                <span className="w-[60%] lg:w-[auto]">Launching in 10 days!</span>
+                            </p>
+                            <img className="w-[170px] md:w-[350px] lg:w-[300px]  absolute -top-[2%] md:-top-[2%] right-2 md:right-4" src={Person} alt="Person" />
+
                         </div>
                         <div className="flex justify-between px-2">
                             <div>
