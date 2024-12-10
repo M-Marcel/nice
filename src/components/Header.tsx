@@ -49,6 +49,7 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
     const handleLogout = () => {
         authService.logout()
         navigate('/')
+        enablePageScroll()
     }
 
 

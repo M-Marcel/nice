@@ -151,7 +151,10 @@ const authSlice = createSlice({
             state.isLoginSuccess = false
             state.isError = false
             state.message = ''
-        }
+        },
+        userRestored: (state, action) => {
+            state.user = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -197,6 +200,7 @@ const authSlice = createSlice({
 
                 // Save token to localStorage
                 localStorage.setItem("token", action.payload.token);
+                localStorage.setItem("user", JSON.stringify(action.payload.user));
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false
@@ -278,5 +282,5 @@ const authSlice = createSlice({
 
 })
 
-export const { reset, setToken } = authSlice.actions
+export const { reset, setToken, userRestored } = authSlice.actions
 export default authSlice.reducer

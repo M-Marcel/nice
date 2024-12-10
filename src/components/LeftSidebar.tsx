@@ -5,13 +5,15 @@ import UserIcon from "../assets/user.png"
 import { SidebarLinks } from "../constants"
 import { useState } from "react"
 import Button from "./Button"
-import { useAppDispatch } from "../hooks"
+import { useAppDispatch, useAppSelector } from "../hooks"
 import { logout } from "../slices/auth/authSlice"
 import { useNavigate } from "react-router-dom"
 import Logout from "../assets/svg/Logout"
 
 const LeftSidebar = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    const user = useAppSelector((state) => state.auth.user);
 
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);
@@ -46,7 +48,7 @@ const LeftSidebar = () => {
                     <div className="flex gap-2 items-center">
                         <img src={Elipse} alt="elipse" width={18} height={18} />
                         <a href="/profile">
-                            <p className="text-sm">Tanjiro Kamado</p>
+                            <p className="text-sm">{user?.lastName} {user?.firstName}</p>
                         </a>     
                     </div>
                     <img src={UnfoldIcon} alt="unfold" width={15} height={15} />
