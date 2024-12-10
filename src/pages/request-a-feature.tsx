@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Header from "../components/Header"
 import Heading from "../components/Heading"
 import Hero from "../components/Hero"
@@ -8,14 +8,28 @@ import FeatureFrame from '../assets/featuresframe.png'
 import Footer from "../components/Footer"
 import Join from "../components/Join"
 import Dropdown from "../components/Dropdown"
-import VotedBots from "../components/VotedBots"
 import RequestForm from "../components/RequestForm"
+import { useAppDispatch, useAppSelector } from "../hooks"
+import { getAllFeatureRequest } from "../slices/feature/featureSlice"
+import FeatureRequest from "../components/FeatureRequest"
 
 const RequestAFeature = () => {
   const [email, setEmail] = useState<string>("");
   const { setActiveModal } = useModal()
   const BlockOptions = ["Block1", "Block2", "Block3"];
   const TagOptions = ["Tag1", "Tag2", "Tag3"];
+
+  const dispatch = useAppDispatch();
+
+  const { features, isLoading, isError, message } = useAppSelector(
+      (state) => state.feature
+  );
+
+  useEffect(() => {
+      dispatch(getAllFeatureRequest());
+  }, [dispatch]);
+
+
   return (
     <>
       <div className="">
@@ -54,10 +68,26 @@ const RequestAFeature = () => {
               </div>
             </div>
             <div>
-              <VotedBots />
+              <div>
+                {isLoading ? (
+                  <p>Loading features...</p>
+                ) : isError ? (
+                  <p className="text-red-500">{message}</p>
+                ) : (
+                  <div className="mt-8">
+                    {features && features.length > 0 ? (
+                      features?.map((feature) => (
+                        <FeatureRequest key={feature._id} feature={feature} />
+                      ))
+                    ) : (
+                      <p className="text-gray-400">No features available. Add a new request!</p>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-           <RequestForm />
+          <RequestForm />
         </div>
       </div>
       <Join />

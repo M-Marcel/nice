@@ -4,16 +4,28 @@ import DashboardHero from "../assets/dbherro.png"
 import BotDesign from '../assets/zrobot.png'
 import ComputerIcon from '../assets/computer-white.png'
 import Search from "../components/Search"
-import VotedBots from "../components/VotedBots"
-import { useAppSelector } from "../hooks"
+// import VotedBots from "../components/VotedBots"
+import { useAppDispatch, useAppSelector } from "../hooks"
 import Person from '../assets/person.png'
 import Alarm from '../assets/alarm.png'
+import { getAllFeatureRequest } from "../slices/feature/featureSlice"
+import { useEffect } from "react"
+import FeatureRequest from "../components/FeatureRequest"
 
 
 
 const Dashboard = () => {
 
+    const dispatch = useAppDispatch();
+
     const user = useAppSelector((state) => state.auth.user);
+    const { features, isLoading, isError, message } = useAppSelector(
+        (state) => state.feature
+    );
+
+    useEffect(() => {
+        dispatch(getAllFeatureRequest());
+    }, [dispatch]);
 
     return (
         <div className="dashboard flex flex-col lg:flex-row px-2">
@@ -69,7 +81,23 @@ const Dashboard = () => {
                             </div>
                             <Button className="custom-bg text-xs px-2 rounded-md text-white">Add request</Button>
                         </div>
-                        <VotedBots />
+                        <div>
+                            {isLoading ? (
+                                <p>Loading features...</p>
+                            ) : isError ? (
+                                <p className="text-red-500">{message}</p>
+                            ) : (
+                                <div className="mt-8">
+                                    {features && features.length > 0 ? (
+                                        features?.map((feature) => (
+                                            <FeatureRequest key={feature._id} feature={feature} />
+                                        ))
+                                    ) : (
+                                        <p className="text-gray-400">No features available. Add a new request!</p>
+                                    )}
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                 </div>

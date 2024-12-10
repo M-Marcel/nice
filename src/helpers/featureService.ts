@@ -27,8 +27,26 @@ const createFeatureRequest = async (featureData: { title: string; tag: string; d
     throw new Error('feature creation failed')
 }
 
+
+const getAllFeatureRequest =  async():Promise<{ feature: Feature[]; message: string }> => {
+    const response = await axios.get(`${API_URL}`, {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+    })
+    if (response?.data) {
+        console.log(response.data);
+        return {
+            feature: response.data,
+            message: response.data.message,
+        };
+    }
+    throw new Error('fetching features failed')
+}
 const featureService = {
-    createFeatureRequest
+    createFeatureRequest,
+    getAllFeatureRequest
 }
 
 export default featureService
