@@ -62,13 +62,21 @@ export type Feature = {
     title: string;
     tag: string;
     description: string;
-    createdBy: string;
+    createdBy: {
+        _id: string;
+        email: string;
+        firstName: string;
+        lastName: string;
+    };
     likeCount: number;
-    status: string;
     likedUsers: string[];
+    likes?: string[]; 
+    voteCount?: number;
+    status: string;
     createdAt: string;
     __v: number;
-}
+};
+
 
 export type FeatureFormData = {
     title: string
