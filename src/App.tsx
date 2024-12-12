@@ -40,7 +40,6 @@ function App() {
     <ModalProvider> 
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/features" element={<Features />} />
         <Route path="/community" element={<Community />} />
         <Route path="/request-a-feature" element={<RequestAFeature />} />
         <Route path="/waitlist" element={<WaitList />} />
