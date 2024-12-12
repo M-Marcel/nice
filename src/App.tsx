@@ -3,7 +3,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import Home from "./pages/home";
-import Features from "./pages/features";
 import Community from "./pages/community";
 import WaitList from "./pages/waitlist";
 import DragandDrop from "./components/DragandDrop";
