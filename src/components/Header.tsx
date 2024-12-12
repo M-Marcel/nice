@@ -7,6 +7,8 @@ import { disablePageScroll, enablePageScroll } from "scroll-lock"
 import Logo from './Logo'
 import authService from '../helpers/authService'
 
+// comment
+
 
 type HeaderProps = {
     openSignUpModal: () => void;
