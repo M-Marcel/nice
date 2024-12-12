@@ -12,7 +12,7 @@ import Button from "../components/Button"
 import Dropdown from "../components/Dropdown"
 
 const Community = () => {
-    
+    // check commit 
 
     const [email, setEmail] = useState<string>("");
     const { setActiveModal } = useModal()
