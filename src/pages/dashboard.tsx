@@ -92,7 +92,7 @@ const Dashboard = () => {
                         <div className="flex justify-between mt-10">
                             <div>
                                 <h2 className="text-sm mb- font-semibold">Feature requests</h2>
-                                <p className="text-xs text-gray-400">Vote requests or add yours</p>
+                                <p className="text-xs text-gray-400">Vote request or add yours</p>
                             </div>
                             <Button className="custom-bg text-xs px-2 rounded-md text-white">Add request</Button>
                         </div>
