@@ -5,7 +5,7 @@ import Earn from '../assets/earn.png'
 
 const Purpose = () => {
     return (
-        <div className="mt-[220px] lg:mt-[370px]">
+        <div className="mt-[220px] lg:mt-[370px]" id="features">
             <div className="flex flex-col mb-10">
                 <div className="flex justify-center items-center flex-col text-center">
                     <h2 className="text-3xl lg:text-4xl mb-3 text-black-300">Bots for every purpose</h2>

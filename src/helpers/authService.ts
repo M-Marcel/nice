@@ -3,6 +3,7 @@ import { User } from "../dataTypes";
 
 const API_URL = "https://zroleak-core-service-bbf444d92e4f.herokuapp.com/api/v1/auth"
 const VERIFY_API_URL = "https://zroleak-core-service-bbf444d92e4f.herokuapp.com/api/v1/auth/signup/confirm?token="
+const GET_USER_PROFILE = "https://zroleak-core-service-bbf444d92e4f.herokuapp.com/api/v1/users/profile/me"
 
 
 const register = async (userData: { firstName: string; lastName: string; email: string }): Promise<{ user: User; message: string }> => {
@@ -145,6 +146,45 @@ const completeSignUp = async (userData: {
 
 }
 
+
+const getProfile = async (): Promise<{ user: User; message: string }> => {
+    try {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            throw new Error("Authentication token is missing. Please log in again.");
+        }
+
+        const response = await axios.get(GET_USER_PROFILE, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            withCredentials: true,
+        });
+
+        if (response.status === 200 && response.data) {
+            const { user, message } = response.data;
+            console.log("User profile retrieved successfully:", user);
+            return { user, message };
+        } else {
+            throw new Error("Unexpected response from the server. Please try again later.");
+        }
+    } catch (error: any) {
+        console.error("Failed to retrieve user profile:", error);
+        if (error.response) {
+            const { status, data } = error.response;
+            if (status === 401) {
+                throw new Error("Unauthorized access. Please log in again.");
+            } else if (data?.message) {
+                throw new Error(data.message);
+            }
+        }
+
+        throw new Error("An error occurred while retrieving the profile. Please try again later.");
+    }
+};
+
+
 const logout = () => {
     // Clear user data from localStorage
     localStorage.removeItem("token");
@@ -160,6 +200,7 @@ const authService = {
     validateOtp,
     resetPassword,
     completeSignUp,
+    getProfile,
     logout
 }
 

@@ -121,6 +121,20 @@ export const completeSignUp = createAsyncThunk<{ user: User; message: string }, 
 }
 
 )
+
+export const getProfile = createAsyncThunk<{ user: User; message: string;}, void, { rejectValue: string }
+>("auth/getProfile", async (_, thunkApi) => {
+  try {
+    const response = await authService.getProfile()
+    return { user: response.user, message: response.message };
+  } catch (error: any) {
+    const message =
+      error.response?.data?.message || error.message || "Failed to load user profile";
+    return thunkApi.rejectWithValue(message);
+  }
+});
+
+
 export const logout = createAsyncThunk('auth/logout', async () => {
      await authService.logout()
     return;
@@ -197,7 +211,6 @@ const authSlice = createSlice({
                 state.user = action.payload.user;
                 state.token = action.payload.token;
                 state.message = action.payload.message
-
                 // Save token to localStorage
                 localStorage.setItem("token", action.payload.token);
                 localStorage.setItem("user", JSON.stringify(action.payload.user));
@@ -206,7 +219,6 @@ const authSlice = createSlice({
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload as string
-                // Cast action.payload to string
                 const errorMessage = action.payload as string;
                 state.message = errorMessage;
                 state.user = null;
@@ -277,6 +289,24 @@ const authSlice = createSlice({
                 state.user = null
                 state.message = action.payload as string
                 toast.error(action.payload)
+            })
+            .addCase(getProfile.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getProfile.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.user = action.payload.user
+                state.message = action.payload.message
+            })
+            .addCase(getProfile.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.user = null
+                const errorMessage = action.payload as string;
+                state.message = errorMessage;
+                state.message = action.payload as string
+                toast.error(errorMessage)
             })
     }
 

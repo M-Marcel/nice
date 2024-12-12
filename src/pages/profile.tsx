@@ -9,11 +9,54 @@ import ProfileFrame from '../assets/dbFrame.png'
 import Elipse from '../assets/Ellipse2.png'
 import Pencil from '../assets/pencil.png'
 import Dashboardicon from '../assets/dashboard.png'
-
+import { useAppDispatch, useAppSelector } from "../hooks"
+import { useEffect, useState } from "react"
+import { toast } from "react-toastify"
+import { getProfile, reset } from "../slices/auth/authSlice"
 
 
 
 const Profile = () => {
+
+    const dispatch = useAppDispatch()
+
+    const { isSuccess, user, token } = useAppSelector((state) => state.auth)
+
+    const [formData, setFormData] = useState({
+        fullName: `${user?.firstName || ""} ${user?.lastName || ""}`,
+        role: user?.userWorkRole || "",
+        experienceLevel: user?.userTechnicalExperience,
+        email: user?.email || "",
+        image: "",
+        createdAt: user?.createdAt ? new Date(user.createdAt).toLocaleString() : ""
+    });
+
+
+    // const [previewImage, setPreviewImage] = useState("");
+    console.log(getProfile);
+
+    useEffect(() => {
+        if (!user) {
+            dispatch(getProfile());
+        }
+
+        if (isSuccess) {
+            toast.success("Profile viewed successfully");
+        }
+
+        return () => {
+            dispatch(reset());
+        };
+    }, [isSuccess, user, dispatch, token]);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
 
     return (
         <div className="flex flex-col lg:flex-row px-2">
@@ -54,31 +97,54 @@ const Profile = () => {
                             </div>
                             <div className="bg-white py-3 px-3">
                                 <div className="mb-4 lg:absolute top-[24%] left-[30px]">
-                                    <img src={Elipse} alt="elipse" width={65} height={65} />
+                                    <img
+                                        src={Elipse}
+                                        alt="Profile"
+                                        width={65}
+                                        height={65}
+                                        className="rounded-full"
+                                    />
                                 </div>
                                 <div className="flex justify-between items-center mt-2">
                                     <div className="mb-5">
-                                        <h2 className="text-sm mb-1">Tanjiro Kamado</h2>
-                                        <p className="text-xs text-gray-500">tanshibuya@gmail.com</p>
+                                        <h2 className="text-sm mb-1">{formData.fullName}</h2>
+                                        <p className="text-xs text-gray-500">{formData.email}</p>
                                     </div>
-                                    <Button className="bg-white text-sm border border-gray-600 py-2 px-2 rounded-lg">Change image</Button>
+                                    <Button
+                                        className="bg-white text-sm border border-gray-600 py-2 px-2 rounded-lg"
+                                    >Change image
+                                    </Button>
                                 </div>
                                 <div className="flex flex-col lg:flex-row gap-4 justify-between">
                                     <form className="w-[100%] lg:w-[50%]">
                                         <div className="flex flex-col lg:flex-row justify-between items-center">
                                             <div className="flex w-[100%] lg:w-[70%] flex-col mb-3">
                                                 <label className="mb-1 text-sm text-gray-500">Full name</label>
-                                                <input type="text" className="border py-2 w-[100%] border-gray-600 outline-0 rounded-lg" />
+                                                <input type="text"
+                                                    name="fullName"
+                                                    value={formData.fullName}
+                                                    onChange={handleInputChange}
+                                                    className="border py-2 px-2 w-[100%] border-gray-600 outline-0 rounded-lg"
+                                                />
                                             </div>
                                             <div className="w-[100%] lg:w-[25%] flex gap-2 items-center mt-4">
                                                 <Button className="bg-white text-sm border px-4 py-2 rounded-lg text-gray-500 border-gray-600">Cancel</Button>
-                                                <Button className="custom-bg px-4 py-2 rounded-lg text-white text-sm">Save</Button>
+                                                <Button
+                                                    className="custom-bg px-4 py-2 rounded-lg text-white text-sm"
+                                                >Save
+                                                </Button>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-2 mb-3">
                                             <div className="flex w-[90%] flex-col mb-3">
                                                 <label className="mb-1 text-sm text-gray-500">Role</label>
-                                                <input type="text" className="border py-2 w-[100%] border-gray-600 outline-0 rounded-lg" />
+                                                <input
+                                                    type="text"
+                                                    name="role"
+                                                    value={formData.role}
+                                                    onChange={handleInputChange}
+                                                    className="border px-2 py-2 w-[100%] border-gray-600 outline-0 rounded-lg"
+                                                />
                                             </div>
                                             <Button className="bg-white mt-3 gap-2 flex flex-row items-center border-none px-2 py-2">
                                                 <img src={Pencil} alt="pencil" width={20} height={20} />
@@ -88,7 +154,13 @@ const Profile = () => {
                                         <div className="flex items-center gap-2 mb-3">
                                             <div className="flex w-[90%] flex-col mb-3">
                                                 <label className="mb-1 text-sm text-gray-500">Experience level</label>
-                                                <input type="text" className="border py-2 w-[100%] border-gray-600 outline-0 rounded-lg" />
+                                                <input
+                                                    type="text"
+                                                    className="px-2 border py-2 w-[100%] border-gray-600 outline-0 rounded-lg"
+                                                    name="experienceLevel"
+                                                    value={formData.experienceLevel}
+                                                    onChange={handleInputChange}
+                                                />
                                             </div>
                                             <Button className="bg-white mt-3 gap-2 flex flex-row items-center border-none px-2 py-2">
                                                 <img src={Pencil} alt="pencil" width={20} height={20} />
@@ -102,18 +174,18 @@ const Profile = () => {
                                                 <img src={Dashboardicon} alt="dashboardIcon" className="mb-2" width={20} height={20} />
                                                 <p className="text-gray-500 text-sm">Account created</p>
                                             </div>
-                                            <p className="text-sm">25th Nov, 2024</p>
+                                            <p className="text-sm">{formData?.createdAt}</p>
                                         </div>
                                         <div className="mb-3 px-3 mt-4 border border-gray-600 py-4 rounded-lg">
                                             <div className="mb-3">
                                                 <img src={Dashboardicon} alt="dashboardIcon" className="mb-2" width={20} height={20} />
                                                 <p className="text-gray-500 text-sm">Account created</p>
                                             </div>
-                                            <p className="text-sm">25th Nov, 2024</p>
+                                            <p className="text-sm">{formData?.createdAt}</p>
                                         </div>
                                         <div className="mb-3 px-3 mt-4 border border-gray-600 py-4 rounded-lg">
                                             <div className="mb-3">
-                                               <Button className="bg-black-500 text-xs text-white px-2 py-2 rounded-full">14 Invites</Button>
+                                                <Button className="bg-black-500 text-xs text-white px-2 py-2 rounded-full">14 Invites</Button>
                                             </div>
                                             <p className="text-sm">www.lanepact.com/john</p>
                                         </div>

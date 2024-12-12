@@ -7,8 +7,12 @@ import { createFeatureRequest, reset } from "../slices/feature/featureSlice";
 import SubmitButton from "./SubmitButton";
 import { useNavigate } from "react-router-dom";
 
+type NewFeatureProps = {
+  onNewFeature:() => void
+}
 
-const RequestForm = () => {
+
+const RequestForm = ({onNewFeature}:NewFeatureProps) => {
 
   const navigate = useNavigate()
 
@@ -78,12 +82,13 @@ const RequestForm = () => {
   useEffect(() => {
     if (isSuccess) {
       toast.success('Feature request created successfully');
+      onNewFeature();
     }
     return () => {
       dispatch(reset())
     }
 
-  }, [isSuccess, message, dispatch])
+  }, [isSuccess, message, onNewFeature, dispatch])
 
 
   return (

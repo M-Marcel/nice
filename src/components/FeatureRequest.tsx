@@ -24,7 +24,7 @@ const FeatureRequest = ({feature}:any) => {
                     <img src={Elipse} alt="elipse" width={20} height={20} />
                     <div className="flex items-center gap-2">
                         <span className="text-gray-500 text-sm">by</span>
-                        <p className="text-sm"> {feature.createdBy.firstName || 'Unknown'} {feature.createdBy.lastName || 'Unknown'}</p>
+                        <p className="text-sm"> {feature.createdBy?.firstName || 'Unknown'} {feature.createdBy?.lastName || 'Unknown'}</p>
                     </div>
                 </div>
             </div>

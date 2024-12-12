@@ -11,7 +11,7 @@ const Footer = () => {
                 </div>
                 <div className='flex flex-col lg:flex-row justify-between mt-4 pb-8'>
                     <div>
-                        <a className='text-gray-300 text-sm' href="/">info@zroleaks.io</a>
+                        <a className='text-gray-300 text-sm' href="/">info@lanepact.io</a>
                     </div>
                     <div className='flex justify-between gap-4'>
                         <a href="/" className='text-gray-300 text-sm'>Features</a>
@@ -22,7 +22,7 @@ const Footer = () => {
                 </div>
                 <hr className='border border-gray-300/40' />
                 <div className='mt-8'>
-                    <p className='text-gray-300 text-sm'>©2024 Zroleak. All rights reserved.</p>
+                    <p className='text-gray-300 text-sm'>©2024 Lanepact. All rights reserved.</p>
                 </div>
             </div>
             

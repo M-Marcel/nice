@@ -28,8 +28,11 @@ const createFeatureRequest = async (featureData: { title: string; tag: string; d
 }
 
 
-const getAllFeatureRequest =  async():Promise<{ feature: Feature[]; message: string }> => {
-    const response = await axios.get(`${API_URL}`, {
+const getAllFeatureRequest =  async(page:number):Promise<{ features: Feature[]; message: string; pagination:{currentPage:number, totalPages:number} }> => {
+
+    const LIMIT = 5;
+
+    const response = await axios.get(`${API_URL}?page=${page}&limit=${LIMIT}`, {
         headers: {
             'Content-Type': 'application/json',
         },
@@ -38,8 +41,9 @@ const getAllFeatureRequest =  async():Promise<{ feature: Feature[]; message: str
     if (response?.data) {
         console.log(response.data);
         return {
-            feature: response.data,
+            features: response.data.data,
             message: response.data.message,
+            pagination: response.data.pagination
         };
     }
     throw new Error('fetching features failed')

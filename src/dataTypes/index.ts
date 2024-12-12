@@ -18,6 +18,10 @@ export type User = {
     otp: string | null;
     otpExpiry: string | null;
     userUseForZroleak: string[];
+    freemiumExpiresAt: Date,
+    userCompanySize: string,
+    userTechnicalExperience: string,
+    userWorkRole: string
     token?: string;
 }
 

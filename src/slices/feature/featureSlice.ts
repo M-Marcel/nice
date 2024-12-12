@@ -6,12 +6,14 @@ import { toast } from "react-toastify";
 
 type InitialState = {
     feature: Feature | null
-    features:Feature[] | null
+    features:Feature[]
     isError: boolean
     isSuccess: boolean
     isFetchRequestSuccess:boolean
     isLoading: boolean
     message: string
+    currentPage: number;
+    totalPages: number;
 }
 
 const storedCreatedFeature = localStorage.getItem('feature');
@@ -19,12 +21,14 @@ const feature = storedCreatedFeature ? JSON.parse(storedCreatedFeature) : null;
 
 const initialState: InitialState = {
     feature: feature ? feature : null,
-    features:  null,
+    features:  [],
     isError: false,
     isFetchRequestSuccess:false,
     isSuccess: false,
     isLoading: false,
-    message: ""
+    message: "",
+    currentPage: 1,
+    totalPages: 1
 }
 
 
@@ -38,11 +42,11 @@ export const createFeatureRequest = createAsyncThunk<{ feature: Feature; message
         return thunkApi.rejectWithValue(message)
     }
 })
-export const getAllFeatureRequest = createAsyncThunk<{ features: Feature[]; message: string },void,{ rejectValue: string }
->("feature/getAll", async (_, thunkApi) => {
+export const getAllFeatureRequest = createAsyncThunk<{ features: Feature[]; message: string; pagination:{currentPage:number, totalPages:number }},number,{ rejectValue: string }
+>("feature/getAll", async (page:number, thunkApi) => {
   try {
-    const response = await featureService.getAllFeatureRequest();
-    return { features: response.feature, message: response.message };
+    const response = await featureService.getAllFeatureRequest(page);
+    return { features: response.features, message: response.message,pagination: response.pagination };
   } catch (error: any) {
     const message =
       error.response?.data?.message || error.message || "Failed to fetch features";
@@ -88,12 +92,14 @@ const featureSlice = createSlice({
             state.isFetchRequestSuccess = true
             state.features = action.payload.features
             state.message = action.payload.message;
+            state.currentPage = action.payload.pagination.currentPage;
+            state.totalPages = action.payload.pagination.totalPages;
         })
         .addCase(getAllFeatureRequest.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
             state.message = action.payload as string
-            state.features = null
+            state.features = []
             toast.error(action.payload)
         })
     }

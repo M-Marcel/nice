@@ -4,13 +4,15 @@ import DashboardHero from "../assets/dbherro.png"
 import BotDesign from '../assets/zrobot.png'
 import ComputerIcon from '../assets/computer-white.png'
 import Search from "../components/Search"
-// import VotedBots from "../components/VotedBots"
 import { useAppDispatch, useAppSelector } from "../hooks"
 import Person from '../assets/person.png'
 import Alarm from '../assets/alarm.png'
 import { getAllFeatureRequest } from "../slices/feature/featureSlice"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import FeatureRequest from "../components/FeatureRequest"
+import NextIcon from "../assets/svg/NextIcon"
+import PrevIcon from "../assets/svg/PrevIcon"
+import LoaderIcon from "../assets/loader.svg"
 
 
 
@@ -19,13 +21,26 @@ const Dashboard = () => {
     const dispatch = useAppDispatch();
 
     const user = useAppSelector((state) => state.auth.user);
-    const { features, isLoading, isError, message } = useAppSelector(
+    const { features, isLoading, isError, message, totalPages } = useAppSelector(
         (state) => state.feature
     );
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
-        dispatch(getAllFeatureRequest());
-    }, [dispatch]);
+        dispatch(getAllFeatureRequest(currentPage));
+    }, [currentPage, dispatch]);
+
+    const handlePreviousPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
 
     return (
         <div className="dashboard flex flex-col lg:flex-row px-2">
@@ -65,7 +80,7 @@ const Dashboard = () => {
                             <img src={BotDesign} alt="dashboardHero" width={400} />
                         </div>
 
-                        <div className="flex justify-center items-center">
+                        <div className="flex justify-center items-center mt-[40px]">
                             <div className="w-[80%] flex flex-col items-center">
                                 <h1 className="text-center text-black-500 font-600 mb-2">View product progress</h1>
                                 <p className="text-gray-400 text-sm w-[85%]">We are working really hard to get the product ready.
@@ -81,21 +96,48 @@ const Dashboard = () => {
                             </div>
                             <Button className="custom-bg text-xs px-2 rounded-md text-white">Add request</Button>
                         </div>
-                        <div>
+                        <div className="mt-8">
                             {isLoading ? (
-                                <p>Loading features...</p>
+                                <div className="flex items-center justify-center gap-4 h-[60vh]">
+                                    <img
+                                        src={LoaderIcon}
+                                        alt="loader"
+                                        width={24}
+                                        height={24}
+                                        className="animate-spin"
+                                    />
+                                    Loading ...
+                                </div>
                             ) : isError ? (
                                 <p className="text-red-500">{message}</p>
                             ) : (
-                                <div className="mt-8">
+                                <>
                                     {features && features.length > 0 ? (
-                                        features?.map((feature) => (
+                                        features.map((feature) => (
                                             <FeatureRequest key={feature._id} feature={feature} />
                                         ))
                                     ) : (
                                         <p className="text-gray-400">No features available. Add a new request!</p>
                                     )}
-                                </div>
+
+                                    <div className="pagination-buttons flex justify-between mt-4">
+                                        <button
+                                            onClick={handlePreviousPage}
+                                            disabled={currentPage <= 1}
+                                            className="px-4 py-2 text-sm text-gray-500 rounded-md disabled:opacity-50"
+                                        >
+                                            <PrevIcon />
+                                        </button>
+                                        <button
+                                            onClick={handleNextPage}
+                                            disabled={currentPage >= totalPages}
+                                            className="px-4 py-2 text-sm text-gray-500 rounded-md disabled:opacity-50"
+                                        >
+                                            <NextIcon />
+                                        </button>
+                                    </div>
+                                </>
+
                             )}
                         </div>
                     </div>

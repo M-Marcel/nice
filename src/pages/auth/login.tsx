@@ -16,7 +16,7 @@ type LoginProps = {
     openForgotPasswordModal: () => void;
 }
 
-const Login = ({ openForgotPasswordModal}: LoginProps) => {
+const Login = ({ openForgotPasswordModal }: LoginProps) => {
     const navigate = useNavigate()
 
     const [passWordVisible, setPassWordVisible] = useState<boolean>(false)
@@ -45,7 +45,7 @@ const Login = ({ openForgotPasswordModal}: LoginProps) => {
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!email || !password) {
-           return toast.error('please fill in the fields')
+            return toast.error('please fill in the fields')
         } else {
             const userData = {
                 email,
@@ -56,11 +56,11 @@ const Login = ({ openForgotPasswordModal}: LoginProps) => {
     }
     useEffect(() => {
         if (isLoginSuccess) {
-            toast.success('loggedin successfully');
+            toast.success('log in successful');
             navigate('/dashboard')
         }
 
-        return() => {
+        return () => {
             dispatch(reset())
         }
     }, [isLoginSuccess, message, dispatch, navigate])
