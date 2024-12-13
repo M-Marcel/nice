@@ -24,12 +24,16 @@ module.exports = {
           700: '#FCFCFC',
           800: '#43424D',
           900: '#EFF0F6',
-          910: '#F7F7FC'
+          910: '#F7F7FC',
+        
 
         },
         'blue': {
           100: '#039dea',
-          200:'#34A9F14D'
+          200:'#34A9F14D',
+          300: '#eef8fe',
+          400: '#30A6EF',
+          
         },
       },
       fontFamily: {

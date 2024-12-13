@@ -3,6 +3,7 @@ import { Feature } from "../dataTypes";
 
 const API_URL = "https://zroleak-core-service-bbf444d92e4f.herokuapp.com/api/v1/feature"
 
+
 const createFeatureRequest = async (featureData: { title: string; tag: string; description: string }): Promise<{ feature: Feature; message: string }> => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -48,9 +49,36 @@ const getAllFeatureRequest =  async(page:number):Promise<{ features: Feature[]; 
     }
     throw new Error('fetching features failed')
 }
+
+const voteFeatureRequest = async(id:string): Promise<{ feature: Feature; message: string }> => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        throw new Error("You must login to vote");
+    }
+    const response = await axios.patch(`${API_URL}/like/${id}`, {}, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        withCredentials: true,
+    })
+
+    if (response.data) {
+        localStorage.setItem('featureData', JSON.stringify(response.data))
+        console.log(response.data);
+        return {
+            feature: response.data,
+            message: response.data.message,
+        };
+    }
+    throw new Error('vote feature request failed')
+}
+
 const featureService = {
     createFeatureRequest,
-    getAllFeatureRequest
+    getAllFeatureRequest,
+    voteFeatureRequest
+
 }
 
 export default featureService
