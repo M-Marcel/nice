@@ -11,16 +11,19 @@ const FeatureRequest = ({ feature }: any) => {
     const dispatch = useAppDispatch();
 
     const handleVote = async (id: string) => {
-        if (feature.isVoted) {
-            toast.info('You have already voted for this feature');
-            return;
-        }
         setIsVoting(true);
         try {
-            const result = await dispatch(voteFeatureRequest(id)).unwrap();
-            toast.success(result.message);
-            feature.isVoted = true;
-            feature.likeCount += 1;
+            if (feature.isVoted) {
+                await dispatch(voteFeatureRequest(id)).unwrap(); 
+                toast.success('You have unvoted this feature request');
+                feature.isVoted = false;
+                feature.likeCount -= 1;
+            } else {
+                const result = await dispatch(voteFeatureRequest(id)).unwrap();
+                toast.success(result.message);
+                feature.isVoted = true;
+                feature.likeCount += 1;
+            }
         } catch (error: any) {
             toast.error(error);
         } finally {
@@ -36,11 +39,11 @@ const FeatureRequest = ({ feature }: any) => {
             <div className="flex gap-4 items-center py-1">
                 <button
                     className={`border flex flex-col items-center justify-center px-3 py-3 rounded-lg transition-all duration-300 ${feature.isVoted
-                            ? "bg-blue-300 border-blue-400 text-blue-400 cursor-not-allowed"
-                            : "border-gray-500/90 bg-gray-600/100 text-gray-500 cursor-pointer hover:bg-gray-600"
+                        ? "bg-blue-300 border-blue-400 text-blue-400"
+                        : "border-gray-500/90 bg-gray-600/100 text-gray-500 cursor-pointer hover:bg-gray-600"
                         }`}
                     onClick={() => handleVote(feature._id)}
-                    disabled={isVoting || feature.isVoted}
+                    disabled={isVoting}
                 >
                     {isVoting ? (
                         <AiOutlineLoading className="animate-spin text-white" size={15} />
