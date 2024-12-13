@@ -26,6 +26,13 @@ const Dashboard = () => {
     );
     const [currentPage, setCurrentPage] = useState(1);
 
+    const userId = user?._id;
+
+    const enhancedFeatures = features.map((feature) => ({
+        ...feature,
+        isVoted: userId ? feature.likedUsers.includes(userId) : false
+    }));
+
     useEffect(() => {
         dispatch(getAllFeatureRequest(currentPage));
     }, [currentPage, dispatch]);
@@ -62,7 +69,7 @@ const Dashboard = () => {
                             <p className="mt-2 text-xs md:text-sm text-white font-500 top-[40%] left-4 md:left-6 absolute">Get Ready for the Launch</p>
                             <p className="text-xs md:text-sm text-white absolute top-[70%] md:top-[80%] left-4 md:left-6 flex gap-1 items-center md:items-center ">
                                 <img src={Alarm} alt="alarm" className="w-[30px]" />
-                                <span className="w-[60%] lg:w-[auto]">Launching in 14 fourteen days!</span>
+                                <span className="w-[60%] lg:w-[auto]">Launching in 14 days!</span>
                             </p>
                             <img className="w-[170px] md:w-[350px] lg:w-[300px]  absolute -top-[2%] md:-top-[2%] right-2 md:right-4" src={Person} alt="Person" />
 
@@ -112,8 +119,8 @@ const Dashboard = () => {
                                 <p className="text-red-500">{message}</p>
                             ) : (
                                 <>
-                                    {features && features.length > 0 ? (
-                                        features.map((feature) => (
+                                    {enhancedFeatures && enhancedFeatures.length > 0 ? (
+                                        enhancedFeatures.map((feature) => (
                                             <FeatureRequest key={feature._id} feature={feature} />
                                         ))
                                     ) : (

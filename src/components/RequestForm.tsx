@@ -82,6 +82,11 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
   useEffect(() => {
     if (isSuccess) {
       toast.success('Feature request created successfully');
+      setFormData({
+        title: '',
+        tag: '',
+        description: '',
+      });
       onNewFeature();
     }
     return () => {
