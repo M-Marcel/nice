@@ -35,7 +35,8 @@ const Dashboard = () => {
 
     useEffect(() => {
         dispatch(getAllFeatureRequest(currentPage));
-    }, [currentPage, dispatch]);
+        // eslint-disable-next-line
+    }, [dispatch]);
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {
