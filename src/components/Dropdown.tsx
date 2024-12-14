@@ -4,6 +4,7 @@ import { useState } from "react";
 type DropdownProps = {
   options: string[];
   children:React.ReactNode
+
 };
 
 const Dropdown = ({ options, children }:DropdownProps) => {
