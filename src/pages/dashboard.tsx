@@ -5,6 +5,7 @@ import BotDesign from '../assets/zrobot.png'
 import ComputerIcon from '../assets/computer-white.png'
 import Search from "../components/Search"
 import { useAppDispatch, useAppSelector } from "../hooks"
+import {enablePageScroll } from "scroll-lock"
 import Person from '../assets/person.png'
 import Alarm from '../assets/alarm.png'
 import { getAllFeatureRequest } from "../slices/feature/featureSlice"
@@ -13,11 +14,15 @@ import FeatureRequest from "../components/FeatureRequest"
 import NextIcon from "../assets/svg/NextIcon"
 import PrevIcon from "../assets/svg/PrevIcon"
 import LoaderIcon from "../assets/loader.svg"
+import Progress from "../assets/progbar.png"
+import Modal from "../components/Modal"
+import RequestForm from "../components/RequestForm"
+import { useModal } from "../context/ModalContext"
+
 
 
 
 const Dashboard = () => {
-
     const dispatch = useAppDispatch();
 
     const user = useAppSelector((state) => state.auth.user);
@@ -25,6 +30,7 @@ const Dashboard = () => {
         (state) => state.feature
     );
     const [currentPage, setCurrentPage] = useState(1);
+    const { activeModal, setActiveModal } = useModal()
 
     const userId = user?._id;
 
@@ -50,11 +56,18 @@ const Dashboard = () => {
         }
     };
 
+    const closeModal = () => {
+        setActiveModal(null);
+        document.body.style.overflow = "auto";
+        enablePageScroll()
+
+    };
+
     return (
         <div className="dashboard flex flex-col lg:flex-row px-2">
             <LeftSidebar />
-            <div className="px-4 w-[100%] lg:w-[80%] lg:relative left-[18%]">
-                <div className="flex items-center justify-between w-[90%] md:w-[92%] lg:w-[76%] bg-white py-4 px-2 fixed">
+            <div className="px-4 w-[100%] lg:w-[80%] lg:relative md:z-30 lg:z-50 left-[18%]">
+                <div className=" items-center justify-between hidden md:flex md:w-[92%] lg:w-[80%] bg-white py-4 px-2 fixed z-50">
                     <Search />
                     <Button className="hidden lg:flex items-center gap-2 bg-black-500 text-sm text-white px-4 py-2
                      rounded-md">
@@ -62,27 +75,65 @@ const Dashboard = () => {
                         Beta
                     </Button>
                 </div>
-                <div className="flex flex-col lg:flex-row gap-8 mt-8">
-                    <div className="w-[100%] lg:w-[65%] px-4 py-4 h-auto lg:h-[100vh]">
-                        <div className="mt-10 mb-4 relative">
-                            <img src={DashboardHero} alt="dashboardHero" className="" />
-                            <p className="text-white absolute top-[10%] left-4 md:left-6 text-sm leading-5 md:leading-7 md:text-2xl w-[40%] md:w-[30%] font-semibold">You’re on the list  {user?.firstName || "User"}!</p>
-                            <p className="mt-2 text-xs md:text-sm text-white font-500 top-[40%] left-4 md:left-6 absolute">Get Ready for the Launch</p>
-                            <p className="text-xs md:text-sm text-white absolute top-[70%] md:top-[80%] left-4 md:left-6 flex gap-1 items-center md:items-center ">
-                                <img src={Alarm} alt="alarm" className="w-[30px]" />
-                                <span className="w-[60%] lg:w-[auto]">Launching in 14 days!</span>
-                            </p>
-                            <img className="w-[170px] md:w-[350px] lg:w-[300px]  absolute -top-[2%] md:-top-[2%] right-2 md:right-4" src={Person} alt="Person" />
+                <div className="flex flex-col lg:flex-row gap-8 mt-14 lg:mt-8">
+                    <div className="w-[100%] lg:w-[65%] lg:px-4 relative z-10 lg:py-4 h-auto lg:h-[100vh]">
+                        <div className="mt-10 mb-4 hidden md:block relative overflow-hidden">
+                            <div className="mobile-dashboard-hero flex h-[auto]">
+                                <img src={DashboardHero} alt="dhero" className="w-[100%]" />
+                            </div>
+                            <div className="absolute flex justify-between top-2 w-full">
+                                <div className="px-3 py-2 lg:py-4 md:mt-[60px] lg:mt-[0px]">
+                                    <p className="text-white text-3xl leading-9 font-medium w-[100%]">You’re on <br />the list {user?.firstName || "User"}!</p>
+                                    <p className="mt-2 text-sm text-white font-500">Get Ready for the Launch</p>
+                                    <p className="text-sm text-white mt-8 flex gap-1 items-center">
+                                        <img src={Alarm} alt="alarm" className="w-[30px]" />
+                                        <span className="w-[60%] lg:w-[auto]">Launching in 14 days!</span>
+                                    </p>
+                                </div>
+                                <div className="w-[60%]">
+                                    <img className="w-[100%] mt-2 md:mt-0" src={Person} alt="Person" />
+                                </div>
 
+                            </div>
                         </div>
-                        <div className="flex justify-between px-2">
-                            <div>
+                        <div className="mt-10 mb-4 md:hidden relative overflow-hidden">
+                            <div className="mobile-dashboard-hero flex h-[auto]">
+                                <img src={DashboardHero} alt="dhero" className="w-[100%]" />
+                            </div>
+                            <div className="absolute flex justify-between top-2 w-full">
+                                <div className="px-2 py-2">
+                                    <p className="text-white text-xl leading-7 font-medium w-[98%]">You’re on <br />the list {user?.firstName || "User"}!</p>
+                                    <p className="mt-2 text-xs text-white font-500">Get Ready for the Launch</p>
+                                    <p className="text-xs text-white mt-4 flex gap-1 items-center">
+                                        <img src={Alarm} alt="alarm" className="w-[30px]" />
+                                        <span className="w-[60%] lg:w-[auto]">Launching in 14 days!</span>
+                                    </p>
+                                </div>
+                                <div className="w-[65%]">
+                                    <img className="w-[100%] mt-2 md:mt-0" src={Person} alt="Person" />
+                                </div>
+
+                            </div>
+                        </div>
+                        <div className="flex flex-col lg:flex-row justify-between px-2 mt-6">
+                            <div className=" w-[100%] lg:w-[49%] border border-gray-600 px-4 py-4 rounded-2xl">
                                 <p className="text-xs text-gray-500 w-[60%]">You're <span className="font-500 text-black-500">#45</span> out of <span className="font-500 text-black-500">1000</span> waiting to get access</p>
+                                <div className="mt-4">
+                                    <img src={Progress} alt="prog" className="w-[100%]" />
+                                </div>
                             </div>
-                            <div className="flex justify-between items-center">
-                                <p className="text-xs w-[50%] text-black-500">Invite friends to move up the list!</p>
-                                <Button className="bg-black-500 text-white text-xs px-4 py-2 rounded-full">14 votes</Button>
+                            <div className="flex flex-col border border-gray-600 px-4 py-4 rounded-2xl w-[100%] lg:w-[49%]">
+                                <div className="flex justify-between">
+                                    <p className="text-xs w-[50%] text-black-500">Invite friends to move up the list!</p>
+                                    <Button className="bg-black-500 text-white text-xs px-2 py-2 rounded-full">14 invites</Button>
+                                </div>
+                                <div className="flex justify-between gap-2 items-center mt-6">
+                                    <p className="text-xs lg:text-sm text-gray-500">www.lanepact.com/{user?.firstName || "User"}</p>
+                                    <Button className="bg-white border border-gray-100 rounded-full px-2 py-2 text-xs">Copy</Button>
+                                </div>
+
                             </div>
+
                         </div>
                         <div className="mt-8 py-10 purpose-bg flex justify-center items-center">
                             <img src={BotDesign} alt="dashboardHero" width={400} />
@@ -102,7 +153,11 @@ const Dashboard = () => {
                                 <h2 className="text-sm mb- font-semibold">Feature requests</h2>
                                 <p className="text-xs text-gray-400">Vote request or add yours</p>
                             </div>
-                            <Button className="custom-bg text-xs px-2 rounded-md text-white">Add request</Button>
+                            <Button
+                                className="custom-bg text-xs px-2 rounded-md text-white"
+                                onClick={() => setActiveModal("requestForm")}
+                            >Add request
+                            </Button>
                         </div>
                         <div className="mt-8">
                             {isLoading ? (
@@ -152,6 +207,10 @@ const Dashboard = () => {
 
                 </div>
             </div>
+
+            <Modal isVisible={activeModal === "requestForm"} onClose={closeModal}>
+                <RequestForm onNewFeature={() => { }} />
+            </Modal>
 
         </div>
     )

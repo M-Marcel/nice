@@ -4,6 +4,7 @@ import Google from '../../assets/Google.png'
 import Microsoft from '../../assets/Microsoft.png'
 import Github from '../../assets/GitHub.png'
 import { useEffect, useState } from 'react'
+import { enablePageScroll } from "scroll-lock"
 import OpenEye from '../../assets/svg/OpenEye'
 import CloseEye from '../../assets/svg/CloseEye'
 import SubmitButton from '../../components/SubmitButton'
@@ -58,6 +59,7 @@ const Login = ({ openForgotPasswordModal }: LoginProps) => {
         if (isLoginSuccess) {
             toast.success('log in successful');
             navigate('/dashboard')
+            enablePageScroll()
         }
 
         return () => {

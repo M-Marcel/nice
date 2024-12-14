@@ -36,7 +36,6 @@ const RequestAFeature = () => {
   const user = useAppSelector((state) => state.auth.user);
   const userId = user?._id;
 
-  // Map through features and add isVoted
   const enhancedFeatures = features.map((feature) => ({
     ...feature,
     isVoted: userId ? feature.likedUsers.includes(userId) : false
@@ -149,8 +148,10 @@ const RequestAFeature = () => {
               )}
             </div>
           </div>
-
-          <RequestForm onNewFeature={handleNewFeature} />
+          <div className="w-[auto] lg:w-[40%]">
+            <RequestForm onNewFeature={handleNewFeature} />
+          </div>
+         
         </div>
       </div>
 

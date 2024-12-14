@@ -17,8 +17,6 @@ const Home = () => {
     const { setActiveModal } = useModal()
     const [email, setEmail] = useState<string>("");
 
-
-
     return (
         <>
             <div className="home">
@@ -50,7 +48,7 @@ const Home = () => {
                                         </Button>
                                     </div>
                                 </div>
-                                <div className='mt-4'>
+                                <div className='mt-4 px-4 lg:px-[0]'>
                                     <img src={BotDesign} alt='botDesign' width={1000} height={1000} />
                                 </div>
                             </div>
