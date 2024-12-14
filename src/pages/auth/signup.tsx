@@ -8,8 +8,12 @@ import { useAppDispatch, useAppSelector } from '../../hooks'
 import { toast } from 'react-toastify'
 import { register, reset } from '../../slices/auth/authSlice'
 import SubmitButton from '../../components/SubmitButton'
+import { useNavigate } from 'react-router-dom'
+import { useModal } from '../../context/ModalContext'
 
 const SignUp = () => {
+
+    const { setActiveModal } = useModal()
 
     const [formData, setFormData] = useState<SignUpFormData>({
         firstName: '',
@@ -18,6 +22,8 @@ const SignUp = () => {
     })
 
     const { firstName, lastName, email } = formData
+
+    const navigate = useNavigate()
 
     const dispatch = useAppDispatch();
     const { isLoading, isSuccess, message } = useAppSelector((state) => state.auth)
@@ -50,12 +56,16 @@ const SignUp = () => {
     useEffect(() => {
         if (isSuccess) {
             toast.success('A verification link has been sent to your email.');
+            navigate('/')
+            setActiveModal(null)
+
+            
         }
         return () => {
             dispatch(reset())
         }
 
-    }, [isSuccess, message, dispatch])
+    }, [isSuccess, message, dispatch, setActiveModal, navigate])
 
     return (
         <div className="bg-white px-4 py-4 h-full">
@@ -139,4 +149,4 @@ const SignUp = () => {
     )
 }
 
-export default SignUp
+export default SignUp 

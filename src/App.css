@@ -20,6 +20,7 @@
     background-image: url('./assets/dots.png');
     background-size: contain;
 }
+
 .join-bg{
     background-image: url('./assets/joinframe.jpg');
     background-size: cover;

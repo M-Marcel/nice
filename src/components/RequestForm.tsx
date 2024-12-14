@@ -97,7 +97,7 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
 
 
   return (
-    <div className="text-4xl w-[auto] lg:w-[35%] ">
+    <div className="text-4xl lg:w-[100%] bg-white px-4">
       <h1 className="text-3xl mb-8 w-[auto] lg:w-[60%] text-black-500 font-500">Submit idea or feedback</h1>
       <form className="w-full" onSubmit={handleContinue}>
         <div className="mb-2">
