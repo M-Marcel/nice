@@ -36,7 +36,10 @@ const Modals = ({ email, setEmail }: ModalsProps) => {
 
       {/* Login Modal */}
       <Modal isVisible={activeModal === "login"} onClose={closeModal}>
-        <Login openForgotPasswordModal={() => setActiveModal("forgotPassword")} />
+        <Login 
+        openForgotPasswordModal={() => setActiveModal("forgotPassword")} 
+        openSignUpModal={() => setActiveModal("signup")} 
+      />
       </Modal>
 
       {/* Forgot Password Modal */}

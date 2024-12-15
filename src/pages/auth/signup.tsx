@@ -1,7 +1,7 @@
 import LogoImage from '../../assets/lanepact-logo.png'
-import Google from '../../assets/Google.png'
-import Microsoft from '../../assets/Microsoft.png'
-import Github from '../../assets/GitHub.png'
+// import Google from '../../assets/Google.png'
+// import Microsoft from '../../assets/Microsoft.png'
+// import Github from '../../assets/GitHub.png'
 import { useEffect, useState } from 'react'
 import { SignUpFormData } from '../../dataTypes'
 import { useAppDispatch, useAppSelector } from '../../hooks'
@@ -10,6 +10,7 @@ import { register, reset } from '../../slices/auth/authSlice'
 import SubmitButton from '../../components/SubmitButton'
 import { useNavigate } from 'react-router-dom'
 import { useModal } from '../../context/ModalContext'
+import Button from '../../components/Button'
 
 const SignUp = () => {
 
@@ -124,7 +125,7 @@ const SignUp = () => {
                 <div className="flex justify-center items-center">
                     <p className="text-gray-400 mt-3 text-sm">or continue with</p>
                 </div>
-                <div className="flex justify-center items-center gap-2 mt-4">
+                {/* <div className="flex justify-center items-center gap-2 mt-4">
                     <div className="flex justify-between gap-8">
                         <a href="/" className="rounded-lg px-8 py-2 border border-gray-600">
                             <img src={Google} alt="google" width={30} height={30} />
@@ -136,11 +137,16 @@ const SignUp = () => {
                             <img src={Github} alt="github" width={30} height={30} />
                         </a>
                     </div>
-                </div>
+                </div> */}
                 <div className='flex justify-center items-center mt-6'>
                     <div className='flex items-center text-center gap-1'>
                         <p className='text-sm text-gray-400'>Already have an account?</p>
-                        <a className='text-black-500 font-semibold text-sm' href="/">Login</a>
+                        <Button 
+                        className='text-black-500 font-semibold text-sm'
+                        onClick={() => setActiveModal("login")}
+                        >
+                            Login
+                        </Button>
                     </div>
                 </div>
 
