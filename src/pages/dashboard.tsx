@@ -102,8 +102,8 @@ const Dashboard = () => {
                             <div className="absolute flex justify-between top-1 w-full">
                                 <div className="px-2 py-1">
                                     <p className="text-white text-sm leading-4 font-medium w-[98%]">You’re on <br />the list {user?.firstName || "User"}!</p>
-                                    <p className="mt-2 text-xs text-white font-500">Get Ready for the Launch</p>
-                                    <p className="text-xs text-white mt-1 flex gap-1 items-center">
+                                    <p className="mt-2 text-[10px] text-white font-500">Get Ready for the Launch</p>
+                                    <p className="text-[8px] text-white mt-1 mb-2 flex gap-1 items-center">
                                         <img src={Alarm} alt="alarm" className="w-[30px]" />
                                         <span className="w-[60%] lg:w-[auto]">Launching in 14 days!</span>
                                     </p>
@@ -141,7 +141,7 @@ const Dashboard = () => {
                         <div className="flex justify-center items-center mt-[40px]">
                             <div className="w-[80%] flex flex-col items-center">
                                 <h1 className="text-center text-black-500 font-600 mb-2">View product progress</h1>
-                                <p className="text-gray-400 text-sm w-[85%]">We are working really hard to get the product ready.
+                                <p className="text-gray-400 text-sm w-[85%] text-center">We are working really hard to get the product ready.
                                     View our progress and give us a feedback or suggest features to add</p>
                             </div>
                         </div>
