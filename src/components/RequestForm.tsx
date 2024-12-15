@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { createFeatureRequest, reset } from "../slices/feature/featureSlice";
 import SubmitButton from "./SubmitButton";
 import { useNavigate } from "react-router-dom";
+import { useModal } from "../context/ModalContext";
 
 type NewFeatureProps = {
   onNewFeature:() => void
@@ -13,6 +14,8 @@ type NewFeatureProps = {
 
 
 const RequestForm = ({onNewFeature}:NewFeatureProps) => {
+
+  const { setActiveModal } = useModal()
 
   const navigate = useNavigate()
 
@@ -62,8 +65,10 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
     if (!token) {
-      toast.error("You must be logged in to submit a feature request.");
+      toast.error("Login to submit a feature request.");
       navigate("/"); 
+      setActiveModal("login")
+
       return;
     }
     if (!title || !description || !tag) {

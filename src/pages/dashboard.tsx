@@ -60,7 +60,6 @@ const Dashboard = () => {
         setActiveModal(null);
         document.body.style.overflow = "auto";
         enablePageScroll()
-
     };
 
     return (
@@ -102,9 +101,9 @@ const Dashboard = () => {
                             </div>
                             <div className="absolute flex justify-between top-2 w-full">
                                 <div className="px-2 py-2">
-                                    <p className="text-white text-xl leading-7 font-medium w-[98%]">You’re on <br />the list {user?.firstName || "User"}!</p>
+                                    <p className="text-white text-sm leading-4 font-medium w-[98%]">You’re on <br />the list {user?.firstName || "User"}!</p>
                                     <p className="mt-2 text-xs text-white font-500">Get Ready for the Launch</p>
-                                    <p className="text-xs text-white mt-4 flex gap-1 items-center">
+                                    <p className="text-xs text-white mt-2 flex gap-1 items-center">
                                         <img src={Alarm} alt="alarm" className="w-[30px]" />
                                         <span className="w-[60%] lg:w-[auto]">Launching in 14 days!</span>
                                     </p>
@@ -116,7 +115,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div className="flex flex-col lg:flex-row justify-between px-2 mt-6">
-                            <div className=" w-[100%] lg:w-[49%] border border-gray-600 px-4 py-4 rounded-2xl">
+                            <div className=" w-[100%] lg:w-[49%] border border-gray-600 px-4 py-4 rounded-2xl mb-4 lg:mb-0">
                                 <p className="text-xs text-gray-500 w-[60%]">You're <span className="font-500 text-black-500">#45</span> out of <span className="font-500 text-black-500">1000</span> waiting to get access</p>
                                 <div className="mt-4">
                                     <img src={Progress} alt="prog" className="w-[100%]" />
@@ -207,7 +206,6 @@ const Dashboard = () => {
 
                 </div>
             </div>
-
             <Modal isVisible={activeModal === "requestForm"} onClose={closeModal}>
                 <RequestForm onNewFeature={() => { }} />
             </Modal>
