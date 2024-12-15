@@ -38,7 +38,7 @@ const ResetPassword = ({ email, openPasswordChangeSuccessModal }: ResetPasswordP
 
     const handleForgot = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s])[A-Za-z\d\W]{8,}$/;
         if (!email || !newPassword) {
             return toast.error('please enter new password')
         }

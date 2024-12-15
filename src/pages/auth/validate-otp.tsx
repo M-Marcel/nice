@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react'
 import SubmitButton from '../../components/SubmitButton'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { toast } from 'react-toastify'
-import { reset, validateOtp } from '../../slices/auth/authSlice'
+import { forgotPassword, reset, validateOtp } from '../../slices/auth/authSlice'
+import Button from '../../components/Button'
 
 
 type ValidateOtpProps = {
@@ -18,6 +19,9 @@ const ValidateOtp = ({ email, openResetPasswordModal }: ValidateOtpProps) => {
         otp: Array(4).fill('')
     })
     const { otp } = formData
+
+    const [showResend, setShowResend] = useState(false);
+    const [timer, setTimer] = useState(6);
 
     const dispatch = useAppDispatch()
 
@@ -48,12 +52,46 @@ const ValidateOtp = ({ email, openResetPasswordModal }: ValidateOtpProps) => {
                 otp: otp.join('')
             }
             dispatch(validateOtp(userData))
+            setShowResend(true); 
+            setTimer(6);
         }
     }
+    const handleResend = () => {
+        setShowResend(false); 
+        setTimer(6);
+        const userData = {
+            email,
+        }
+        toast.success('an OTP has been sent to your mail');
+        dispatch(forgotPassword(userData))
+    }
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout | null = null;
+
+        if (showResend) {
+            interval = setInterval(() => {
+                setTimer((prev) => {
+                    if (prev <= 1) {
+                        clearInterval(interval!); // Clear the timer when it reaches 0
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+        }
+
+        return () => {
+            if (interval) clearInterval(interval);
+          
+        };
+    }, [showResend]);
+
 
     useEffect(() => {
         if (isValidationSuccess) {
             openResetPasswordModal()
+            setShowResend(false)
         }
         return() => {
 
@@ -62,6 +100,9 @@ const ValidateOtp = ({ email, openResetPasswordModal }: ValidateOtpProps) => {
         
       
     }, [isValidationSuccess, message, dispatch, openResetPasswordModal])
+
+
+   
 
     return (
         <div className="bg-white px-4 py-4 h-full flex flex-col justify-center items-center">
@@ -108,13 +149,31 @@ const ValidateOtp = ({ email, openResetPasswordModal }: ValidateOtpProps) => {
                             />
                         ))}
                     </div>
-                    <SubmitButton
-                        isLoading={isLoading}
-                        className={`px-4 py-2 w-full text-white rounded-lg text-md ${isLoading ? 'bg-blue-100/55' : 'bg-blue-500 hover:bg-blue-600'
+                    {!showResend ? (
+                        <SubmitButton
+                            isLoading={isLoading}
+                            className={`px-4 py-2 w-full text-white rounded-lg text-md ${
+                                isLoading ? 'bg-blue-100/55' : 'bg-blue-500 hover:bg-blue-600'
                             }`}
-                    >
-                        Continue
-                    </SubmitButton>
+                        >
+                            Continue
+                        </SubmitButton>
+                    ) : (
+                        <>
+                            {timer > 0 ? (
+                                <SubmitButton isLoading={isLoading} className="text-gray-500">
+                                    Resend in {timer}s
+                                </SubmitButton>
+                            ) : (
+                                <Button
+                                    className="text-blue-500 hover:underline"
+                                    onClick={handleResend}
+                                >
+                                    Resend
+                                </Button>
+                            )}
+                        </>
+                    )}
                 </form>
             </div>
         </div>

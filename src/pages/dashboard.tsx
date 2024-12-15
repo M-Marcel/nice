@@ -99,11 +99,11 @@ const Dashboard = () => {
                             <div className="mobile-dashboard-hero flex h-[auto]">
                                 <img src={DashboardHero} alt="dhero" className="w-[100%]" />
                             </div>
-                            <div className="absolute flex justify-between top-2 w-full">
-                                <div className="px-2 py-2">
+                            <div className="absolute flex justify-between top-1 w-full">
+                                <div className="px-2 py-1">
                                     <p className="text-white text-sm leading-4 font-medium w-[98%]">You’re on <br />the list {user?.firstName || "User"}!</p>
                                     <p className="mt-2 text-xs text-white font-500">Get Ready for the Launch</p>
-                                    <p className="text-xs text-white mt-2 flex gap-1 items-center">
+                                    <p className="text-xs text-white mt-1 flex gap-1 items-center">
                                         <img src={Alarm} alt="alarm" className="w-[30px]" />
                                         <span className="w-[60%] lg:w-[auto]">Launching in 14 days!</span>
                                     </p>
