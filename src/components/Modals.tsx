@@ -9,6 +9,7 @@ import PasswordChangeSuccess from "./PasswordChangeSuccess";
 import { enablePageScroll } from "scroll-lock"
 
 
+
 type ModalsProps = {
   email: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
@@ -31,9 +32,14 @@ const Modals = ({ email, setEmail }: ModalsProps) => {
         <SignUp />
       </Modal>
 
+     
+
       {/* Login Modal */}
       <Modal isVisible={activeModal === "login"} onClose={closeModal}>
-        <Login openForgotPasswordModal={() => setActiveModal("forgotPassword")} />
+        <Login 
+        openForgotPasswordModal={() => setActiveModal("forgotPassword")} 
+        openSignUpModal={() => setActiveModal("signup")} 
+      />
       </Modal>
 
       {/* Forgot Password Modal */}

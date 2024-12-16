@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { createFeatureRequest, reset } from "../slices/feature/featureSlice";
 import SubmitButton from "./SubmitButton";
 import { useNavigate } from "react-router-dom";
+import { useModal } from "../context/ModalContext";
 
 type NewFeatureProps = {
   onNewFeature:() => void
@@ -13,6 +14,8 @@ type NewFeatureProps = {
 
 
 const RequestForm = ({onNewFeature}:NewFeatureProps) => {
+
+  const { setActiveModal } = useModal()
 
   const navigate = useNavigate()
 
@@ -62,8 +65,10 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
     e.preventDefault();
     const token = localStorage.getItem("token");
     if (!token) {
-      toast.error("You must be logged in to submit a feature request.");
+      toast.error("Login to submit a feature request.");
       navigate("/"); 
+      setActiveModal("login")
+
       return;
     }
     if (!title || !description || !tag) {
@@ -82,6 +87,11 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
   useEffect(() => {
     if (isSuccess) {
       toast.success('Feature request created successfully');
+      setFormData({
+        title: '',
+        tag: '',
+        description: '',
+      });
       onNewFeature();
     }
     return () => {
@@ -92,7 +102,7 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
 
 
   return (
-    <div className="text-4xl w-[auto] lg:w-[35%] ">
+    <div className="text-4xl lg:w-[100%] bg-white px-4">
       <h1 className="text-3xl mb-8 w-[auto] lg:w-[60%] text-black-500 font-500">Submit idea or feedback</h1>
       <form className="w-full" onSubmit={handleContinue}>
         <div className="mb-2">

@@ -77,7 +77,9 @@ const LetUsKnowYou = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s])[A-Za-z\d\W]{8,}$/;
+
+
         console.log('Form submitted:', formData)
         console.log(formData.email)
         if (isLoading) return;
@@ -90,7 +92,7 @@ const LetUsKnowYou = () => {
             return toast.error('password too short, should not be less than 8 characters')
         }
         if(!passwordRegex.test(password)){
-            return toast.error('password must contain alphabets, number and special character');
+            return toast.error('password must contain alphabets, capital letters, small letters, number and special character');
         }
         if (password !== confirmPassword) {
             toast.error('passwords do not match')

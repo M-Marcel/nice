@@ -2,6 +2,9 @@
 .custom-bg{
    background: linear-gradient(75deg, #1E7FF5, #025ECF);
 }
+.custom-vote-bg{
+  background: linear-gradient(75deg, #30A6EF, #ffff);
+}
 .custom-l-bg{
   background: linear-gradient(75deg, #34A9F14D, #ffff);
 }
@@ -17,6 +20,7 @@
     background-image: url('./assets/dots.png');
     background-size: contain;
 }
+
 .join-bg{
     background-image: url('./assets/joinframe.jpg');
     background-size: cover;

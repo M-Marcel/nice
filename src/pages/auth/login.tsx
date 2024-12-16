@@ -1,9 +1,10 @@
 import LogoImage from '../../assets/lanepact-logo.png'
 import Button from '../../components/Button'
-import Google from '../../assets/Google.png'
-import Microsoft from '../../assets/Microsoft.png'
-import Github from '../../assets/GitHub.png'
+// import Google from '../../assets/Google.png'
+// import Microsoft from '../../assets/Microsoft.png'
+// import Github from '../../assets/GitHub.png'
 import { useEffect, useState } from 'react'
+import { enablePageScroll } from "scroll-lock"
 import OpenEye from '../../assets/svg/OpenEye'
 import CloseEye from '../../assets/svg/CloseEye'
 import SubmitButton from '../../components/SubmitButton'
@@ -14,9 +15,10 @@ import { useNavigate } from 'react-router-dom'
 
 type LoginProps = {
     openForgotPasswordModal: () => void;
+    openSignUpModal:() => void;
 }
 
-const Login = ({ openForgotPasswordModal }: LoginProps) => {
+const Login = ({ openForgotPasswordModal, openSignUpModal }: LoginProps) => {
     const navigate = useNavigate()
 
     const [passWordVisible, setPassWordVisible] = useState<boolean>(false)
@@ -58,6 +60,7 @@ const Login = ({ openForgotPasswordModal }: LoginProps) => {
         if (isLoginSuccess) {
             toast.success('log in successful');
             navigate('/dashboard')
+            enablePageScroll()
         }
 
         return () => {
@@ -133,7 +136,7 @@ const Login = ({ openForgotPasswordModal }: LoginProps) => {
                 <div className="flex justify-center items-center">
                     <p className="text-gray-400 mt-2 text-sm">or login with</p>
                 </div>
-                <div className="flex justify-center items-center gap-2 mt-4">
+                {/* <div className="flex justify-center items-center gap-2 mt-4">
                     <div className="flex justify-between gap-8">
                         <a href="/" className="rounded-lg px-8 py-2 border border-gray-600">
                             <img src={Google} alt="google" width={30} height={30} />
@@ -144,6 +147,17 @@ const Login = ({ openForgotPasswordModal }: LoginProps) => {
                         <a href="/" className="rounded-lg px-8 py-2 border border-gray-600">
                             <img src={Github} alt="github" width={30} height={30} />
                         </a>
+                    </div>
+                </div> */}
+                <div className='flex justify-center items-center mt-6'>
+                    <div className='flex items-center text-center gap-1'>
+                        <p className='text-sm text-gray-400'>Don't have an account?</p>
+                        <Button 
+                        className='text-black-500 font-semibold text-sm'
+                        onClick={openSignUpModal}
+                        >
+                            Signup
+                        </Button>
                     </div>
                 </div>
             </form>

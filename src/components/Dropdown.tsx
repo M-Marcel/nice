@@ -15,7 +15,7 @@ const Dropdown = ({ options, children }:DropdownProps) => {
     <div className="relative inline-block text-left">
       <button
         onClick={toggleDropdown}
-        className="inline-flex justify-center w-full rounded-xl bg-gray-50 border border-gray-600 bg-white px-4 py-3 text-sm font-medium text-gray-500 hover:bg-gray-600/55 focus:outline-none focus:ring-border-gray-600"
+        className="inline-flex justify-center w-full rounded-xl  border border-gray-600 bg-white px-4 py-3 text-sm font-medium text-gray-500 hover:bg-gray-600/55 focus:outline-none focus:ring-border-gray-600"
       >
         {children}
         <svg

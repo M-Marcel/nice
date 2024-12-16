@@ -33,6 +33,14 @@ const RequestAFeature = () => {
     (state) => state.feature
   );
 
+  const user = useAppSelector((state) => state.auth.user);
+  const userId = user?._id;
+
+  const enhancedFeatures = features.map((feature) => ({
+    ...feature,
+    isVoted: userId ? feature.likedUsers.includes(userId) : false
+  }));
+
   useEffect(() => {
     dispatch(getAllFeatureRequest(currentPage));
   }, [currentPage, dispatch]);
@@ -51,7 +59,7 @@ const RequestAFeature = () => {
 
   const handleNewFeature = () => {
     setCurrentPage(1);
-    dispatch(getAllFeatureRequest(1)); 
+    dispatch(getAllFeatureRequest(1));
   };
 
   return (
@@ -99,28 +107,27 @@ const RequestAFeature = () => {
 
             <div className="mt-8">
               {isLoading ? (
-                 <div className="flex items-center justify-center gap-4 h-[60vh]">
-                 <img
-                     src={LoaderIcon}
-                     alt="loader"
-                     width={24}
-                     height={24}
-                     className="animate-spin"
-                 />
-                 Loading ...
-             </div>
+                <div className="flex items-center justify-center gap-4 h-[60vh]">
+                  <img
+                    src={LoaderIcon}
+                    alt="loader"
+                    width={24}
+                    height={24}
+                    className="animate-spin"
+                  />
+                  Loading ...
+                </div>
               ) : isError ? (
                 <p className="text-red-500">{message}</p>
               ) : (
                 <>
-                  {features && features.length > 0 ? (
-                    features.map((feature) => (
+                  {enhancedFeatures && enhancedFeatures.length > 0 ? (
+                    enhancedFeatures.map((feature) => (
                       <FeatureRequest key={feature._id} feature={feature} />
                     ))
                   ) : (
                     <p className="text-gray-400">No features available. Add a new request!</p>
                   )}
-
                   <div className="pagination-buttons flex justify-between mt-4">
                     <button
                       onClick={handlePreviousPage}
@@ -141,8 +148,10 @@ const RequestAFeature = () => {
               )}
             </div>
           </div>
-
-          <RequestForm onNewFeature={handleNewFeature} />
+          <div className="w-[auto] lg:w-[40%]">
+            <RequestForm onNewFeature={handleNewFeature} />
+          </div>
+         
         </div>
       </div>
 
