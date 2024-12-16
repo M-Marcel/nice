@@ -12,6 +12,7 @@ import Button from "../components/Button"
 import Dropdown from "../components/Dropdown"
 
 const Community = () => {
+    // Okay tried
 
     const [email, setEmail] = useState<string>("");
     const { setActiveModal } = useModal()
