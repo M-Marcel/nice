@@ -9,63 +9,69 @@ import Purpose from "../components/Purpose";
 import Modals from "../components/Modals";
 import { useModal } from "../context/ModalContext";
 import Button from "../components/Button";
-import Zero from '../assets/zero.png'
-import BotDesign from '../assets/zrobot.png'
+import Zero from "../assets/zero.png";
+import BotDesign from "../assets/zrobot.png";
 import Social from "../components/social";
 
 const Home = () => {
-    const { setActiveModal } = useModal()
-    const [email, setEmail] = useState<string>("");
+  const { setActiveModal } = useModal();
+  const [email, setEmail] = useState<string>("");
 
-    return (
-        <>
-            <div className="home">
-                <Hero>
-                    <Header 
-                        openSignUpModal={() => setActiveModal("signup")}
-                        openLoginModal={() => setActiveModal("login")}
-                    />
-                    <Heading className="">
-                        <div className="relative top-[150px]">
-                            <div className='flex flex-col items-center justify-center '>
-                                <Social />
-                                <div className='flex flex-col items-center max-w-sm justify-center'>
-                                    <h2 className='font-title text-5xl mb-3 text-black-300 text-center  leading-none'>
-                                        Build bots and mini apps with
-                                    </h2>
-                                    <div className='mb-3'>
-                                        <img src={Zero} alt='zero' width={250} height={80} />
-                                    </div>
-                                    <p className='text-center w-auto lg:w-[70%] text-black-400 mb-3'>
-                                        Start building bots and mini apps before we fully launch
-                                    </p>
-                                    <div>
-                                        <Button 
-                                        className='custom-bg text-white font-bold text-sm px-6 py-3 rounded-lg'
-                                        onClick={() => setActiveModal("signup")}
-                                        >
-                                           Join Beta
-                                        </Button>
-                                    </div>
-                                </div>
-                                <div className='mt-4 px-4 lg:px-[0]'>
-                                    <img src={BotDesign} alt='botDesign' width={1000} height={1000} />
-                                </div>
-                            </div>
-                        </div>
-                    </Heading>    
-                </Hero>
-            
-                <Purpose />
-                <CommunityBot />
-                <Join />
-                <Footer />
+  return (
+    <>
+      <div className="home">
+        <Hero>
+          <Header
+            openSignUpModal={() => setActiveModal("signup")}
+            openLoginModal={() => setActiveModal("login")}
+          />
+          <Heading className="">
+          
+            <div className="relative top-[150px]">
+              <div className="flex flex-col items-center justify-center ">
+                <Social />
+                <div className="flex flex-col items-center max-w-sm justify-center">
+                  <h2 className="font-title text-5xl mb-3 text-black-300 text-center  leading-none">
+                    Build bots and mini apps with
+                  </h2>
+                  <div className="mb-3">
+                    <img src={Zero} alt="zero" width={250} height={80} />
+                  </div>
+                  <p className="text-center w-auto lg:w-[70%] text-black-400 mb-3">
+                    Start building bots and mini apps before we fully launch
+                  </p>
+                  <div>
+                    <Button
+                      className="custom-bg text-white font-bold text-sm px-6 py-3 rounded-lg"
+                      onClick={() => setActiveModal("signup")}
+                    >
+                      Join Beta
+                    </Button>
+                  </div>
+                </div>
+                <div className="mt-4 px-4 lg:px-[0]">
+                  <img
+                    src={BotDesign}
+                    alt="botDesign"
+                    width={1000}
+                    height={1000}
+                  />
+                </div>
+              </div>
             </div>
+          </Heading>
+        </Hero>
 
-            {/* Modals */}
-            <Modals email={email} setEmail={setEmail} />
-        </>
-    );
+        <Purpose />
+        <CommunityBot />
+        <Join />
+        <Footer />
+      </div>
+
+      {/* Modals */}
+      <Modals email={email} setEmail={setEmail} />
+    </>
+  );
 };
 
 export default Home;
