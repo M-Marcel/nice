@@ -1,9 +1,9 @@
 import axios from "axios";
 import { User } from "../dataTypes";
 
-const API_URL = "https://zroleak-core-service-bbf444d92e4f.herokuapp.com/api/v1/auth"
-const VERIFY_API_URL = "https://zroleak-core-service-bbf444d92e4f.herokuapp.com/api/v1/auth/signup/confirm?token="
-const GET_USER_PROFILE = "https://zroleak-core-service-bbf444d92e4f.herokuapp.com/api/v1/users/profile/me"
+const API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/auth`
+const VERIFY_API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/auth/signup/confirm?token=`
+const GET_USER_PROFILE = `${process.env.REACT_APP_BASEURL}/api/v1/users/profile/me`
 
 
 const register = async (userData: { firstName: string; lastName: string; email: string }): Promise<{ user: User; message: string }> => {
