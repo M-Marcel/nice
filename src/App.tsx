@@ -17,6 +17,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { useEffect } from "react";
 import { useAppDispatch } from "./hooks";
 import { setToken } from "./slices/auth/authSlice";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms&Condition";
 
 function App() {
 
@@ -46,6 +48,8 @@ function App() {
         <Route path="/verifyEmail" element={<VerifyEmail />} />
         <Route path="/let-us-know-you" element={<LetUsKnowYou />} />
         <Route path="/contact-us" element={<Contact />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
         <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />

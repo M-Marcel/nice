@@ -78,7 +78,7 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
     return (
         <div className={`fixed header top-5 left-0 w-full z-50 transition-all duration-1000 ${scrolled ? 'bg-white shadow-lg top-[0px]' : 'bg-transparent'}`}>
             <div className="flex items-center justify-between px-5 lg:px-7.5
-            xl:px-10 py-4 max-lg:py-4">
+            xl:px-10 py-4 max-lg:py-4 mx-14">
                 <a href="/">
                     <Logo />
                 </a>
