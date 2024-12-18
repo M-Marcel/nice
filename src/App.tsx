@@ -33,7 +33,7 @@ function App() {
         dispatch({ type: 'auth/userRestored', payload: JSON.parse(storedUser) });
     }
 }, [dispatch]);
-
+// Testing the staging codebase
  
   return (
     <ModalProvider> 
