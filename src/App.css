@@ -1,12 +1,12 @@
 
 .custom-bg{
-   background: linear-gradient(75deg, #1E7FF5, #025ECF);
+  @apply bg-button-gradient border-button-border shadow-shadow-1 hover:shadow-shadow-2 
 }
 .custom-vote-bg{
   background: linear-gradient(75deg, #30A6EF, #ffff);
 }
 .custom-l-bg{
-  background: linear-gradient(75deg, #34A9F14D, #ffff);
+ @apply hover:border hover:border-[#34A9F14D]
 }
 .custom-l-bg2{
   background: linear-gradient(75deg, #f0f1f1e5, #4aa2bd);
