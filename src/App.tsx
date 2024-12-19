@@ -49,9 +49,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
-        </Route>
-      
-      
+        </Route> 
       </Routes>
       <ToastContainer />
     </ModalProvider>

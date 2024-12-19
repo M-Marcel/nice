@@ -58,7 +58,6 @@ const Login = ({ openForgotPasswordModal, openSignUpModal }: LoginProps) => {
     }
     useEffect(() => {
         if (isLoginSuccess) {
-            toast.success('log in successful');
             navigate('/dashboard')
             enablePageScroll()
         }

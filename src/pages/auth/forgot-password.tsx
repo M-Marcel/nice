@@ -42,7 +42,6 @@ const ForgotPassword = ({ openValidateOtpModal, setEmail }: ForgotPasswordProps)
 
     useEffect(() => {
         if (isForgotPasswordSuccess) {
-            toast.success('an OTP has been sent to your mail');
             setEmail(email)
             openValidateOtpModal()
         }
