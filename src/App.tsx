@@ -20,6 +20,8 @@ import { setToken } from "./slices/auth/authSlice";
 import Password from "./pages/Password";
 import NotificationsPage from "./pages/NotificationsPage";
 import EarlyAccess from "./pages/EarlyAccess";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms&Condition";
 
 
 function App() {
@@ -37,7 +39,7 @@ function App() {
         dispatch({ type: 'auth/userRestored', payload: JSON.parse(storedUser) });
     }
 }, [dispatch]);
-
+// Testing the staging codebase
  
   return (
     <ModalProvider> 
@@ -53,12 +55,13 @@ function App() {
         <Route path="/password" element={<Password />} />
         <Route path="/notifications-page" element={<NotificationsPage />} />
         <Route path="/early-actions" element={<EarlyAccess />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+
         <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
-        </Route>
-      
-      
+        </Route> 
       </Routes>
       <ToastContainer />
     </ModalProvider>

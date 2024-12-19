@@ -14,10 +14,11 @@ const Footer = () => {
                         <a className='text-gray-300 text-sm' href="/">info@lanepact.io</a>
                     </div>
                     <div className='flex justify-between gap-4'>
-                        <a href="/" className='text-gray-300 text-sm'>Features</a>
-                        <a href="/" className='text-gray-300 text-sm'>Community</a>
-                        <a href="/" className='text-gray-300 text-sm'>Integration</a>
-                        <a href="/" className='text-gray-300 text-sm'>Pricing</a>
+                        <a href="/" className='text-gray-300 text-sm'>Home</a>
+                        <a href="/community" className='text-gray-300 text-sm'>Community</a>
+                        <a href="/request-a-feature" className='text-gray-300 text-sm'>Request a feature</a>
+                        <a href="/privacy-policy" className='text-gray-300 text-sm'>Privacy policy</a>
+                        <a href="/terms-of-service" className='text-gray-300 text-sm'>Terms of service</a>
                     </div>
                 </div>
                 <hr className='border border-gray-300/40' />

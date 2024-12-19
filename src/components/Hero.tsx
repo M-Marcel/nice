@@ -5,7 +5,7 @@ type HeroProps = {
 
 const Hero = ({children}:HeroProps) => {
     return(
-        <div className="Hero-section lg:h-screen relative z-10">
+        <div className="Hero-section lg:h-screen relative z-10 ">
             {children}
         </div>
     )
