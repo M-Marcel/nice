@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 import { User } from "../dataTypes";
 
 const API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/auth`;
-const VERIFY_API_URL = `${process.env.REACT_APP_BASEURL}/signup/confirm`;
+const VERIFY_API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/auth/signup/confirm`;
 const GET_USER_PROFILE = `${process.env.REACT_APP_BASEURL}/api/v1/users/profile/me`;
 
 interface ApiErrorResponse {
