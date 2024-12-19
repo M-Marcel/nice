@@ -1,196 +1,214 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { User } from "../dataTypes";
 
-const API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/auth`
-const VERIFY_API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/auth/signup/confirm?token=`
-const GET_USER_PROFILE = `${process.env.REACT_APP_BASEURL}/api/v1/users/profile/me`
+const API_URL = "https://zroleak-core-service-bbf444d92e4f.herokuapp.com/api/v1/auth";
+const VERIFY_API_URL = `${API_URL}/signup/confirm`;
+const GET_USER_PROFILE = "https://zroleak-core-service-bbf444d92e4f.herokuapp.com/api/v1/users/profile/me";
 
+interface ApiErrorResponse {
+    message: string;
+}
 
+// Helper to get auth headers
+const getAuthHeaders = (): Record<string, string> => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        throw new Error("Authentication token is missing. Please log in again.");
+    }
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+    };
+};
+// handle API errors
+const handleApiError = (error: AxiosError): never => {
+    const errorMessage = (error.response?.data as ApiErrorResponse)?.message ||
+        "An unexpected error occurred. Please try again.";
+    throw new Error(errorMessage);
+};
+
+// Helper to save user data to localStorage
+const saveUserToLocalStorage = (data: any) => {
+    localStorage.setItem("user", JSON.stringify(data));
+};
+
+// Register user
 const register = async (userData: { firstName: string; lastName: string; email: string }): Promise<{ user: User; message: string }> => {
-    const response = await axios.post(`${API_URL}/signup`, userData, {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-    })
+    try {
+        const response = await axios.post(`${API_URL}/signup`, userData, {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+        });
 
-    if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data))
-        console.log(response.data);
+        saveUserToLocalStorage(response.data);
         return {
             user: response.data,
             message: response.data.message,
         };
+    } catch (error: any) {
+        handleApiError(error);
+        throw new Error("Registration failed");
     }
-    throw new Error('Registration failed')
-}
+};
 
-
-
-const verifyEmail = async (token: string) => {
+// Verify email
+const verifyEmail = async (token: string): Promise<{ email: string; message: string }> => {
     try {
         const response = await axios.get(VERIFY_API_URL, {
             params: { token },
         });
         return response.data;
     } catch (error: any) {
-        console.error('Error during email verification:', error);
-
-        if (error.response && error.response.data?.message) {
-            throw new Error(error.response.data.message);
-        } else {
-            throw new Error('An error occurred while verifying your email. Please try again.');
-        }
+        handleApiError(error);
+        throw new Error("verification failed");
     }
 };
 
-
-
+// Login user
 const login = async (userData: { email: string; password: string }): Promise<{ user: User; token: string; message: string }> => {
-    const response = await axios.post(`${API_URL}/login`, userData, {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-    })
-    if (response.data) {
+    try {
+        const response = await axios.post(`${API_URL}/login`, userData, {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+        });
+
         const { user, token, message } = response.data;
         localStorage.setItem("token", token);
+        saveUserToLocalStorage(user);
         return { user, token, message };
-
+    } catch (error: any) {
+        handleApiError(error);
+        throw new Error("login failed");
     }
-    throw new Error('login failed');
+};
 
-}
+// Forgot password
+const forgotPassword = async (userData: { email: string }): Promise<{ message: string }> => {
+    try {
+        const response = await axios.post(`${API_URL}/forgot-password`, userData, {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+        });
 
-const forgotPassword = async (userData: { email: string }): Promise<{ user: User; message: string }> => {
-    const response = await axios.post(`${API_URL}/forgot-password`, userData, {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-    })
-    if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data))
-        console.log(response.data);
-        return {
-            user: response.data,
-            message: response.data.message,
-        };
+        return response.data;
+    } catch (error: any) {
+        handleApiError(error);
+        throw new Error("failed");
     }
-    throw new Error('failed');
+};
 
-}
-
+// Validate OTP
 const validateOtp = async (userData: { email: string; otp: string }): Promise<{ user: User; message: string }> => {
-    const response = await axios.post(`${API_URL}/validate-otp`, userData, {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-    })
-    if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data))
+    try {
+        const response = await axios.post(`${API_URL}/validate-otp`, userData, {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+        });
+        saveUserToLocalStorage(response.data);
         console.log(response.data);
         return {
             user: response.data,
             message: response.data.message,
         };
+    } catch (error: any) {
+        handleApiError(error);
+        throw new Error("OTP validation failed");
     }
-    throw new Error('failed');
-}
+};
 
-const resetPassword = async (userData: { email: string; newPassword: string }): Promise<{ user: User; message: string }> => {
-    const response = await axios.patch(`${API_URL}/reset-password`, userData, {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-    })
-    if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data))
-        console.log(response.data);
-        return {
-            user: response.data,
-            message: response.data.message,
-        };
+// Reset password
+const resetPassword = async (userData: { email: string; newPassword: string }): Promise<{ message: string }> => {
+    try {
+        const response = await axios.patch(`${API_URL}/reset-password`, userData, {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+        });
+
+        return response.data;
+    } catch (error: any) {
+        handleApiError(error);
+        throw new Error("password reset failed");
     }
-    throw new Error('failed');
-}
+};
 
+// Complete signup
 const completeSignUp = async (userData: {
     email: string;
     password: string;
     userWorkRole: string;
     userCompanySize: string;
     userUseForZroleak: string[];
-    userTechnicalExperience: string
+    userTechnicalExperience: string;
 }): Promise<{ user: User; message: string }> => {
+    try {
+        const response = await axios.post(`${API_URL}/signup/complete`, userData, {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: true,
+        });
 
-    const response = await axios.post(`${API_URL}/signup/complete`, userData, {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        withCredentials: true,
-    })
-
-    if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data))
-        console.log(response.data);
+        saveUserToLocalStorage(response.data);
         return {
             user: response.data,
             message: response.data.message,
         };
+    } catch (error: any) {
+        handleApiError(error);
+        throw new Error("registration failed");
     }
-    throw new Error('failed');
+};
 
-}
-
-
+// Get user profile
 const getProfile = async (): Promise<{ user: User; message: string }> => {
     try {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            throw new Error("Authentication token is missing. Please log in again.");
-        }
-
         const response = await axios.get(GET_USER_PROFILE, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
+            headers: getAuthHeaders(),
             withCredentials: true,
         });
 
-        if (response.status === 200 && response.data) {
-            const { user, message } = response.data;
-            console.log("User profile retrieved successfully:", user);
-            return { user, message };
-        } else {
-            throw new Error("Unexpected response from the server. Please try again later.");
-        }
+        return response.data;
     } catch (error: any) {
-        console.error("Failed to retrieve user profile:", error);
-        if (error.response) {
-            const { status, data } = error.response;
-            if (status === 401) {
-                throw new Error("Unauthorized access. Please log in again.");
-            } else if (data?.message) {
-                throw new Error(data.message);
-            }
-        }
-
-        throw new Error("An error occurred while retrieving the profile. Please try again later.");
+        handleApiError(error);
+        throw new Error("failed fetching profile");
     }
 };
 
 
-const logout = () => {
-    // Clear user data from localStorage
+// Update user profile
+const updateProfile = async (userData: {
+    firstName: string;
+    lastName: string;
+    userTechnicalExperience: string;
+    userWorkRole: string;
+}): Promise<{ user: User | null; message: string, success: boolean }> => {
+    try {
+        const response = await axios.patch(GET_USER_PROFILE, userData, {
+            headers: getAuthHeaders(),
+            withCredentials: true,
+        });
+        saveUserToLocalStorage(response.data);
+        // Return updated user data along with a success flag
+        return {
+            user: response.data,
+            message: "Profile updated successfully",
+            success: true,
+        };
+    } catch (error: any) {
+        handleApiError(error);
+        // Return error information
+        return {
+            user: null,
+            message: "Failed updating profile",
+            success: false,
+        };
+    }
+};
+
+
+// Logout user
+const logout = (): void => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    return;
-}
+};
 
 const authService = {
     register,
@@ -201,7 +219,8 @@ const authService = {
     resetPassword,
     completeSignUp,
     getProfile,
-    logout
-}
+    updateProfile,
+    logout,
+};
 
-export default authService
+export default authService;

@@ -54,12 +54,19 @@ export type ResetPasswordFormData = {
 }
 
 export type CompleteSignUpFormData = {
-    email: string
+    email: string;
     password: string;
     userWorkRole: string;
     userCompanySize: string;
     userUseForZroleak: string[];
     userTechnicalExperience: string
+}
+
+export type UpdateProfileFormData = {
+    firstName: string
+    lastName: string,
+    userTechnicalExperience: string,
+    userWorkRole: string
 }
 export type Feature = {
     _id: string;
@@ -87,3 +94,4 @@ export type FeatureFormData = {
     tag: string
     description: string
 }
+

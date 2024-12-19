@@ -9,7 +9,7 @@ import Button from '../../components/Button'
 
 type ValidateOtpProps = {
     email: string
-    openResetPasswordModal:() => void
+    openResetPasswordModal: () => void
 }
 
 const ValidateOtp = ({ email, openResetPasswordModal }: ValidateOtpProps) => {
@@ -25,7 +25,7 @@ const ValidateOtp = ({ email, openResetPasswordModal }: ValidateOtpProps) => {
 
     const dispatch = useAppDispatch()
 
-    const {isLoading, isValidationSuccess, message } = useAppSelector((state) => state.auth)
+    const { isLoading, isValidationSuccess, message } = useAppSelector((state) => state.auth)
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
         const { value } = e.target;
@@ -33,7 +33,7 @@ const ValidateOtp = ({ email, openResetPasswordModal }: ValidateOtpProps) => {
 
         setFormData((prevState) => {
             const updatedOtp = [...prevState.otp];
-            updatedOtp[index] = value; 
+            updatedOtp[index] = value;
             return {
                 ...prevState,
                 otp: updatedOtp,
@@ -52,17 +52,17 @@ const ValidateOtp = ({ email, openResetPasswordModal }: ValidateOtpProps) => {
                 otp: otp.join('')
             }
             dispatch(validateOtp(userData))
-            setShowResend(true); 
+            setShowResend(true);
             setTimer(6);
         }
     }
     const handleResend = () => {
-        setShowResend(false); 
+        setShowResend(false);
         setTimer(6);
         const userData = {
             email,
         }
-        toast.success('an OTP has been sent to your mail');
+     
         dispatch(forgotPassword(userData))
     }
 
@@ -83,7 +83,7 @@ const ValidateOtp = ({ email, openResetPasswordModal }: ValidateOtpProps) => {
 
         return () => {
             if (interval) clearInterval(interval);
-          
+
         };
     }, [showResend]);
 
@@ -93,16 +93,16 @@ const ValidateOtp = ({ email, openResetPasswordModal }: ValidateOtpProps) => {
             openResetPasswordModal()
             setShowResend(false)
         }
-        return() => {
+        return () => {
 
             dispatch(reset())
         }
-        
-      
+
+
     }, [isValidationSuccess, message, dispatch, openResetPasswordModal])
 
 
-   
+
 
     return (
         <div className="bg-white px-4 py-4 h-full flex flex-col justify-center items-center">
@@ -152,9 +152,8 @@ const ValidateOtp = ({ email, openResetPasswordModal }: ValidateOtpProps) => {
                     {!showResend ? (
                         <SubmitButton
                             isLoading={isLoading}
-                            className={`px-4 py-2 w-full text-white rounded-lg text-md ${
-                                isLoading ? 'bg-blue-100/55' : 'bg-blue-500 hover:bg-blue-600'
-                            }`}
+                            className={`px-4 py-2 w-full text-white rounded-lg text-md ${isLoading ? 'bg-blue-100/55' : 'bg-blue-500 hover:bg-blue-600'
+                                }`}
                         >
                             Continue
                         </SubmitButton>
