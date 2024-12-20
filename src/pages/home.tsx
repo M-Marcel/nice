@@ -26,7 +26,6 @@ const Home = () => {
             openLoginModal={() => setActiveModal("login")}
           />
           <Heading className="">
-          
             <div className="relative top-[150px]">
               <div className="flex flex-col items-center justify-center ">
                 <Social />

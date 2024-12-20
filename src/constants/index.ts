@@ -146,23 +146,28 @@ export const votedBots = [
 export const socialLinks = [
    {
     id:0,
-    image:Social1
+    image:Social1,
+    url:"https://www.linkedin.com/company/lanepact"
    },
    {
     id:1,
-    image:Social2
+    image:Social2,
+     url:"https://www.instagram.com/officiallanepact"
    },
    {
     id:2,
-    image:Social3
+    image:Social3,
+     url:"https://www.facebook.com/Lanepact"
    },
    {
     id:3,
-    image:Social4
+    image:Social4,
+     url:"https://x.com/lanepact"
    },
    {
     id:4,
-    image:Social5
+    image:Social5,
+      url:"https://www.facebook.com/Lanepact"
    },
 
 ]

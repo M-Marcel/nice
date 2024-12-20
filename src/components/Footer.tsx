@@ -9,16 +9,16 @@ const Footer = () => {
                     <img src={Logo} alt="logo" width={20} height={20} />
                     <img src={LogoText} alt="logo" width={80} height={80} />
                 </div>
-                <div className='flex flex-col lg:flex-row justify-between mt-4 pb-8'>
-                    <div>
+                <div className='flex flex-row lg:flex-row justify-between mt-4 pb-8'>
+                    <div className='mb-4 lg:mb-0'>
                         <a className='text-gray-300 text-sm' href="/">info@lanepact.io</a>
                     </div>
-                    <div className='flex justify-between gap-4'>
+                    <div className='flex flex-col md:flex-row justify-between gap-4'>
                         <a href="/" className='text-gray-300 text-sm'>Home</a>
                         <a href="/community" className='text-gray-300 text-sm'>Community</a>
                         <a href="/request-a-feature" className='text-gray-300 text-sm'>Request a feature</a>
-                        <a href="/privacy-policy" className='text-gray-300 text-sm'>Privacy policy</a>
-                        <a href="/terms-of-service" className='text-gray-300 text-sm'>Terms of service</a>
+                        <a href="/privacy" className='text-gray-300 text-sm'>Privacy policy</a>
+                        <a href="/terms" className='text-gray-300 text-sm'>Terms of service</a>
                     </div>
                 </div>
                 <hr className='border border-gray-300/40' />
