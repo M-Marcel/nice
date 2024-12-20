@@ -14,11 +14,12 @@ import FeatureRequest from "../components/FeatureRequest"
 import NextIcon from "../assets/svg/NextIcon"
 import PrevIcon from "../assets/svg/PrevIcon"
 import LoaderIcon from "../assets/loader.svg"
-import Progress from "../assets/progbar.png"
+// import Progress from "../assets/progbar.png"
 import Modal from "../components/Modal"
 import RequestForm from "../components/RequestForm"
 import { useModal } from "../context/ModalContext"
 import TelegramModal from "../components/telegramModal"
+
 
 
 
@@ -42,6 +43,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         dispatch(getAllFeatureRequest(currentPage));
+        // setActiveModal("telegramModal")
         // eslint-disable-next-line
     }, [dispatch]);
 
@@ -115,7 +117,7 @@ const Dashboard = () => {
 
                             </div>
                         </div>
-                        <div className="flex flex-col lg:flex-row justify-between px-2 mt-6">
+                        {/* <div className="flex flex-col lg:flex-row justify-between px-2 mt-6">
                             <div className=" w-[100%] lg:w-[49%] border border-gray-600 px-4 py-4 rounded-2xl mb-4 lg:mb-0">
                                 <p className="text-xs text-gray-500 w-[60%]">You're <span className="font-500 text-black-500">#45</span> out of <span className="font-500 text-black-500">1000</span> waiting to get access</p>
                                 <div className="mt-4">
@@ -131,10 +133,8 @@ const Dashboard = () => {
                                     <p className="text-xs lg:text-sm text-gray-500">www.lanepact.com/{user?.firstName || "User"}</p>
                                     <Button className="bg-white border border-gray-100 rounded-full px-2 py-2 text-xs">Copy</Button>
                                 </div>
-
                             </div>
-
-                        </div>
+                        </div> */}
                         <div className="mt-8 py-10 purpose-bg flex justify-center items-center">
                             <img src={BotDesign} alt="dashboardHero" width={400} />
                         </div>
@@ -213,6 +213,8 @@ const Dashboard = () => {
             <Modal isVisible={activeModal === "telegramModal"} onClose={closeModal}>
                 <TelegramModal />
             </Modal>
+          
+          
 
         </div>
     )
