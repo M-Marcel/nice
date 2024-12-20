@@ -18,6 +18,7 @@ import Progress from "../assets/progbar.png"
 import Modal from "../components/Modal"
 import RequestForm from "../components/RequestForm"
 import { useModal } from "../context/ModalContext"
+import TelegramModal from "../components/telegramModal"
 
 
 
@@ -208,6 +209,9 @@ const Dashboard = () => {
             </div>
             <Modal isVisible={activeModal === "requestForm"} onClose={closeModal}>
                 <RequestForm onNewFeature={() => { }} />
+            </Modal>
+            <Modal isVisible={activeModal === "telegramModal"} onClose={closeModal}>
+                <TelegramModal />
             </Modal>
 
         </div>

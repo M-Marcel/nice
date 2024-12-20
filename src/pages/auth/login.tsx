@@ -13,12 +13,14 @@ import { toast } from 'react-toastify'
 import { login, reset } from '../../slices/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
 
+
 type LoginProps = {
     openForgotPasswordModal: () => void;
     openSignUpModal:() => void;
+    openTelegramModal:() => void
 }
 
-const Login = ({ openForgotPasswordModal, openSignUpModal }: LoginProps) => {
+const Login = ({ openForgotPasswordModal, openSignUpModal, openTelegramModal }: LoginProps) => {
     const navigate = useNavigate()
 
     const [passWordVisible, setPassWordVisible] = useState<boolean>(false)
@@ -59,13 +61,14 @@ const Login = ({ openForgotPasswordModal, openSignUpModal }: LoginProps) => {
     useEffect(() => {
         if (isLoginSuccess) {
             navigate('/dashboard')
+            openTelegramModal()
             enablePageScroll()
         }
 
         return () => {
             dispatch(reset())
         }
-    }, [isLoginSuccess, message, dispatch, navigate])
+    }, [isLoginSuccess, message, dispatch, openTelegramModal, navigate])
 
     return (
         <div className="bg-white px-4 py-4 h-full mx-4 lg:mx-0">
@@ -132,9 +135,9 @@ const Login = ({ openForgotPasswordModal, openSignUpModal }: LoginProps) => {
                 >
                     Login
                 </SubmitButton>
-                <div className="flex justify-center items-center">
+                {/* <div className="flex justify-center items-center">
                     <p className="text-gray-400 mt-2 text-sm">or login with</p>
-                </div>
+                </div> */}
                 {/* <div className="flex justify-center items-center gap-2 mt-4">
                     <div className="flex justify-between gap-8">
                         <a href="/" className="rounded-lg px-8 py-2 border border-gray-600">

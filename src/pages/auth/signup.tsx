@@ -110,9 +110,9 @@ const SignUp = () => {
           Continue
         </SubmitButton>
 
-        <div className="flex justify-center items-center">
+        {/* <div className="flex justify-center items-center">
           <p className="text-gray-400 mt-3 text-sm">or continue with</p>
-        </div>
+        </div> */}
 
         {/* Uncomment for third-party auth buttons */}
         {/* <div className="flex justify-center items-center gap-2 mt-4">

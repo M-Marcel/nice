@@ -5,7 +5,7 @@ const Social = () => {
     return (
        <div className='flex relative'>
           {socialLinks.map((item, index) => (
-             <a href="/"
+             <a href={item.url}
               key={item.id} 
               className="relative"
               style={{ marginLeft: index === 0 ? 0 : -7 }}
