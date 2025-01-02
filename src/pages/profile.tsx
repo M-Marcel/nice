@@ -189,12 +189,12 @@ const Profile = () => {
                       </div>
                       <p className="text-sm">{formData?.createdAt}</p>
                     </div>
-                    <div className="mb-3 px-3 mt-4 border border-gray-600 py-4 rounded-lg">
+                    {/* <div className="mb-3 px-3 mt-4 border border-gray-600 py-4 rounded-lg">
                       <div className="mb-3">
                         <Button className="bg-black-500 text-xs text-white px-2 py-2 rounded-full">14 Invites</Button>
                       </div>
                       <p className="text-sm">www.lanepact.com/john</p>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
