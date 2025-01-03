@@ -189,7 +189,7 @@ const LetUsKnowYou = () => {
                                 "Automating customer support",
                                 "Managing a community",
                                 "Creating Web3/crypto-related bots",
-                                "Running a market campaign",
+                                "Running a marketing campaign",
                                 "Other"
                             ].map((useCase) => (
                                 <InputChecker
