@@ -88,7 +88,7 @@ const LeftSidebar = () => {
                             <p className="text-sm">{user?.lastName} {user?.firstName}</p>
                         </a>
                     </div>
-                    <img src={UnfoldIcon} alt="unfold" width={15} height={15} />
+                    {/* <img src={UnfoldIcon} alt="unfold" width={15} height={15} /> */}
                 </div>
                 {
                     SidebarLinks.map((item) => (
