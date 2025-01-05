@@ -69,7 +69,7 @@ const Dashboard = () => {
     return (
         <div className="dashboard flex flex-col lg:flex-row px-2">
             <LeftSidebar />
-            <div className="px-4 w-[100%] lg:w-[80%] lg:relative md:z-30 lg:z-50 left-[18%]">
+            <div className="px-4 w-[100%] lg:w-[80%] lg:relative md:z-30 lg:z-40 left-[18%]">
                 <div className=" items-center justify-between hidden md:flex md:w-[92%] lg:w-[80%] bg-white py-4 px-2 fixed z-50">
                     <Search />
                     <div className="flex gap-2">

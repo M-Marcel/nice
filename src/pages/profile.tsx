@@ -1,76 +1,40 @@
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import { useAppDispatch, useAppSelector } from "../hooks";
-import { getProfile, updateProfile } from "../slices/auth/authSlice";
+import { useState } from "react";
 import Button from "../components/Button";
 import LeftSidebar from "../components/LeftSidebar";
-import ProfileFrame from "../assets/dbFrame.png";
-import Elipse from '../assets/Ellipse2.png'
-import Pencil from '../assets/pencil.png'
-import Dashboardicon from '../assets/dashboard.png'
-import { useNavigate } from "react-router-dom";
+import ProfileTab from "../components/ProfileTab";
+import EarlyAccess from "../components/EarlyAccess";
+import Password from "../components/Password";
+import Notifications from "../components/Notifications";
+
+// Import icons
+import ProfileIcon from '../assets/svg/UserIcon';
+import PasswordIcon from "../assets/svg/LockIcon";
+import NotificationsIcon from "../assets/svg/NotifyIcon";
+import EarlyAccessIcon from "../assets/svg/EarlyAccessIcon";
 
 const Profile = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate()
-  const { isFetchProfileSuccess, user, isUpdateProfileSuccess, isLoading, message } = useAppSelector((state) => state.auth);
+  const [activeTab, setActiveTab] = useState<string>("Profile"); // Track active tab
 
-  const [formData, setFormData] = useState({
-    fullName: `${user?.firstName || ""} ${user?.lastName || ""}`,
-    workRole: user?.userWorkRole || "",
-    experienceLevel: user?.userTechnicalExperience || "",
-    email: user?.email || "",
-    createdAt: user?.createdAt ? new Date(user.createdAt).toLocaleString() : "",
-  });
+  const tabs = [
+    { name: "Profile", icon: ProfileIcon },
+    { name: "Password", icon: PasswordIcon },
+    { name: "Notifications", icon: NotificationsIcon },
+    { name: "Early Access", icon: EarlyAccessIcon },
+  ];
 
-  const [isEditable, setIsEditable] = useState(false);
-
-  // Fetch user profile
-  useEffect(() => {
-    if (!user) dispatch(getProfile());
-
-    if (isFetchProfileSuccess) toast.success("Profile loaded successfully");
-
-    return () => {
-
-    };
-  }, [dispatch, isFetchProfileSuccess, user]);
-
-  useEffect(() => {
-
-    if (isUpdateProfileSuccess) {
-      toast.success("Profile updated successfully!");
-      setIsEditable(false);
-      navigate("/dashboard")
-
+  const renderContent = () => {
+    switch (activeTab) {
+      case "Early Access":
+        return <EarlyAccess />;
+      case "Profile":
+        return <ProfileTab />;
+      case "Password":
+        return <Password />;
+      case "Notifications":
+        return <Notifications />;
+      default:
+        return null;
     }
-  }, [isUpdateProfileSuccess, navigate]);
-
-  const handleEditToggle = () => {
-    setIsEditable(true); // Enable editing when Edit button is clicked
-  };
-
-  const handleSave = (e: React.FormEvent) => {
-    e.preventDefault();
-    const [firstName, lastName] = formData.fullName.split(" ");
-    const updatedData = {
-      firstName: firstName || "",
-      lastName: lastName || "",
-      userTechnicalExperience: formData.experienceLevel,
-      userWorkRole: formData.workRole,
-    };
-    dispatch(updateProfile(updatedData));
-    if (isUpdateProfileSuccess) {
-      toast.success("Profile updated successfully!");
-      setIsEditable(false);
-      navigate("/dashboard")
-
-    }
-
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   return (
@@ -78,128 +42,27 @@ const Profile = () => {
       <LeftSidebar />
       <div className="px-4 w-full lg:w-4/5 lg:relative left-[18%]">
         <div className="flex flex-col lg:flex-row gap-8 mt-8">
-          <div className="w-full lg:w-1/5 px-4 py-4">
-            <div className="relative flex flex-col gap-3 top-[50px]">
-              <a href="/" className="text-xs">Profile</a>
-              <a href="/" className="text-xs text-gray-500">Password</a>
-              <a href="/" className="text-xs text-gray-500">Notifications</a>
-              <a href="/" className="text-xs text-gray-500">Early actions</a>
-            </div>
-          </div>
-
-          <div className="w-full lg:w-4/5 px-2 py-4">
-            <div>
-              <img src={ProfileFrame} alt="profile-frame" className="rounded-3xl mb-6" />
-
-              <div className="bg-white py-3 px-3">
-                <div className="mb-4 lg:absolute top-[30%]">
-                  <img
-                    src={Elipse}
-                    alt="Profile"
-                    width={65}
-                    height={65}
-                    className="rounded-full"
+          <div className="w-full lg:w-[20%] px-4 py-4">
+            <div className="relative flex flex-col gap-4 top-[50px]">
+              {tabs.map((tab) => (
+                <Button
+                  key={tab.name}
+                  onClick={() => setActiveTab(tab.name)}
+                  className={`flex items-center gap-3 text-sm text-left ${activeTab === tab.name
+                      ? "text-black font-medium"
+                      : "text-gray-500 hover:text-black"
+                    }`}
+                >
+                  <tab.icon
+                    className={`w-5 h-5 ${activeTab === tab.name ? "text-black" : "text-gray-500"
+                      }`}
                   />
-                </div>
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h2 className="text-sm">{formData.fullName}</h2>
-                    <p className="text-xs text-gray-500">{formData.email}</p>
-                  </div>
-                  <Button className="bg-white text-sm border border-gray-600 py-2 px-2 rounded-lg">
-                    Change image
-                  </Button>
-                </div>
-                <div className="flex flex-col lg:flex-row gap-4 justify-between">
-                  <form className="w-[100%] lg:w-[50%]" onSubmit={handleSave}>
-                    {message && <p className="text-red-500 text-sm mt-2">{message}</p>}
-                    <div className="flex flex-col lg:flex-row justify-between items-center">
-                      <div className="flex w-[100%] lg:w-[70%] flex-col mb-3">
-                        <label className="mb-1 text-sm text-gray-500">Full name</label>
-                        <input
-                          type="text"
-                          name="fullName"
-                          value={formData.fullName}
-                          onChange={handleInputChange}
-                          disabled={!isEditable}
-                          className="border py-2 px-2 w-[100%] border-gray-600 outline-0 rounded-lg"
-                        />
-                      </div>
-                      <div className="w-[100%] lg:w-[25%] flex gap-6 items-center mt-4">
-                        {!isEditable && (
-                          <Button
-                            onClick={handleEditToggle}
-                            type="button"
-                            className="bg-white mt-3 gap-2 flex flex-row items-center border-none px-2 py-2"
-                          >
-                            <img src={Pencil} alt="pencil" width={20} height={20} />
-                            <span className="text-gray-500 text-sm">Edit</span>
-                          </Button>
-                        )}
-                        {isEditable && (
-                          <Button className="custom-bg px-4 py-2 rounded-lg text-white text-sm" type="submit" disabled={isLoading}>
-                            {isLoading ? "Saving..." : "Save"}
-                          </Button>
-                        )}
-
-
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="flex w-[90%] flex-col mb-3">
-                        <label className="mb-1 text-sm text-gray-500">Role</label>
-                        <input
-                          type="text"
-                          name="workRole"
-                          value={formData.workRole}
-                          onChange={handleInputChange}
-                          disabled={!isEditable}
-                          className="border px-2 py-2 w-[100%] border-gray-600 outline-0 rounded-lg"
-                        />
-                      </div>
-
-                    </div>
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="flex w-[90%] flex-col mb-3">
-                        <label className="mb-1 text-sm text-gray-500">Experience level</label>
-                        <input
-                          type="text"
-                          name="experienceLevel"
-                          value={formData.experienceLevel}
-                          onChange={handleInputChange}
-                          disabled={!isEditable}
-                          className="px-2 border py-2 w-[100%] border-gray-600 outline-0 rounded-lg"
-
-                        />
-                      </div>
-                    </div>
-                  </form>
-                  <div className="w-[100%] lg:w-[35%]">
-                    <div className="mb-3 px-3 mt-4 border border-gray-600 py-4 rounded-lg">
-                      <div className="mb-3">
-                        <img src={Dashboardicon} alt="dashboardIcon" className="mb-2" width={20} height={20} />
-                        <p className="text-gray-500 text-sm">Account created</p>
-                      </div>
-                      <p className="text-sm">{formData?.createdAt}</p>
-                    </div>
-                    <div className="mb-3 px-3 mt-4 border border-gray-600 py-4 rounded-lg">
-                      <div className="mb-3">
-                        <img src={Dashboardicon} alt="dashboardIcon" className="mb-2" width={20} height={20} />
-                        <p className="text-gray-500 text-sm">Account created</p>
-                      </div>
-                      <p className="text-sm">{formData?.createdAt}</p>
-                    </div>
-                    {/* <div className="mb-3 px-3 mt-4 border border-gray-600 py-4 rounded-lg">
-                      <div className="mb-3">
-                        <Button className="bg-black-500 text-xs text-white px-2 py-2 rounded-full">14 Invites</Button>
-                      </div>
-                      <p className="text-sm">www.lanepact.com/john</p>
-                    </div> */}
-                  </div>
-                </div>
-              </div>
+                  {tab.name}
+                </Button>
+              ))}
             </div>
           </div>
+          <div className="w-full lg:w-4/5 px-2 py-4">{renderContent()}</div>
         </div>
       </div>
     </div>
