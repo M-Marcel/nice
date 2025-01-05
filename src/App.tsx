@@ -17,14 +17,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { useEffect } from "react";
 import { useAppDispatch } from "./hooks";
 import { setToken } from "./slices/auth/authSlice";
-import Password from "./pages/Password";
-import NotificationsPage from "./pages/NotificationsPage";
-import EarlyAccess from "./pages/EarlyAccess";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms&Condition";
 import Features from "./pages/Features";
-
-
 
 function App() {
 
@@ -35,16 +30,16 @@ function App() {
     const storedUser = localStorage.getItem("user");
 
     if (storedToken) {
-        dispatch(setToken(storedToken));
+      dispatch(setToken(storedToken));
     }
     if (storedUser) {
-        dispatch({ type: 'auth/userRestored', payload: JSON.parse(storedUser) });
+      dispatch({ type: 'auth/userRestored', payload: JSON.parse(storedUser) });
     }
-}, [dispatch]);
-// Testing the staging codebase
- 
+  }, [dispatch]);
+  // Testing the staging codebase
+
   return (
-    <ModalProvider> 
+    <ModalProvider>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/features" element={<Features />} />
@@ -55,16 +50,13 @@ function App() {
         <Route path="/verifyEmail" element={<VerifyEmail />} />
         <Route path="/let-us-know-you" element={<LetUsKnowYou />} />
         <Route path="/contact-us" element={<Contact />} />
-        <Route path="/password" element={<Password />} />
-        <Route path="/notifications-page" element={<NotificationsPage />} />
-        <Route path="/early-actions" element={<EarlyAccess />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
 
         <Route element={<ProtectedRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/profile" element={<Profile />} />
-        </Route> 
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
       </Routes>
       <ToastContainer />
     </ModalProvider>
