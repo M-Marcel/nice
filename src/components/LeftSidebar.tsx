@@ -10,14 +10,26 @@ import { logout } from "../slices/auth/authSlice"
 import { useNavigate } from "react-router-dom"
 import Logout from "../assets/svg/Logout"
 import ComputerIcon from "../assets/computer-white.png"
+import LogoutModal from "./LogoutModal"
+
 
 const LeftSidebar = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
     const user = useAppSelector((state) => state.auth.user);
 
+
     const toggleSidebar = () => {
         setSidebarOpen(!sidebarOpen);
+    };
+
+    const openLogoutModal = () => {
+        setLogoutModalOpen(true);
+    };
+
+    const closeLogoutModal = () => {
+        setLogoutModalOpen(false);
     };
 
     const navigate = useNavigate()
@@ -44,22 +56,22 @@ const LeftSidebar = () => {
                         </Button>
                     </div>
                     <button
-                    onClick={toggleSidebar}
-                    className="text-xs z-50 mr-4 text-white px-2 py-3 rounded-md lg:hidden"
-                >
-                    {sidebarOpen ?
+                        onClick={toggleSidebar}
+                        className="text-xs z-50 mr-4 text-white px-2 py-3 rounded-md lg:hidden"
+                    >
+                        {sidebarOpen ?
 
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1A1C1F" className="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                        </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1A1C1F" className="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                            </svg>
 
-                        :
+                            :
 
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1A1C1F" className="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                      </svg>
-                    }
-                </button>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1A1C1F" className="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                            </svg>
+                        }
+                    </button>
                 </div>
             </div>
 
@@ -76,7 +88,7 @@ const LeftSidebar = () => {
                             <p className="text-sm">{user?.lastName} {user?.firstName}</p>
                         </a>
                     </div>
-                    <img src={UnfoldIcon} alt="unfold" width={15} height={15} />
+                    {/* <img src={UnfoldIcon} alt="unfold" width={15} height={15} /> */}
                 </div>
                 {
                     SidebarLinks.map((item) => (
@@ -96,13 +108,14 @@ const LeftSidebar = () => {
                     <p className="text-sm">Contact us</p>
                 </a>
 
-                <Button onClick={handleLogout} className="flex gap-2 items-center bg-white text-sm">
+                <Button onClick={openLogoutModal} className="flex gap-2 items-center bg-white text-sm">
                     <Logout />
                     <span className="text-red-600">Log out</span>
                 </Button>
-
-
             </div>
+            {logoutModalOpen && (
+                <LogoutModal onClose={closeLogoutModal} onConfirm={handleLogout} />
+            )}
 
         </>
 

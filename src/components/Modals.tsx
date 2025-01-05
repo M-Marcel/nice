@@ -11,6 +11,7 @@ import TelegramModal from "./telegramModal";
 
 
 
+
 type ModalsProps = {
   email: string;
   setEmail: React.Dispatch<React.SetStateAction<string>>;
@@ -21,10 +22,11 @@ const Modals = ({ email, setEmail }: ModalsProps) => {
 
   const closeModal = () => {
     setActiveModal(null);
-    document.body.style.overflow = "auto"; 
+    document.body.style.overflow = "auto";
     enablePageScroll()
 
   };
+
 
   return (
     <>
@@ -36,14 +38,13 @@ const Modals = ({ email, setEmail }: ModalsProps) => {
       <Modal isVisible={activeModal === "telegramModal"} onClose={closeModal}>
         <TelegramModal />
       </Modal>
-
       {/* Login Modal */}
       <Modal isVisible={activeModal === "login"} onClose={closeModal}>
-        <Login 
-        openForgotPasswordModal={() => setActiveModal("forgotPassword")} 
-        openSignUpModal={() => setActiveModal("signup")} 
-        openTelegramModal={() => setActiveModal("telegramModal")}
-      />
+        <Login
+          openForgotPasswordModal={() => setActiveModal("forgotPassword")}
+          openSignUpModal={() => setActiveModal("signup")}
+          openTelegramModal={() => setActiveModal("telegramModal")}
+        />
       </Modal>
 
       {/* Forgot Password Modal */}

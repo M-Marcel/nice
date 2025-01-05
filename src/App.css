@@ -16,6 +16,11 @@
     background-size: cover;
 
 }
+.telegram-section{
+  background-image: url('./assets/frame.jpg');
+  background-size: cover;
+
+}
 .purpose-bg{
     background-image: url('./assets/dots.png');
     background-size: contain;

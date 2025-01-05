@@ -3,6 +3,7 @@ import LeftSidebar from "../components/LeftSidebar"
 import DashboardHero from "../assets/dbherro.png"
 import BotDesign from '../assets/zrobot.png'
 import ComputerIcon from '../assets/computer-white.png'
+import TelegramIcon from '../assets/telegram2.png'
 import Search from "../components/Search"
 import { useAppDispatch, useAppSelector } from "../hooks"
 import {enablePageScroll } from "scroll-lock"
@@ -68,14 +69,21 @@ const Dashboard = () => {
     return (
         <div className="dashboard flex flex-col lg:flex-row px-2">
             <LeftSidebar />
-            <div className="px-4 w-[100%] lg:w-[80%] lg:relative md:z-30 lg:z-50 left-[18%]">
+            <div className="px-4 w-[100%] lg:w-[80%] lg:relative md:z-30 lg:z-40 left-[18%]">
                 <div className=" items-center justify-between hidden md:flex md:w-[92%] lg:w-[80%] bg-white py-4 px-2 fixed z-50">
                     <Search />
-                    <Button className="hidden lg:flex items-center gap-2 bg-black-500 text-sm text-white px-4 py-2
-                     rounded-md">
+                    <div className="flex gap-2">
+                    <Button className="hidden lg:flex items-center gap-2 bg-gray-900 text-sm text-black-700 px-4 py-3 
+                     rounded-xl">
+                        <img src={TelegramIcon} alt="telIcon" width={18} height={18} />
+                        Join Telegram
+                    </Button>
+                    <Button className="hidden lg:flex items-center gap-2 bg-black-500 text-sm text-white px-4 py-3 me-10
+                     rounded-xl">
                         <img src={ComputerIcon} alt="compIcon" width={18} height={18} />
                         Beta
                     </Button>
+                    </div>
                 </div>
                 <div className="flex flex-col lg:flex-row gap-8 mt-14 lg:mt-8">
                     <div className="w-[100%] lg:w-[65%] lg:px-4 relative z-10 lg:py-4 h-auto lg:h-[100vh]">
@@ -87,10 +95,10 @@ const Dashboard = () => {
                                 <div className="px-3 py-2 lg:py-4 md:mt-[60px] lg:mt-[0px]">
                                     <p className="text-white text-3xl leading-9 font-medium w-[100%]">You’re on <br />the list {user?.firstName || "User"}!</p>
                                     <p className="mt-2 text-sm text-white font-500">Get Ready for the Launch</p>
-                                    <p className="text-sm text-white mt-8 flex gap-1 items-center">
+                                    {/* <p className="text-sm text-white mt-8 flex gap-1 items-center">
                                         <img src={Alarm} alt="alarm" className="w-[30px]" />
                                         <span className="w-[60%] lg:w-[auto]">Launching in 14 days!</span>
-                                    </p>
+                                    </p> */}
                                 </div>
                                 <div className="w-[60%]">
                                     <img className="w-[100%] mt-2 md:mt-0" src={Person} alt="Person" />
@@ -106,10 +114,10 @@ const Dashboard = () => {
                                 <div className="px-2 py-1">
                                     <p className="text-white text-sm leading-4 font-medium w-[98%]">You’re on <br />the list {user?.firstName || "User"}!</p>
                                     <p className="mt-2 text-[10px] text-white font-500">Get Ready for the Launch</p>
-                                    <p className="text-[8px] text-white mt-1 mb-2 flex gap-1 items-center">
+                                    {/* <p className="text-[8px] text-white mt-1 mb-2 flex gap-1 items-center">
                                         <img src={Alarm} alt="alarm" className="w-[30px]" />
                                         <span className="w-[60%] lg:w-[auto]">Launching in 14 days!</span>
-                                    </p>
+                                    </p> */}
                                 </div>
                                 <div className="w-[65%]">
                                     <img className="w-[100%] mt-2 md:mt-0" src={Person} alt="Person" />
@@ -148,20 +156,20 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div className="w-[100%] lg:w-[35%] px-2 py-4 h-[100vh]">
-                        <div className="flex justify-between mt-10">
+                        <div className="flex justify-between gap-14 mt-10">
                             <div>
                                 <h2 className="text-sm mb- font-semibold">Feature requests</h2>
-                                <p className="text-xs text-gray-400">Vote request or add yours</p>
+                                <p className="text-xs text-gray-400 ">Vote request or add yours</p>
                             </div>
                             <Button
-                                className="custom-bg text-xs px-2 rounded-md text-white"
+                                className="custom-bg text-xs  px-3 py-3 rounded-xl text-white"
                                 onClick={() => setActiveModal("requestForm")}
                             >Add request
                             </Button>
                         </div>
-                        <div className="mt-8">
+                        <div className="mt-2 ">
                             {isLoading ? (
-                                <div className="flex items-center justify-center gap-4 h-[60vh]">
+                                <div className="flex items-center justify-center gap-6 h-[60vh]">
                                     <img
                                         src={LoaderIcon}
                                         alt="loader"
