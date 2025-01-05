@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { disablePageScroll, enablePageScroll } from "scroll-lock"
 import Logo from './Logo'
 import authService from '../helpers/authService'
+import LogoutModal from './LogoutModal'
 
 // comment
 
@@ -22,6 +23,7 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
     const pathname = useLocation()
     const [openNavigation, setOpenNavigation] = useState<boolean>(false)
     const [scrolled, setScrolled] = useState<boolean>(false);
+    const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
     const toggleNavigation = () => {
         if (openNavigation) {
@@ -48,9 +50,18 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
         return openSignUpModal()
     }
 
+    const openLogoutModal = () => {
+        setLogoutModalOpen(true);
+    };
+
+    const closeLogoutModal = () => {
+        setLogoutModalOpen(false);
+    };
+
     const handleLogout = () => {
         authService.logout()
         navigate('/')
+        setLogoutModalOpen(false)
         enablePageScroll()
     }
 
@@ -106,7 +117,7 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
                             <>
                                 <Button
                                     className="hidden px-3 py-2  font-semibold custom-l-bg backdrop-blur-md rounded-md lg:flex"
-                                    onClick={handleLogout}
+                                    onClick={openLogoutModal}
                                 >
                                     Logout
                                 </Button>
@@ -184,6 +195,9 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
 
                 </div>
             </div>
+            {logoutModalOpen && (
+                <LogoutModal onClose={closeLogoutModal} onConfirm={handleLogout} />
+            )}
 
         </div>
 
