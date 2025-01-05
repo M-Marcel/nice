@@ -20,6 +20,7 @@ import { setToken } from "./slices/auth/authSlice";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms&Condition";
 import Features from "./pages/Features";
+import FeaturesPage from "./pages/FeaturesPage";
 
 function App() {
 
@@ -42,7 +43,7 @@ function App() {
     <ModalProvider>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/features" element={<Features />} />
+        <Route path="/features" element={<FeaturesPage />} />
         <Route path="/community" element={<Community />} />
         <Route path="/request-a-feature" element={<RequestAFeature />} />
         <Route path="/waitlist" element={<WaitList />} />
