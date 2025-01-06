@@ -8,7 +8,6 @@ import Search from "../components/Search"
 import { useAppDispatch, useAppSelector } from "../hooks"
 import {enablePageScroll } from "scroll-lock"
 import Person from '../assets/person.png'
-import Alarm from '../assets/alarm.png'
 import { getAllFeatureRequest } from "../slices/feature/featureSlice"
 import { useEffect, useState } from "react"
 import FeatureRequest from "../components/FeatureRequest"
@@ -44,6 +43,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         dispatch(getAllFeatureRequest(currentPage));
+        enablePageScroll()
         // setActiveModal("telegramModal")
         // eslint-disable-next-line
     }, [dispatch]);
@@ -92,7 +92,7 @@ const Dashboard = () => {
                                 <img src={DashboardHero} alt="dhero" className="w-[100%]" />
                             </div>
                             <div className="absolute flex justify-between top-2 w-full">
-                                <div className="px-3 py-2 lg:py-4 md:mt-[60px] lg:mt-[0px]">
+                                <div className="px-3 py-2 lg:py-4 md:mt-[60px] lg:mt-[25px]">
                                     <p className="text-white text-3xl leading-9 font-medium w-[100%]">You’re on <br />the list {user?.firstName || "User"}!</p>
                                     <p className="mt-2 text-sm text-white font-500">Get Ready for the Launch</p>
                                     {/* <p className="text-sm text-white mt-8 flex gap-1 items-center">
@@ -111,7 +111,7 @@ const Dashboard = () => {
                                 <img src={DashboardHero} alt="dhero" className="w-[100%]" />
                             </div>
                             <div className="absolute flex justify-between top-1 w-full">
-                                <div className="px-2 py-1">
+                                <div className="px-2 py-1 mt-5">
                                     <p className="text-white text-sm leading-4 font-medium w-[98%]">You’re on <br />the list {user?.firstName || "User"}!</p>
                                     <p className="mt-2 text-[10px] text-white font-500">Get Ready for the Launch</p>
                                     {/* <p className="text-[8px] text-white mt-1 mb-2 flex gap-1 items-center">

@@ -1,13 +1,12 @@
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../hooks"
+import { SidebarLinks } from "../constants"
+import { logout } from "../slices/auth/authSlice"
+import Button from "./Button"
 import Logo from "./Logo"
 import Elipse from "../assets/elipse.png"
-import UnfoldIcon from "../assets/unfold.png"
 import UserIcon from "../assets/user.png"
-import { SidebarLinks } from "../constants"
-import { useState } from "react"
-import Button from "./Button"
-import { useAppDispatch, useAppSelector } from "../hooks"
-import { logout } from "../slices/auth/authSlice"
-import { useNavigate } from "react-router-dom"
 import Logout from "../assets/svg/Logout"
 import ComputerIcon from "../assets/computer-white.png"
 import LogoutModal from "./LogoutModal"
@@ -48,7 +47,10 @@ const LeftSidebar = () => {
             <div className="bg-white z-50 fixed py-4 w-full block lg:hidden">
                 <div className="flex justify-between">
                     <div className="flex items-center gap-2 ml-4">
-                        <Logo />
+                        <a href="/">
+                            <Logo />
+                        </a>
+                      
                         <Button className="flex items-center gap-2 bg-black-500 text-xs text-white px-4 py-2
                      rounded-md">
                             <img src={ComputerIcon} alt="compIcon" width={18} height={18} />
