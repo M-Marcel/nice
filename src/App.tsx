@@ -1,9 +1,13 @@
 import { Route, Routes } from "react-router-dom";
+import { useEffect } from "react";
+import { useAppDispatch } from "./hooks";
+import { setToken } from "./slices/auth/authSlice";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import Home from "./pages/home";
 import Community from "./pages/community";
+import FeaturesPage from "./pages/FeaturesPage";
 import WaitList from "./pages/waitlist";
 import DragandDrop from "./components/DragandDrop";
 import LetUsKnowYou from "./pages/auth/let-us-know-you";
@@ -14,13 +18,9 @@ import Dashboard from "./pages/dashboard";
 import Profile from "./pages/profile";
 import RequestAFeature from "./pages/request-a-feature";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { useEffect } from "react";
-import { useAppDispatch } from "./hooks";
-import { setToken } from "./slices/auth/authSlice";
 import Privacy from "./pages/Privacy";
-import Terms from "./pages/Terms&Condition";
-import Features from "./pages/Features";
-import FeaturesPage from "./pages/FeaturesPage";
+import Terms from "./pages/Terms&Condition";;
+
 
 function App() {
 

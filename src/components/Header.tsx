@@ -175,7 +175,7 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
                                         <>
                                             <Button
                                                 className="mb-6 px-3 py-2 custom-l-bg backdrop-blur-md rounded-md lg:flex"
-                                                onClick={handleLogout}
+                                                onClick={openLogoutModal}
                                             >
                                                 Logout
                                             </Button>
