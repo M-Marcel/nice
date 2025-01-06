@@ -81,7 +81,9 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
         description
       }
       dispatch(createFeatureRequest(featureData))
+     
     }
+    
   }
 
   useEffect(() => {
@@ -93,12 +95,13 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
         description: '',
       });
       onNewFeature();
+      setActiveModal(null)
     }
     return () => {
       dispatch(reset())
     }
 
-  }, [isSuccess, message, onNewFeature, dispatch])
+  }, [isSuccess, message, onNewFeature, dispatch, setActiveModal])
 
 
   return (

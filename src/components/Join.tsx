@@ -1,8 +1,8 @@
 import Telegram from "../assets/telegram.png";
-import Social from "../assets/social.png";
-import Chat from "../assets/chat.png";
 import Twitter from "../assets/twitter.png";
-// import Facebook from "../assets/facebook2.png";
+import Instagram from "../assets/instagram.png"
+import Linkedin from "../assets/linkedin.png"
+import Facebook from "../assets/facebook.png"
 
 const Join = () => {
   return (
@@ -27,17 +27,17 @@ const Join = () => {
           </a>
           <a href="https://www.instagram.com/officiallanepact" target="blank">
             <span className="rounded-full flex items-center custom-blue px-3 py-3 justify-center">
-              <img src={Social} alt="instagram" width={20} height={20} />
+              <img src={Instagram} alt="instagram" width={20} height={20} />
             </span>
           </a>
           <a href="https://www.linkedin.com/company/lanepact" target="blank">
             <span className="rounded-full flex items-center custom-blue px-3 py-3 justify-center">
-              <img src={Chat} alt="linkedin" width={20} height={20} />
+              <img src={Linkedin} alt="linkedin" width={20} height={20} />
             </span>
           </a>
           <a href="https://www.facebook.com/Lanepact" target="blank">
             <span className="rounded-full flex items-center custom-blue px-3 py-3 justify-center">
-              <img src={Telegram} alt="facebook" width={20} height={20} />
+              <img src={Facebook} alt="facebook" width={20} height={20} />
             </span>
           </a>
         </div>

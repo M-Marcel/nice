@@ -176,9 +176,9 @@ const ProfileTab = () => {
                                         </div>
                                         <div className="mb-3 px-3 mt-4 border border-gray-600 py-4 rounded-lg">
                                             <div className="mb-3">
-                                                <Button className="bg-black-500 text-xs text-white px-2 py-2 rounded-full">14 Invites</Button>
+                                                {/* <Button className="bg-black-500 text-xs text-white px-2 py-2 rounded-full">14 Invites</Button> */}
                                             </div>
-                                            <p className="text-sm">www.lanepact.com/john</p>
+                                            <p className="text-sm">www.lanepact.com/{user?.firstName || "User"}</p>
                                         </div>
                                     </div>
                                 </div>
