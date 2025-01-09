@@ -26,6 +26,7 @@ const LetUsKnowYou = () => {
 
     const [formData, setFormData] = useState({
         email: '',
+        gender:'',
         password: '',
         confirmPassword: '',
         userWorkRole: '',
@@ -36,6 +37,7 @@ const LetUsKnowYou = () => {
 
     const {
         email,
+        gender,
         password,
         confirmPassword,
         userWorkRole,
@@ -99,6 +101,7 @@ const LetUsKnowYou = () => {
         } else {
             const userData = {
                 email,
+                gender,
                 password,
                 userWorkRole,
                 userCompanySize,
@@ -143,6 +146,23 @@ const LetUsKnowYou = () => {
                             className="text-black-200 px-4 py-2 border border-gray-600 rounded-lg outline-none"
 
                         />
+                    </div>
+                    <div className="flex flex-col gap-2 mb-4">
+                        <label htmlFor="gender" className="text-sm text-gray-400 mb-2">
+                            Gender
+                        </label>
+                        {["Male", "Female", "Others"].map((sex) => (
+                            <InputChecker
+                                className="custom-radio"
+                                type="radio"
+                                key={sex}
+                                checked={formData.gender === sex}
+                                onChange={() => handleRadioChange("gender", sex)}
+
+                            >
+                                {sex}
+                            </InputChecker>
+                        ))}
                     </div>
                     {/* User Role */}
                     <div className="flex flex-col gap-2 mb-4">
