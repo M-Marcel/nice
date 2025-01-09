@@ -79,7 +79,7 @@ const Password = () => {
                         onChange={onChange}
                         className="border py-2 px-2 w-[100%] border-gray-600 outline-0 rounded-lg"
                       />
-                      <Button type="button" className="flex justify-center items-center absolute top-8 left-[348px] lg:right-[90px]  text-gray-800" onClick={togglePassWordVisibility}>
+                      <Button type="button" className="flex justify-center items-center absolute top-8 right-[10px] lg:right-[90px]  text-gray-800" onClick={togglePassWordVisibility}>
                         {passWordVisible ?
                           (
                             <OpenEye />
@@ -102,7 +102,7 @@ const Password = () => {
                         onChange={onChange}
                         className="border px-2 py-2 w-[100%] border-gray-600 outline-0 rounded-lg"
                       />
-                      <Button type="button" className="flex justify-center items-center absolute top-[55%] left-[348px] lg:right-[90px]  text-gray-800" onClick={togglePassWordVisibility2}>
+                      <Button type="button" className="flex justify-center items-center absolute top-[55%] right-[10px] lg:right-[90px]  text-gray-800" onClick={togglePassWordVisibility2}>
                         {newPassWordVisible ?
                           (
                             <OpenEye />

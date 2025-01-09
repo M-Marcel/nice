@@ -28,7 +28,7 @@ const handleApiError = (error: AxiosError): never => {
 
 const updateUserPassword = async(userData: {currentPassword:string; newPassword:string }) : Promise<{user:User; message:string}> => {
     try{
-        const response = await axios.patch(`${API_URL}`, userData, {
+        const response = await axios.patch(`${API_URL}/password`, userData, {
             headers: getAuthHeaders(),
             withCredentials: true,
         })

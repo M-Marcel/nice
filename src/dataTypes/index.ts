@@ -10,6 +10,7 @@ export type User = {
     emailConfirmToken: string | null;
     emailConfirmTokenExpiry: string | null;
     emailConfirmed: boolean;
+    gender:string;
     firstName: string;
     freemium: boolean;
     lastName: string;
