@@ -45,8 +45,8 @@ const Dashboard = () => {
         dispatch(getAllFeatureRequest(currentPage));
         enablePageScroll()
         // setActiveModal("telegramModal")
-        // eslint-disable-next-line
-    }, [dispatch]);
+     
+    }, [dispatch, currentPage]);
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {
@@ -57,6 +57,7 @@ const Dashboard = () => {
     const handleNextPage = () => {
         if (currentPage < totalPages) {
             setCurrentPage(currentPage + 1);
+            console.log('moved to next page')
         }
     };
 
@@ -221,9 +222,6 @@ const Dashboard = () => {
             <Modal isVisible={activeModal === "telegramModal"} onClose={closeModal}>
                 <TelegramModal />
             </Modal>
-          
-          
-
         </div>
     )
 }

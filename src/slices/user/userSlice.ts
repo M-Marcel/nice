@@ -25,17 +25,19 @@ const initialState: InitialState = {
     message: ""
 }
 
-export const updatePassword = createAsyncThunk<{ user: User; message: string }, UpdatePasswordFormData, { rejectValue: string }>
-    ("user/updatePassword", async (userData, thunkApi) => {
-        try {
-            const response = await userService.updateUserPassword(userData);
-            return response;
-        } catch (error: any) {
-            const message =
-                error.response?.data?.message || error.message || "Registration failed";
-            return thunkApi.rejectWithValue(message);
-        }
-    })
+export const updatePassword = createAsyncThunk<{ user: User; message: string },
+    UpdatePasswordFormData,
+    { rejectValue: string }
+>("user/update-password", async (userData, thunkApi) => {
+    try {
+        const response = await userService.updateUserPassword(userData);
+        return response;
+    } catch (error: any) {
+        const message =
+            error.response?.data?.message || error.message || "Registration failed";
+        return thunkApi.rejectWithValue(message);
+    }
+})
 
 
 const userSlice = createSlice({
