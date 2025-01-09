@@ -70,7 +70,7 @@ const Password = () => {
                   <div className="flex flex-col lg:flex-row justify-between items-center">
                     <div className="flex w-[100%] lg:w-[90%] flex-col mb-3">
                       <label className="mb-1 text-sm text-gray-500">
-                        Current
+                        Current Password
                       </label>
                       <input
                         type={passWordVisible ? 'text' : 'password'}
