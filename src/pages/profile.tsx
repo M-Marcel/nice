@@ -9,8 +9,8 @@ import Notifications from "../components/Notifications";
 // Import icons
 import ProfileIcon from '../assets/svg/UserIcon';
 import PasswordIcon from "../assets/svg/LockIcon";
-import NotificationsIcon from "../assets/svg/NotifyIcon";
-import EarlyAccessIcon from "../assets/svg/EarlyAccessIcon";
+// import NotificationsIcon from "../assets/svg/NotifyIcon";
+// import EarlyAccessIcon from "../assets/svg/EarlyAccessIcon";
 
 const Profile = () => {
   const [activeTab, setActiveTab] = useState<string>("Profile"); // Track active tab
@@ -18,8 +18,8 @@ const Profile = () => {
   const tabs = [
     { name: "Profile", icon: ProfileIcon },
     { name: "Password", icon: PasswordIcon },
-    { name: "Notifications", icon: NotificationsIcon },
-    { name: "Early Access", icon: EarlyAccessIcon },
+    // { name: "Notifications", icon: NotificationsIcon },
+    // { name: "Early Access", icon: EarlyAccessIcon },
   ];
 
   const renderContent = () => {
