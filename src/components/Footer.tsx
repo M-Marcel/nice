@@ -9,7 +9,7 @@ const Footer = () => {
                     <img src={Logo} alt="logo" width={20} height={20} />
                     <img src={LogoText} alt="logo" width={80} height={80} />
                 </div>
-                <div className='flex flex-row lg:flex-row justify-between mt-4 pb-8'>
+                <div className='flex flex-col lg:flex-row justify-between mt-4 pb-8'>
                     <div className='mb-4 lg:mb-0'>
                         <a className='text-gray-300 text-sm' href="/">info@lanepact.io</a>
                     </div>
