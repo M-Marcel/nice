@@ -58,7 +58,7 @@ const Community = () => {
             </div>
 
             <div className="px-5 lg:px-7.5 xl:px-10 lg:mx-8 mt-[40px]">
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     {
                         communityBots.map((item) => (
                             <div key={item.id}>

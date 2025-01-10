@@ -68,7 +68,7 @@ const Password = () => {
               <div className="flex flex-col lg:flex-row gap-4 justify-between">
                 <form onSubmit={handleSubmit} className="w-[100%] lg:w-[80%]">
                   <div className="flex flex-col lg:flex-row justify-between items-center">
-                    <div className="flex w-[100%] lg:w-[90%] flex-col mb-3">
+                    <div className="relative flex w-[100%] lg:w-[90%] flex-col mb-3">
                       <label className="mb-1 text-sm text-gray-500">
                         Current Password
                       </label>
@@ -79,7 +79,7 @@ const Password = () => {
                         onChange={onChange}
                         className="border py-2 px-2 w-[100%] border-gray-600 outline-0 rounded-lg"
                       />
-                      <Button type="button" className="flex justify-center items-center absolute top-8 right-[10px] lg:right-[90px]  text-gray-800" onClick={togglePassWordVisibility}>
+                      <Button type="button" className="flex justify-center items-center absolute top-8 right-[10px] lg:right-[10px]  text-gray-800" onClick={togglePassWordVisibility}>
                         {passWordVisible ?
                           (
                             <OpenEye />
@@ -93,7 +93,7 @@ const Password = () => {
                     </div>
                   </div>
                   <div className="flex flex-col lg:flex-row justify-between items-center">
-                    <div className="flex w-[100%] lg:w-[90%] flex-col mb-3">
+                    <div className="relative flex w-[100%] lg:w-[90%] flex-col mb-3">
                       <label className="mb-1 text-sm text-gray-500">New</label>
                       <input
                         type={newPassWordVisible ? 'text' : 'password'}
@@ -102,7 +102,7 @@ const Password = () => {
                         onChange={onChange}
                         className="border px-2 py-2 w-[100%] border-gray-600 outline-0 rounded-lg"
                       />
-                      <Button type="button" className="flex justify-center items-center absolute top-[55%] right-[10px] lg:right-[90px]  text-gray-800" onClick={togglePassWordVisibility2}>
+                      <Button type="button" className="flex justify-center items-center absolute top-[55%] right-[10px] lg:right-[10px]  text-gray-800" onClick={togglePassWordVisibility2}>
                         {newPassWordVisible ?
                           (
                             <OpenEye />
