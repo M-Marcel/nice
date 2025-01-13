@@ -1,7 +1,64 @@
+import { useEffect, useState } from "react";
+import { UpdatePasswordFormData } from "../dataTypes";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { toast } from "react-toastify";
+import { reset, updatePassword } from "../slices/user/userSlice";
+import { useNavigate } from "react-router-dom";
+import CloseEye from "../assets/svg/CloseEye"
+import OpenEye from "../assets/svg/OpenEye"
+import SubmitButton from "./SubmitButton";
 import Button from "./Button";
 
 
 const Password = () => {
+  const [passWordVisible, setPassWordVisible] = useState<boolean>(false)
+  const [newPassWordVisible, setNewPassWordVisible] = useState<boolean>(false)
+
+  const togglePassWordVisibility = () => {
+    setPassWordVisible(!passWordVisible)
+  }
+  const togglePassWordVisibility2 = () => {
+    setNewPassWordVisible(!newPassWordVisible)
+  }
+  const [formData, setFormData] = useState<UpdatePasswordFormData>({
+    currentPassword: '',
+    newPassword: ''
+  })
+
+  const { currentPassword, newPassword } = formData;
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { isSuccess, isLoading, message } = useAppSelector((state) => state.user);
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }))
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!currentPassword || !newPassword) {
+      return toast.error('Please fill in all fields');
+    } else {
+      const userData = { currentPassword, newPassword };
+      dispatch(updatePassword(userData));
+    }
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Password changed successfully.');
+      navigate('/dashboard'); // Redirect to the dashboard
+    }
+    // Reset any authentication-related state when the component unmounts
+    return () => {
+      dispatch(reset());
+    };
+  }, [isSuccess, message, dispatch, navigate]);
+
   return (
     <div className="flex flex-col lg:flex-row px-2">
       <div className="px-4 w-[100%] lg:w-[100%] lg:relative left-[0%]">
@@ -13,7 +70,7 @@ const Password = () => {
                   <div className="flex flex-col lg:flex-row justify-between items-center">
                     <div className="relative flex w-[100%] lg:w-[90%] flex-col mb-3">
                       <label className="mb-1 text-sm text-gray-500">
-                        Current Password
+                        Current
                       </label>
                       <input
                         type="text"
