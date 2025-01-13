@@ -66,15 +66,17 @@ const Password = () => {
           <div className="w-[100%] lg:w-[100%] px-2 py-4 h-[100vh]">
             <div className="relative top-[20px]">
               <div className="flex flex-col lg:flex-row gap-4 justify-between">
-                <form className="w-[100%] lg:w-[80%]">
+                <form className="w-[100%] lg:w-[80%]" onSubmit={handleSubmit}>
                   <div className="flex flex-col lg:flex-row justify-between items-center">
                     <div className="relative flex w-[100%] lg:w-[90%] flex-col mb-3">
                       <label className="mb-1 text-sm text-gray-500">
                         Current
                       </label>
                       <input
-                        type="text"
+                        type={passWordVisible ? 'text' : 'password'}
+                        name="currentPassword"
                         className="border py-2 px-2 w-[100%] border-gray-600 outline-0 rounded-lg"
+                        onChange={onChange}
                       />
                       <Button type="button" className="flex justify-center items-center absolute top-8 right-[10px] lg:right-[10px]  text-gray-800" onClick={togglePassWordVisibility}>
                         {passWordVisible ?
@@ -93,8 +95,10 @@ const Password = () => {
                     <div className="relative flex w-[100%] lg:w-[90%] flex-col mb-3">
                       <label className="mb-1 text-sm text-gray-500">New</label>
                       <input
-                        type="text"
+                        type={newPassWordVisible ? 'text' : 'password'}
+                        name="newPassword"
                         className="border px-2 py-2 w-[100%] border-gray-600 outline-0 rounded-lg"
+                        onChange={onChange}
                       />
                       <Button type="button" className="flex justify-center items-center absolute top-[55%] right-[10px] lg:right-[10px]  text-gray-800" onClick={togglePassWordVisibility2}>
                         {newPassWordVisible ?
@@ -110,9 +114,13 @@ const Password = () => {
                     </div>
                   </div>
                   <div className="w-[100%] lg:w-[90%] flex flex-row-reverse  mt-2">
-                    <Button className="custom-bg px-6 py-4 rounded-xl text-white text-sm">
+                    <SubmitButton
+                      isLoading={isLoading}
+                      className={`px-4 py-2 w-full text-white mt-3 mb-3 rounded-lg text-md ${isLoading ? 'bg-blue-100/55' : 'custom-bg'
+                        }`}
+                    >
                       Save
-                    </Button>
+                    </SubmitButton>
                   </div>
                 </form>
               </div>

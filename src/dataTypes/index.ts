@@ -1,3 +1,4 @@
+import { current } from "@reduxjs/toolkit";
 
 export type WaitUser = {
     fullName: string
@@ -95,4 +96,7 @@ export type FeatureFormData = {
     tag: string
     description: string
 }
-
+export type UpdatePasswordFormData ={
+     currentPassword:string,
+     newPassword:string
+}

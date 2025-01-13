@@ -16,12 +16,10 @@ import { votedBots } from "../../constants";
 const AdminDashboard = () => {
     // const user = useAppSelector((state) => state.auth.user); 
   
-
-    const userRole = "admin";
     return (
         <div className="bg-black-300 h-screen">
             <div className="bg-black-800 mx-2 h-full rounded-[30px] flex gap-5 py-4 px-4">
-                <LeftSidebar userRole={userRole} />
+                <LeftSidebar userRole = "admin" />
                 <div className="mainDashboardFeatures bg-white h-[full] overflow-y-scroll rounded-[40px] w-[100%] lg:w-[80%] 
                 lg:relative md:z-30 lg:z-40 left-[20%] px-4 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-black-300">
                     <div className="w-[75%] fixed left-[22%] top-5 h-10vh hidden lg:block py-4 px-2">
