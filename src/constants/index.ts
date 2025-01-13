@@ -3,14 +3,20 @@ import Slide2 from '../assets/slide2.png'
 import Slide3 from '../assets/slide3.png'
 import Copy from '../assets/copy.png'
 import Elipse from '../assets/elipse.png'
-import DashboardIcon from '../assets/dashboard.png'
-import UserIcon from '../assets/user.png'
 import Thumbs from "../assets/thumbs.png"
 import Social1 from "../assets/social1.png"
 import Social2 from "../assets/social2.png"
 import Social3 from "../assets/social3.png"
 import Social4 from "../assets/socila4.png"
 import Social5 from "../assets/social5.png"
+import DashboardIcon from '../assets/svg/users/dashboardIcon'
+import CommunityIcon from '../assets/svg/users/communityIcon'
+import AdminDashboardIcon from '../assets/svg/admin/dashboardIcon'
+import AdminFeatureRequestIcon from '../assets/svg/admin/featureRequest'
+import AdminCommunityIcon from '../assets/svg/admin/communityIcon'
+import AdminPaymentIcon from '../assets/svg/admin/paymentIcon'
+import AdminsIcon from '../assets/svg/admin/adminsIcon'
+import Car from '../assets/car.png'
 
 
 export const navigation = [
@@ -34,23 +40,60 @@ export const navigation = [
     title: "Request a feature",
     url: "/request-a-feature",
   },
- 
+
 ];
 
 export const SidebarLinks = [
   {
-    id:0,
-    title:"Dashboard",
-    image: DashboardIcon,
-    url:"/dashboard"
+    id: 0,
+    title: "Dashboard",
+    icon: DashboardIcon,
+    isAdmin: false,
+    url: "/dashboard"
   },
   {
-    id:2,
-    title:"Community",
-    image: UserIcon,
-    url:"/community"
+    id: 1,
+    title: "Community",
+    isAdmin: false,
+    icon: CommunityIcon,
+    url: "/community"
   },
-  
+  {
+    id: 2,
+    title: "Dashboard",
+    icon: AdminDashboardIcon,
+    isAdmin: true,
+    url: "/admin"
+  },
+  {
+    id: 3,
+    title: "Feature Requests",
+    icon: AdminFeatureRequestIcon,
+    isAdmin: true,
+    url: "/admin/feature-rquest"
+  },
+  {
+    id: 4,
+    title: "Community",
+    icon: AdminCommunityIcon,
+    isAdmin: true,
+    url: "/admin/feature-rquest"
+  },
+  {
+    id: 5,
+    title: "Payments",
+    icon: AdminPaymentIcon,
+    isAdmin: true,
+    url: "/admin/feature-rquest"
+  },
+  {
+    id: 6,
+    title: "Admins",
+    icon: AdminsIcon,
+    isAdmin: true,
+    url: "/admin/feature-rquest"
+  }
+
 ]
 export const communityBots = [
   {
@@ -98,76 +141,101 @@ export const communityBots = [
 
 export const votedBots = [
   {
-    id:0,
-    btnText:'vote',
-    createdAt:'December, 2024',
-    botName:'Custom bot name or pfp',
-    voteCount:78,
-    image:Elipse,
-    author:"Suki",
-    thumb:Thumbs
+    id: 0,
+    btnText: 'vote',
+    createdAt: 'December, 2024',
+    botName: 'Custom bot name or pfp',
+    voteCount: 78,
+    image: Elipse,
+    author: "Suki",
+    thumb: Thumbs
 
   },
   {
-    id:1,
-    btnText:'vote',
-    createdAt:'December, 2024',
-    botName:'Custom bot name or pfp',
-    voteCount:78,
-    image:Elipse,
-    author:"Suki",
-    thumb:Thumbs
+    id: 1,
+    btnText: 'vote',
+    createdAt: 'December, 2024',
+    botName: 'Custom bot name or pfp',
+    voteCount: 78,
+    image: Elipse,
+    author: "Suki",
+    thumb: Thumbs
 
   },
   {
-    id:2,
-    btnText:'vote',
-    createdAt:'December, 2024',
-    botName:'Custom bot name or pfp',
-    voteCount:78,
-    image:Elipse,
-    author:"Suki",
-    thumb:Thumbs
+    id: 2,
+    btnText: 'vote',
+    createdAt: 'December, 2024',
+    botName: 'Custom bot name or pfp',
+    voteCount: 78,
+    image: Elipse,
+    author: "Suki",
+    thumb: Thumbs
 
   },
   {
-    id:3,
-    btnText:'vote',
-    createdAt:'December, 2024',
-    botName:'Custom bot name or pfp',
-    voteCount:78,
-    image:Elipse,
-    author:"Suki",
-    thumb:Thumbs
+    id: 3,
+    btnText: 'vote',
+    createdAt: 'December, 2024',
+    botName: 'Custom bot name or pfp',
+    voteCount: 78,
+    image: Elipse,
+    author: "Suki",
+    thumb: Thumbs
 
   }
 ]
 
 export const socialLinks = [
-   {
+  {
+    id: 0,
+    image: Social1,
+    url: "https://www.linkedin.com/company/lanepact"
+  },
+  {
+    id: 1,
+    image: Social2,
+    url: "https://www.instagram.com/officiallanepact"
+  },
+  {
+    id: 2,
+    image: Social3,
+    url: "https://www.facebook.com/Lanepact"
+  },
+  {
+    id: 3,
+    image: Social4,
+    url: "https://x.com/lanepact"
+  },
+  {
+    id: 4,
+    image: Social5,
+    url: "https://www.facebook.com/Lanepact"
+  },
+
+]
+
+export const adminOverview = [
+  {
     id:0,
-    image:Social1,
-    url:"https://www.linkedin.com/company/lanepact"
-   },
-   {
+    image:Car,
+    count:0,
+    title:"Bots",
+    ActiveCount:0
+  },
+  {
     id:1,
-    image:Social2,
-     url:"https://www.instagram.com/officiallanepact"
-   },
-   {
+    image:Car,
+    count:0,
+    title:"Users",
+    ActiveCount:0
+  },
+  {
     id:2,
-    image:Social3,
-     url:"https://www.facebook.com/Lanepact"
-   },
-   {
-    id:3,
-    image:Social4,
-     url:"https://x.com/lanepact"
-   },
-   {
-    id:4,
-    image:Social5,
-      url:"https://www.facebook.com/Lanepact"
-   },
+    image:Car,
+    count:0,
+    title:"Feature Request",
+    ActiveCount:0
+  },
 
 ]

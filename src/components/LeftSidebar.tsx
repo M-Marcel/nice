@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../hooks"
 import { SidebarLinks } from "../constants"
 import { logout } from "../slices/auth/authSlice"
@@ -10,14 +10,17 @@ import UserIcon from "../assets/user.png"
 import Logout from "../assets/svg/Logout"
 import ComputerIcon from "../assets/computer-white.png"
 import LogoutModal from "./LogoutModal"
+import AdminLogo from "./AdminLogo"
 
 
-const LeftSidebar = () => {
+const LeftSidebar = ({ userRole }: { userRole?: string }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [logoutModalOpen, setLogoutModalOpen] = useState(false);
-
+    const location = useLocation()
     const sidebarRef = useRef<HTMLDivElement | null>(null);
-    const user = useAppSelector((state) => state.auth.user);
+    const user = useAppSelector((state) => state.auth?.user);
+
+    const role = userRole || user?.role;
 
 
     const toggleSidebar = () => {
@@ -45,7 +48,7 @@ const LeftSidebar = () => {
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-           
+
             if (
                 sidebarRef.current &&
                 !sidebarRef.current.contains(event.target as Node)
@@ -57,20 +60,20 @@ const LeftSidebar = () => {
         return () => {
             document.removeEventListener("click", handleClickOutside);
         };
-        
+
     }, [sidebarOpen])
 
     return (
         <>
-            <div className="bg-white z-50 fixed py-4 w-full block lg:hidden">
+            <div className={`${role === "admin" ? 'bg-white w-[88%] top-[31px]' : 'bg-white w-full'} z-50 fixed py-4 block lg:hidden`}>
                 <div className="flex justify-between">
-                    <div className="flex items-center gap-2 ml-4">
+                    <div className={`flex items-center gap-2 ml-4 bg-white`}>
                         <a href="/">
                             <Logo />
                         </a>
 
-                        <Button className="flex items-center gap-2 bg-black-500 text-xs text-white px-4 py-2
-                     rounded-md">
+                        <Button className={`${role === "admin" ? 'hidden' : 'flex'} items-center gap-2 bg-black-500 text-xs text-white px-4 py-2
+                     rounded-md`}>
                             <img src={ComputerIcon} alt="compIcon" width={18} height={18} />
                             Beta
                         </Button>
@@ -80,7 +83,7 @@ const LeftSidebar = () => {
                             event.stopPropagation(); // Prevent bubbling
                             toggleSidebar();
                         }}
-                        className="text-xs z-50 mr-4 text-white px-2 py-3 rounded-md lg:hidden"
+                        className={`${role === "admin" ? 'mr-[10px] absolute right-0' : 'mr-4'} mr-4 text-xs z-50 text-white px-2 py-3 rounded-md lg:hidden`}
                     >
                         {sidebarOpen ?
 
@@ -120,14 +123,22 @@ const LeftSidebar = () => {
                 </div>
             </div>
 
-            <div ref={sidebarRef} className={`fixed top-0 left-0 h-[100%] bg-white border-r border-gray-600 z-50 shadow-lg transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
-                } lg:translate-x-0 transition-transform duration-300 lg:w-[18%] flex flex-col gap-4 px-4 py-4`}>
-                <div className="py-4">
-                    <a href="/"> <Logo /></a>
+            <div ref={sidebarRef} className={`fixed top-0 left-0 h-[100%] ${role === "admin" ? 'bg-black-800 text-white border-none' : 'bg-white border-r border-gray-600'}  z-50 shadow-lg transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+                } bg-black-500 lg:translate-x-0 transition-transform duration-300 lg:w-[18%] flex flex-col gap-3 px-4 py-4`}>
+                <div className={`py-4 ${role === "admin" ? "ml-8 mt-4" : "ml-0"}`}>
+                    <a href="/">
+                        {role === "admin" ?
+                            <AdminLogo />
+                            :
+                            <Logo />
+                        }
+
+
+                    </a>
                 </div>
-                <div className="flex justify-between items-center border border-gray-900 py-4 px-2
-            rounded-xl">
-                    <div className="flex gap-2 items-center">
+                <div className={`justify-between items-center ${role === "admin" ? "hidden" : "flex "} border border-gray-900 py-4 px-2
+                    rounded-xl`}>
+                    <div className={`gap-2  items-center ${role === "admin" ? "hidden" : "flex "}`}>
                         <img src={Elipse} alt="elipse" width={18} height={18} />
                         <a href="/profile">
                             <p className="text-sm">{user?.lastName} {user?.firstName}</p>
@@ -136,24 +147,54 @@ const LeftSidebar = () => {
                     {/* <img src={UnfoldIcon} alt="unfold" width={15} height={15} /> */}
                 </div>
                 {
-                    SidebarLinks.map((item) => (
-                        <a key={item.id} href={item.url} className="text-gray-500 hover:text-black-500 hover:bg-gray-910 
-                    px-2 py-3">
-                            <div className="flex gap-2 items-center">
-                                <img src={item.image} alt="dashboard" width={18} height={18} />
-                                <p className="text-sm">{item.title}</p>
-                            </div>
-                        </a>
+                    SidebarLinks.map((item) => {
+                        if (role === "user" && item.isAdmin === false) {
+                            return (
+                                <a
+                                    key={item.id}
+                                    href={item.url}
+                                    className={`text-black-500/55 hover:text-black-500 hover:bg-gray-910 px-2 py-3 
+                                        ${location.pathname === item.url ? "bg-gray-910 text-black-500" : ""
+                                        }`}
+                                >
+                                    <div className="flex gap-2 items-center">
+                                        <item.icon />
+                                        <p className="text-sm">{item.title}</p>
+                                    </div>
+                                </a>
 
-                    ))
+                            )
+
+                        }
+                        if (userRole === "admin" && item.isAdmin === true) {
+                            return (
+                                <a
+                                    key={item.id}
+                                    href={item.url}
+                                    className={`hover:text-white text-sm hover:bg-black-300 px-4 py-3 ml-4 
+                                        ${location.pathname === item.url ? "bg-black-300 text-white" : "text-white/55"
+                                        }`}
+                                >
+                                    <div className="flex gap-2 items-center">
+                                        <item.icon />
+                                        <p className="text-sm">{item.title}</p>
+                                    </div>
+                                </a>
+
+                            )
+
+                        }
+
+                        return null
+                    })
                 }
-                <a href="/contact-us" className="flex gap-2 items-center mt-auto
-            text-gray-500 hover:text-black-500 hover:bg-gray-910 px-2 py-3">
+                <a href="/contact-us" className={`${role === "admin" ? "hidden" : "flex"} gap-2 items-center mt-auto
+                    text-gray-500 hover:text-black-500 hover:bg-gray-910 px-2 py-3`}>
                     <img src={UserIcon} alt="dashboard" width={18} height={18} />
                     <p className="text-sm">Contact us</p>
                 </a>
 
-                <Button onClick={openLogoutModal} className="flex gap-2 items-center bg-white text-sm">
+                <Button onClick={openLogoutModal} className={`flex  ${role === "admin" ? " mt-auto ml-4" : "mt-0  bg-white"} gap-2 items-center text-sm`}>
                     <Logout />
                     <span className="text-red-600">Log out</span>
                 </Button>

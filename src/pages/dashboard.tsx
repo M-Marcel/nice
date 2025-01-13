@@ -67,6 +67,8 @@ const Dashboard = () => {
         enablePageScroll()
     };
 
+   
+
     return (
         <div className="dashboard flex flex-col lg:flex-row px-2">
             <LeftSidebar />

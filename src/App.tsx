@@ -19,7 +19,8 @@ import Profile from "./pages/profile";
 import RequestAFeature from "./pages/request-a-feature";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Privacy from "./pages/Privacy";
-import Terms from "./pages/Terms&Condition";;
+import Terms from "./pages/Terms&Condition";import AdminDashboard from "./pages/admin/dashboard";
+;
 
 
 function App() {
@@ -53,6 +54,7 @@ function App() {
         <Route path="/contact-us" element={<Contact />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/admin" element={<AdminDashboard />} />
 
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />

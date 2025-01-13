@@ -6,6 +6,7 @@ import { User } from "../dataTypes";
 const API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/auth`
 const VERIFY_API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/auth/signup/confirm`
 const GET_USER_PROFILE = `${process.env.REACT_APP_BASEURL}/api/v1/users/profile/me`
+const SIGN_IN_GOOGLE_URL =  `${process.env.REACT_APP_BASEURL}/api/v1/auth/google`
 
 
 interface ApiErrorResponse {
@@ -84,6 +85,21 @@ const login = async (userData: { email: string; password: string }): Promise<{ u
         throw new Error("login failed");
     }
 };
+
+//Google Signin
+const signInWithGoogle = async() : Promise<{user:User; message:string}> => {
+    try{
+        const response = await axios.get(SIGN_IN_GOOGLE_URL,
+            {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true,
+            });
+            return response.data
+    }catch(error:any){
+        handleApiError(error);
+        throw new Error("failed fetching profile");
+    }
+}
 
 // Forgot password
 const forgotPassword = async (userData: { email: string }): Promise<{ message: string }> => {
@@ -218,6 +234,7 @@ const authService = {
     register,
     verifyEmail,
     login,
+    signInWithGoogle,
     forgotPassword,
     validateOtp,
     resetPassword,

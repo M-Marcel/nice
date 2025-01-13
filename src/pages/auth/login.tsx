@@ -1,6 +1,6 @@
 import LogoImage from '../../assets/lanepact-logo.png'
 import Button from '../../components/Button'
-// import Google from '../../assets/Google.png'
+import Google from '../../assets/Google.png'
 // import Microsoft from '../../assets/Microsoft.png'
 // import Github from '../../assets/GitHub.png'
 import { useEffect, useState } from 'react'
@@ -16,8 +16,8 @@ import { useNavigate } from 'react-router-dom'
 
 type LoginProps = {
     openForgotPasswordModal: () => void;
-    openSignUpModal:() => void;
-    openTelegramModal:() => void
+    openSignUpModal: () => void;
+    openTelegramModal: () => void
 }
 
 const Login = ({ openForgotPasswordModal, openSignUpModal, openTelegramModal }: LoginProps) => {
@@ -58,6 +58,12 @@ const Login = ({ openForgotPasswordModal, openSignUpModal, openTelegramModal }: 
             dispatch(login(userData))
         }
     }
+
+    const handleGoogleSignIn = () => {
+        const googleAuthUrl = "https://zroleak-core-service-bbf444d92e4f.herokuapp.com/api/v1/auth/google";
+        window.location.href = googleAuthUrl;
+    };
+
     useEffect(() => {
         if (isLoginSuccess) {
             navigate('/dashboard')
@@ -70,6 +76,8 @@ const Login = ({ openForgotPasswordModal, openSignUpModal, openTelegramModal }: 
         }
     }, [isLoginSuccess, message, dispatch, openTelegramModal, navigate])
 
+
+
     return (
         <div className="bg-white px-4 py-4 h-full mx-4 lg:mx-0">
             <div className="flex flex-col gap-2 mb-3">
@@ -77,7 +85,7 @@ const Login = ({ openForgotPasswordModal, openSignUpModal, openTelegramModal }: 
                 <h2 className="text-black-500 text-xl">What’s your email?</h2>
                 <p className="text-gray-500 text-sm">Enter your email address</p>
             </div>
-            <form onSubmit={onSubmit} className="h-[55vh] overflow-y-scroll hide-scrollbar">
+            <form onSubmit={onSubmit} className="h-auto lg:h-[41vh] overflow-y-scroll hide-scrollbar">
                 <div className="flex flex-col gap-2 mb-3">
                     <label htmlFor="email" className="text-sm text-gray-400">
                         Email
@@ -130,7 +138,7 @@ const Login = ({ openForgotPasswordModal, openSignUpModal, openTelegramModal }: 
                 </div>
                 <SubmitButton
                     isLoading={isLoading}
-                    className={`px-4 py-2 w-full text-white rounded-lg text-md ${isLoading ? 'bg-blue-100/55' : 'custom-bg'
+                    className={`px-4 py-2 w-full text-white mt-3 mb-3 rounded-lg text-md ${isLoading ? 'bg-blue-100/55' : 'custom-bg'
                         }`}
                 >
                     Login
@@ -138,31 +146,36 @@ const Login = ({ openForgotPasswordModal, openSignUpModal, openTelegramModal }: 
                 {/* <div className="flex justify-center items-center">
                     <p className="text-gray-400 mt-2 text-sm">or login with</p>
                 </div> */}
-                {/* <div className="flex justify-center items-center gap-2 mt-4">
-                    <div className="flex justify-between gap-8">
-                        <a href="/" className="rounded-lg px-8 py-2 border border-gray-600">
-                            <img src={Google} alt="google" width={30} height={30} />
-                        </a>
-                        <a href="/" className="rounded-lg px-8 py-2 border border-gray-600">
+
+            </form>
+            <div className="flex flex-col gap-2 mt-4">
+                <div className="flex items-center gap-8">
+                    <Button
+                        onClick={handleGoogleSignIn}
+                        className="w-full flex items-center justify-center rounded-lg px-8 py-2 border border-gray-600"
+                    >
+                        <img src={Google} alt="google" width={30} height={30} />
+                        <span>Google</span>
+                    </Button>
+                    {/* <a href="/" className="rounded-lg px-8 py-2 border border-gray-600">
                             <img src={Microsoft} alt="microsoft" width={30} height={30} />
                         </a>
                         <a href="/" className="rounded-lg px-8 py-2 border border-gray-600">
                             <img src={Github} alt="github" width={30} height={30} />
-                        </a>
-                    </div>
-                </div> */}
-                <div className='flex justify-center items-center mt-6'>
-                    <div className='flex items-center text-center gap-1'>
-                        <p className='text-sm text-gray-400'>Don't have an account?</p>
-                        <Button 
+                        </a> */}
+                </div>
+            </div>
+            <div className='flex justify-center items-center mt-6'>
+                <div className='flex items-center text-center gap-1'>
+                    <p className='text-sm text-gray-400'>Don't have an account?</p>
+                    <Button
                         className='text-black-500 font-semibold text-sm'
                         onClick={openSignUpModal}
-                        >
-                            Signup
-                        </Button>
-                    </div>
+                    >
+                        Signup
+                    </Button>
                 </div>
-            </form>
+            </div>
         </div>
     )
 }
