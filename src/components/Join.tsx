@@ -15,7 +15,7 @@ const Join = () => {
           Be the first to hear the latest updates from us
         </p>
         <div className="flex gap-3 mt-4">
-          <a href="https://t.me/+zU-zDRvcknQzNzU0" target="blank">
+          <a href="https://t.me/+iw2jh3VaeSg4MzBk" target="blank">
             <span className="rounded-full flex items-center custom-blue px-3 py-3 justify-center">
               <img src={Telegram} alt="telegram" width={20} height={20} />
             </span>
