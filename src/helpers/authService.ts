@@ -137,7 +137,6 @@ const resetPassword = async (userData: { email: string; newPassword: string }): 
 // Complete signup
 const completeSignUp = async (userData: {
     email: string;
-    gender:string;
     password: string;
     userWorkRole: string;
     userCompanySize: string;

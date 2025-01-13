@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../hooks"
 import { SidebarLinks } from "../constants"
@@ -16,12 +16,11 @@ const LeftSidebar = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [logoutModalOpen, setLogoutModalOpen] = useState(false);
 
-    const sidebarRef = useRef<HTMLDivElement | null>(null);
     const user = useAppSelector((state) => state.auth.user);
 
 
     const toggleSidebar = () => {
-        setSidebarOpen((prevState) => !prevState);
+        setSidebarOpen(!sidebarOpen);
     };
 
     const openLogoutModal = () => {
@@ -43,23 +42,6 @@ const LeftSidebar = () => {
         navigate('/');
     };
 
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-           
-            if (
-                sidebarRef.current &&
-                !sidebarRef.current.contains(event.target as Node)
-            ) {
-                setSidebarOpen(false)
-            }
-        }
-        document.addEventListener("click", handleClickOutside);
-        return () => {
-            document.removeEventListener("click", handleClickOutside);
-        };
-        
-    }, [sidebarOpen])
-
     return (
         <>
             <div className="bg-white z-50 fixed py-4 w-full block lg:hidden">
@@ -68,7 +50,7 @@ const LeftSidebar = () => {
                         <a href="/">
                             <Logo />
                         </a>
-
+                      
                         <Button className="flex items-center gap-2 bg-black-500 text-xs text-white px-4 py-2
                      rounded-md">
                             <img src={ComputerIcon} alt="compIcon" width={18} height={18} />
@@ -76,51 +58,26 @@ const LeftSidebar = () => {
                         </Button>
                     </div>
                     <button
-                        onClick={(event) => {
-                            event.stopPropagation(); // Prevent bubbling
-                            toggleSidebar();
-                        }}
+                        onClick={toggleSidebar}
                         className="text-xs z-50 mr-4 text-white px-2 py-3 rounded-md lg:hidden"
                     >
                         {sidebarOpen ?
 
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="#1A1C1F"
-                                className="size-6"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1A1C1F" className="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                             </svg>
 
                             :
 
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth="1.5"
-                                stroke="#1A1C1F"
-                                className="size-6"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                                />
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#1A1C1F" className="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                             </svg>
                         }
                     </button>
                 </div>
             </div>
 
-            <div ref={sidebarRef} className={`fixed top-0 left-0 h-[100%] bg-white border-r border-gray-600 z-50 shadow-lg transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+            <div className={`fixed top-0 left-0 h-[100%] bg-white border-r border-gray-600 z-50 shadow-lg transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
                 } lg:translate-x-0 transition-transform duration-300 lg:w-[18%] flex flex-col gap-4 px-4 py-4`}>
                 <div className="py-4">
                     <a href="/"> <Logo /></a>
