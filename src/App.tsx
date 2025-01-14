@@ -20,6 +20,7 @@ import RequestAFeature from "./pages/request-a-feature";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms&Condition";import AdminDashboard from "./pages/admin/dashboard";
+import VerifyUser from "./pages/auth/verifyUser";
 ;
 
 
@@ -50,6 +51,7 @@ function App() {
         <Route path="/waitlist" element={<WaitList />} />
         <Route path="/draganddrop" element={<DragandDrop />} />
         <Route path="/verifyEmail" element={<VerifyEmail />} />
+        <Route path="/verifyUser" element={<VerifyUser />} />
         <Route path="/let-us-know-you" element={<LetUsKnowYou />} />
         <Route path="/contact-us" element={<Contact />} />
         <Route path="/privacy" element={<Privacy />} />
