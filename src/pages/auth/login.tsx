@@ -60,7 +60,7 @@ const Login = ({ openForgotPasswordModal, openSignUpModal, openTelegramModal }: 
     }
 
     const handleGoogleSignIn = () => {
-        const googleAuthUrl = "https://zroleak-core-service-bbf444d92e4f.herokuapp.com/api/v1/auth/google";
+        const googleAuthUrl = "https://lanepact-zroleak-staging-f5c9980418f7.herokuapp.com/api/v1/auth/google";
         window.location.href = googleAuthUrl;
     };
 

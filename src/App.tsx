@@ -51,7 +51,7 @@ function App() {
         <Route path="/waitlist" element={<WaitList />} />
         <Route path="/draganddrop" element={<DragandDrop />} />
         <Route path="/verifyEmail" element={<VerifyEmail />} />
-        <Route path="/verifyUser" element={<VerifyUser />} />
+        <Route path="/verify-user" element={<VerifyUser />} />
         <Route path="/let-us-know-you" element={<LetUsKnowYou />} />
         <Route path="/contact-us" element={<Contact />} />
         <Route path="/privacy" element={<Privacy />} />
