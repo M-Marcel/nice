@@ -22,10 +22,14 @@ const VerifyEmail = () => {
         // Dispatch the verifyEmail thunk and wait for the result
         const response = await dispatch(verifyEmail(token)).unwrap();
 
+         console.log(response);
+
         // Handle success (email is part of the response)
         if (response?.email) {
           localStorage.setItem('userEmail', response.email);  // Store the email in localStorage
         }
+
+         
 
         toast.success('Email verified successfully!');
         navigate('/let-us-know-you');

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { getProfile, updateProfile } from "../slices/auth/authSlice";
+import { format, toDate } from "date-fns-tz";
 import Button from "../components/Button";
 import ProfileFrame from "../assets/dbFrame.png";
 import MaleAvatar from '../assets/malee-avatae.png'
@@ -20,7 +21,9 @@ const ProfileTab = () => {
         workRole: user?.userWorkRole || "",
         experienceLevel: user?.userTechnicalExperience || "",
         email: user?.email || "",
-        createdAt: user?.createdAt ? new Date(user.createdAt).toLocaleString() : "",
+        createdAt: user?.createdAt
+        ? format(toDate(user.createdAt, { timeZone: "Africa/Lagos" }), "dd-MM-yyyy HH:mm:ss")
+        : ""
     });
 
     const [isEditable, setIsEditable] = useState(false);

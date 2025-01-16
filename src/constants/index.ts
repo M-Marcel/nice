@@ -70,7 +70,7 @@ export const SidebarLinks = [
     title: "Feature Requests",
     icon: AdminFeatureRequestIcon,
     isAdmin: true,
-    url: "/admin/feature-rquest"
+    url: "/admin/feature-request"
   },
   {
     id: 4,

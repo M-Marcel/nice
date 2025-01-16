@@ -5,8 +5,9 @@ import { SidebarLinks } from "../constants";
 import { logout } from "../slices/auth/authSlice";
 import Button from "./Button";
 import Logo from "./Logo";
-import Elipse from "../assets/elipse.png";
 import UserIcon from "../assets/user.png";
+import MaleAvatar from '../assets/malee-avatae.png'
+import FemaleAvatar from '../assets/female-avatar.jpeg'
 import Logout from "../assets/svg/Logout";
 import ComputerIcon from "../assets/computer-white.png";
 import LogoutModal from "./LogoutModal";
@@ -53,9 +54,8 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
   return (
     <>
       <div
-        className={`${
-          role === "admin" ? "bg-none w-[88%] top-[20px]" : "bg-white w-full"
-        } z-50 fixed py-4 block lg:hidden`}
+        className={`${role === "admin" ? "bg-none w-[88%] top-[20px]" : "bg-white w-full"
+          } z-50 fixed py-4 block lg:hidden`}
       >
         <div className="flex justify-between">
           <div className="flex items-center gap-2 ml-4 bg-white">
@@ -64,9 +64,8 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
             </a>
 
             <Button
-              className={`${
-                role === "admin" ? "hidden" : "flex"
-              } items-center gap-2 bg-black-500 text-xs text-white px-4 py-2 rounded-md`}
+              className={`${role === "admin" ? "hidden" : "flex"
+                } items-center gap-2 bg-black-500 text-xs text-white px-4 py-2 rounded-md`}
             >
               <img src={ComputerIcon} alt="compIcon" width={18} height={18} />
               Beta
@@ -77,9 +76,8 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
               event.stopPropagation();
               toggleSidebar();
             }}
-            className={`${
-              role === "admin" ? "absolute right-0" : "mr-4"
-            } text-xs z-50 text-white px-2 py-3 rounded-md lg:hidden`}
+            className={`${role === "admin" ? "absolute right-0" : "mr-4"
+              } text-xs z-50 text-white px-2 py-3 rounded-md lg:hidden`}
           >
             {sidebarOpen ? (
               <svg
@@ -118,13 +116,11 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
 
       <div
         ref={sidebarRef}
-        className={`fixed top-0 left-0 h-[100%] ${
-          role === "admin"
+        className={`fixed top-0 left-0 h-[100%] ${role === "admin"
             ? "bg-black-800 text-white border-none"
             : "bg-white border-r border-gray-600"
-        } z-50 shadow-lg transform ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 transition-transform duration-300 lg:w-[18%] flex flex-col gap-3 px-4 py-4`}
+          } z-50 shadow-lg transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:translate-x-0 transition-transform duration-300 lg:w-[18%] flex flex-col gap-3 px-4 py-4`}
       >
         <div className={`py-4 ${role === "admin" ? "ml-8 mt-4" : "ml-0"}`}>
           <a href="/">
@@ -132,16 +128,26 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
           </a>
         </div>
         <div
-          className={`justify-between items-center ${
-            role === "admin" ? "hidden" : "flex"
-          } border border-gray-900 py-4 px-2 rounded-xl`}
+          className={`justify-between items-center ${role === "admin" ? "hidden" : "flex"
+            } border border-gray-900 py-4 px-2 rounded-xl`}
         >
           <div
-            className={`gap-2 items-center ${
-              role === "admin" ? "hidden" : "flex"
-            }`}
+            className={`gap-2 items-center ${role === "admin" ? "hidden" : "flex"
+              }`}
           >
-            <img src={Elipse} alt="elipse" width={18} height={18} />
+            <img
+              src={
+                user?.gender === "Male"
+                  ? MaleAvatar
+                  : user?.gender === "Female"
+                    ? FemaleAvatar
+                    : MaleAvatar
+              }
+              alt="Profile"
+              width={25}
+              height={25}
+              className="rounded-full"
+            />
             <a href="/profile">
               <p className="text-sm">
                 {user?.lastName} {user?.firstName}
@@ -155,9 +161,8 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
               <a
                 key={item.id}
                 href={item.url}
-                className={`text-black-500/55 hover:text-black-500 hover:bg-gray-910 px-2 py-3 ${
-                  location.pathname === item.url ? "bg-gray-910 text-black-500" : ""
-                }`}
+                className={`text-black-500/55 hover:text-black-500 hover:bg-gray-910 px-2 py-3 ${location.pathname === item.url ? "bg-gray-910 text-black-500" : ""
+                  }`}
               >
                 <div className="flex gap-2 items-center">
                   <item.icon />
@@ -171,11 +176,10 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
               <a
                 key={item.id}
                 href={item.url}
-                className={`hover:text-white text-sm hover:bg-black-300 px-4 py-3 ml-4 ${
-                  location.pathname === item.url
+                className={`hover:text-white text-sm hover:bg-black-300 px-4 py-3 ml-4 ${location.pathname === item.url
                     ? "bg-black-300 text-white"
                     : "text-white/55"
-                }`}
+                  }`}
               >
                 <div className="flex gap-2 items-center">
                   <item.icon />
@@ -188,18 +192,16 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
         })}
         <a
           href="/contact-us"
-          className={`${
-            role === "admin" ? "hidden" : "flex"
-          } gap-2 items-center mt-auto text-gray-500 hover:text-black-500 hover:bg-gray-910 px-2 py-3`}
+          className={`${role === "admin" ? "hidden" : "flex"
+            } gap-2 items-center mt-auto text-gray-500 hover:text-black-500 hover:bg-gray-910 px-2 py-3`}
         >
           <img src={UserIcon} alt="dashboard" width={18} height={18} />
           <p className="text-sm">Contact us</p>
         </a>
         <Button
           onClick={openLogoutModal}
-          className={`flex ${
-            role === "admin" ? "mt-auto ml-4" : "mt-0 bg-white"
-          } gap-2 items-center text-sm`}
+          className={`flex ${role === "admin" ? "mt-auto ml-4" : "mt-0 bg-white"
+            } gap-2 items-center text-sm`}
         >
           <Logout />
           <span className="text-red-600">Log out</span>

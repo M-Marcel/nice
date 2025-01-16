@@ -2,22 +2,18 @@ import Search from "../../assets/svg/Search";
 import SearchSide from "../../assets/svg/SearchSide";
 import LeftSidebar from "../../components/LeftSidebar";
 import AdminAvatar from "../../assets/adminAvatar.png"
-import BotOverview from "../../components/admin/BotOverview";
-import UserOverview from "../../components/admin/UserOverview";
-import FeatureRequestOverview from "../../components/admin/FeatureRequestOverview";
-import NewSignUps from "../../components/admin/NewSignUps";
 import Button from "../../components/Button";
 import Elipse from '../../assets/elipse.png';
 import { votedBots } from "../../constants";
+import RequestForm from "../../components/RequestForm";
 
 
 // import { useAppSelector } from "../../hooks";
 
 
-const AdminDashboard = () => {
-    // const user = useAppSelector((state) => state.auth.user); 
+const FeatureRequest = () => {
+   
     const userRole = "admin"
-
   
     return (
         <div className="bg-black-300 h-screen">
@@ -52,12 +48,7 @@ const AdminDashboard = () => {
                     <div className="relative top-[80px]">
                         <div className="grid lg:grid-cols-3 gap-5">
                             <div className="lg:col-span-2">
-                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
-                                    <BotOverview />
-                                    <UserOverview />
-                                    <FeatureRequestOverview />
-                                </div>
-                                <div className="mt-6">
+                                <div className="mt-0">
                                     <div className="flex justify-between items-center">
                                         <div className="font-medium text-black-500 text-sm">Feature requests</div>
                                         <div className="flex gap-2">
@@ -67,7 +58,7 @@ const AdminDashboard = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="mt-4 h-[50vh] overflow-y-scroll scrollbar-none lg:px-4 lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
+                                <div className="mt-4 h-[80vh] overflow-y-scroll scrollbar-none lg:px-4 lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
                                     {
                                         votedBots.map((feature) => (
                                             <div
@@ -115,23 +106,8 @@ const AdminDashboard = () => {
                             </div>
                             <div className="lg:col-span-1">
                                 <div className="flex flex-col">
-                                    <h2 className="text-black-940 font-semibold lg:fixed lg:mb-3">New Signups</h2>
-                                    <div className="signups h-[75vh] overflow-y-scroll scrollbar-none lg:px-4 lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 lg:mt-8">
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
+                                    <div className="signups h-[75vh] overflow-y-scroll hide-scrollbar lg:mt-8">
+                                        <RequestForm onNewFeature={() => { }} />
                                     </div>
                                 </div>
                             </div>
@@ -143,4 +119,4 @@ const AdminDashboard = () => {
     );
 };
 
-export default AdminDashboard;
+export default FeatureRequest;

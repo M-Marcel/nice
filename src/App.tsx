@@ -21,7 +21,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms&Condition";import AdminDashboard from "./pages/admin/dashboard";
 import VerifyUser from "./pages/auth/verifyUser";
-;
+import FeatureRequest from "./pages/admin/featureRequest";
 
 
 function App() {
@@ -57,6 +57,8 @@ function App() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/feature-request" element={<FeatureRequest />} />
+
 
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />
