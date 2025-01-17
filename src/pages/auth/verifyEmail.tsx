@@ -29,8 +29,7 @@ const VerifyEmail = () => {
           localStorage.setItem('userEmail', response.email);  // Store the email in localStorage
         }
 
-         
-
+        // const provider = response?.provider;
         toast.success('Email verified successfully!');
         navigate('/let-us-know-you');
       } catch (error: any) {

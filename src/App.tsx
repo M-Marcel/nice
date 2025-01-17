@@ -19,9 +19,12 @@ import Profile from "./pages/profile";
 import RequestAFeature from "./pages/request-a-feature";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Privacy from "./pages/Privacy";
-import Terms from "./pages/Terms&Condition";import AdminDashboard from "./pages/admin/dashboard";
+import Terms from "./pages/Terms&Condition";
+import AdminDashboard from "./pages/admin/dashboard";
 import VerifyUser from "./pages/auth/verifyUser";
 import FeatureRequest from "./pages/admin/featureRequest";
+import AdminCommunity from "./pages/admin/community";
+
 
 
 function App() {
@@ -58,6 +61,7 @@ function App() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/feature-request" element={<FeatureRequest />} />
+        <Route path="/admin/community" element={<AdminCommunity/>} />
 
 
         <Route element={<ProtectedRoute />}>

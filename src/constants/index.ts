@@ -77,7 +77,7 @@ export const SidebarLinks = [
     title: "Community",
     icon: AdminCommunityIcon,
     isAdmin: true,
-    url: "/admin/feature-rquest"
+    url: "/admin/community"
   },
   {
     id: 5,
