@@ -54,7 +54,7 @@ const Profile = () => {
                     }`}
                 >
                   <tab.icon
-                    className={`w-5 h-5 ${activeTab === tab.name ? "text-black" : "text-gray-500"
+                    className={`w-5 h-5 ${activeTab === tab.name ? " text-black" : "text-gray-500"
                       }`}
                   />
                   {tab.name}

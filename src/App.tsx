@@ -24,6 +24,8 @@ import AdminDashboard from "./pages/admin/dashboard";
 import VerifyUser from "./pages/auth/verifyUser";
 import FeatureRequest from "./pages/admin/featureRequest";
 import AdminCommunity from "./pages/admin/community";
+import AdminPayment from "./pages/admin/payment";
+import EditPlan from "./pages/admin/editPlan";
 
 
 
@@ -62,6 +64,8 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/feature-request" element={<FeatureRequest />} />
         <Route path="/admin/community" element={<AdminCommunity/>} />
+        <Route path="/admin/payment" element={<AdminPayment />} />
+        <Route path="/admin/payment/edit-plans" element={<EditPlan />} />
 
 
         <Route element={<ProtectedRoute />}>

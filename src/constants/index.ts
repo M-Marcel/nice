@@ -84,14 +84,14 @@ export const SidebarLinks = [
     title: "Payments",
     icon: AdminPaymentIcon,
     isAdmin: true,
-    url: "/admin/feature-rquest"
+    url: "/admin/payment"
   },
   {
     id: 6,
     title: "Admins",
     icon: AdminsIcon,
     isAdmin: true,
-    url: "/admin/feature-rquest"
+    url: "/admin/feature-requst"
   }
 
 ]
