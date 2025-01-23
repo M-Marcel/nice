@@ -74,11 +74,11 @@ const Dashboard = () => {
                 <div className=" items-center justify-between hidden md:flex md:w-[92%] lg:w-[80%] bg-white py-4 px-2 fixed z-50">
                     <Search />
                     <div className="flex gap-2">
-                    <Button className="hidden lg:flex items-center gap-2 bg-gray-900 text-sm text-black-700 px-4 py-3 
+                    <a href="https://t.me/+iw2jh3VaeSg4MzBk" className="hidden lg:flex items-center gap-2 bg-gray-900 text-sm text-black-700 px-4 py-3 
                      rounded-xl">
                         <img src={TelegramIcon} alt="telIcon" width={18} height={18} />
                         Join Telegram
-                    </Button>
+                    </a>
                     <Button className="hidden lg:flex items-center gap-2 bg-black-500 text-sm text-white px-4 py-3 me-10
                      rounded-xl">
                         <img src={ComputerIcon} alt="compIcon" width={18} height={18} />
