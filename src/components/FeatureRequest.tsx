@@ -6,7 +6,7 @@ import { voteFeatureRequest } from '../slices/feature/featureSlice';
 import { useState } from 'react';
 import { AiOutlineLoading } from "react-icons/ai";
 
-const FeatureRequest = ({ feature }: any) => {
+const AllFeatureRequest = ({ feature }: any) => {
     const [isVoting, setIsVoting] = useState(false);
     const user = useAppSelector((state) => state.auth?.user);
 
@@ -100,4 +100,4 @@ const FeatureRequest = ({ feature }: any) => {
     );
 };
 
-export default FeatureRequest;
+export default AllFeatureRequest;

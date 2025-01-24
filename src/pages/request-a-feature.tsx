@@ -10,7 +10,7 @@ import Join from "../components/Join"
 import Dropdown from "../components/Dropdown"
 import RequestForm from "../components/RequestForm"
 import { useAppDispatch, useAppSelector } from "../hooks"
-import { getAllFeatureRequest } from "../slices/feature/featureSlice"
+import { getAllFeatureRequest, setPage } from "../slices/feature/featureSlice"
 import FeatureRequest from "../components/FeatureRequest"
 import PrevIcon from "../assets/svg/PrevIcon"
 import NextIcon from "../assets/svg/NextIcon"
@@ -25,42 +25,49 @@ const RequestAFeature = () => {
 
   const [email, setEmail] = useState<string>("");
   const { setActiveModal } = useModal();
-  const [currentPage, setCurrentPage] = useState(1);
+
 
   const dispatch = useAppDispatch();
 
-  const { features, isLoading, isError, message, totalPages } = useAppSelector(
+  const { displayedFeatures = [], isLoading, isError, message, currentPage, totalPages } = useAppSelector(
     (state) => state.feature
   );
 
   const user = useAppSelector((state) => state.auth.user);
   const userId = user?._id;
 
-  const enhancedFeatures = features.map((feature) => ({
+  const enhancedFeatures = displayedFeatures.map((feature) => ({
     ...feature,
-    isVoted: userId ? feature.likedUsers.includes(userId) : false
+    isVoted: Array.isArray(feature.likedUsers) && userId
+      ? feature.likedUsers.includes(userId)
+      : false,
   }));
 
+
   useEffect(() => {
-    dispatch(getAllFeatureRequest(currentPage));
-  }, [currentPage, dispatch]);
+    dispatch(getAllFeatureRequest());
+  }, [dispatch]);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      dispatch(setPage(currentPage - 1));
     }
   };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+      dispatch(setPage(currentPage + 1));
     }
   };
 
   const handleNewFeature = () => {
-    setCurrentPage(1);
-    dispatch(getAllFeatureRequest(1));
+    dispatch(getAllFeatureRequest());
   };
+
+  useEffect(() => {
+    dispatch(getAllFeatureRequest());
+  }, [dispatch]);
+
 
   return (
     <>
@@ -151,7 +158,7 @@ const RequestAFeature = () => {
           <div className="w-[auto] lg:w-[40%]">
             <RequestForm onNewFeature={handleNewFeature} />
           </div>
-         
+
         </div>
       </div>
 

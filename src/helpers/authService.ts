@@ -9,6 +9,7 @@ const GET_USER_PROFILE = `${process.env.REACT_APP_BASEURL}/api/v1/users/profile/
 const SIGN_IN_GOOGLE_URL =  `${process.env.REACT_APP_BASEURL}/api/v1/auth/google`
 
 
+
 interface ApiErrorResponse {
     message: string;
 }
@@ -56,11 +57,12 @@ const register = async (userData: { firstName: string; lastName: string; email: 
 };
 
 // Verify email
-const verifyEmail = async (token: string): Promise<{ email: string; message: string }> => {
+const verifyEmail = async (token: string): Promise<{ email: string; provider:string; message: string }> => {
     try {
         const response = await axios.get(VERIFY_API_URL, {
             params: { token },
         });
+        console.log("Confirm resp", response.data)
         return response.data;
     } catch (error: any) {
         handleApiError(error);
@@ -154,7 +156,7 @@ const resetPassword = async (userData: { email: string; newPassword: string }): 
 const completeSignUp = async (userData: {
     email: string;
     gender:string;
-    password: string;
+    password?: string;
     userWorkRole: string;
     userCompanySize: string;
     userUseForZroleak: string[];

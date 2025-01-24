@@ -9,11 +9,12 @@ import { toast } from "react-toastify"
 import { reset } from "../../slices/wait/waitSlice"
 import SubmitButton from "../../components/SubmitButton"
 import { completeSignUp } from "../../slices/auth/authSlice"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 
 const LetUsKnowYou = () => {
     const navigate = useNavigate()
+    const { state } = useLocation()
     const [passWordVisible, setPassWordVisible] = useState<boolean>(false)
     const [confirmPassWordVisible, setConfirmPassWordVisible] = useState<boolean>(false)
 
@@ -26,7 +27,7 @@ const LetUsKnowYou = () => {
 
     const [formData, setFormData] = useState({
         email: '',
-        gender:'',
+        gender: '',
         password: '',
         confirmPassword: '',
         userWorkRole: '',
@@ -53,11 +54,11 @@ const LetUsKnowYou = () => {
     useEffect(() => {
         const storedEmail = localStorage.getItem("userEmail");
         if (storedEmail) {
-          setFormData((prev) => ({ ...prev, email: storedEmail }));
+            setFormData((prev) => ({ ...prev, email: storedEmail }));
         }
-      }, []);
+    }, []);
 
-      
+
     const handleCheckboxChange = (key: keyof typeof formData, value: string) => {
         setFormData((prev) => {
             const list = prev[key] as string[];
@@ -79,30 +80,34 @@ const LetUsKnowYou = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s])[A-Za-z\d\W]{8,}$/;
-
-
+        
         console.log('Form submitted:', formData)
         console.log(formData.email)
         if (isLoading) return;
 
-        if (!email || !password || !userWorkRole ||
+        if (!email || (!state?.provider && (!password || password !== confirmPassword)) || !userWorkRole ||
             !userCompanySize || !userUseForZroleak || !userTechnicalExperience) {
             return toast.error('please provide all details')
         }
-        if(password.length < 8 ){
-            return toast.error('password too short, should not be less than 8 characters')
-        }
-        if(!passwordRegex.test(password)){
-            return toast.error('password must contain alphabets, capital letters, small letters, number and special character');
-        }
-        if (password !== confirmPassword) {
-            toast.error('passwords do not match')
+        if (!state?.provider) {
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s])[A-Za-z\d\W]{8,}$/;
+    
+            if (password.length < 8) {
+                return toast.error("Password too short, should not be less than 8 characters");
+            }
+            if (!passwordRegex.test(password)) {
+                return toast.error(
+                    "Password must contain alphabets, capital letters, small letters, a number, and a special character"
+                );
+            }
+            if (password !== confirmPassword) {
+                return toast.error("Passwords do not match");
+            }
         } else {
             const userData = {
                 email,
                 gender,
-                password,
+                password: state?.provider ? undefined : password,
                 userWorkRole,
                 userCompanySize,
                 userUseForZroleak,
@@ -166,7 +171,7 @@ const LetUsKnowYou = () => {
                     </div>
                     {/* User Role */}
                     <div className="flex flex-col gap-2 mb-4">
-                        <label htmlFor="password" className="text-sm text-gray-400 mb-2">
+                        <label htmlFor="role" className="text-sm text-gray-400 mb-2">
                             Which best describes your role?
                         </label>
                         {["Business Owner", "Developer", "Community Manager", "Marketer", "Other"].map((role) => (
@@ -247,56 +252,65 @@ const LetUsKnowYou = () => {
                             ))
                         }
                     </div>
-                    <div className="flex flex-col gap-2 mb-4">
-                        <label htmlFor="password" className="text-sm text-gray-400">
-                            Password
-                        </label>
-                        <div className="relative w-full">
-                            <input
-                                type={passWordVisible ? 'text' : 'password'}
-                                name="password"
-                                value={formData.password}
-                                onChange={handleInputChange}
-                                className="w-full px-4 py-2 border border-gray-600 rounded-lg outline-none"
-                            />
-                            <Button type="button" className="flex justify-center items-center absolute top-2 right-[10px] lg:right-[10px]  text-gray-800" onClick={togglePassWordVisibility}>
-                                {passWordVisible ?
-                                    (
-                                        <OpenEye />
-                                    ) : (
+                    {
+                        !state.provider && (
+                            <>
+                                <div className="flex flex-col gap-2 mb-4">
+                                    <label htmlFor="password" className="text-sm text-gray-400">
+                                        Password
+                                    </label>
+                                    <div className="relative w-full">
+                                        <input
+                                            type={passWordVisible ? 'text' : 'password'}
+                                            name="password"
+                                            value={formData.password}
+                                            onChange={handleInputChange}
+                                            className="w-full px-4 py-2 border border-gray-600 rounded-lg outline-none"
+                                        />
+                                        <Button type="button" className="flex justify-center items-center absolute top-2 right-[10px] lg:right-[10px]  text-gray-800" onClick={togglePassWordVisibility}>
+                                            {passWordVisible ?
+                                                (
+                                                    <OpenEye />
+                                                ) : (
 
-                                        <CloseEye />
-                                    )
+                                                    <CloseEye />
+                                                )
 
-                                }
-                            </Button>
-                        </div>
-                    </div>
-                    <div className="flex flex-col gap-2 mb-3">
-                        <label htmlFor="confirmpassword" className="text-sm text-gray-400">
-                            Confirm Password
-                        </label>
-                        <div className="relative w-full">
-                            <input
-                                type={confirmPassWordVisible ? 'text' : 'password'}
-                                name="confirmPassword"
-                                value={formData.confirmPassword}
-                                onChange={handleInputChange}
-                                className="w-full px-4 py-2 border border-gray-600 rounded-lg outline-none"
-                            />
-                            <Button type="button" className="flex justify-center items-center absolute top-2 right-[10px] lg:right-[10px] text-gray-800" onClick={togglePassWordVisibility2}>
-                                {confirmPassWordVisible ?
-                                    (
-                                        <OpenEye />
-                                    ) : (
+                                            }
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col gap-2 mb-3">
+                                    <label htmlFor="confirmpassword" className="text-sm text-gray-400">
+                                        Confirm Password
+                                    </label>
+                                    <div className="relative w-full">
+                                        <input
+                                            type={confirmPassWordVisible ? 'text' : 'password'}
+                                            name="confirmPassword"
+                                            value={formData.confirmPassword}
+                                            onChange={handleInputChange}
+                                            className="w-full px-4 py-2 border border-gray-600 rounded-lg outline-none"
+                                        />
+                                        <Button type="button" className="flex justify-center items-center absolute top-2 right-[10px] lg:right-[10px] text-gray-800" onClick={togglePassWordVisibility2}>
+                                            {confirmPassWordVisible ?
+                                                (
+                                                    <OpenEye />
+                                                ) : (
 
-                                        <CloseEye />
-                                    )
+                                                    <CloseEye />
+                                                )
 
-                                }
-                            </Button>
-                        </div>
-                    </div>
+                                            }
+                                        </Button>
+                                    </div>
+                                </div>
+
+                            </>
+                        )
+                    }
+
+
                     <SubmitButton
                         isLoading={isLoading}
                         className={`px-4 py-2 w-full text-white rounded-lg text-md ${isLoading ? 'bg-blue-100/55' : 'custom-bg'

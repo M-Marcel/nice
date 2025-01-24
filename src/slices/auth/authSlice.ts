@@ -65,13 +65,13 @@ export const register = createAsyncThunk<
 });
 
 export const verifyEmail = createAsyncThunk<
-    { message: string, email: string },
+    { message: string, email: string, provider:string },
     string,
     { rejectValue: string }
 >("auth/verifyEmail", async (token, thunkApi) => {
     try {
         const response = await authService.verifyEmail(token);
-        return { email: response.email, message: response.message };
+        return response;
     } catch (error: any) {
         const errorMessage =
             error.response?.data?.message || "Verification failed. Please try again.";

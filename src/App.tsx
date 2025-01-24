@@ -24,6 +24,9 @@ import AdminDashboard from "./pages/admin/dashboard";
 import VerifyUser from "./pages/auth/verifyUser";
 import FeatureRequest from "./pages/admin/featureRequest";
 import AdminCommunity from "./pages/admin/community";
+import AdminLogin from "./pages/admin/auth/login";
+import AdminUsers from "./pages/admin/users";
+import Admins from "./pages/admin/admins";
 
 
 
@@ -60,8 +63,12 @@ function App() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/feature-request" element={<FeatureRequest />} />
         <Route path="/admin/community" element={<AdminCommunity/>} />
+        <Route path="/admin/users" element={<AdminUsers />} />
+        <Route path="/admin/admins" element={<Admins />} />
+
 
 
         <Route element={<ProtectedRoute />}>

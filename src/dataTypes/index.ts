@@ -58,7 +58,7 @@ export type ResetPasswordFormData = {
 export type CompleteSignUpFormData = {
     email: string;
     gender:string;
-    password: string;
+    password: string | undefined;
     userWorkRole: string;
     userCompanySize: string;
     userUseForZroleak: string[];

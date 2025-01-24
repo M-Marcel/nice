@@ -3,7 +3,7 @@ import { FeatureFormData } from "../dataTypes";
 import SelectOption from "./Select"
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { toast } from "react-toastify";
-import { createFeatureRequest, reset } from "../slices/feature/featureSlice";
+import { createFeatureRequest, getAllFeatureRequest, reset } from "../slices/feature/featureSlice";
 import SubmitButton from "./SubmitButton";
 import { useNavigate } from "react-router-dom";
 import { useModal } from "../context/ModalContext";
@@ -37,8 +37,6 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
 
   const dispatch = useAppDispatch();
   const { isLoading, isSuccess, message } = useAppSelector((state) => state.feature)
-  const user = useAppSelector((state) => state.auth?.user);
-  const role = user?.role;
 
 
 
@@ -91,11 +89,13 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
   useEffect(() => {
     if (isSuccess) {
       toast.success('Feature request created successfully');
+      dispatch(getAllFeatureRequest)
       setFormData({
         title: '',
         tag: '',
         description: '',
       });
+     
       onNewFeature();
       setActiveModal(null)
     }
@@ -108,15 +108,7 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
 
   return (
     <div className="text-4xl lg:w-[100%] bg-white px-4">
-      <h1 className="text-3xl mb-8 w-[auto] lg:w-[60%] text-black-500 font-500">
-        {
-          role === "user" ?
-          "Add a request"
-          :
-          "Submit idea or feedback"
-        }
-        
-        </h1>
+      <h1 className="text-3xl mb-8 w-[auto] lg:w-[60%] text-black-500 font-500">Submit idea or feedback</h1>
       <form className="w-full" onSubmit={handleContinue}>
         <div className="mb-2">
           <label className="block mb-1 text-sm font-medium text-gray-500 ">

@@ -22,16 +22,17 @@ const VerifyEmail = () => {
         // Dispatch the verifyEmail thunk and wait for the result
         const response = await dispatch(verifyEmail(token)).unwrap();
 
-         console.log(response);
+         console.log("confirm",response);
 
         // Handle success (email is part of the response)
         if (response?.email) {
           localStorage.setItem('userEmail', response.email);  // Store the email in localStorage
         }
 
-        // const provider = response?.provider;
+        const provider = response?.provider;
+        if(provider === "google"){}
         toast.success('Email verified successfully!');
-        navigate('/let-us-know-you');
+        navigate('/let-us-know-you', { state: { provider } });
       } catch (error: any) {
         console.error('Verification failed:', error);
         toast.error(error.message || 'Verification failed. Please try again.');

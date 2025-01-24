@@ -14,6 +14,7 @@ import CommunityIcon from '../assets/svg/users/communityIcon'
 import AdminDashboardIcon from '../assets/svg/admin/dashboardIcon'
 import AdminFeatureRequestIcon from '../assets/svg/admin/featureRequest'
 import AdminCommunityIcon from '../assets/svg/admin/communityIcon'
+import AdminUsersIcon from '../assets/svg/admin/adminsUsersIcon'
 import AdminPaymentIcon from '../assets/svg/admin/paymentIcon'
 import AdminsIcon from '../assets/svg/admin/adminsIcon'
 import Car from '../assets/car.png'
@@ -81,17 +82,24 @@ export const SidebarLinks = [
   },
   {
     id: 5,
+    title: "Users",
+    icon: AdminUsersIcon,
+    isAdmin: true,
+    url: "/admin/users"
+  },
+  {
+    id: 6,
     title: "Payments",
     icon: AdminPaymentIcon,
     isAdmin: true,
     url: "/admin/feature-rquest"
   },
   {
-    id: 6,
+    id: 7,
     title: "Admins",
     icon: AdminsIcon,
     isAdmin: true,
-    url: "/admin/feature-rquest"
+    url: "/admin/admins"
   }
 
 ]
