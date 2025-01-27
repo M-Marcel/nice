@@ -162,7 +162,7 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
               <a
                 key={item.id}
                 href={item.url}
-                className={`text-black-500/55 hover:text-black-500 hover:bg-gray-910 px-2 py-3 ${location.pathname === item.url ? "bg-gray-910 text-black-500" : ""
+                className={`text-black-500/55 hover:text-black-500 hover:bg-gray-910 rounded-lg px-2 py-3 ${location.pathname === item.url ? "bg-gray-910 rounded-lg text-black-500" : ""
                   }`}
               >
                 <div className="flex gap-2 items-center">
@@ -177,8 +177,8 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
               <a
                 key={item.id}
                 href={item.url}
-                className={`hover:text-white text-sm hover:bg-black-300 px-4 py-3 ml-4 ${location.pathname === item.url
-                    ? "bg-black-300 text-white"
+                className={`hover:text-white text-sm hover:bg-black-300 rounded-lg px-4 py-3 ml-4 ${location.pathname === item.url
+                    ? "bg-black-300 rounded-lg text-white"
                     : "text-white/55"
                   }`}
               >

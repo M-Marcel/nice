@@ -1,5 +1,3 @@
-import React from "react";
-import LeftSidebar from "../components/LeftSidebar";
 import Search from "../components/Search";
 import SearchSide from "../assets/svg/SearchSide";
 import AdminAvatar from "../assets/adminAvatar.png";

@@ -22,7 +22,9 @@ module.exports = {
           910: '#262338',
           920: '#171A1C',
           930: '#14142B',
-          940:'#2B2E32'
+          940: '#2B2E32',
+          950: '#1B2128',
+          960: '#232528'
         },
         'gray': {
           100: '#D9DBE9',
@@ -39,6 +41,7 @@ module.exports = {
           930: '#838594',
           940: '#A0A3BD',
           950: '#A0A3BD',
+          960: '#534D59'
         },
         'blue': {
           100: '#039dea',
@@ -63,6 +66,7 @@ module.exports = {
       boxShadow: {
         'shadow-1': '0px 4px 7px 0px #2C8DC933',
         'shadow-2': '0px 0px 0px 1.5px #025ECF',
+        'custom-inset': '0px -1px 0px 0px rgba(225, 225, 225, 0.4) inset',
       },
     }
   },

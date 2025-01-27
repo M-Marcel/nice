@@ -6,7 +6,7 @@ import { User } from "../dataTypes";
 const API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/auth`
 const VERIFY_API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/auth/signup/confirm`
 const GET_USER_PROFILE = `${process.env.REACT_APP_BASEURL}/api/v1/users/profile/me`
-const SIGN_IN_GOOGLE_URL =  `${process.env.REACT_APP_BASEURL}/api/v1/auth/google`
+
 
 
 interface ApiErrorResponse {
@@ -56,12 +56,35 @@ const register = async (userData: { firstName: string; lastName: string; email: 
 };
 
 // Verify email
-const verifyEmail = async (token: string): Promise<{ email: string; message: string }> => {
+const verifyEmail = async (token: string): Promise<{ email: string; provider: string; message: string }> => {
     try {
         const response = await axios.get(VERIFY_API_URL, {
             params: { token },
         });
+        console.log("Confirm resp", response.data)
         return response.data;
+    } catch (error: any) {
+        handleApiError(error);
+        throw new Error("verification failed");
+    }
+};
+
+const verifyUser = async(token:string): Promise<{user: User; message: string; token:string }> => {
+    console.log('Token:', token); // Debugging log
+    localStorage.setItem("token", token!);
+    try {
+        const response = await authService.getProfile();
+
+        console.log("User AuthService Response", response)
+        localStorage.setItem("user", JSON.stringify(response));
+        // console.log("user profie", profile);
+
+        return {
+            user: response.user,
+            message:response.message,
+            token: token!
+        };
+
     } catch (error: any) {
         handleApiError(error);
         throw new Error("verification failed");
@@ -86,20 +109,6 @@ const login = async (userData: { email: string; password: string }): Promise<{ u
     }
 };
 
-//Google Signin
-const signInWithGoogle = async() : Promise<{user:User; message:string}> => {
-    try{
-        const response = await axios.get(SIGN_IN_GOOGLE_URL,
-            {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: true,
-            });
-            return response.data
-    }catch(error:any){
-        handleApiError(error);
-        throw new Error("failed fetching profile");
-    }
-}
 
 // Forgot password
 const forgotPassword = async (userData: { email: string }): Promise<{ message: string }> => {
@@ -153,8 +162,8 @@ const resetPassword = async (userData: { email: string; newPassword: string }): 
 // Complete signup
 const completeSignUp = async (userData: {
     email: string;
-    gender:string;
-    password: string;
+    gender: string;
+    password?: string;
     userWorkRole: string;
     userCompanySize: string;
     userUseForZroleak: string[];
@@ -233,8 +242,8 @@ const logout = (): void => {
 const authService = {
     register,
     verifyEmail,
+    verifyUser,
     login,
-    signInWithGoogle,
     forgotPassword,
     validateOtp,
     resetPassword,

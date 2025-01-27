@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { verifyEmail } from '../../slices/auth/authSlice';
+import { getProfile, verifyEmail } from '../../slices/auth/authSlice';
 import { toast } from 'react-toastify';
 import { useAppDispatch } from '../../hooks';
 
@@ -19,19 +19,29 @@ const VerifyEmail = () => {
 
     const handleEmailVerification = async () => {
       try {
-        // Dispatch the verifyEmail thunk and wait for the result
         const response = await dispatch(verifyEmail(token)).unwrap();
 
-         console.log(response);
+        console.log('Verification response:', response);
 
-        // Handle success (email is part of the response)
         if (response?.email) {
-          localStorage.setItem('userEmail', response.email);  // Store the email in localStorage
-        }
+          localStorage.setItem('userEmail', response.email); 
 
-        // const provider = response?.provider;
+        
+          if (response.provider === 'google') {
+            toast.success('Email verified successfully! Redirecting to your dashboard...');
+            const profile = await dispatch(getProfile()).unwrap(); 
+            if (profile) {
+              navigate('/dashboard'); 
+            }
+            localStorage.getItem('userEmail')
+            return;
+            
+          }
+        }
+       
         toast.success('Email verified successfully!');
-        navigate('/let-us-know-you');
+        navigate('/let-us-know-you', { state: { provider: response?.provider } });
+
       } catch (error: any) {
         console.error('Verification failed:', error);
         toast.error(error.message || 'Verification failed. Please try again.');

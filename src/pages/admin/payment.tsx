@@ -60,7 +60,7 @@ const AdminPayment = () => {
                       <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 ">
                         <li className="me-2">
                           <a
-                            href="#"
+                            href="/"
                             aria-current="page"
                             className="inline-block px-4 py-2 mt-2 text-xs text-white  bg-black-300 rounded-2xl active"
                           >
@@ -69,7 +69,7 @@ const AdminPayment = () => {
                         </li>
                         <li className="me-2">
                           <a
-                            href="#"
+                            href="/"
                             className="inline-block text-black-200 px-4 py-2 mt-2 text-xs rounded-2xl border border-gray-100/85 hover:text-gray-600 "
                           >
                             Successful
@@ -77,7 +77,7 @@ const AdminPayment = () => {
                         </li>
                         <li className="me-2">
                           <a
-                            href="#"
+                            href="/"
                             className="inline-block text-black-200 px-4 py-2 mt-2 text-xs rounded-2xl border border-gray-100/85 hover:text-gray-600"
                           >
                             Pending
@@ -85,7 +85,7 @@ const AdminPayment = () => {
                         </li>
                         <li className="me-2">
                           <a
-                            href="#"
+                            href="/"
                             className="inline-block text-black-200 px-4 py-2 mt-2 text-xs rounded-2xl border border-gray-100/85 hover:text-gray-600 "
                           >
                             Cancelled

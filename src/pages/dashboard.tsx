@@ -6,10 +6,10 @@ import ComputerIcon from '../assets/computer-white.png'
 import TelegramIcon from '../assets/telegram2.png'
 import Search from "../components/Search"
 import { useAppDispatch, useAppSelector } from "../hooks"
-import {enablePageScroll } from "scroll-lock"
+import { enablePageScroll } from "scroll-lock"
 import Person from '../assets/person.png'
-import { getAllFeatureRequest } from "../slices/feature/featureSlice"
-import { useEffect, useState } from "react"
+import { getAllFeatureRequest, setPage } from "../slices/feature/featureSlice"
+import { useEffect } from "react"
 import FeatureRequest from "../components/FeatureRequest"
 import NextIcon from "../assets/svg/NextIcon"
 import PrevIcon from "../assets/svg/PrevIcon"
@@ -21,45 +21,46 @@ import { useModal } from "../context/ModalContext"
 import TelegramModal from "../components/telegramModal"
 
 
-
-
-
 const Dashboard = () => {
     const dispatch = useAppDispatch();
 
     const user = useAppSelector((state) => state.auth.user);
-    const { features, isLoading, isError, message, totalPages } = useAppSelector(
+    const { displayedFeatures = [], isLoading, isError, message, currentPage, totalPages } = useAppSelector(
         (state) => state.feature
     );
-    const [currentPage, setCurrentPage] = useState(1);
+
     const { activeModal, setActiveModal } = useModal()
 
     const userId = user?._id;
 
-    const enhancedFeatures = features.map((feature) => ({
+    const enhancedFeatures = displayedFeatures.map((feature) => ({
         ...feature,
-        isVoted: userId ? feature.likedUsers.includes(userId) : false
+        isVoted: Array.isArray(feature.likedUsers) && userId
+            ? feature.likedUsers.includes(userId)
+            : false,
     }));
 
     useEffect(() => {
-        dispatch(getAllFeatureRequest(currentPage));
+        dispatch(getAllFeatureRequest());
         enablePageScroll()
         // setActiveModal("telegramModal")
-     
-    }, [dispatch, currentPage]);
+
+    }, [dispatch]);
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
+            dispatch(setPage(currentPage - 1));
         }
     };
 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
+            dispatch(setPage(currentPage + 1));
             console.log('moved to next page')
         }
     };
+
+   
 
     const closeModal = () => {
         setActiveModal(null);
@@ -67,7 +68,7 @@ const Dashboard = () => {
         enablePageScroll()
     };
 
-   
+
 
     return (
         <div className="dashboard flex flex-col lg:flex-row px-2">
@@ -76,16 +77,16 @@ const Dashboard = () => {
                 <div className=" items-center justify-between hidden md:flex md:w-[92%] lg:w-[80%] bg-white py-4 px-2 fixed z-50">
                     <Search />
                     <div className="flex gap-2">
-                    <Button className="hidden lg:flex items-center gap-2 bg-gray-900 text-sm text-black-700 px-4 py-3 
+                        <Button className="hidden lg:flex items-center gap-2 bg-gray-900 text-sm text-black-700 px-4 py-3 
                      rounded-xl">
-                        <img src={TelegramIcon} alt="telIcon" width={18} height={18} />
-                        Join Telegram
-                    </Button>
-                    <Button className="hidden lg:flex items-center gap-2 bg-black-500 text-sm text-white px-4 py-3 me-10
+                            <img src={TelegramIcon} alt="telIcon" width={18} height={18} />
+                            Join Telegram
+                        </Button>
+                        <Button className="hidden lg:flex items-center gap-2 bg-black-500 text-sm text-white px-4 py-3 me-10
                      rounded-xl">
-                        <img src={ComputerIcon} alt="compIcon" width={18} height={18} />
-                        Beta
-                    </Button>
+                            <img src={ComputerIcon} alt="compIcon" width={18} height={18} />
+                            Beta
+                        </Button>
                     </div>
                 </div>
                 <div className="flex flex-col lg:flex-row gap-8 mt-14 lg:mt-8">

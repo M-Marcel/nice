@@ -5,7 +5,7 @@ import BasicPlan from "../../components/Basic";
 import PremiumPlan from "../../components/Premium";
 import ProPlan from "../../components/ProAdmin";
 import PlatinumPlan from "../../components/Platinum";
-import { useLocation } from "react-router-dom";
+
 
 // Import icons
 // import ProfileIcon from '../assets/svg/UserIcon';
@@ -16,7 +16,7 @@ import { useLocation } from "react-router-dom";
 const EditPlan = () => {
   const [activeTab, setActiveTab] = useState<string>("Basic"); // Track active tab
   const userRole = "admin";
-  const location = useLocation;
+ 
 
   const tabs = [
     { name: "Basic", },

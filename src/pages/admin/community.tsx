@@ -1,9 +1,7 @@
-import Search from "../../assets/svg/Search";
-import SearchSide from "../../assets/svg/SearchSide";
 import LeftSidebar from "../../components/LeftSidebar";
-import AdminAvatar from "../../assets/adminAvatar.png"
 import Button from "../../components/Button";
 import { communityBots } from "../../constants";
+import AdminHeader from "../../components/admin/Header";
 
 
 // import { useAppSelector } from "../../hooks";
@@ -20,30 +18,7 @@ const AdminCommunity = () => {
                 <LeftSidebar userRole={userRole} />
                 <div className="mainDashboardFeatures bg-white h-[full] overflow-y-scroll rounded-[40px] w-[100%] lg:w-[80%] 
                 lg:relative md:z-30 lg:z-40 left-[20%] px-4 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-black-300">
-                    <div className="w-[75%] z-30 p-5 fixed left-[22%] top-[10px] h-10vh hidden lg:block py-4 px-2">
-                        <div className="flex justify-between items-center bg-white -mt-[5px] py-3">
-                            <div className="relative w-[27%]">
-                                <input type="text" placeholder="Search" className="text-sm border border-gray-900 rounded-lg py-2 outline-none pl-7" />
-                                <div className="absolute top-[8px] left-[6px] text-gray-500">
-                                    <Search />
-                                </div>
-                                <div className="absolute right-[22px] top-[11px]">
-                                    <SearchSide />
-                                </div>
-                            </div>
-                            <div>
-                                <div className="flex items-center gap-2">
-                                    <div>
-                                        <img src={AdminAvatar} alt="adminavatar" width={40} height={40} />
-                                    </div>
-                                    <div>
-                                        <p className="text-xs font-semibold text-black-910">John Mraz</p>
-                                        <p className="text-xs text-gray-940">Admin</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <AdminHeader />
                     <div className="relative top-[80px] z-2">
                         <div className="">
                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
