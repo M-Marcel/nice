@@ -85,7 +85,7 @@ const Login = ({ openForgotPasswordModal, openSignUpModal, openTelegramModal }: 
                 <h2 className="text-black-500 text-xl">What’s your email?</h2>
                 <p className="text-gray-500 text-sm">Enter your email address</p>
             </div>
-            <form onSubmit={onSubmit} className="h-auto lg:h-[41vh] overflow-y-scroll hide-scrollbar">
+            <form onSubmit={onSubmit} className="h-auto lg:h-[38vh] overflow-y-scroll hide-scrollbar">
                 <div className="flex flex-col gap-2 mb-3">
                     <label htmlFor="email" className="text-sm text-gray-400">
                         Email
@@ -165,7 +165,7 @@ const Login = ({ openForgotPasswordModal, openSignUpModal, openTelegramModal }: 
                         </a> */}
                 </div>
             </div>
-            <div className='flex justify-center items-center mt-6'>
+            <div className='flex justify-center items-center mt-2'>
                 <div className='flex items-center text-center gap-1'>
                     <p className='text-sm text-gray-400'>Don't have an account?</p>
                     <Button
