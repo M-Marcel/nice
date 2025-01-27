@@ -22,8 +22,8 @@ const blockOptions = ["Block1", "Block2", "Block3"];
 const tagOptions = ["Tag1", "Tag2", "Tag3"];
 
 const RequestAFeature = () => {
-
   const [email, setEmail] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const { setActiveModal } = useModal();
 
 
@@ -43,6 +43,10 @@ const RequestAFeature = () => {
       : false,
   }));
 
+   // Filter features based on the search term
+   const filteredFeatures = enhancedFeatures.filter((feature) =>
+    feature.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   useEffect(() => {
     dispatch(getAllFeatureRequest());
@@ -99,14 +103,16 @@ const RequestAFeature = () => {
         <div className="flex flex-col lg:flex-row justify-between gap-8">
           <div className="flex flex-col w-[auto] lg:w-[60%]">
             <div className="flex justify-between items-center gap-2">
-              <div className="w-[80%]">
+              <div className="w-full lg:w-[80%]">
                 <input
                   type="text"
                   placeholder="Search for anything"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)} // Update search term
                   className="w-full border border-gray-600 py-2 outline-none px-2 rounded-md"
                 />
               </div>
-              <div className="flex gap-2">
+              <div className="hidden lg:flex gap-2">
                 <Dropdown options={blockOptions}>Block</Dropdown>
                 <Dropdown options={tagOptions}>Tags</Dropdown>
               </div>
@@ -128,8 +134,8 @@ const RequestAFeature = () => {
                 <p className="text-red-500">{message}</p>
               ) : (
                 <>
-                  {enhancedFeatures && enhancedFeatures.length > 0 ? (
-                    enhancedFeatures.map((feature) => (
+                 {filteredFeatures && filteredFeatures.length > 0 ? (
+                    filteredFeatures.map((feature) => (
                       <FeatureRequest key={feature._id} feature={feature} />
                     ))
                   ) : (
