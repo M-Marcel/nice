@@ -71,6 +71,10 @@ export type UpdateProfileFormData = {
     userTechnicalExperience: string,
     userWorkRole: string
 }
+export type UpdatePasswordFormData = {
+    currentPassword: string
+    newPassword: string,
+}
 export type Feature = {
     _id: string;
     title: string;
