@@ -44,11 +44,13 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
       ) {
         setSidebarOpen(false);
       }
+
     };
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
+    
   }, []);
 
   return (
@@ -155,8 +157,7 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
             </a>
           </div>
         </div>
-        {SidebarLinks.map((item) => {
-          if (role === "user" && !item.isAdmin) {
+        {SidebarLinks.map((item) => {          if (role === "user" && !item.isAdmin) {
             return (
               <a
                 key={item.id}

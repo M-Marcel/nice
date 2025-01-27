@@ -2,10 +2,9 @@ import SearchIcon from '../assets/svg/Search'
 
 const Search = () => {
     return (
-        <div className="relative">
-            <input type="text" placeholder="Search for anything" className="border border-gray-600 outline-0 rounded-lg
-         px-7 py-2 ml-3" />
-            <div className="absolute top-[11px] left-[16px]">
+        <div className="relative w-[27%]">
+            <input type="text" placeholder="Search " className="text-sm border border-gray-900 rounded-lg py-2 outline-none pl-7" />
+            <div className="absolute top-[9px] left-[6px]">
                 <SearchIcon />
             </div>
         </div>

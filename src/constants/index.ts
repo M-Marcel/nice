@@ -92,7 +92,7 @@ export const SidebarLinks = [
     title: "Payments",
     icon: AdminPaymentIcon,
     isAdmin: true,
-    url: "/admin/feature-rquest"
+    url: "/admin/payment"
   },
   {
     id: 7,

@@ -71,7 +71,8 @@ module.exports = {
     }
   },
   plugins: [
-    plugin({ nocompatible: true })
+    plugin({ nocompatible: true }),
+    require('tailwind-scrollbar')
   ],
 }
 

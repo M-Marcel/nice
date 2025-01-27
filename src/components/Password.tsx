@@ -66,6 +66,7 @@ const Password = () => {
           <div className="w-[100%] lg:w-[100%] px-2 py-4 h-[100vh]">
             <div className="relative top-[20px]">
               <div className="flex flex-col lg:flex-row gap-4 justify-between">
+
                 <form className="w-[100%] lg:w-[80%]" onSubmit={handleSubmit}>
                   <div className="flex flex-col lg:flex-row justify-between items-center">
                     <div className="relative flex w-[100%] lg:w-[90%] flex-col mb-3">
