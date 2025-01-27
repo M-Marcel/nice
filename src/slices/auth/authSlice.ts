@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
     CompleteSignUpFormData,
     ForgotFormData,
@@ -79,6 +79,26 @@ export const verifyEmail = createAsyncThunk<
     }
 });
 
+export const verifyUser = createAsyncThunk(
+    'auth/verifyUser',
+    async (token: string, { rejectWithValue }) => {
+        try {
+            localStorage.setItem("token", token);
+            const response = await authService.getProfile();
+            localStorage.setItem("user", JSON.stringify(response));
+        
+            return {
+                user: response.user || response, 
+                message: response.message || "No message", 
+                token: token,
+            };
+        } catch (error: any) {
+            
+            return rejectWithValue("Verification failed");
+        }
+    }
+);
+
 export const login = createAsyncThunk<
     { user: User; token: string; message: string },
     LoginFormData,
@@ -93,21 +113,6 @@ export const login = createAsyncThunk<
         return thunkApi.rejectWithValue(message);
     }
 });
-
-export const signInWithGoogle = createAsyncThunk<
-    { user: User; message: string },
-    void,
-    { rejectValue: string }
->("auth/signin-with-google", async (_, thunkApi) => {
-    try {
-        const response = await authService.signInWithGoogle()
-        return response;
-    } catch (error: any) {
-        const message = error.response?.data?.message || error.message || "Failed to fetch profile";
-        return thunkApi.rejectWithValue(message);
-    }
-
-})
 
 export const forgotPassword = createAsyncThunk<
     { message: string },
@@ -264,6 +269,24 @@ const authSlice = createSlice({
                 state.isError = true;
                 state.message = action.payload as string;
             })
+            .addCase(verifyUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(verifyUser.fulfilled, (state,  action: PayloadAction<any>) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.user = action.payload.user;
+                state.token = action.payload.token;
+                state.message = action.payload.message;
+                localStorage.setItem("user", JSON.stringify(action.payload.user));  // Save user to localStorage
+                localStorage.setItem("token", action.payload.token);
+            })
+            .addCase(verifyUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.user = null;
+                state.message = action.payload as string;
+            })
 
             // Login reducers
             .addCase(login.pending, (state) => {
@@ -285,24 +308,7 @@ const authSlice = createSlice({
                 state.user = null;
                 toast.error(action.payload);
             })
-            .addCase(signInWithGoogle.pending, (state) => {
-                state.isLoading = true
-            })
-            .addCase(signInWithGoogle.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.isFetchProfileSuccess = true;
-                state.user = action.payload.user;
-                state.message = action.payload.message;
-                localStorage.setItem("user", JSON.stringify(action.payload.user));
-            })
-            .addCase(signInWithGoogle.rejected, (state, action) => {
-                state.isLoading = false;
-                state.isError = true;
-                state.user = null;
-                state.message = action.payload as string || "Google Sign-In failed";
-                toast.error(action.payload);
-            })
-
+            
             // Forgot Password reducers
             .addCase(forgotPassword.pending, (state) => {
                 state.isLoading = true;
@@ -381,6 +387,7 @@ const authSlice = createSlice({
                 state.isLoading = false;
                 state.isFetchProfileSuccess = true;
                 state.user = action.payload.user;
+               
                 state.message = action.payload.message;
             })
             .addCase(getProfile.rejected, (state, action) => {

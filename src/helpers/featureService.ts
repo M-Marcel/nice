@@ -50,7 +50,6 @@ const getAllFeatureRequest = async (): Promise<{
     if (storedFeatures) {
         // If features exist in localStorage, return them
         const features = JSON.parse(storedFeatures);
-        console.log("Features loaded from localStorage:", features);
         return {
             features,
             message: "Features fetched from localStorage",

@@ -8,6 +8,7 @@ import SubmitButton from '../../components/SubmitButton';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '../../context/ModalContext';
 import Button from '../../components/Button';
+import Google from '../../assets/Google.png'
 
 const SignUp = () => {
   const { setActiveModal } = useModal();
@@ -42,6 +43,11 @@ const SignUp = () => {
       dispatch(register(userData));
     }
   };
+
+  const handleGoogleSignUp = () => {
+    const googleAuthUrl = "https://lanepact-zroleak-staging-f5c9980418f7.herokuapp.com/api/v1/auth/google";
+    window.location.href = googleAuthUrl;
+};
 
   useEffect(() => {
     if (isSuccess) {
@@ -110,25 +116,23 @@ const SignUp = () => {
           Continue
         </SubmitButton>
 
-        {/* <div className="flex justify-center items-center">
-          <p className="text-gray-400 mt-3 text-sm">or continue with</p>
-        </div> */}
-
-        {/* Uncomment for third-party auth buttons */}
-        {/* <div className="flex justify-center items-center gap-2 mt-4">
-          <div className="flex justify-between gap-8">
-            <a href="/" className="rounded-lg px-8 py-2 border border-gray-600">
-              <img src={Google} alt="google" width={30} height={30} />
-            </a>
-            <a href="/" className="rounded-lg px-8 py-2 border border-gray-600">
-              <img src={Microsoft} alt="microsoft" width={30} height={30} />
-            </a>
-            <a href="/" className="rounded-lg px-8 py-2 border border-gray-600">
-              <img src={Github} alt="github" width={30} height={30} />
-            </a>
+        <div className="flex flex-col gap-2 mt-4">
+                <div className="flex items-center gap-8">
+                    <Button
+                        onClick={handleGoogleSignUp}
+                        className="w-full flex items-center justify-center rounded-lg px-8 py-2 border border-gray-600"
+                    >
+                        <img src={Google} alt="google" width={30} height={30} />
+                        <span>Google</span>
+                    </Button>
+                    {/* <a href="/" className="rounded-lg px-8 py-2 border border-gray-600">
+                            <img src={Microsoft} alt="microsoft" width={30} height={30} />
+                        </a>
+                        <a href="/" className="rounded-lg px-8 py-2 border border-gray-600">
+                            <img src={Github} alt="github" width={30} height={30} />
+                        </a> */}
+                </div>
           </div>
-        </div> */}
-
         <div className="flex justify-center items-center mt-6">
           <div className="flex items-center text-center gap-1">
             <p className="text-sm text-gray-400">Already have an account?</p>

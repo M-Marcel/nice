@@ -1,28 +1,44 @@
-import { useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAppDispatch } from "../../hooks";
+import { verifyUser } from "../../slices/auth/authSlice";
 
 const VerifyUser = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const { search } = useLocation();
 
   useEffect(() => {
-    const verifyUser = async () => {
-      const token = new URLSearchParams(search).get('token'); // Extract the token from URL
-      console.log('Token:', token); // Debugging log
-
+    const verifyUserProfile = async () => {
+      const token = new URLSearchParams(search).get("token");
+      console.log("Token:", token);
       if (!token) {
-        toast.error('No token provided. Please try signing in again.');
-        navigate('/'); // Redirect to home
+        toast.error("No token provided. Please try signing in again.");
+        navigate("/");
         return;
       }
 
-      console.log('Navigating to /dashboard');
-      navigate('/dashboard'); // Redirect to dashboard
+      try {
+        // Dispatch verifyUser and get the profile
+        const profile = await dispatch(verifyUser(token)).unwrap();
+        console.log("User profile:", profile);
+
+        // Store token in localStorage only if verification is successful
+        localStorage.setItem("token", token);
+
+        // Navigate to dashboard after successful verification
+        toast.success("Welcome back!");
+        navigate("/dashboard");
+      } catch (error) {
+        console.error("Error verifying user:", error);
+        toast.error("Verification failed. Please try again.");
+        navigate("/");
+      }
     };
 
-    verifyUser();
-  }, [navigate, search]);
+    verifyUserProfile();
+  }, [navigate, search, dispatch]);
 
   return (
     <div className="flex items-center justify-center h-screen">

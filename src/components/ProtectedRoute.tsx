@@ -4,8 +4,11 @@ import { useAppSelector } from '../hooks';
 
 const ProtectedRoute = () => {
     const { user } = useAppSelector((state) => state.auth) ;
+
     // If there is no token, navigate to login page
-    if (!user) {
+
+ 
+    if (!user ) {
         return <Navigate to="/" replace />;
     }
 

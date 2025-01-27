@@ -29,7 +29,6 @@ const Dashboard = () => {
         (state) => state.feature
     );
 
-    console.log("display", displayedFeatures)
     const { activeModal, setActiveModal } = useModal()
 
     const userId = user?._id;

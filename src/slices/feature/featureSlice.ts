@@ -21,7 +21,7 @@ type InitialState = {
 
 const storedFeatures = localStorage.getItem('features');
 const  features = storedFeatures ? JSON.parse(storedFeatures) : [];
-console.log('Loaded features from localStorage:', localStorage.getItem('features'));
+
 
 const storedCreatedFeature = localStorage.getItem('feature');
 const feature = storedCreatedFeature ? JSON.parse(storedCreatedFeature) : null;
@@ -47,7 +47,7 @@ export const createFeatureRequest = createAsyncThunk<{ feature: Feature; message
         return response;
     } catch (error: any) {
         const message = error.response?.data?.message || error.message || 'feature request creation failed';
-        console.log(message)
+      
         return thunkApi.rejectWithValue(message)
     }
 })
@@ -81,7 +81,7 @@ export const voteFeatureRequest = createAsyncThunk<{ feature: Feature; message: 
         return response;
     } catch (error: any) {
         const message = error.response?.data?.message || error.message || 'feature request vote failed';
-        console.log(message)
+       
         return thunkApi.rejectWithValue(message)
     }
 })
@@ -121,9 +121,6 @@ const featureSlice = createSlice({
                     state.features = [];
                 }
             
-                console.log('Current features before adding new feature:', state.features);
-                console.log('New feature to add:', newFeature);
-            
                 // Add new feature immutably
                 state.features = [newFeature, ...state.features];
             
@@ -132,9 +129,6 @@ const featureSlice = createSlice({
                 const startIndex = (state.currentPage - 1) * state.limit;
                 const endIndex = startIndex + state.limit;
                 state.displayedFeatures = state.features.slice(startIndex, endIndex);
-            
-                // Log the updated features to be saved
-                console.log('Updated features to save to localStorage:', state.features);
             
                 // Save updated features to localStorage
                 localStorage.setItem('features', JSON.stringify(state.features));
@@ -156,8 +150,6 @@ const featureSlice = createSlice({
                 state.isFetchRequestSuccess = true;
                 state.features = action.payload.features;
                 localStorage.setItem('features', JSON.stringify(state.features));
-                console.log('Updated features (getAll):', state.features); // Should show fetched features
-                console.log('Displayed features (getAll):', state.displayedFeatures);
                 state.totalPages = Math.ceil(action.payload.features.length / state.limit);
                 // Recalculate displayedFeatures based on the current page
                 const startIndex = (state.currentPage - 1) * state.limit;
