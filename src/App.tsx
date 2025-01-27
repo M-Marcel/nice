@@ -19,7 +19,14 @@ import Profile from "./pages/profile";
 import RequestAFeature from "./pages/request-a-feature";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Privacy from "./pages/Privacy";
-import Terms from "./pages/Terms&Condition";;
+import Terms from "./pages/Terms&Condition";
+import AdminDashboard from "./pages/admin/dashboard";
+import VerifyUser from "./pages/auth/verifyUser";
+import FeatureRequest from "./pages/admin/featureRequest";
+import AdminCommunity from "./pages/admin/community";
+import AdminPayment from "./pages/admin/payment";
+import EditPlan from "./pages/admin/editPlan";
+
 
 
 function App() {
@@ -49,10 +56,17 @@ function App() {
         <Route path="/waitlist" element={<WaitList />} />
         <Route path="/draganddrop" element={<DragandDrop />} />
         <Route path="/verifyEmail" element={<VerifyEmail />} />
+        <Route path="/verify-user" element={<VerifyUser />} />
         <Route path="/let-us-know-you" element={<LetUsKnowYou />} />
         <Route path="/contact-us" element={<Contact />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/feature-request" element={<FeatureRequest />} />
+        <Route path="/admin/community" element={<AdminCommunity/>} />
+        <Route path="/admin/payment" element={<AdminPayment />} />
+        <Route path="/admin/payment/edit-plans" element={<EditPlan />} />
+
 
         <Route element={<ProtectedRoute />}>
           <Route path="/dashboard" element={<Dashboard />} />

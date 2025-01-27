@@ -21,7 +21,7 @@ type InitialState = {
     isForgotPasswordSuccess: boolean;
     isLoginSuccess: boolean;
     isValidationSuccess: boolean;
-    isFetchProfileSuccess:boolean
+    isFetchProfileSuccess: boolean
     isResetPasswordSuccess: boolean;
     isUpdateProfileSuccess: boolean;
     isLoading: boolean;
@@ -42,7 +42,7 @@ const initialState: InitialState = {
     isLoginSuccess: false,
     isValidationSuccess: false,
     isResetPasswordSuccess: false,
-    isFetchProfileSuccess:false,
+    isFetchProfileSuccess: false,
     isUpdateProfileSuccess: false,
     isLoading: false,
     message: "",
@@ -94,6 +94,21 @@ export const login = createAsyncThunk<
     }
 });
 
+export const signInWithGoogle = createAsyncThunk<
+    { user: User; message: string },
+    void,
+    { rejectValue: string }
+>("auth/signin-with-google", async (_, thunkApi) => {
+    try {
+        const response = await authService.signInWithGoogle()
+        return response;
+    } catch (error: any) {
+        const message = error.response?.data?.message || error.message || "Failed to fetch profile";
+        return thunkApi.rejectWithValue(message);
+    }
+
+})
+
 export const forgotPassword = createAsyncThunk<
     { message: string },
     ForgotFormData,
@@ -110,7 +125,7 @@ export const forgotPassword = createAsyncThunk<
 });
 
 export const validateOtp = createAsyncThunk<
-    {user:User; message: string },
+    { user: User; message: string },
     ValidateFormData,
     { rejectValue: string }
 >("auth/validate-otp", async (userData, thunkApi) => {
@@ -170,7 +185,7 @@ export const getProfile = createAsyncThunk<
 });
 
 export const updateProfile = createAsyncThunk<
-    { user: User | null ; message: string },
+    { user: User | null; message: string },
     UpdateProfileFormData,
     { rejectValue: string }
 >("auth/updateProfile", async (userData, thunkApi) => {
@@ -261,13 +276,30 @@ const authSlice = createSlice({
                 state.token = action.payload.token;
                 state.message = action.payload.message;
                 toast.success('log in successful');
-              
+
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload as string;
                 state.user = null;
+                toast.error(action.payload);
+            })
+            .addCase(signInWithGoogle.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(signInWithGoogle.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isFetchProfileSuccess = true;
+                state.user = action.payload.user;
+                state.message = action.payload.message;
+                localStorage.setItem("user", JSON.stringify(action.payload.user));
+            })
+            .addCase(signInWithGoogle.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.user = null;
+                state.message = action.payload as string || "Google Sign-In failed";
                 toast.error(action.payload);
             })
 

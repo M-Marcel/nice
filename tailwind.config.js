@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require('tailwind-scrollbar');
+
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
@@ -14,7 +16,13 @@ module.exports = {
           400: '#6E7191',
           500: '#1A1C1F',
           600: '#2B2E32',
-          700: '#19171C'
+          700: '#19171C',
+          800: '#101010',
+          900: '#EFF0F6',
+          910: '#262338',
+          920: '#171A1C',
+          930: '#14142B',
+          940:'#2B2E32'
         },
         'gray': {
           100: '#D9DBE9',
@@ -28,17 +36,20 @@ module.exports = {
           900: '#EFF0F6',
           910: '#F7F7FC',
           920: '#76767F',
-          930: '#838594'
-
-
+          930: '#838594',
+          940: '#A0A3BD',
+          950: '#A0A3BD',
         },
         'blue': {
           100: '#039dea',
           200: '#34A9F14D',
           300: '#eef8fe',
           400: '#30A6EF',
-
+          500: '#1574EA'
         },
+        'red':{
+          100:'#FB4E4E'
+        }
       },
       fontFamily: {
         title: ['Inter', 'sans-serif']
@@ -55,6 +66,9 @@ module.exports = {
       },
     }
   },
-  plugins: [],
+  plugins: [
+    plugin({ nocompatible: true }),
+    require('tailwind-scrollbar')
+  ],
 }
 

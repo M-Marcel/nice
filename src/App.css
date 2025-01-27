@@ -143,3 +143,8 @@ select option:focus {
   background-color: #f0f0f0; /* Hover background color */
   color: #000; /* Text color */
 }
+
+.admin{
+   background: #4a4848;
+}
+

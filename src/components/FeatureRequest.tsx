@@ -1,12 +1,14 @@
 import { toast } from 'react-toastify';
-import Elipse from '../assets/elipse.png';
-import { useAppDispatch } from '../hooks';
+import MaleAvatar from '../assets/malee-avatae.png'
+import FemaleAvatar from '../assets/female-avatar.jpeg'
+import { useAppDispatch, useAppSelector } from '../hooks';
 import { voteFeatureRequest } from '../slices/feature/featureSlice';
 import { useState } from 'react';
 import { AiOutlineLoading } from "react-icons/ai";
 
 const FeatureRequest = ({ feature }: any) => {
     const [isVoting, setIsVoting] = useState(false);
+    const user = useAppSelector((state) => state.auth?.user);
 
     const dispatch = useAppDispatch();
 
@@ -14,7 +16,7 @@ const FeatureRequest = ({ feature }: any) => {
         setIsVoting(true);
         try {
             if (feature.isVoted) {
-                await dispatch(voteFeatureRequest(id)).unwrap(); 
+                await dispatch(voteFeatureRequest(id)).unwrap();
                 toast.success('You have unvoted this feature request');
                 feature.isVoted = false;
                 feature.likeCount -= 1;
@@ -72,7 +74,19 @@ const FeatureRequest = ({ feature }: any) => {
                     <p className="text-xs text-gray-300">{feature.likeCount}</p>
                 </div>
                 <div className="flex items-center gap-3">
-                    <img src={Elipse} alt="elipse" width={20} height={20} />
+                    <img
+                        src={
+                            user?.gender === "Male"
+                                ? MaleAvatar
+                                : user?.gender === "Female"
+                                    ? FemaleAvatar
+                                    : MaleAvatar
+                        }
+                        alt="Profile"
+                        width={25}
+                        height={25}
+                        className="rounded-full"
+                    />
                     <div className="flex items-center gap-2">
                         <span className="text-gray-500 text-sm">by</span>
                         <p className="text-sm text-gray-300">

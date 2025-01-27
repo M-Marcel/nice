@@ -1,0 +1,93 @@
+import Search from "../../assets/svg/Search";
+import SearchSide from "../../assets/svg/SearchSide";
+import LeftSidebar from "../../components/LeftSidebar";
+import AdminAvatar from "../../assets/adminAvatar.png"
+import Button from "../../components/Button";
+import { communityBots } from "../../constants";
+
+
+// import { useAppSelector } from "../../hooks";
+
+
+const AdminCommunity = () => {
+    // const user = useAppSelector((state) => state.auth.user); 
+    const userRole = "admin"
+
+
+    return (
+        <div className="bg-black-300 h-screen">
+            <div className="bg-black-800 mx-2 h-full rounded-[30px] flex gap-5 py-4 px-4">
+                <LeftSidebar userRole={userRole} />
+                <div className="mainDashboardFeatures bg-white h-[full] overflow-y-scroll rounded-[40px] w-[100%] lg:w-[80%] 
+                lg:relative md:z-30 lg:z-40 left-[20%] px-4 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-black-300">
+                    <div className="w-[75%] z-30 p-5 fixed left-[22%] top-[10px] h-10vh hidden lg:block py-4 px-2">
+                        <div className="flex justify-between items-center bg-white -mt-[5px] py-3">
+                            <div className="relative w-[27%]">
+                                <input type="text" placeholder="Search" className="text-sm border border-gray-900 rounded-lg py-2 outline-none pl-7" />
+                                <div className="absolute top-[8px] left-[6px] text-gray-500">
+                                    <Search />
+                                </div>
+                                <div className="absolute right-[22px] top-[11px]">
+                                    <SearchSide />
+                                </div>
+                            </div>
+                            <div>
+                                <div className="flex items-center gap-2">
+                                    <div>
+                                        <img src={AdminAvatar} alt="adminavatar" width={40} height={40} />
+                                    </div>
+                                    <div>
+                                        <p className="text-xs font-semibold text-black-910">John Mraz</p>
+                                        <p className="text-xs text-gray-940">Admin</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="relative top-[80px] z-2">
+                        <div className="">
+                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                                {
+                                    communityBots.map((item) => (
+                                        <div key={item.id}>
+                                            <div className="flex flex-col border border-gray-600 rounded-xl
+                                                px-4 py-4">
+                                                <div className="w-[100%] purpose-bg">
+                                                    <img
+                                                        src={item.image}
+                                                        alt="img"
+                                                        className="w-[100%] m-auto block object-contain"
+                                                    />
+                                                </div>
+                                                <div className="mt-5">
+                                                    <div className="flex flex-col lg:flex-row justify-between lg:items-center mb-2">
+                                                        <h2 className="text-black-300 text-md mb-2 lg:mb-0">{item.title}</h2>
+                                                        <Button className="custom-bg rounded-lg px-4 py-4 text-white text-xs">{item.btnText}</Button>
+                                                    </div>
+                                                    <div>
+                                                        <p className="flex gap-1 items-center mb-2">
+                                                            <img src={item.elipse} alt="elipse" className="w-[10px] h-[10px]" />
+                                                            <span className="text-black-400 text-xs">by</span>
+                                                            <span className="text-black-300 text-sm">{item.author}</span>
+                                                        </p>
+                                                        <p className="flex items-center gap-1">
+                                                            <img src={item.copy} alt="copy" className="w-[10px] h-[10px]" />
+                                                            <span className="text-black-400 text-xs">{item.totalUsers}</span>
+                                                            <span className="text-black-400 text-xs">users</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default AdminCommunity;

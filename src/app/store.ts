@@ -4,7 +4,6 @@ import authSliceReducer from '../slices/auth/authSlice'
 import featureSliceReducer from '../slices/feature/featureSlice'
 import userSliceReducer from '../slices/user/userSlice'
 
-
 const store = configureStore({
     reducer:{
      wait:waitSliceReducer,
