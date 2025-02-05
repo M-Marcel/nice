@@ -107,7 +107,7 @@ const LetUsKnowYou = () => {
             const userData = {
                 email,
                 gender,
-                password: state.provider === "google" ? password : undefined,
+                password,
                 userWorkRole,
                 userCompanySize,
                 userUseForZroleak,
