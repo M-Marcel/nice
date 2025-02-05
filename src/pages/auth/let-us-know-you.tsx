@@ -107,7 +107,7 @@ const LetUsKnowYou = () => {
             const userData = {
                 email,
                 gender,
-                password: state.provider === "google" ? undefined : password,
+                password: state.provider === "google" ? password : undefined,
                 userWorkRole,
                 userCompanySize,
                 userUseForZroleak,
@@ -253,7 +253,7 @@ const LetUsKnowYou = () => {
                         }
                     </div>
                     {
-                        state.provider === "None" && (
+                        state.provider !== "google" && (
                             <>
                                 <div className="flex flex-col gap-2 mb-4">
                                     <label htmlFor="password" className="text-sm text-gray-400">
