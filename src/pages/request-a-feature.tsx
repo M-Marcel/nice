@@ -29,7 +29,7 @@ const RequestAFeature = () => {
 
   const dispatch = useAppDispatch();
 
-  const { displayedFeatures = [], isLoading, isError, message, currentPage, totalPages } = useAppSelector(
+  const { displayedFeatures = [], isLoading, isError, message, currentPage, totalPages, limit } = useAppSelector(
     (state) => state.feature
   );
 
@@ -49,8 +49,8 @@ const RequestAFeature = () => {
   );
 
   useEffect(() => {
-    dispatch(getAllFeatureRequest());
-  }, [dispatch]);
+    dispatch(getAllFeatureRequest({ page: currentPage, pageSize: limit }));
+  }, [dispatch, currentPage, limit]);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
@@ -65,12 +65,12 @@ const RequestAFeature = () => {
   };
 
   const handleNewFeature = () => {
-    dispatch(getAllFeatureRequest());
+    dispatch(getAllFeatureRequest({ page: currentPage, pageSize: limit }));
   };
 
   useEffect(() => {
-    dispatch(getAllFeatureRequest());
-  }, [dispatch]);
+    dispatch(getAllFeatureRequest({ page: currentPage, pageSize: limit }));
+  }, [dispatch, currentPage, limit]);
 
 
   return (

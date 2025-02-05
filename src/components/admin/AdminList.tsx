@@ -1,17 +1,14 @@
-import UserEmoji from "../../assets/memoji.png"
-import UserMore from "../../components/admin/UserMore";
-import { format, toDate } from "date-fns-tz";
+import UserEmoji from "../../assets/memoji.png";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { useEffect } from "react";
 import { getAllUsers, setPage } from "../../slices/admin/users/userSlice";
-import LoaderIcon from "../../assets/loader.svg"
-import PrevIcon from "../../assets/svg/PrevIcon"
-import NextIcon from "../../assets/svg/NextIcon"
+import LoaderIcon from "../../assets/loader.svg";
+import PrevIcon from "../../assets/svg/PrevIcon";
+import NextIcon from "../../assets/svg/NextIcon";
+import AdminMoreIcon from "../../assets/svg/admin/moreIcon";
 
-
-const ActiveUsers = () => {
-
-    const dispatch = useAppDispatch()
+const AdminTable = () => {
+    const dispatch = useAppDispatch();
     const { displayedUsers, isLoading, isError, message, currentPage, totalPages, limit } = useAppSelector((state) => state.adminuser);
 
     useEffect(() => {
@@ -23,23 +20,25 @@ const ActiveUsers = () => {
             dispatch(setPage(currentPage - 1));
         }
     };
+
     const handleNextPage = () => {
         if (currentPage < totalPages) {
             dispatch(setPage(currentPage + 1));
         }
     };
 
+    // Filter users with role 'admin'
+    const adminUsers = displayedUsers.filter(user => user.role === 'admin');
+
     return (
         <div className="mx-4">
             <table className="table-auto text-left w-full border-collapse">
                 <thead className="">
                     <tr>
-                        <th className="text-gray-960 font-medium text-sm py-3 px-8 w-[30%]">User</th>
-                        <th className="text-gray-960 font-medium text-sm py-3 px-8 w-[35%]">Email</th>
-                        <th className="text-gray-960 font-medium text-sm py-3 px-8 w-[20%]">Current Plan</th>
-                        <th className="text-gray-960 font-medium text-sm py-3 px-8 w-[20%]">Last Login</th>
-                        <th className="text-gray-960 font-medium text-sm py-3 px-8 w-[25%]">Joined</th>
-                        <th className="text-gray-960 font-medium text-sm py-3 px-8 w-[10%]"></th>
+                        <th className="text-gray-960 font-medium text-sm py-3 px-8 w-[20%]">User</th>
+                        <th className="text-gray-960 font-medium text-sm py-3 px-8 w-[30%]">Email</th>
+                        <th className="text-gray-960 font-medium text-sm py-3 px-8">Role</th>
+                        <th className="text-gray-960 font-medium text-sm py-3 px-8"></th>
                     </tr>
                 </thead>
                 {isLoading ? (
@@ -57,45 +56,33 @@ const ActiveUsers = () => {
                     <p className="text-red-500">{message}</p>
                 ) : (
                     <tbody className="border border-gray-900">
-                        {displayedUsers && displayedUsers.length > 0 ? (
-                            displayedUsers.map((user) => (
-                                <tr className="bg-white shadow-custom-inset" key={user._id}>
-                                    <td className="py-4 px-6 w-[30%]">
-                                        <div className="flex items-center gap-2">
+                        {adminUsers.length > 0 ? (
+                            adminUsers.map((user) => (
+                                <tr key={user?._id} className="bg-white shadow-custom-inset">
+                                    <td className="py-4 px-6 w-[20%]">
+                                        <div className="flex items-center gap-1">
                                             <img src={UserEmoji} alt="user" width={25} />
                                             <span className="text-sm text-black-950">{user?.firstName} {user?.lastName}</span>
                                         </div>
                                     </td>
-                                    <td className="py-3 px-7 w-[35%]">
+                                    <td className="py-3 px-7 w-[30%]">
                                         <span className="text-sm text-black-950">{user?.email}</span>
                                     </td>
-                                    <td className="py-3 px-5 w-[20%]">
-                                        <span className="text-sm text-black-950 px-4">freemium</span>
+                                    <td className="py-3 px-5">
+                                        <span className="text-sm text-black-950 px-4">{user?.role}</span>
                                     </td>
-                                    <td className="py-3 px-8 w-[20%]">
-                                        <span className="text-sm text-black-950">30/08/2025</span>
-                                    </td>
-                                    <td className="py-3 px-8 w-[25%]">
-                                        <span className="text-sm text-black-950">
-                                            {
-                                                user?.createdAt
-                                                    ? format(toDate(user.createdAt, { timeZone: "Africa/Lagos" }), "dd-MM-yyyy HH:mm:ss")
-                                                    : ""
-                                            }
+                                    <td className="py-3 px-4">
+                                        <span>
+                                            <AdminMoreIcon />
                                         </span>
-                                    </td>
-                                    <td className="py-3 px-4 w-[10%]">
-                                        <UserMore />
                                     </td>
                                 </tr>
                             ))
                         ) : (
-                            <p className="text-gray-400">No users available</p>
+                            <p className="text-gray-400">No admin users available</p>
                         )}
-
                     </tbody>
-                )
-                }
+                )}
             </table>
             <div className="pagination-buttons flex justify-between mt-4">
                 <button
@@ -114,7 +101,7 @@ const ActiveUsers = () => {
                 </button>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default ActiveUsers
+export default AdminTable;

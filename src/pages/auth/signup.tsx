@@ -69,7 +69,7 @@ const SignUp = () => {
         <p className="text-gray-500 text-sm mb-3">What is your email address?</p>
       </div>
 
-      <form onSubmit={handleContinue} className="h-auto lg:h-[44vh] overflow-y-scroll hide-scrollbar">
+      <form onSubmit={handleContinue} className="h-auto lg:h-[48vh] overflow-y-scroll hide-scrollbar">
         <div className="flex flex-col gap-2 mb-3">
           <label htmlFor="firstName" className="text-sm text-gray-400">
             Firstname

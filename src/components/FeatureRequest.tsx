@@ -6,9 +6,12 @@ import { voteFeatureRequest } from '../slices/feature/featureSlice';
 import { useState } from 'react';
 import { AiOutlineLoading } from "react-icons/ai";
 
+
 const AllFeatureRequest = ({ feature }: any) => {
     const [isVoting, setIsVoting] = useState(false);
     const user = useAppSelector((state) => state.auth?.user);
+
+ 
 
     const dispatch = useAppDispatch();
 

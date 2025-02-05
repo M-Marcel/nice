@@ -6,9 +6,11 @@ import { useState } from "react";
 import AllFeatures from "../../components/admin/AllFeature";
 import NewFeatures from "../../components/admin/NewFeature";
 import CompletedFeatures from "../../components/admin/CompletedFeature";
+import { useAppSelector } from "../../hooks";
 
 const FeatureRequest = () => {
-    const userRole = "admin"
+    const { user } = useAppSelector((state) => state.adminauth);
+    const userRole = user?.role
     const [activeTab, setActiveTab] = useState<string>("All"); // Track active tab
 
     const tabs = [

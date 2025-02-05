@@ -4,8 +4,7 @@ import Button from "../../components/Button";
 import { useState } from "react";
 import ActiveUsers from "../../components/admin/ActiveUsers";
 import SuspendedUsers from "../../components/admin/SuspendedUsers";
-
-// import { useAppSelector } from "../../hooks";
+import { useAppSelector } from "../../hooks";
 
 const AdminUsers = () => {
     const [activeTab, setActiveTab] = useState<string>("Active"); // Track active tab
@@ -24,8 +23,8 @@ const AdminUsers = () => {
                 return null;
         }
     };
-    // const user = useAppSelector((state) => state.auth.user); 
-    const userRole = "admin"
+    const { user } = useAppSelector((state) => state.adminauth);
+    const userRole = user?.role
 
     return (
         <div className="bg-black-300 h-screen">
