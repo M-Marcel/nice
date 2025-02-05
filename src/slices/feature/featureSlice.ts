@@ -17,6 +17,7 @@ type InitialState = {
     currentPage: number;
     totalPages: number;
     limit: number;
+    total: number;
 }
 
 const storedFeatures = localStorage.getItem('features');
@@ -37,8 +38,9 @@ const initialState: InitialState = {
     isLoading: false,
     message: "",
     currentPage: 1,
-    totalPages: Math.ceil(features.length / 5),
-    limit: 5
+    totalPages: 10,
+    limit: 5,
+    total: 0,
 }
 
 export const createFeatureRequest = createAsyncThunk<{ feature: Feature; message: string }, FeatureFormData, { rejectValue: string }>('feature/create-feature-request', async (featureData, thunkApi) => {
@@ -51,30 +53,21 @@ export const createFeatureRequest = createAsyncThunk<{ feature: Feature; message
         return thunkApi.rejectWithValue(message)
     }
 })
-// export const getAllFeatureRequest = createAsyncThunk<{ features: Feature[]; message: string; pagination: { currentPage: number, totalPages: number } }, number, { rejectValue: string }
-// >("feature/getAll", async (page: number, thunkApi) => {
-//     try {
-//         const response = await featureService.getAllFeatureRequest(page);
-//         return { features: response.features, message: response.message, pagination: response.pagination };
-//     } catch (error: any) {
-//         const message =
-//             error.response?.data?.message || error.message || "Failed to fetch features";
-//         return thunkApi.rejectWithValue(message);
-//     }
-// });
+
 export const getAllFeatureRequest = createAsyncThunk<
-    { features: Feature[]; message: string },
-    void,
+    { features: Feature[]; pagination: { currentPage: number; totalPages: number; total: number; pageSize: number }; message: string },
+    { page: number; pageSize: number },
     { rejectValue: string }
->("feature/getAll", async (_, thunkApi) => {
+>("feature/getAll", async ({ page, pageSize }, thunkApi) => {
     try {
-        const response = await featureService.getAllFeatureRequest();
-        return { features: response.features, message: response.message };
+        const response = await featureService.getAllFeatureRequest(page, pageSize);
+        return { features: response.features, pagination: response.pagination, message: response.message };
     } catch (error: any) {
         const message = error.response?.data?.message || error.message || "Failed to fetch features";
         return thunkApi.rejectWithValue(message);
     }
 });
+
 export const voteFeatureRequest = createAsyncThunk<{ feature: Feature; message: string }, string, { rejectValue: string }>('feature/vote-feature-request', async (id: string, thunkApi) => {
     try {
         const response = await featureService.voteFeatureRequest(id);
@@ -149,12 +142,17 @@ const featureSlice = createSlice({
                 state.isLoading = false;
                 state.isFetchRequestSuccess = true;
                 state.features = action.payload.features;
-                localStorage.setItem('features', JSON.stringify(state.features));
-                state.totalPages = Math.ceil(action.payload.features.length / state.limit);
-                // Recalculate displayedFeatures based on the current page
+         
+                console.log("features", action.payload.features)
+
+                state.currentPage = action.payload.pagination.currentPage;
+                state.totalPages = action.payload.pagination.totalPages;
+                state.total = action.payload.pagination.total;
+                state.limit = action.payload.pagination.pageSize;
                 const startIndex = (state.currentPage - 1) * state.limit;
                 const endIndex = startIndex + state.limit;
                 state.displayedFeatures = state.features.slice(startIndex, endIndex);
+                localStorage.setItem('features', JSON.stringify(state.features));
                 state.message = action.payload.message;
             })
             .addCase(getAllFeatureRequest.rejected, (state, action) => {

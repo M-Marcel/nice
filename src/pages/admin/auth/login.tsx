@@ -1,11 +1,15 @@
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import LogoImage from '../../../assets/lanepact-logo.png'
-// import SubmitButton from '../../../components/SubmitButton'
+import SubmitButton from '../../../components/SubmitButton'
 import Button from '../../../components/Button'
-// import { useAppDispatch } from '../../../hooks'
+import { useAppDispatch, useAppSelector } from '../../../hooks'
 import OpenEye from '../../../assets/svg/OpenEye'
 import CloseEye from '../../../assets/svg/CloseEye'
+import { toast } from 'react-toastify'
+import { login, reset } from '../../../slices/admin/auth/authSlice'
+import { enablePageScroll } from 'scroll-lock'
+import { useNavigate } from 'react-router-dom'
 
 const AdminLogin = () => {
 
@@ -21,7 +25,8 @@ const AdminLogin = () => {
         setPassWordVisible(!passWordVisible)
     }
 
-    // const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+    const dispatch = useAppDispatch()
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prevState) => ({
@@ -29,6 +34,35 @@ const AdminLogin = () => {
             [e.target.name]: e.target.value
         }))
     }
+
+    const { isLoading, isAdminLoginSuccess} = useAppSelector((state) => state.adminauth)
+
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!email || !password) {
+            return toast.error('please fill in the fields')
+        } else {
+            const userData = {
+                email,
+                password
+            }
+            dispatch(login(userData))
+        }
+    }
+
+    useEffect(() => {
+        if (isAdminLoginSuccess) {
+            navigate('/admin')
+            enablePageScroll()
+        }
+       
+
+        return () => {
+            dispatch(reset())
+        }
+    }, [isAdminLoginSuccess,  dispatch, navigate])
+
 
     return (
 
@@ -39,11 +73,11 @@ const AdminLogin = () => {
                         <div className="flex flex-col gap-2 mb-3 text-center">
                             <div className='flex justify-center'>
                                 <img src={LogoImage} alt="logoImg" width={20} height={20} />
-                            </div>                       
+                            </div>
                             <h2 className="text-black-500 text-xl">Welcome back</h2>
                             <p className="text-gray-500 text-sm">Enter your email and password</p>
                         </div>
-                        <form className="h-auto lg:h-[60vh] overflow-y-scroll hide-scrollbar">
+                        <form onSubmit={handleSubmit} className="h-auto lg:h-[60vh] overflow-y-scroll hide-scrollbar">
                             <div className="flex flex-col gap-2 mb-3">
                                 <label htmlFor="email" className="text-sm text-gray-400">
                                     Email
@@ -94,15 +128,16 @@ const AdminLogin = () => {
                                     Forgot password?
                                 </Button>
                             </div>
-                            <Button
-                                className='text-white mt-4 rounded-2xl font-semibold custom-bg py-4 text-sm w-full'
-
+                            <SubmitButton
+                                isLoading={isLoading}
+                                className={`px-4 py-2 w-full text-white mt-3 mb-3 rounded-lg text-md ${isLoading ? 'bg-blue-100/55' : 'custom-bg'
+                                    }`}
                             >
                                 Login
-                            </Button>
-                          
+                            </SubmitButton>
+
                         </form>
-                                              
+
                     </div>
                 </div>
             </div>

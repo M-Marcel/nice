@@ -15,6 +15,10 @@ type NewFeatureProps = {
 
 const RequestForm = ({onNewFeature}:NewFeatureProps) => {
 
+  const { currentPage, limit } = useAppSelector(
+    (state) => state.feature
+);
+
   const { setActiveModal } = useModal()
 
   const navigate = useNavigate()
@@ -89,7 +93,7 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
   useEffect(() => {
     if (isSuccess) {
       toast.success('Feature request created successfully');
-      dispatch(getAllFeatureRequest)
+      dispatch(getAllFeatureRequest({ page: currentPage, pageSize: limit }));
       setFormData({
         title: '',
         tag: '',
@@ -103,7 +107,7 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
       dispatch(reset())
     }
 
-  }, [isSuccess, message, onNewFeature, dispatch, setActiveModal])
+  }, [isSuccess, message, onNewFeature, dispatch, currentPage, limit, setActiveModal])
 
 
   return (

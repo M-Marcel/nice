@@ -12,8 +12,17 @@ import NewFeatures from "../../components/admin/NewFeature";
 import CompletedFeatures from "../../components/admin/CompletedFeature";
 
 const AdminDashboard = () => {
-    const userRole = "admin"
+
     const { features } = useAppSelector((state) => state.feature);
+    const { user } = useAppSelector((state) => state.adminauth)
+    const { users } = useAppSelector((state) => state.adminuser)
+
+    const TotalUsers = users?.length
+
+    console.log("user", user)
+
+    const userRole = user?.role
+
     const [activeTab, setActiveTab] = useState<string>("All"); // Track active tab
 
     const tabs = [
@@ -45,7 +54,7 @@ const AdminDashboard = () => {
                             <div className="lg:col-span-2">
                                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
                                     <BotOverview />
-                                    <UserOverview />
+                                    <UserOverview TotalUsers={TotalUsers} />
                                     <FeatureRequestOverview TotalFeatures={features.length} />
                                 </div>
                                 <div className="mt-6">
@@ -75,20 +84,6 @@ const AdminDashboard = () => {
                                 <div className="flex flex-col">
                                     <h2 className="text-black-940 font-semibold lg:fixed lg:mb-3">New Signups</h2>
                                     <div className="signups h-[75vh] overflow-y-scroll scrollbar-none lg:px-4 lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 lg:mt-8">
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
-                                        <NewSignUps />
                                         <NewSignUps />
                                     </div>
                                 </div>

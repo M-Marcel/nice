@@ -8,7 +8,7 @@ import AllFeatureRequest from "../FeatureRequest";
 
 const NewFeatures = () => {
     const dispatch = useAppDispatch()
-    const { displayedFeatures, isLoading, isError, message, currentPage, totalPages } = useAppSelector((state) => state.feature);
+    const { displayedFeatures, isLoading, isError, message, currentPage, totalPages, limit } = useAppSelector((state) => state.feature);
     const user = useAppSelector((state) => state.auth.user);
     const userId = user?._id;
 
@@ -18,8 +18,8 @@ const NewFeatures = () => {
     }));
 
     useEffect(() => {
-        dispatch(getAllFeatureRequest());
-    }, [dispatch]);
+        dispatch(getAllFeatureRequest({ page: currentPage, pageSize: limit }));
+    }, [dispatch, currentPage, limit]);
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {

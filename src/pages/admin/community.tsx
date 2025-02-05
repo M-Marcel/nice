@@ -2,14 +2,12 @@ import LeftSidebar from "../../components/LeftSidebar";
 import Button from "../../components/Button";
 import { communityBots } from "../../constants";
 import AdminHeader from "../../components/admin/Header";
-
-
-// import { useAppSelector } from "../../hooks";
+import { useAppSelector } from "../../hooks";
 
 
 const AdminCommunity = () => {
-    // const user = useAppSelector((state) => state.auth.user); 
-    const userRole = "admin"
+    const { user } = useAppSelector((state) => state.adminauth);
+    const userRole = user?.role
 
 
     return (

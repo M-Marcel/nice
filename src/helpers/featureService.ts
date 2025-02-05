@@ -37,26 +37,17 @@ const createFeatureRequest = async (featureData: { title: string; tag: string; d
     throw new Error('feature creation failed')
 }
 
-
-
-const getAllFeatureRequest = async (): Promise<{
+const getAllFeatureRequest = async (page: number = 1, pageSize: number = 5): Promise<{
     features: Feature[];
+    pagination: {
+        total: number;
+        currentPage: number;
+        totalPages: number;
+        pageSize: number;
+    };
     message: string;
 }> => {
-
-    // First, try to get features from localStorage
-    const storedFeatures = localStorage.getItem("features");
-
-    if (storedFeatures) {
-        // If features exist in localStorage, return them
-        const features = JSON.parse(storedFeatures);
-        return {
-            features,
-            message: "Features fetched from localStorage",
-        };
-    }
-
-    const response = await axios.get(`${API_URL}`, {
+    const response = await axios.get(`${API_URL}?page=${page}&pageSize=${pageSize}`, {
         headers: {
             "Content-Type": "application/json",
         },
@@ -64,17 +55,15 @@ const getAllFeatureRequest = async (): Promise<{
     });
 
     if (response?.data) {
-        // Save the fetched features into localStorage for future use
-        localStorage.setItem("features", JSON.stringify(response.data.data));
-        console.log("Features fetched from backend:", response.data.data);
+        console.log("authService features", response.data.data)
         return {
             features: response.data.data,
+            pagination: response.data.pagination,
             message: response.data.message,
         };
     }
     throw new Error("Fetching features failed");
 };
-
 
 const voteFeatureRequest = async (id: string): Promise<{ feature: Feature; message: string }> => {
     const token = localStorage.getItem("token");

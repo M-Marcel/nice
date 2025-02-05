@@ -24,21 +24,19 @@ const VerifyEmail = () => {
         console.log('Verification response:', response);
 
         if (response?.email) {
-          localStorage.setItem('userEmail', response.email); 
-
-        
+          localStorage.setItem('userEmail', response.email);
           if (response.provider === 'google') {
             toast.success('Email verified successfully! Redirecting to your dashboard...');
-            const profile = await dispatch(getProfile()).unwrap(); 
+            const profile = await dispatch(getProfile()).unwrap();
             if (profile) {
-              navigate('/dashboard'); 
+              navigate('/dashboard');
             }
             localStorage.getItem('userEmail')
             return;
-            
+
           }
         }
-       
+
         toast.success('Email verified successfully!');
         navigate('/let-us-know-you', { state: { provider: response?.provider } });
 

@@ -85,13 +85,12 @@ const LetUsKnowYou = () => {
         console.log(formData.email)
         if (isLoading) return;
 
-        if (!email || (!state?.provider && (!password || password !== confirmPassword)) || !userWorkRole ||
+        if (!email || !password ||!confirmPassword || !userWorkRole ||
             !userCompanySize || !userUseForZroleak || !userTechnicalExperience) {
             return toast.error('please provide all details')
         }
-        if (!state?.provider) {
+        
             const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s])[A-Za-z\d\W]{8,}$/;
-    
             if (password.length < 8) {
                 return toast.error("Password too short, should not be less than 8 characters");
             }
@@ -103,11 +102,12 @@ const LetUsKnowYou = () => {
             if (password !== confirmPassword) {
                 return toast.error("Passwords do not match");
             }
-        } else {
+
+            else {
             const userData = {
                 email,
                 gender,
-                password: state?.provider ? undefined : password,
+                password: state.provider === "google" ? undefined : password,
                 userWorkRole,
                 userCompanySize,
                 userUseForZroleak,
@@ -253,7 +253,7 @@ const LetUsKnowYou = () => {
                         }
                     </div>
                     {
-                        !state.provider && (
+                        state.provider === "None" && (
                             <>
                                 <div className="flex flex-col gap-2 mb-4">
                                     <label htmlFor="password" className="text-sm text-gray-400">
@@ -309,7 +309,6 @@ const LetUsKnowYou = () => {
                             </>
                         )
                     }
-
 
                     <SubmitButton
                         isLoading={isLoading}

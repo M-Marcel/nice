@@ -56,7 +56,7 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
   return (
     <>
       <div
-        className={`${role === "admin" ? "bg-none w-[88%] top-[20px]" : "bg-white w-full"
+        className={`${role === "superadmin" ? "bg-none w-[88%] top-[20px]" : "bg-white w-full"
           } z-50 fixed py-4 block lg:hidden`}
       >
         <div className="flex justify-between">
@@ -66,7 +66,7 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
             </a>
 
             <Button
-              className={`${role === "admin" ? "hidden" : "flex"
+              className={`${role === "superadmin" ? "hidden" : "flex"
                 } items-center gap-2 bg-black-500 text-xs text-white px-4 py-2 rounded-md`}
             >
               <img src={ComputerIcon} alt="compIcon" width={18} height={18} />
@@ -78,7 +78,7 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
               event.stopPropagation();
               toggleSidebar();
             }}
-            className={`${role === "admin" ? "absolute right-0" : "mr-4"
+            className={`${role === "superadmin" ? "absolute right-0" : "mr-4"
               } text-xs z-50 text-white px-2 py-3 rounded-md lg:hidden`}
           >
             {sidebarOpen ? (
@@ -118,19 +118,19 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
 
       <div
         ref={sidebarRef}
-        className={`fixed top-0 left-0 h-[100%] ${role === "admin"
+        className={`fixed top-0 left-0 h-[100%] ${role === "superadmin"
             ? "bg-black-800 text-white border-none"
             : "bg-white border-r border-gray-600"
           } z-50 shadow-lg transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
           } lg:translate-x-0 transition-transform duration-300 lg:w-[18%] flex flex-col gap-3 px-4 py-4`}
       >
-        <div className={`py-4 ${role === "admin" ? "ml-8 mt-4" : "ml-0"}`}>
+        <div className={`py-4 ${role === "superadmin" ? "ml-8 mt-4" : "ml-0"}`}>
           <a href="/">
-            {role === "admin" ? <AdminLogo /> : <Logo />}
+            {role === "superadmin" ? <AdminLogo /> : <Logo />}
           </a>
         </div>
         <div
-          className={`justify-between items-center ${role === "admin" ? "hidden" : "flex"
+          className={`justify-between items-center ${role === "superadmin" ? "hidden" : "flex"
             } border border-gray-900 py-4 px-2 rounded-xl`}
         >
           <div
@@ -157,7 +157,7 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
             </a>
           </div>
         </div>
-        {SidebarLinks.map((item) => {          if (role === "user" && !item.isAdmin) {
+        {SidebarLinks.map((item) => { if (role === "user" && !item.isAdmin) {
             return (
               <a
                 key={item.id}
@@ -172,7 +172,7 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
               </a>
             );
           }
-          if (role === "admin" && item.isAdmin) {
+          if (role === "superadmin" && item.isAdmin) {
             return (
               <a
                 key={item.id}
@@ -193,7 +193,7 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
         })}
         <a
           href="/contact-us"
-          className={`${role === "admin" ? "hidden" : "flex"
+          className={`${role === "superadmin" ? "hidden" : "flex"
             } gap-2 items-center mt-auto text-gray-500 hover:text-black-500 hover:bg-gray-910 px-2 py-3`}
         >
           <img src={UserIcon} alt="dashboard" width={18} height={18} />
@@ -201,7 +201,7 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
         </a>
         <Button
           onClick={openLogoutModal}
-          className={`flex ${role === "admin" ? "mt-auto ml-4" : "mt-0 bg-white"
+          className={`flex ${role === "superadmin" ? "mt-auto ml-4" : "mt-0 bg-white"
             } gap-2 items-center text-sm`}
         >
           <Logout />

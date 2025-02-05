@@ -10,7 +10,7 @@ import { enablePageScroll } from "scroll-lock"
 import Person from '../assets/person.png'
 import { getAllFeatureRequest, setPage } from "../slices/feature/featureSlice"
 import { useEffect } from "react"
-import FeatureRequest from "../components/FeatureRequest"
+import AllFeatureRequest from "../components/FeatureRequest"
 import NextIcon from "../assets/svg/NextIcon"
 import PrevIcon from "../assets/svg/PrevIcon"
 import LoaderIcon from "../assets/loader.svg"
@@ -25,7 +25,7 @@ const Dashboard = () => {
     const dispatch = useAppDispatch();
 
     const user = useAppSelector((state) => state.auth.user);
-    const { displayedFeatures = [], isLoading, isError, message, currentPage, totalPages } = useAppSelector(
+    const { displayedFeatures = [], isLoading, isError, message, currentPage, totalPages, limit } = useAppSelector(
         (state) => state.feature
     );
 
@@ -41,11 +41,11 @@ const Dashboard = () => {
     }));
 
     useEffect(() => {
-        dispatch(getAllFeatureRequest());
+        dispatch(getAllFeatureRequest({ page: currentPage, pageSize: limit }));
         enablePageScroll()
         // setActiveModal("telegramModal")
 
-    }, [dispatch]);
+    }, [dispatch, currentPage, limit]);
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {
@@ -60,7 +60,7 @@ const Dashboard = () => {
         }
     };
 
-   
+
 
     const closeModal = () => {
         setActiveModal(null);
@@ -77,11 +77,11 @@ const Dashboard = () => {
                 <div className=" items-center justify-between hidden md:flex md:w-[92%] lg:w-[80%] bg-white py-4 px-2 fixed z-50">
                     <Search />
                     <div className="flex gap-2">
-                        <Button className="hidden lg:flex items-center gap-2 bg-gray-900 text-sm text-black-700 px-4 py-3 
+                        <a href="https://t.me/+iw2jh3VaeSg4MzBk" className="hidden lg:flex items-center gap-2 bg-gray-900 text-sm text-black-700 px-4 py-3 
                      rounded-xl">
                             <img src={TelegramIcon} alt="telIcon" width={18} height={18} />
                             Join Telegram
-                        </Button>
+                        </a>
                         <Button className="hidden lg:flex items-center gap-2 bg-black-500 text-sm text-white px-4 py-3 me-10
                      rounded-xl">
                             <img src={ComputerIcon} alt="compIcon" width={18} height={18} />
@@ -189,7 +189,7 @@ const Dashboard = () => {
                                 <>
                                     {enhancedFeatures && enhancedFeatures.length > 0 ? (
                                         enhancedFeatures.map((feature) => (
-                                            <FeatureRequest key={feature._id} feature={feature} />
+                                            <AllFeatureRequest key={feature._id} feature={feature} />
                                         ))
                                     ) : (
                                         <p className="text-gray-400">No features available. Add a new request!</p>

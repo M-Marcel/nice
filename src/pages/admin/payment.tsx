@@ -1,15 +1,15 @@
 import React from "react";
 import LeftSidebar from "../../components/LeftSidebar";
-import Search from "../../components/Search";
-import SearchSide from "../../assets/svg/SearchSide";
-import AdminAvatar from "../../assets/adminAvatar.png";
 import cashImg from "../../assets/cash-01.png";
 import calenderImg from "../../assets/calendar-03.png";
 import catalogueImg from "../../assets/catalogue.png";
 import ellipesImg from "../../assets/Ellipse 1.png";
+import { useAppSelector } from "../../hooks";
+import AdminHeader from "../../components/admin/Header";
 
 const AdminPayment = () => {
-  const userRole = "admin";
+  const { user } = useAppSelector((state) => state.adminauth)
+  const userRole = user?.role
 
   return (
     <div className="bg-black-300 h-screen">
@@ -19,35 +19,7 @@ const AdminPayment = () => {
           className="mainDashboardFeatures bg-white h-[full] overflow-y-scroll rounded-[40px]  w-[100%] lg:w-[80%] 
                 lg:relative md:z-30 lg:z-40 left-[20%] px-4 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-black-300"
         >
-          <div className="w-[75%] fixed left-[22%] top-5 h-10vh hidden z-20 lg:block py-4 px-2">
-            <div className="flex justify-between items-center">
-              <div className="relative w-[27%]">
-                <Search />
-
-                <div className="absolute left-[200px] top-[11px]">
-                  <SearchSide />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <div>
-                    <img
-                      src={AdminAvatar}
-                      alt="adminavatar"
-                      width={40}
-                      height={40}
-                    />
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold text-black-910">
-                      John Mraz
-                    </p>
-                    <p className="text-xs text-gray-940">Admin</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+           <AdminHeader />
           <div className="relative top-[80px] ms-7">
             <div className="grid lg:grid-cols-1 gap-4">
               <div className="lg:col-span-2">
