@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FeatureFormData } from "../dataTypes";
-import SelectOption from "./Select"
+import SelectOption from "./Select";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { toast } from "react-toastify";
 import { createFeatureRequest, getAllFeatureRequest, reset } from "../slices/feature/featureSlice";
@@ -9,18 +9,13 @@ import { useNavigate } from "react-router-dom";
 import { useModal } from "../context/ModalContext";
 
 type NewFeatureProps = {
-  onNewFeature:() => void
-}
+  onNewFeature: () => void;
+};
 
-const RequestForm = ({onNewFeature}:NewFeatureProps) => {
-
-  const { currentPage, limit } = useAppSelector(
-    (state) => state.feature
-);
-
-  const { setActiveModal } = useModal()
-
-  const navigate = useNavigate()
+const RequestForm = ({ onNewFeature }: NewFeatureProps) => {
+  const {isLoading, isSuccess, currentPage, limit } = useAppSelector((state) => state.feature);
+  const { setActiveModal } = useModal();
+  const navigate = useNavigate();
 
   const options = [
     { value: "Web2", label: "Web2" },
@@ -29,24 +24,23 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
     { value: "Web5", label: "Web5" },
   ];
 
-
   const [formData, setFormData] = useState<FeatureFormData>({
     title: '',
     tag: '',
     description: '',
-  })
+  });
 
-  const { title, tag, description } = formData
+  const { title, tag, description } = formData;
 
   const dispatch = useAppDispatch();
-  const { isLoading, isSuccess, message } = useAppSelector((state) => state.feature)
+  
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prevState) => ({
       ...prevState,
-      [e.target.name]: e.target.value
-    }))
-  }
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   const handleSelectChange = (selectedOption: { value: string; label: string } | null) => {
     if (selectedOption) {
@@ -67,25 +61,21 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
     const token = localStorage.getItem("token");
     if (!token) {
       toast.error("Login to submit a feature request.");
-      navigate("/"); 
-      setActiveModal("login")
-
+      navigate("/");
+      setActiveModal("login");
       return;
     }
     if (!title || !description || !tag) {
-      return toast.error('please fill in the fields')
+      return toast.error('Please fill in the fields');
     } else {
-
       const featureData = {
         title,
         tag,
-        description
-      }
-      dispatch(createFeatureRequest(featureData))
-     
+        description,
+      };
+      dispatch(createFeatureRequest(featureData));
     }
-    
-  }
+  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -96,12 +86,11 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
         tag: '',
         description: '',
       });
-     
       onNewFeature();
-      setActiveModal(null)
+      setActiveModal(null);
+      dispatch(reset()); 
     }
-
-  }, [isSuccess, message, dispatch,  onNewFeature, currentPage, limit, setActiveModal])
+  }, [isSuccess, dispatch, currentPage, limit, onNewFeature, setActiveModal]);
 
   useEffect(() => {
     return () => {
@@ -109,13 +98,12 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
     };
   }, [dispatch]);
 
-
   return (
     <div className="text-4xl lg:w-[100%] bg-white px-4">
       <h1 className="text-3xl mb-8 w-[auto] lg:w-[60%] text-black-500 font-500">Submit idea or feedback</h1>
       <form className="w-full" onSubmit={handleContinue}>
         <div className="mb-2">
-          <label className="block mb-1 text-sm font-medium text-gray-500 ">
+          <label className="block mb-1 text-sm font-medium text-gray-500">
             Title
           </label>
           <input
@@ -128,7 +116,7 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
           />
         </div>
         <div className="mb-2">
-          <label className="block mb-1 text-sm font-medium border-gray-600 text-gray-500 ">
+          <label className="block mb-1 text-sm font-medium border-gray-600 text-gray-500">
             Description
           </label>
           <textarea
@@ -159,7 +147,7 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
         </SubmitButton>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default RequestForm
+export default RequestForm;
