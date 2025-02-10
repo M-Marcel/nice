@@ -61,9 +61,9 @@ const RequestAFeature = () => {
     }
   };
 
-  const handleNewFeature = () => {
-    dispatch(getAllFeatureRequest({ page: currentPage, pageSize: limit }));
-  };
+  // const handleNewFeature = () => {
+  //   dispatch(getAllFeatureRequest({ page: currentPage, pageSize: limit }));
+  // };
 
   return (
     <>
@@ -165,7 +165,7 @@ const RequestAFeature = () => {
             </div>
           </div>
           <div className="w-[auto] lg:w-[40%]">
-            <RequestForm onNewFeature={handleNewFeature} />
+            <RequestForm onNewFeature={() => { }} />
           </div>
         </div>
       </div>
