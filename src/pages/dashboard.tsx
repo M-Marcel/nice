@@ -56,6 +56,7 @@ const Dashboard = () => {
     const handleNextPage = () => {
         if (currentPage < totalPages) {
             dispatch(setPage(currentPage + 1));
+            
             console.log('moved to next page')
         }
     };

@@ -12,7 +12,6 @@ type NewFeatureProps = {
   onNewFeature:() => void
 }
 
-
 const RequestForm = ({onNewFeature}:NewFeatureProps) => {
 
   const { currentPage, limit } = useAppSelector(
@@ -41,8 +40,6 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
 
   const dispatch = useAppDispatch();
   const { isLoading, isSuccess, message } = useAppSelector((state) => state.feature)
-
-
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prevState) => ({
@@ -103,11 +100,14 @@ const RequestForm = ({onNewFeature}:NewFeatureProps) => {
       onNewFeature();
       setActiveModal(null)
     }
-    return () => {
-      dispatch(reset())
-    }
 
-  }, [isSuccess, message, onNewFeature, dispatch, currentPage, limit, setActiveModal])
+  }, [isSuccess, message, dispatch,  onNewFeature, currentPage, limit, setActiveModal])
+
+  useEffect(() => {
+    return () => {
+      dispatch(reset());
+    };
+  }, [dispatch]);
 
 
   return (
