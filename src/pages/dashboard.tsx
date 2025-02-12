@@ -19,6 +19,7 @@ import Modal from "../components/Modal"
 import RequestForm from "../components/RequestForm"
 import { useModal } from "../context/ModalContext"
 import TelegramModal from "../components/telegramModal"
+import TawkTo from "../components/TawkTo"
 
 
 const Dashboard = () => {
@@ -56,7 +57,6 @@ const Dashboard = () => {
     const handleNextPage = () => {
         if (currentPage < totalPages) {
             dispatch(setPage(currentPage + 1));
-            
             console.log('moved to next page')
         }
     };
@@ -220,6 +220,9 @@ const Dashboard = () => {
 
                 </div>
             </div>
+
+            <TawkTo />
+            
             <Modal isVisible={activeModal === "requestForm"} onClose={closeModal}>
                 <RequestForm onNewFeature={() => { }} />
             </Modal>

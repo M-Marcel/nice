@@ -3,7 +3,6 @@ import BotIcon from "../components/BotStatus";
 
 import LogoDrag from "../components/LogoDrag";
 
-
 const Navbar = () => {
   
   return (

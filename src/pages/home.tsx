@@ -12,6 +12,7 @@ import Button from "../components/Button";
 import Zero from "../assets/zero.png";
 import BotDesign from "../assets/zrobot.png";
 import Social from "../components/social";
+import TawkTo from "../components/TawkTo";
 
 const Home = () => {
   const { setActiveModal } = useModal();
@@ -66,6 +67,8 @@ const Home = () => {
         <Join />
         <Footer />
       </div>
+      {/* Tawk.to Script */}
+      <TawkTo />
 
       {/* Modals */}
       <Modals email={email} setEmail={setEmail} />
