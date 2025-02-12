@@ -15,9 +15,11 @@ import FeatureRequest from "../components/FeatureRequest";
 import PrevIcon from "../assets/svg/PrevIcon";
 import NextIcon from "../assets/svg/NextIcon";
 import LoaderIcon from "../assets/loader.svg";
+import TawkTo from "../components/TawkTo";
 
 const blockOptions = ["Block1", "Block2", "Block3"];
 const tagOptions = ["Tag1", "Tag2", "Tag3"];
+
 
 const RequestAFeature = () => {
   const [email, setEmail] = useState<string>("");
@@ -44,6 +46,7 @@ const RequestAFeature = () => {
   const filteredFeatures = enhancedFeatures.filter((feature) =>
     feature.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
 
   useEffect(() => {
     dispatch(getAllFeatureRequest({ page: currentPage, pageSize: limit }));
@@ -172,6 +175,9 @@ const RequestAFeature = () => {
 
       <Join />
       <Footer />
+
+      {/* Tawk.to Script */}
+      <TawkTo />
     </>
   );
 };

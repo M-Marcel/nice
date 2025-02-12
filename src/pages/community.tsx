@@ -7,9 +7,12 @@ import Modals from "../components/Modals"
 import CommunityFrame from '../assets/communityFrame.png'
 import Footer from "../components/Footer"
 import Join from "../components/Join"
-import { communityBots} from "../constants"
+import { communityBots } from "../constants"
 import Button from "../components/Button"
 import Dropdown from "../components/Dropdown"
+import TawkTo from "../components/TawkTo"
+
+
 
 const Community = () => {
     const [email, setEmail] = useState<string>("");
@@ -99,6 +102,10 @@ const Community = () => {
 
             <Join />
             <Footer />
+
+            {/* Tawk.to Script */}
+            <TawkTo />
+
         </>
     )
 }
