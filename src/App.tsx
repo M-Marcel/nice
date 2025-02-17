@@ -30,6 +30,11 @@ import Admins from "./pages/admin/admins";
 import AdminPayment from "./pages/admin/payment";
 import EditPlan from "./pages/admin/editPlan";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
+import Feature from "./components/Feature";
+import RequestForm from "./components/RequestForm";
+import Features from "./pages/Features";
+import FeatureDetails from "./pages/featureDetail";
+import MainFeatures from "./components/MainFeatures";
 
 
 
@@ -66,6 +71,8 @@ function App() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/feature-page" element={<FeatureDetails /> } />
+        {/* <Route path="/main-features" element={<MainFeatures /> } /> */}
       
         <Route element={<ProtectedAdminRoute />}>
           <Route path="/admin" element={<AdminDashboard />} />
