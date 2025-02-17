@@ -1,7 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // import { toast } from "react-toastify";
-import { User } from "../../../dataTypes";
+import { CreateAdminFormData, User } from "../../../dataTypes";
 import AdminUserService from "../../../helpers/admin/userService";
+import AdminService from "../../../helpers/admin/adminService";
+import { toast } from "react-toastify";
 
 
 type InitialState = {
@@ -19,7 +21,7 @@ type InitialState = {
 }
 
 const storedUsers = localStorage.getItem('users');
-const  users = storedUsers ? JSON.parse(storedUsers) : [];
+const users = storedUsers ? JSON.parse(storedUsers) : [];
 
 
 const storedCreatedUser = localStorage.getItem('user');
@@ -38,6 +40,17 @@ const initialState: InitialState = {
     limit: 5,
     total: 0,
 }
+
+export const createAdmin = createAsyncThunk<{ user: User; message: string }, CreateAdminFormData, { rejectValue: string }>('admin/create-admin', async (userData, thunkApi) => {
+    try {
+        const response = await AdminService.createAdmin(userData)
+        return response;
+    } catch (error: any) {
+        const message = error.response?.data?.message || error.message || 'Admin creation failed';
+
+        return thunkApi.rejectWithValue(message)
+    }
+})
 
 export const getAllUsers = createAsyncThunk<
     { users: User[]; pagination: { currentPage: number; totalPages: number; total: number; pageSize: number }; message: string },
@@ -74,22 +87,67 @@ const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(createAdmin.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(createAdmin.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+
+                const newAdmin = action.payload.user;
+
+                // Ensure admins is always an array (fallback to empty array if null)
+                if (!state.users) {
+                    state.users = [];
+                }
+
+                // Add new feature immutably
+                state.users = [newAdmin, ...state.users];
+                // Reset to the first page
+
+                // Save updated features to localStorage
+                localStorage.setItem('users', JSON.stringify(state.users));
+
+                state.message = action.payload.message
+            })
+            .addCase(createAdmin.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload as string
+                state.user = null
+                toast.error(action.payload)
+            })
             .addCase(getAllUsers.pending, (state) => {
                 state.isLoading = true
             })
             .addCase(getAllUsers.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.users = action.payload.users;
-                console.log("features", action.payload.users)
+                // Reset features array if it's the first page
+                if (action.payload.pagination.currentPage === 1) {
+                    state.users = action.payload.users;
+                } else {
+                    // Append new features to the existing features array
+                    state.users = [...state.users, ...action.payload.users];
+                }
 
-                state.currentPage = action.payload.pagination.currentPage;
-                state.totalPages = action.payload.pagination.totalPages;
-                state.total = action.payload.pagination.total;
-                state.limit = action.payload.pagination.pageSize;
+                if (state.currentPage !== action.payload.pagination.currentPage) {
+                    state.currentPage = action.payload.pagination.currentPage;
+                }
+                if (state.totalPages !== action.payload.pagination.totalPages) {
+                    state.totalPages = action.payload.pagination.totalPages;
+                }
+                if (state.total !== action.payload.pagination.total) {
+                    state.total = action.payload.pagination.total;
+                }
+                if (state.limit !== action.payload.pagination.pageSize) {
+                    state.limit = action.payload.pagination.pageSize;
+                }
+
                 const startIndex = (state.currentPage - 1) * state.limit;
                 const endIndex = startIndex + state.limit;
                 state.displayedUsers = state.users.slice(startIndex, endIndex);
+
                 localStorage.setItem('users', JSON.stringify(state.users));
                 state.message = action.payload.message;
             })
@@ -101,7 +159,7 @@ const userSlice = createSlice({
                 state.displayedUsers = []
                 // toast.error(action.payload)
             })
-            
+
     }
 })
 

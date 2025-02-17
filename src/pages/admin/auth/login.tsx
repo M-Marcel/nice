@@ -35,7 +35,7 @@ const AdminLogin = () => {
         }))
     }
 
-    const { isLoading, isAdminLoginSuccess} = useAppSelector((state) => state.adminauth)
+    const { isLoading, user, isAdminLoginSuccess} = useAppSelector((state) => state.adminauth)
 
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -53,15 +53,21 @@ const AdminLogin = () => {
 
     useEffect(() => {
         if (isAdminLoginSuccess) {
-            navigate('/admin')
-            enablePageScroll()
+            if (user?.role === 'superadmin') {
+                console.log('Super-admin login successful, navigating to /super-admin-dashboard');
+                navigate('/admin');
+            } else if (user?.role === 'admin') {
+                console.log('Admin login successful, navigating to /admin');
+                navigate('/admin');
+            }
+            enablePageScroll();
         }
        
 
         return () => {
             dispatch(reset())
         }
-    }, [isAdminLoginSuccess,  dispatch, navigate])
+    }, [isAdminLoginSuccess,  dispatch, navigate, user?.role])
 
 
     return (

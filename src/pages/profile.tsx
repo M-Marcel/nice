@@ -39,7 +39,7 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col lg:flex-row px-2">
-      <LeftSidebar />
+      <LeftSidebar dashboardType="user"/>
       <div className="px-4 w-full lg:w-4/5 lg:relative left-[18%]">
         <div className="flex flex-col lg:flex-row gap-8 mt-8">
           <div className="w-full lg:w-[15%] px-4 py-4 fixed bg-white z-30">
