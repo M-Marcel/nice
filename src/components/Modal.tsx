@@ -4,6 +4,7 @@ type ModalProps = {
     isVisible: boolean
     onClose: () => void
     children: React.ReactNode
+    
 }
 
 const Modal = ({ isVisible, onClose, children }: ModalProps) => {

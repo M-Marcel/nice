@@ -7,21 +7,26 @@ import Button from "../../components/Button";
 import AdminHeader from "../../components/admin/Header";
 import { useAppSelector } from "../../hooks";
 import AllFeatures from "../../components/admin/AllFeature";
-import { useState } from "react";
+import {  useState } from "react";
 import NewFeatures from "../../components/admin/NewFeature";
 import CompletedFeatures from "../../components/admin/CompletedFeature";
 
-const AdminDashboard = () => {
 
-    const { features } = useAppSelector((state) => state.feature);
+const AdminDashboard = () => {
+    const { total } = useAppSelector((state) => state.feature);
+    console.log(total)
     const { user } = useAppSelector((state) => state.adminauth)
-    const { users } = useAppSelector((state) => state.adminuser)
+    const { users} = useAppSelector((state) => state.adminuser)
+
+ 
 
     const TotalUsers = users?.length
 
     console.log("user", user)
 
     const userRole = user?.role
+
+    const dashboardType = userRole === "superadmin" ? "superadmin" : "admin";
 
     const [activeTab, setActiveTab] = useState<string>("All"); // Track active tab
 
@@ -45,7 +50,7 @@ const AdminDashboard = () => {
     return (
         <div className="bg-black-300 h-screen">
             <div className="bg-black-800 mx-2 h-full rounded-[30px] flex gap-5 py-4 px-4">
-                <LeftSidebar userRole={userRole} />
+                <LeftSidebar dashboardType={dashboardType} />
                 <div className="mainDashboardFeatures bg-white h-[full] overflow-y-scroll rounded-[40px] w-[100%] lg:w-[80%] 
                 lg:relative md:z-30 lg:z-40 left-[20%] px-4 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-black-300">
                     <AdminHeader />
@@ -55,7 +60,7 @@ const AdminDashboard = () => {
                                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
                                     <BotOverview />
                                     <UserOverview TotalUsers={TotalUsers} />
-                                    <FeatureRequestOverview TotalFeatures={features.length} />
+                                    <FeatureRequestOverview TotalFeatures={total} />
                                 </div>
                                 <div className="mt-6">
                                     <div className="flex justify-between items-center">
