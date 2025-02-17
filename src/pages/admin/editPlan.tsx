@@ -15,9 +15,6 @@ import PlatinumPlan from "../../components/Platinum";
 
 const EditPlan = () => {
   const [activeTab, setActiveTab] = useState<string>("Basic"); // Track active tab
-  const userRole = "admin";
- 
-
   const tabs = [
     { name: "Basic", },
     { name: "Premium",  },
@@ -42,7 +39,7 @@ const EditPlan = () => {
 
   return (
     <div className="flex flex-col lg:flex-row px-2">
-      <LeftSidebar userRole={userRole}  />
+      <LeftSidebar dashboardType="admin"  />
       <div className="px-4 w-full lg:w-4/5 lg:relative left-[19%]">
         <div className="flex flex-col lg:flex-row gap-8 mt-6">
           <div className="w-full lg:w-[12%] px-4 py-4 fixed bg-white z-30">
