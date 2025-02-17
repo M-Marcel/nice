@@ -6,21 +6,21 @@ import { logout } from "../slices/auth/authSlice";
 import Button from "./Button";
 import Logo from "./Logo";
 import UserIcon from "../assets/user.png";
-import MaleAvatar from '../assets/malee-avatae.png'
-import FemaleAvatar from '../assets/female-avatar.jpeg'
+import MaleAvatar from '../assets/malee-avatae.png';
+import FemaleAvatar from '../assets/female-avatar.jpeg';
 import Logout from "../assets/svg/Logout";
 import ComputerIcon from "../assets/computer-white.png";
 import LogoutModal from "./LogoutModal";
 import AdminLogo from "./AdminLogo";
 
-const LeftSidebar = ({ userRole }: { userRole?: string }) => {
+const LeftSidebar = ({ dashboardType }: { dashboardType: 'superadmin' | 'admin' | 'user' }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+  const [currentDashboardType, setCurrentDashboardType] = useState(dashboardType);
   const location = useLocation();
   const navigate = useNavigate();
   const sidebarRef = useRef<HTMLDivElement | null>(null);
   const user = useAppSelector((state) => state.auth?.user);
-  const role = userRole || user?.role;
   const dispatch = useAppDispatch();
 
   const toggleSidebar = () => {
@@ -38,25 +38,27 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        sidebarRef.current &&
-        !sidebarRef.current.contains(event.target as Node)
-      ) {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target as Node)) {
         setSidebarOpen(false);
       }
-
     };
     document.addEventListener("click", handleClickOutside);
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-    
   }, []);
+
+  useEffect(() => {
+    if (user?.role === "superadmin") {
+      setCurrentDashboardType("superadmin");
+    }
+  }, [user])
 
   return (
     <>
+      {/* Mobile Header */}
       <div
-        className={`${role === "superadmin" ? "bg-none w-[88%] top-[20px]" : "bg-white w-full"
+        className={`${dashboardType === "superadmin" || dashboardType === "admin" ? "bg-none w-[88%] top-[20px]" : "bg-white w-full"
           } z-50 fixed py-4 block lg:hidden`}
       >
         <div className="flex justify-between">
@@ -66,7 +68,7 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
             </a>
 
             <Button
-              className={`${role === "superadmin" ? "hidden" : "flex"
+              className={`${dashboardType === "superadmin" || dashboardType === "admin" ? "hidden" : "flex"
                 } items-center gap-2 bg-black-500 text-xs text-white px-4 py-2 rounded-md`}
             >
               <img src={ComputerIcon} alt="compIcon" width={18} height={18} />
@@ -78,7 +80,7 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
               event.stopPropagation();
               toggleSidebar();
             }}
-            className={`${role === "superadmin" ? "absolute right-0" : "mr-4"
+            className={`${dashboardType === "superadmin" || dashboardType === "admin" ? "absolute right-0" : "mr-4"
               } text-xs z-50 text-white px-2 py-3 rounded-md lg:hidden`}
           >
             {sidebarOpen ? (
@@ -116,25 +118,28 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
         </div>
       </div>
 
+      {/* Sidebar Content */}
       <div
         ref={sidebarRef}
-        className={`fixed top-0 left-0 h-[100%] ${role === "superadmin"
-            ? "bg-black-800 text-white border-none"
-            : "bg-white border-r border-gray-600"
+        className={`fixed top-0 left-0 h-[100%] ${dashboardType === "superadmin" || dashboardType === "admin"
+          ? "bg-black-800 text-white border-none"
+          : "bg-white border-r border-gray-600"
           } z-50 shadow-lg transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
           } lg:translate-x-0 transition-transform duration-300 lg:w-[18%] flex flex-col gap-3 px-4 py-4`}
       >
-        <div className={`py-4 ${role === "superadmin" ? "ml-8 mt-4" : "ml-0"}`}>
+        <div className={`py-4 ${dashboardType === "superadmin" || dashboardType === "admin" ? "ml-8 mt-4" : "ml-0"}`}>
           <a href="/">
-            {role === "superadmin" ? <AdminLogo /> : <Logo />}
+            {dashboardType === "superadmin" || dashboardType === "admin" ? <AdminLogo /> : <Logo />}
           </a>
         </div>
+
+        {/* User Profile Section */}
         <div
-          className={`justify-between items-center ${role === "superadmin" ? "hidden" : "flex"
+          className={`justify-between items-center ${dashboardType === "superadmin" || dashboardType === "admin" ? "hidden" : "flex"
             } border border-gray-900 py-4 px-2 rounded-xl`}
         >
           <div
-            className={`gap-2 items-center ${role === "admin" ? "hidden" : "flex"
+            className={`gap-2 items-center ${dashboardType === "superadmin" || dashboardType === "admin" ? "hidden" : "flex"
               }`}
           >
             <img
@@ -157,7 +162,10 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
             </a>
           </div>
         </div>
-        {SidebarLinks.map((item) => { if (role === "user" && !item.isAdmin) {
+
+        {/* Sidebar Links */}
+        {SidebarLinks.map((item) => {
+          if (dashboardType === "user" && !item.isAdmin) {
             return (
               <a
                 key={item.id}
@@ -172,14 +180,20 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
               </a>
             );
           }
-          if (role === "superadmin" && item.isAdmin) {
+
+          // Ensure the "Admins" link is only visible to superadmins
+          if (item.title === "Admins" && currentDashboardType !== "superadmin") {
+            return null; // Hide the "Admins" link for regular admins
+          }
+
+          if ((dashboardType === "superadmin" || dashboardType === "admin") && item.isAdmin) {
             return (
               <a
                 key={item.id}
                 href={item.url}
                 className={`hover:text-white text-sm hover:bg-black-300 rounded-lg px-4 py-3 ml-4 ${location.pathname === item.url
-                    ? "bg-black-300 rounded-lg text-white"
-                    : "text-white/55"
+                  ? "bg-black-300 rounded-lg text-white"
+                  : "text-white/55"
                   }`}
               >
                 <div className="flex gap-2 items-center">
@@ -189,25 +203,32 @@ const LeftSidebar = ({ userRole }: { userRole?: string }) => {
               </a>
             );
           }
+
           return null;
         })}
+
+        {/* Contact Us Link */}
         <a
           href="/contact-us"
-          className={`${role === "superadmin" ? "hidden" : "flex"
+          className={`${dashboardType === "superadmin" || dashboardType === "admin" ? "hidden" : "flex"
             } gap-2 items-center mt-auto text-gray-500 hover:text-black-500 hover:bg-gray-910 px-2 py-3`}
         >
           <img src={UserIcon} alt="dashboard" width={18} height={18} />
           <p className="text-sm">Contact us</p>
         </a>
+
+        {/* Logout Button */}
         <Button
           onClick={openLogoutModal}
-          className={`flex ${role === "superadmin" ? "mt-auto ml-4" : "mt-0 bg-white"
+          className={`flex ${dashboardType === "superadmin" || dashboardType === "admin" ? "mt-auto ml-4" : "mt-0 bg-white"
             } gap-2 items-center text-sm`}
         >
           <Logout />
           <span className="text-red-600">Log out</span>
         </Button>
       </div>
+
+      {/* Logout Modal */}
       {logoutModalOpen && (
         <LogoutModal
           onConfirm={handleLogout}

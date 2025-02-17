@@ -102,3 +102,6 @@ export type FeatureFormData = {
     description: string
 }
 
+export type CreateAdminFormData = {
+    email:string
+}
