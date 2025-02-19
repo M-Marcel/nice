@@ -25,7 +25,7 @@ const VerifyEmail = () => {
 
         if (response?.email) {
           localStorage.setItem('userEmail', response.email);
-          if (response.provider === 'google') {
+          if (response.provider === 'Google') {
             toast.success('Email verified successfully! Redirecting to your dashboard...');
             const profile = await dispatch(getProfile()).unwrap();
             if (profile) {
