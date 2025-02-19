@@ -15,6 +15,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 const LetUsKnowYou = () => {
     const navigate = useNavigate()
     const { state } = useLocation()
+    console.log("staging state", state)
     const [passWordVisible, setPassWordVisible] = useState<boolean>(false)
     const [confirmPassWordVisible, setConfirmPassWordVisible] = useState<boolean>(false)
 
@@ -253,7 +254,7 @@ const LetUsKnowYou = () => {
                         }
                     </div>
                     {
-                        state.provider !== "google" && (
+                        state.provider !== "Google" && (
                             <>
                                 <div className="flex flex-col gap-2 mb-4">
                                     <label htmlFor="password" className="text-sm text-gray-400">
