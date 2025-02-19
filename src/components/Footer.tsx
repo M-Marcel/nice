@@ -1,7 +1,6 @@
 import Logo from '../assets/lanepact-logo.png'
 import LogoText from '../assets/lanepact-logo-text.png'
 
-
 const Footer = () => {
     return (
         <div className="footer relative bottom-[0]">
@@ -12,7 +11,7 @@ const Footer = () => {
                 </div>
                 <div className='flex flex-col lg:flex-row justify-between mt-4 pb-8'>
                     <div className='mb-4 lg:mb-0'>
-                        <a className='text-gray-300 text-sm' href="/">info@lanepact.org</a>
+                        <a className='text-gray-300 text-sm' href="/">info@lanepact.com</a>
                     </div>
                     <div className='flex flex-col md:flex-row justify-between gap-4'>
                         <a href="/" className='text-gray-300 text-sm'>Home</a>
@@ -27,6 +26,7 @@ const Footer = () => {
                     <p className='text-gray-300 text-sm'>©2024 Lanepact. All rights reserved.</p>
                 </div>
             </div>
+            
         </div>
     )
 }

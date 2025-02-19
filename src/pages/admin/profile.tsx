@@ -1,30 +1,20 @@
 import { useEffect, useState } from "react";
-import Button from "../components/Button";
-import LeftSidebar from "../components/LeftSidebar";
-import ProfileTab from "../components/ProfileTab";
-import EarlyAccess from "../components/EarlyAccess";
-import Password from "../components/Password";
-import Notifications from "../components/Notifications";
+import Button from "../../components/Button";
+import LeftSidebar from "../../components/LeftSidebar";
+import ProfileTab from "../../components/ProfileTab";
+import EarlyAccess from "../../components/EarlyAccess";
+import Password from "../../components/Password";
+import Notifications from "../../components/Notifications";
 
 // Import icons
-import ProfileIcon from '../assets/svg/UserIcon';
-import PasswordIcon from "../assets/svg/LockIcon";
-import { useAppSelector } from "../hooks";
-import { useDashboard } from "../context/DashboardContext";
+import ProfileIcon from '../../assets/svg/UserIcon';
+import PasswordIcon from "../../assets/svg/LockIcon";
+import { useAppSelector } from "../../hooks";
+import { useDashboard } from "../../context/DashboardContext";
 // import NotificationsIcon from "../assets/svg/NotifyIcon";
 // import EarlyAccessIcon from "../assets/svg/EarlyAccessIcon";
 
-const Profile = () => {
-      const user = useAppSelector((state) => state.auth.user);
-      const { dashboardType,  setDashboardType } = useDashboard();
-  
-      // Set the dashboardType when the user data changes
-      useEffect(() => {
-          if (user) {
-              setDashboardType("user"); // Update the context with the new dashboardType
-          }
-      }, [user, dashboardType, setDashboardType]);
-  
+const AdminProfile = () => {
   const [activeTab, setActiveTab] = useState<string>("Profile"); // Track active tab
 
   const tabs = [
@@ -34,12 +24,26 @@ const Profile = () => {
     // { name: "Early Access", icon: EarlyAccessIcon },
   ];
 
+  const { user } = useAppSelector((state) => state.adminauth)
+
+  const { dashboardType, setDashboardType } = useDashboard();
+
+  // Set the dashboardType when the user data changes
+  useEffect(() => {
+    if (user?.role === "admin") {
+      setDashboardType("admin"); // Update the context with the new dashboardType
+    }
+    if (user?.role === "superadmin") {
+      setDashboardType("superadmin")
+    }
+  }, [user, dashboardType, setDashboardType]);
+
   const renderContent = () => {
     switch (activeTab) {
       case "Early Access":
         return <EarlyAccess />;
       case "Profile":
-        return <ProfileTab dashboardType={dashboardType}/>;
+        return <ProfileTab dashboardType={dashboardType} />;
       case "Password":
         return <Password />;
       case "Notifications":
@@ -61,8 +65,8 @@ const Profile = () => {
                   key={tab.name}
                   onClick={() => setActiveTab(tab.name)}
                   className={`flex items-center gap-3 text-sm text-left ${activeTab === tab.name
-                      ? "text-black font-medium"
-                      : "text-gray-500 hover:text-black"
+                    ? "text-black font-medium"
+                    : "text-gray-500 hover:text-black"
                     }`}
                 >
                   <tab.icon
@@ -81,4 +85,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default AdminProfile;
