@@ -30,6 +30,8 @@ import Admins from "./pages/admin/admins";
 import AdminPayment from "./pages/admin/payment";
 import EditPlan from "./pages/admin/editPlan";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
+import AdminProfile from "./pages/admin/profile";
+import { DashboardProvider } from "./context/DashboardContext";
 
 
 
@@ -53,41 +55,41 @@ function App() {
 
   return (
     <ModalProvider>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/features" element={<FeaturesPage />} />
-        <Route path="/community" element={<Community />} />
-        <Route path="/request-a-feature" element={<RequestAFeature />} />
-        <Route path="/waitlist" element={<WaitList />} />
-        <Route path="/draganddrop" element={<DragandDrop />} />
-        <Route path="/verifyEmail" element={<VerifyEmail />} />
-        <Route path="/verify-user" element={<VerifyUser />} />
-        <Route path="/let-us-know-you" element={<LetUsKnowYou />} />
-        <Route path="/contact-us" element={<Contact />} />
-        <Route path="/privacy" element={<Privacy />} />
-        <Route path="/terms" element={<Terms />} />
-        <Route path="/admin/login" element={<AdminLogin />} />
-      
-        <Route element={<ProtectedAdminRoute />}>
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/feature-request" element={<FeatureRequest />} />
-          <Route path="/admin/community" element={<AdminCommunity />} />
-          <Route path="/admin/users" element={<AdminUsers />} />
-          <Route path="/admin/admins" element={<Admins />} />
-          <Route path="/admin/payment" element={<AdminPayment />} />
-          <Route path="/admin/payment/edit-plans" element={<EditPlan />} />
-        </Route>
+      <DashboardProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/features" element={<FeaturesPage />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/request-a-feature" element={<RequestAFeature />} />
+          <Route path="/waitlist" element={<WaitList />} />
+          <Route path="/draganddrop" element={<DragandDrop />} />
+          <Route path="/verifyEmail" element={<VerifyEmail />} />
+          <Route path="/verify-user" element={<VerifyUser />} />
+          <Route path="/let-us-know-you" element={<LetUsKnowYou />} />
+          <Route path="/contact-us" element={<Contact />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
 
+          <Route element={<ProtectedAdminRoute />}>
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/admin/feature-request" element={<FeatureRequest />} />
+            <Route path="/admin/community" element={<AdminCommunity />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/admins" element={<Admins />} />
+            <Route path="/admin/payment" element={<AdminPayment />} />
+            <Route path="/admin/profile" element={<AdminProfile />} />
+            <Route path="/admin/payment/edit-plans" element={<EditPlan />} />
 
+          </Route>
 
-
-
-        <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/profile" element={<Profile />} />
-        </Route>
-      </Routes>
-      <ToastContainer />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+        </Routes>
+        <ToastContainer />
+      </DashboardProvider>
     </ModalProvider>
   );
 }
