@@ -87,44 +87,46 @@ const LetUsKnowYou = () => {
         if (isLoading) return;
 
         if (state.provider !== "Google") {
-
             if (!email || !password || !confirmPassword || !userWorkRole ||
                 !userCompanySize || !userUseForZroleak || !userTechnicalExperience) {
-                return toast.error('please provide all details')
+                return toast.error('please provide all details');
             }
-        }else{
-            if (!email  || !userWorkRole ||
-                !userCompanySize || !userUseForZroleak || !userTechnicalExperience) {
-                return toast.error('please provide all details')
+
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s])[A-Za-z\d\W]{8,}$/;
+            if (password.length < 8) {
+                return toast.error("Password too short, should not be less than 8 characters");
+            }
+            if (!passwordRegex.test(password)) {
+                return toast.error(
+                    "Password must contain alphabets, capital letters, small letters, a number, and a special character"
+                );
+            }
+            if (password !== confirmPassword) {
+                return toast.error("Passwords do not match");
+            }
+        } else {
+            if (!email || !userWorkRole || !userCompanySize || !userUseForZroleak || !userTechnicalExperience) {
+                return toast.error('please provide all details');
             }
         }
 
+        const userData: any = {
+            email,
+            gender,
+            userWorkRole,
+            userCompanySize,
+            userUseForZroleak,
+            userTechnicalExperience
+        };
 
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s])[A-Za-z\d\W]{8,}$/;
-        if (password.length < 8) {
-            return toast.error("Password too short, should not be less than 8 characters");
-        }
-        if (!passwordRegex.test(password)) {
-            return toast.error(
-                "Password must contain alphabets, capital letters, small letters, a number, and a special character"
-            );
-        }
-        if (password !== confirmPassword) {
-            return toast.error("Passwords do not match");
+        if (state.provider !== "Google") {
+            userData.password = password;
         }
 
-        else {
-            const userData = {
-                email,
-                gender,
-                password,
-                userWorkRole,
-                userCompanySize,
-                userUseForZroleak,
-                userTechnicalExperience
-            }
-            dispatch(completeSignUp(userData))
-        }
+        dispatch(completeSignUp(userData));
+
+
+
     }
 
     useEffect(() => {
