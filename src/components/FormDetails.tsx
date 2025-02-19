@@ -12,7 +12,7 @@ type NewFeatureProps = {
   onNewFeature: () => void;
 };
 
-const RequestForm = ({ onNewFeature }: NewFeatureProps) => {
+const FormDetails = ({ onNewFeature }: NewFeatureProps) => {
   const {isLoading, isSuccess, currentPage, limit } = useAppSelector((state) => state.feature);
   const { setActiveModal } = useModal();
   const navigate = useNavigate();
@@ -99,9 +99,9 @@ const RequestForm = ({ onNewFeature }: NewFeatureProps) => {
   }, [dispatch]);
 
   return (
-    <div className="text-4xl lg:w-[100%] bg-white px-4">
-      <h1 className="text-3xl mb-8 w-[auto] lg:w-[60%] text-black-500 font-500">Request for your favourite feature</h1>
-      <form className="w-full" onSubmit={handleContinue}>
+    <div className="text-4xl lg:w-[80%] px-4">
+      <h1 className="text-2xl mb-8 w-[auto] lg:w-[60%] text-black-500 font-500">Request for your favourite feature</h1>
+      <form className="w-full pe-10" onSubmit={handleContinue}>
         <div className="mb-2">
           <label className="block mb-1 text-sm font-medium text-gray-500">
             Title
@@ -111,7 +111,7 @@ const RequestForm = ({ onNewFeature }: NewFeatureProps) => {
             name="title"
             value={title}
             onChange={onChange}
-            className="border border-gray-600 outline-none text-black-500 text-sm rounded-lg w-full px-2 py-4"
+            className="border border-gray-600 outline-none text-black-500 text-sm rounded-lg w-full px-2 py-3"
             placeholder="Custom bot name"
           />
         </div>
@@ -124,13 +124,16 @@ const RequestForm = ({ onNewFeature }: NewFeatureProps) => {
             name="description"
             value={description}
             onChange={onChange}
-            rows={6}
-            cols={5}
+            rows={4}
+            cols={4}
             className="block px-2 py-4 outline-none w-full text-sm text-black-500 rounded-lg border border-gray-600"
             placeholder="Leave a comment..."
           />
         </div>
         <div>
+        <label className="block mb-1 text-sm font-medium text-gray-500">
+            Tags
+          </label>
           <SelectOption
             name="tag"
             value={tag}
@@ -140,7 +143,7 @@ const RequestForm = ({ onNewFeature }: NewFeatureProps) => {
         </div>
         <SubmitButton
           isLoading={isLoading}
-          className={`px-4 mt-4 py-4 w-full text-white text-sm rounded-lg text-md ${isLoading ? 'bg-blue-100/55' : 'custom-bg'
+          className={`px-4 mt-4 py-3 w-full text-white text-sm rounded-lg text-md ${isLoading ? 'bg-blue-100/55' : 'custom-bg'
             }`}
         >
           Submit
@@ -150,4 +153,4 @@ const RequestForm = ({ onNewFeature }: NewFeatureProps) => {
   );
 };
 
-export default RequestForm;
+export default FormDetails;
