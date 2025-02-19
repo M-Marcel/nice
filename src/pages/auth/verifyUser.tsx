@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "../../hooks";
-import { verifyUser } from "../../slices/auth/authSlice";
+import { verifyUser, getProfile } from "../../slices/auth/authSlice";
 
 const VerifyUser = () => {
   const navigate = useNavigate();
@@ -13,23 +13,35 @@ const VerifyUser = () => {
     const verifyUserProfile = async () => {
       const token = new URLSearchParams(search).get("token");
       console.log("Token:", token);
+      
       if (!token) {
-        toast.error("No token provided. Please try signing in again.");
+        toast.error("No token provided. Please check your verification link.");
         navigate("/");
         return;
       }
 
       try {
-        // Dispatch verifyUser and get the profile
-        const profile = await dispatch(verifyUser(token)).unwrap();
-        console.log("User profile:", profile);
+        // Attempt to verify the user
+        const user = await dispatch(verifyUser(token)).unwrap();
+        console.log("User verification response:", user);
 
-        // Store token in localStorage only if verification is successful
-        localStorage.setItem("token", token);
+        if (user) {
+          // Store token only on success
+          localStorage.setItem("token", token);
 
-        // Navigate to dashboard after successful verification
-        toast.success("Welcome back!");
-        navigate("/dashboard");
+          // Fetch profile to confirm user exists
+          const profile = await dispatch(getProfile()).unwrap();
+          if (profile) {
+            toast.success("Welcome back! Redirecting to your dashboard...");
+            navigate("/dashboard");
+            return;
+          }
+        }
+
+        // If verification fails but user exists, send to completion page
+        toast.warning("Account verification incomplete. Please update your profile.");
+        navigate("/let-us-know-you", { state:  { provider: 'Google' } });
+
       } catch (error) {
         console.error("Error verifying user:", error);
         toast.error("Verification failed. Please try again.");

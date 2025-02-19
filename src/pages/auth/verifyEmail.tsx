@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { getProfile, verifyEmail } from '../../slices/auth/authSlice';
+import { getProfile, verifyEmail, verifyUser } from '../../slices/auth/authSlice';
 import { toast } from 'react-toastify';
 import { useAppDispatch } from '../../hooks';
 
@@ -20,23 +20,39 @@ const VerifyEmail = () => {
     const handleEmailVerification = async () => {
       try {
         const response = await dispatch(verifyEmail(token)).unwrap();
-
         console.log('Verification response:', response);
 
         if (response?.email) {
           localStorage.setItem('userEmail', response.email);
-          if (response.provider === 'Google') {
-            toast.success('Email verified successfully! Redirecting to your dashboard...');
-            const profile = await dispatch(getProfile()).unwrap();
-            if (profile) {
-              navigate('/dashboard');
-            }
-            localStorage.getItem('userEmail')
-            return;
 
+          // Check if the user signed up with Google
+          if (response.provider === 'Google') {
+            toast.success('Email verified! Checking user account...');
+
+            try {
+              // Verify the user
+              const user = await dispatch(verifyUser(token)).unwrap();
+              console.log('User verification response:', user);
+
+              if (user) {
+                // Fetch user profile to confirm they exist
+                const profile = await dispatch(getProfile()).unwrap();
+                if (profile) {
+                  toast.success('Login successful! Redirecting to dashboard...');
+                  navigate('/dashboard');
+                  return;
+                }
+              }
+            } catch (verifyUserError) {
+              console.error('User verification failed:', verifyUserError);
+              toast.error('Account not found. Please sign up first.');
+              navigate('/let-us-know-you', { state: { provider: 'Google' } });
+              return;
+            }
           }
         }
 
+        // If not Google, proceed with standard flow
         toast.success('Email verified successfully!');
         navigate('/let-us-know-you', { state: { provider: response?.provider } });
 
