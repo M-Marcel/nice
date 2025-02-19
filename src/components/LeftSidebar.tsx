@@ -12,17 +12,11 @@ import Logout from "../assets/svg/Logout";
 import ComputerIcon from "../assets/computer-white.png";
 import LogoutModal from "./LogoutModal";
 import AdminLogo from "./AdminLogo";
-import { useDashboard } from "../context/DashboardContext";
 
-interface LeftSidebarProps {
-  dashboardType: "admin" | "superadmin" | "user"; // Define the prop type for dashboardType
-}
-
-
-const LeftSidebar = ({dashboardType}: LeftSidebarProps) => {
+const LeftSidebar = ({ dashboardType }: { dashboardType: 'superadmin' | 'admin' | 'user' }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
-  const { setDashboardType } = useDashboard(); 
+  const [currentDashboardType, setCurrentDashboardType] = useState(dashboardType);
   const location = useLocation();
   const navigate = useNavigate();
   const sidebarRef = useRef<HTMLDivElement | null>(null);
@@ -56,10 +50,9 @@ const LeftSidebar = ({dashboardType}: LeftSidebarProps) => {
 
   useEffect(() => {
     if (user?.role === "superadmin") {
-      setDashboardType("superadmin");
-      console.log("its superadmin")
+      setCurrentDashboardType("superadmin");
     }
-  }, [user, setDashboardType])
+  }, [user])
 
   return (
     <>
@@ -189,7 +182,7 @@ const LeftSidebar = ({dashboardType}: LeftSidebarProps) => {
           }
 
           // Ensure the "Admins" link is only visible to superadmins
-          if (item.title === "Admins" && dashboardType !== "superadmin") {
+          if (item.title === "Admins" && currentDashboardType !== "superadmin") {
             return null; // Hide the "Admins" link for regular admins
           }
 

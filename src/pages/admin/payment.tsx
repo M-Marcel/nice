@@ -4,34 +4,17 @@ import calenderImg from "../../assets/calendar-03.png";
 import catalogueImg from "../../assets/catalogue.png";
 import ellipesImg from "../../assets/Ellipse 1.png";
 import AdminHeader from "../../components/admin/Header";
-import { useAppSelector } from "../../hooks";
-import { useDashboard } from "../../context/DashboardContext";
-import { useEffect } from "react";
 
 const AdminPayment = () => {
-  const { user } = useAppSelector((state) => state.adminauth)
-
-  const { dashboardType, setDashboardType } = useDashboard();
-
-  // Set the dashboardType when the user data changes
-  useEffect(() => {
-    if (user?.role === "admin") {
-      setDashboardType("admin"); // Update the context with the new dashboardType
-    }
-    if (user?.role === "superadmin") {
-      setDashboardType("superadmin")
-    }
-  }, [user, dashboardType, setDashboardType]);
-
   return (
     <div className="bg-black-300 h-screen">
       <div className="bg-black-800 mx-2 h-full rounded-[30px] flex gap-5 py-4 px-4">
-        <LeftSidebar dashboardType={dashboardType} />
+        <LeftSidebar dashboardType="admin" />
         <div
           className="mainDashboardFeatures bg-white h-[full] overflow-y-scroll rounded-[40px]  w-[100%] lg:w-[80%] 
                 lg:relative md:z-30 lg:z-40 left-[20%] px-4 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-black-300"
         >
-          <AdminHeader />
+           <AdminHeader />
           <div className="relative top-[80px] ms-7">
             <div className="grid lg:grid-cols-1 gap-4">
               <div className="lg:col-span-2">
@@ -80,8 +63,8 @@ const AdminPayment = () => {
                     <div className="flex gap-2">
                       <div className="flex text-black-200 px-2 py-2 mt-2 bg-gray-700/85  text-xs rounded-xl border border-gray-100/85 hover:text-gray-600">
                         <img src={cashImg} alt="" width={15} height={15} />
-                        <a
-                          className={`ps-2 `} href="/admin/payment/edit-plans">
+                        <a 
+                         className={`ps-2 `} href="/admin/payment/edit-plans">
                           Edit plans
                         </a>
                       </div>
@@ -136,7 +119,7 @@ const AdminPayment = () => {
                       </th>
                     </tr>
                   </thead>
-
+                  
                   <tbody className="border border-gray-900/85  ">
                     <tr className="bg-white border-b rounded-t-2xl border-gray-900/85">
                       <th
@@ -149,8 +132,8 @@ const AdminPayment = () => {
                       <td className="py-3 px-2 ">ranjigeto@gmail.com</td>
                       <td className=" py-3 px-2">
                         <div className="gap-1 items-center w-[90px] justify-start px-2  py-1 text-xs flex text-green-500  border-green-100 rounded-xl bg-green-100">
-                          <img src={ellipesImg} alt="" width={5} />
-                          <span>Successful</span>
+                            <img src={ellipesImg} alt="" width={5} />
+                            <span>Successful</span>
                         </div>
                       </td>
                       <td className="py-3 px-2">$10</td>
@@ -167,8 +150,8 @@ const AdminPayment = () => {
                       <td className="py-3 px-2 ">ranjigeto@gmail.com</td>
                       <td className=" py-3 px-2">
                         <div className="gap-1 items-center w-[90px] justify-start px-2  py-1 text-xs flex text-green-500  border-green-100 rounded-xl bg-green-100">
-                          <img src={ellipesImg} alt="" width={5} />
-                          <span>Successful</span>
+                            <img src={ellipesImg} alt="" width={5} />
+                            <span>Successful</span>
                         </div>
                       </td>
                       <td className="py-3 px-2">$10</td>
@@ -185,8 +168,8 @@ const AdminPayment = () => {
                       <td className="py-3 px-2 ">ranjigeto@gmail.com</td>
                       <td className=" py-3 px-2">
                         <div className="gap-1 items-center w-[90px] justify-start px-2  py-1 text-xs flex text-green-500  border-green-100 rounded-xl bg-green-100">
-                          <img src={ellipesImg} alt="" width={5} />
-                          <span>Successful</span>
+                            <img src={ellipesImg} alt="" width={5} />
+                            <span>Successful</span>
                         </div>
                       </td>
                       <td className="py-3 px-2">$10</td>
@@ -203,8 +186,8 @@ const AdminPayment = () => {
                       <td className="py-3 px-2 ">ranjigeto@gmail.com</td>
                       <td className=" py-3 px-2">
                         <div className="gap-1 items-center w-[90px] justify-start px-2  py-1 text-xs flex text-green-500  border-green-100 rounded-xl bg-green-100">
-                          <img src={ellipesImg} alt="" width={5} />
-                          <span>Successful</span>
+                            <img src={ellipesImg} alt="" width={5} />
+                            <span>Successful</span>
                         </div>
                       </td>
                       <td className="py-3 px-2">$10</td>
@@ -221,8 +204,8 @@ const AdminPayment = () => {
                       <td className="py-3 px-2 ">ranjigeto@gmail.com</td>
                       <td className=" py-3 px-2">
                         <div className="gap-1 items-center w-[90px] justify-start px-2  py-1 text-xs flex text-green-500  border-green-100 rounded-xl bg-green-100">
-                          <img src={ellipesImg} alt="" width={5} />
-                          <span>Successful</span>
+                            <img src={ellipesImg} alt="" width={5} />
+                            <span>Successful</span>
                         </div>
                       </td>
                       <td className="py-3 px-2">$10</td>
@@ -239,8 +222,8 @@ const AdminPayment = () => {
                       <td className="py-3 px-2 ">ranjigeto@gmail.com</td>
                       <td className=" py-3 px-2">
                         <div className="gap-1 items-center w-[90px] justify-start px-2  py-1 text-xs flex text-green-500  border-green-100 rounded-xl bg-green-100">
-                          <img src={ellipesImg} alt="" width={5} />
-                          <span>Successful</span>
+                            <img src={ellipesImg} alt="" width={5} />
+                            <span>Successful</span>
                         </div>
                       </td>
                       <td className="py-3 px-2">$10</td>
@@ -257,8 +240,8 @@ const AdminPayment = () => {
                       <td className="py-3 px-2 ">ranjigeto@gmail.com</td>
                       <td className=" py-3 px-2">
                         <div className="gap-1 items-center w-[90px] justify-start px-2  py-1 text-xs flex text-green-500  border-green-100 rounded-xl bg-green-100">
-                          <img src={ellipesImg} alt="" width={5} />
-                          <span>Successful</span>
+                            <img src={ellipesImg} alt="" width={5} />
+                            <span>Successful</span>
                         </div>
                       </td>
                       <td className="py-3 px-2">$10</td>
@@ -275,8 +258,8 @@ const AdminPayment = () => {
                       <td className="py-3 px-2 ">ranjigeto@gmail.com</td>
                       <td className=" py-3 px-2">
                         <div className="gap-1 items-center w-[90px] justify-start px-2  py-1 text-xs flex text-green-500  border-green-100 rounded-xl bg-green-100">
-                          <img src={ellipesImg} alt="" width={5} />
-                          <span>Successful</span>
+                            <img src={ellipesImg} alt="" width={5} />
+                            <span>Successful</span>
                         </div>
                       </td>
                       <td className="py-3 px-2">$10</td>

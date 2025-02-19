@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../components/Button";
 import LeftSidebar from "../components/LeftSidebar";
 import ProfileTab from "../components/ProfileTab";
@@ -9,22 +9,10 @@ import Notifications from "../components/Notifications";
 // Import icons
 import ProfileIcon from '../assets/svg/UserIcon';
 import PasswordIcon from "../assets/svg/LockIcon";
-import { useAppSelector } from "../hooks";
-import { useDashboard } from "../context/DashboardContext";
 // import NotificationsIcon from "../assets/svg/NotifyIcon";
 // import EarlyAccessIcon from "../assets/svg/EarlyAccessIcon";
 
 const Profile = () => {
-      const user = useAppSelector((state) => state.auth.user);
-      const { dashboardType,  setDashboardType } = useDashboard();
-  
-      // Set the dashboardType when the user data changes
-      useEffect(() => {
-          if (user) {
-              setDashboardType("user"); // Update the context with the new dashboardType
-          }
-      }, [user, dashboardType, setDashboardType]);
-  
   const [activeTab, setActiveTab] = useState<string>("Profile"); // Track active tab
 
   const tabs = [
@@ -39,7 +27,7 @@ const Profile = () => {
       case "Early Access":
         return <EarlyAccess />;
       case "Profile":
-        return <ProfileTab dashboardType={dashboardType}/>;
+        return <ProfileTab />;
       case "Password":
         return <Password />;
       case "Notifications":
@@ -51,7 +39,7 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col lg:flex-row px-2">
-      <LeftSidebar dashboardType={dashboardType} />
+      <LeftSidebar dashboardType="user"/>
       <div className="px-4 w-full lg:w-4/5 lg:relative left-[18%]">
         <div className="flex flex-col lg:flex-row gap-8 mt-8">
           <div className="w-full lg:w-[15%] px-4 py-4 fixed bg-white z-30">

@@ -18,17 +18,15 @@ const AdminHeader = () => {
                     </div>
                 </div>
                 <div>
-                    <a href="/admin/profile">
-                        <div className="flex items-center gap-2">
-                            <div>
-                                <img src={AdminAvatar} alt="adminavatar" width={40} height={40} />
-                            </div>
-                            <div>
-                                <p className="text-xs font-semibold text-black-910">{user?.firstName} {user?.lastName}</p>
-                                <p className="text-xs text-gray-940">Admin</p>
-                            </div>
+                    <div className="flex items-center gap-2">
+                        <div>
+                            <img src={AdminAvatar} alt="adminavatar" width={40} height={40} />
                         </div>
-                    </a>
+                        <div>
+                            <p className="text-xs font-semibold text-black-910">{user?.firstName} {user?.lastName}</p>
+                            <p className="text-xs text-gray-940">Admin</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

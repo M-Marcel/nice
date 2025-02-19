@@ -7,10 +7,9 @@ import Button from "../../components/Button";
 import AdminHeader from "../../components/admin/Header";
 import { useAppSelector } from "../../hooks";
 import AllFeatures from "../../components/admin/AllFeature";
-import {  useEffect, useState } from "react";
+import {  useState } from "react";
 import NewFeatures from "../../components/admin/NewFeature";
 import CompletedFeatures from "../../components/admin/CompletedFeature";
-import { useDashboard } from "../../context/DashboardContext";
 
 
 const AdminDashboard = () => {
@@ -23,18 +22,11 @@ const AdminDashboard = () => {
 
     const TotalUsers = users?.length
 
+    console.log("user", user)
 
-    const { dashboardType,  setDashboardType } = useDashboard();
+    const userRole = user?.role
 
-    // Set the dashboardType when the user data changes
-    useEffect(() => {
-        if (user?.role === "admin") {
-            setDashboardType("admin"); // Update the context with the new dashboardType
-        }
-        if(user?.role === "superadmin") {
-            setDashboardType("superadmin")
-        }
-    }, [user, dashboardType, setDashboardType]);
+    const dashboardType = userRole === "superadmin" ? "superadmin" : "admin";
 
     const [activeTab, setActiveTab] = useState<string>("All"); // Track active tab
 
