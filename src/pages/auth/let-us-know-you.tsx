@@ -13,6 +13,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 
 
 const LetUsKnowYou = () => {
+
     const navigate = useNavigate()
     const { state } = useLocation()
     console.log("staging state", state)
@@ -119,6 +120,7 @@ const LetUsKnowYou = () => {
 
             dispatch(completeSignUp(userData));
         }
+    }
 
         useEffect(() => {
             if (isCompleteSignUpSuccess) {
@@ -324,7 +326,7 @@ const LetUsKnowYou = () => {
                 </div>
             </div >
         )
-    }
+    
 }
 
 export default LetUsKnowYou
