@@ -61,7 +61,7 @@ const CreateAdmin = () => {
 
   return (
     <div className="text-4xl lg:w-[100%] bg-white px-4">
-      <h1 className="text-3xl mb-8 w-[auto] lg:w-[60%] text-black-500 font-500">Create Admin</h1>
+      <h1 className="text-2xl mb-8 w-[auto] lg:w-[60%] text-black-500 font-500">Create Admin</h1>
       <form className="w-full" onSubmit={handleContinue}>
         <div className="mb-2">
           <label className="block mb-1 text-sm font-medium text-gray-500">

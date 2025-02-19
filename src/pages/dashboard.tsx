@@ -20,6 +20,7 @@ import RequestForm from "../components/RequestForm"
 import { useModal } from "../context/ModalContext"
 import TelegramModal from "../components/telegramModal"
 import TawkTo from "../components/TawkTo"
+import { useDashboard } from "../context/DashboardContext"
 
 
 const Dashboard = () => {
@@ -29,6 +30,16 @@ const Dashboard = () => {
     const { displayedFeatures = [], isLoading, isError, message, currentPage, totalPages, limit } = useAppSelector(
         (state) => state.feature
     );
+
+        const { dashboardType,  setDashboardType } = useDashboard();
+    
+        // Set the dashboardType when the user data changes
+        useEffect(() => {
+            if (user) {
+                setDashboardType("user"); // Update the context with the new dashboardType
+            }
+        }, [user, dashboardType, setDashboardType]);
+    
 
     const { activeModal, setActiveModal } = useModal()
 
@@ -73,7 +84,7 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard flex flex-col lg:flex-row px-2">
-            <LeftSidebar dashboardType="user" />
+            <LeftSidebar dashboardType={dashboardType} />
             <div className="px-4 w-[100%] lg:w-[80%] lg:relative md:z-30 lg:z-40 left-[18%]">
                 <div className=" items-center justify-between hidden md:flex md:w-[92%] lg:w-[80%] bg-white py-4 px-2 fixed z-50">
                     <Search />
