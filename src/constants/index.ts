@@ -47,7 +47,7 @@ export const navigation = [
 export const SidebarLinks = [
   {
     id: 0,
-    title: "Dashboard",
+    title: "Projects",
     icon: DashboardIcon,
     isAdmin: false,
     url: "/dashboard"

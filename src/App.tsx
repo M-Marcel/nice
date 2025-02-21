@@ -33,6 +33,7 @@ import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 import AdminProfile from "./pages/admin/profile";
 import { DashboardProvider } from "./context/DashboardContext";
 import FeatureDetails from "./pages/featureDetail";
+import PortfolioBuilder from "./pages/portfolio";
 
 
 
@@ -72,6 +73,7 @@ function App() {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/create-portfolio" element={<PortfolioBuilder />} />
 
           <Route element={<ProtectedAdminRoute />}>
             <Route path="/admin" element={<AdminDashboard />} />
