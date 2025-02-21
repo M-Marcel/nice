@@ -100,7 +100,9 @@ const RequestForm = ({ onNewFeature }: NewFeatureProps) => {
 
   return (
     <div className="text-4xl lg:w-[100%] bg-white px-4">
-      <h1 className="text-3xl mb-8 w-[auto] lg:w-[60%] text-black-500 font-500">Request for your favourite feature</h1>
+      <h1 className="text-3xl mb-8 w-[auto] lg:w-[60%] text-black-500 font-500">
+        Request For Your Favourite Feature
+      </h1>
       <form className="w-full" onSubmit={handleContinue}>
         <div className="mb-2">
           <label className="block mb-1 text-sm font-medium text-gray-500">

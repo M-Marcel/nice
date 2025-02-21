@@ -17,8 +17,8 @@ import NextIcon from "../assets/svg/NextIcon";
 import LoaderIcon from "../assets/loader.svg";
 import TawkTo from "../components/TawkTo";
 
-const blockOptions = ["Completed", "Inprogress", "Requested"];
-const tagOptions = ["Personal", "Portfolio", "Business", "Telegram bot", "Blockchain", "Web3", "Crypto"];
+const statusOptions = ["Completed", "In Progress", "Requested"];
+const tagOptions = ["Personal", "Portfolio", "Business", "Telegram Bot", "Blockchain", "Web3", "Crypto"];
 
 
 const RequestAFeature = () => {
@@ -117,8 +117,8 @@ const RequestAFeature = () => {
                 />
               </div>
               <div className="hidden lg:flex gap-2">
-                <Dropdown options={blockOptions}>Status</Dropdown>
-                <Dropdown options={tagOptions}>Tags</Dropdown>
+                <Dropdown options={statusOptions}>Status</Dropdown>
+                <Dropdown options={tagOptions}>Category/Tag</Dropdown>
               </div>
             </div>
 

@@ -1,7 +1,6 @@
 import Logo from '../assets/lanepact-logo.png'
 import LogoText from '../assets/lanepact-logo-text.png'
 
-
 const Footer = () => {
     return (
         <div className="footer relative bottom-[0]">
@@ -27,6 +26,7 @@ const Footer = () => {
                     <p className='text-gray-300 text-sm'>©2024 Lanepact. All rights reserved.</p>
                 </div>
             </div>
+            
         </div>
     )
 }
