@@ -32,6 +32,7 @@ import EditPlan from "./pages/admin/editPlan";
 import ProtectedAdminRoute from "./components/ProtectedAdminRoute";
 import AdminProfile from "./pages/admin/profile";
 import { DashboardProvider } from "./context/DashboardContext";
+import FeatureDetails from "./pages/featureDetail";
 
 
 
@@ -59,6 +60,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/features" element={<FeaturesPage />} />
+          <Route path="/feature-details" element={<FeatureDetails />} />
           <Route path="/community" element={<Community />} />
           <Route path="/request-a-feature" element={<RequestAFeature />} />
           <Route path="/waitlist" element={<WaitList />} />

@@ -18,10 +18,14 @@ const RequestForm = ({ onNewFeature }: NewFeatureProps) => {
   const navigate = useNavigate();
 
   const options = [
-    { value: "Web2", label: "Web2" },
-    { value: "Web3", label: "Web3" },
-    { value: "Web4", label: "Web4" },
-    { value: "Web5", label: "Web5" },
+    { value: "personal", label: "Personal" },
+    { value: "portfolio", label: "Portfolio" },
+    { value: "business", label: "Business" },
+    { value: "telegram bot", label: "Telegram bot" },
+    { value: "blockchain", label: "Blockchain" },
+    { value: "web3", label: "Web 3" },
+    { value: "crypto", label: "Crypto" },
+
   ];
 
   const [formData, setFormData] = useState<FeatureFormData>({
