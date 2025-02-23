@@ -60,6 +60,7 @@ module.exports = {
       },
       backgroundImage: {
         'button-gradient': 'linear-gradient(180deg, #1E7FF5 0%, #025ECF 100%)',
+        'box-gradient': 'linear-gradient(#CCD3DC, #E8EDF4, #F5F9FF 0%)',
       },
       borderColor: {
         'button-border': '#FFFFFF26',
