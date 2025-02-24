@@ -1,4 +1,3 @@
-import React from 'react'
 import boxImg from '../assets/404-Frame.png'
 import Button from './Button'
 import { useNavigate } from 'react-router-dom'
