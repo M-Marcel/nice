@@ -5,9 +5,7 @@ import Skills from "./Skills";
 
 
 const PortfolioSetup = () => {
-
-    const [activeTab, setActiveTab] = useState<string>("Info"); // Track active tab
-
+    const [activeTab, setActiveTab] = useState<string>("Info");
     const tabs = [
         { name: "Info" },
         { name: "Skills" },
