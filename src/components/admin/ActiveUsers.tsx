@@ -8,7 +8,6 @@ import LoaderIcon from "../../assets/loader.svg"
 import PrevIcon from "../../assets/svg/PrevIcon"
 import NextIcon from "../../assets/svg/NextIcon"
 
-
 const ActiveUsers = () => {
 
     const dispatch = useAppDispatch()

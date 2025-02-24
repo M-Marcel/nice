@@ -10,7 +10,18 @@ interface ApiErrorResponse {
     message: string;
 }
 
-
+// Helper to get auth headers
+// const getAuthHeaders = (): Record<string, string> => {
+//     const token = localStorage.getItem("token");
+//     if (!token) {
+//         throw new Error("Authentication token is missing. Please log in again.");
+//     }
+//     return {
+//         'Content-Type': 'application/json',
+//         'Authorization': `Bearer ${token}`,
+//     };
+// };
+// handle API errors
 const handleApiError = (error: AxiosError): never => {
     const errorMessage = (error.response?.data as ApiErrorResponse)?.message ||
         "An unexpected error occurred. Please try again.";
