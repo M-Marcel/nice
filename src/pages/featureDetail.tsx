@@ -2,7 +2,7 @@ import React from "react";
 import Hero from "../components/Hero";
 import Header from "../components/Header";
 import { useModal } from "../context/ModalContext";
-import FeatureFrame from "../assets/featuresframe.png";
+// import FeatureFrame from "../assets/featuresframe.png";
 import Heading from "../components/Heading";
 import thumbsImg from "../assets/thumbs-up.png";
 import thumbsImg2 from "../assets/thumbs.png";

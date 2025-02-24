@@ -75,7 +75,7 @@ function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/create-portfolio" element={<PortfolioBuilder />} />
-          <Route path="/404-page" element={<New404Page />} />
+         
 
 
           <Route element={<ProtectedAdminRoute />}>
@@ -94,6 +94,9 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
           </Route>
+
+          {/* Catch-all 404 Route */}
+          <Route path="*" element={<New404Page />} />
         </Routes>
         <ToastContainer />
       </DashboardProvider>
