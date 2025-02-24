@@ -34,6 +34,7 @@ import AdminProfile from "./pages/admin/profile";
 import { DashboardProvider } from "./context/DashboardContext";
 import FeatureDetails from "./pages/featureDetail";
 import PortfolioBuilder from "./pages/portfolio";
+import New404Page from "./components/New404Page";
 
 
 
@@ -74,6 +75,8 @@ function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/create-portfolio" element={<PortfolioBuilder />} />
+          <Route path="/404-page" element={<New404Page />} />
+
 
           <Route element={<ProtectedAdminRoute />}>
             <Route path="/admin" element={<AdminDashboard />} />
