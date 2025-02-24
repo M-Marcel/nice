@@ -6,7 +6,7 @@ import PortfolioSetup from "../components/PortfolioSetup"
 const PortfolioBuilder = () => {
 
     return (
-        <div className="h-[100vh] overflow-y-scroll">
+        <div className="h-[100vh] overflow-y-scroll lg:scrollbar-none">
             <div className="grid grid-cols-3 px-2 fixed w-full bg-white z-30 py-4 items-center">
                 <div>
                     <Logo />
