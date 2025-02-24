@@ -3,9 +3,12 @@ import Button from "./Button";
 import Info from "./Info";
 import Skills from "./Skills";
 import Projects from "./Projects";
+import Work from "./Work";
+import Education from "./Education";
+import Certification from "./Certification";
 
 
-const PortfolioSetup = () => {
+const PortfolioSetup = ({ setActiveModal }:any) => {
     const [activeTab, setActiveTab] = useState<string>("Info");
     const tabs = [
         { name: "Info" },
@@ -21,8 +24,14 @@ const PortfolioSetup = () => {
                 return <Info />;
             case "Skills":
                 return <Skills />;
-                case "Projects":
-            return <Projects />;
+            case "Projects":
+                return <Projects setActiveModal={setActiveModal} />;
+            case "Work":
+                return <Work />;
+            case "Education":
+                 return <Education />;
+            case "Certification":
+                 return <Certification />;
             default:
                 return null;
         }
@@ -57,7 +66,7 @@ const PortfolioSetup = () => {
             </div>
             <div className="relative top-[5px] z-20">
                 <div className="">
-                    <div className="flex fixed z-20 w-[18%] bg-white  gap-4 py-2 overflow-x-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 mb-4">
+                    <div className="flex fixed z-20 w-[22%] bg-white  gap-4 py-2 overflow-x-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 mb-4">
                         {tabs.map((tab) => (
                             <Button
                                 key={tab.name}

@@ -1,9 +1,19 @@
+import { useState } from "react"
 import UntitledIcon from "../assets/svg/Untitledicon"
 import Button from "../components/Button"
 import Logo from "../components/Logo"
 import PortfolioSetup from "../components/PortfolioSetup"
+import Modal from "../components/Modal"
+import CreateProject from "../components/CreateProject"
 
 const PortfolioBuilder = () => {
+
+    const [activeModal, setActiveModal] = useState<string | null>(null);
+
+    const closeModal = () => {
+        setActiveModal(null);
+        document.body.style.overflow = "auto";
+    };
 
     return (
         <div className="h-[100vh] overflow-y-scroll lg:scrollbar-none">
@@ -27,12 +37,17 @@ const PortfolioBuilder = () => {
                 </div>
             </div>
             <div className="flex justify-between mx-4">
-                <div className="w-[75%] h-[80vh] fixed left-2 border rounded-xl border-gray-600 mt-20"></div>
+                <div className="w-[75%] h-[85vh] fixed left-2 border rounded-xl border-gray-600 mt-20"></div>
                 <div className="w-[24%] h-[80vh] fixed right-0 ">
-                    <PortfolioSetup />
+                    <PortfolioSetup
+                          activeModal={activeModal}
+                          setActiveModal={setActiveModal}
+                    />
                 </div>
             </div>
-
+            <Modal isVisible={activeModal === "createProject"} onClose={closeModal}>
+                <CreateProject />
+            </Modal>
         </div>
     )
 }

@@ -2,8 +2,10 @@ import { useNavigate } from "react-router-dom"
 import RobotIcon from "../assets/svg/Robot"
 import Button from "./Button"
 
+
 const CreateProjectModal = () => {
     const navigate = useNavigate()
+   
     return (
         <div className="py-4 flex flex-col justify-center items-center">
             <div className="flex flex-col gap-4 justify-center items-center">
@@ -35,15 +37,15 @@ const CreateProjectModal = () => {
                     </div>
                 </div>
                 <div>
-                    <Button 
-                     onClick={() => navigate('/create-portfolio')}
-                    className="lg:flex items-center gap-2 custom-bg text-sm text-white px-6 py-3
+                    <Button
+                        onClick={() => navigate('/create-portfolio')}
+                        className="lg:flex items-center gap-2 custom-bg text-sm text-white px-6 py-3
                     rounded-xl">
                         Continue
                     </Button>
                 </div>
             </div>
-
+            
         </div>
     )
 }
