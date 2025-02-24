@@ -2,6 +2,7 @@ import { useState } from "react";
 import Button from "./Button";
 import Info from "./Info";
 import Skills from "./Skills";
+import Projects from "./Projects";
 
 
 const PortfolioSetup = () => {
@@ -20,6 +21,8 @@ const PortfolioSetup = () => {
                 return <Info />;
             case "Skills":
                 return <Skills />;
+                case "Projects":
+            return <Projects />;
             default:
                 return null;
         }
