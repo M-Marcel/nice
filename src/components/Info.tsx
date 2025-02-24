@@ -139,7 +139,7 @@ const Info = () => {
                         />
                     </div>
                     <div className="flex flex-col gap-2 mb-3">
-                    <label htmlFor="message" className="text-sm text-gray-900">
+                    <label htmlFor="message" className="text-sm text-gray-400">
                         About
                     </label>
                     <textarea

@@ -1,8 +1,7 @@
 import AdminPlusIcon from "../assets/svg/admin/plusIcon"
 import Button from "./Button"
 
-const Projects = ({ setActiveModal }:any) => {
-   
+const Work = () => {
     return (
         <div className="relative pt-5">
             <div className="mt-10 ">
@@ -15,8 +14,10 @@ const Projects = ({ setActiveModal }:any) => {
                                 </svg>
                             </span>
                             <div>
-                                <h2 className="text-md text-black-500 mb-1">Lanepact</h2>
-                                <p className="text-xs text-gray-400">Lanepact makes it easy for anyone to build ...</p>
+                                <h2 className="text-md text-black-500 mb-1">Product Designer</h2>
+                                <p className="text-xs text-gray-400">
+                                    Lanepact Feb 2024 - present
+                                </p>
                             </div>
                         </div>
                         <div className="flex gap-2 items-center  w-[20%]">
@@ -45,8 +46,10 @@ const Projects = ({ setActiveModal }:any) => {
                                 </svg>
                             </span>
                             <div>
-                                <h2 className="text-md text-black-500 mb-1">Lanepact</h2>
-                                <p className="text-xs text-gray-400">Lanepact makes it easy for anyone to build ...</p>
+                                <h2 className="text-md text-black-500 mb-1">Product Designer</h2>
+                                <p className="text-xs text-gray-400">
+                                    Lanepact Feb 2024 - present
+                                </p>
                             </div>
                         </div>
                         <div className="flex gap-2 items-center  w-[20%]">
@@ -75,8 +78,10 @@ const Projects = ({ setActiveModal }:any) => {
                                 </svg>
                             </span>
                             <div>
-                                <h2 className="text-md text-black-500 mb-1">Lanepact</h2>
-                                <p className="text-xs text-gray-400">Lanepact makes it easy for anyone to build ...</p>
+                                <h2 className="text-md text-black-500 mb-1">Product Designer</h2>
+                                <p className="text-xs text-gray-400">
+                                    Lanepact Feb 2024 - present
+                                </p>
                             </div>
                         </div>
                         <div className="flex gap-2 items-center  w-[20%]">
@@ -97,17 +102,14 @@ const Projects = ({ setActiveModal }:any) => {
                             </span>
                         </div>
                     </div>
-                    <Button
-                        onClick={() => setActiveModal("createProject")}
-                        className="mt-4 flex justify-center bg-white items-center px-6 py-3 text-sm border border-gray-600 rounded-xl lg:flex shadow-lg text-black-50 gap-2">
+                    <Button className="mt-4 flex justify-center bg-white items-center px-6 py-3 text-sm border border-gray-600 rounded-xl lg:flex shadow-lg text-black-50 gap-2">
                         <span><AdminPlusIcon /></span>
-                        <span>Add project</span>
+                        <span>Add Work History</span>
                     </Button>
                 </div>
             </div>
-           
         </div>
     )
 }
 
-export default Projects
+export default Work
