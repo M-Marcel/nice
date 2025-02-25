@@ -821,3 +821,6 @@ const VerifyUser = () => {
 
 export default VerifyUser;
 
+
+
+http://localhost:3000/verify-user?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJveWFsbWludGFAZ21haWwuY29tIiwic3ViIjoiNjdiZGZkZTg5ZTUwNjM4MDVlMDdmZDExIiwicm9sZSI6InVzZXIiLCJzdXNwZW5kZWQiOmZhbHNlLCJpYXQiOjE3NDA1MDczMjMsImV4cCI6MTc0MTExMjEyM30.O8whcaVqvOEgfWIU2KZ-dqdEEUCvTy-AJTf4qH16wlc
