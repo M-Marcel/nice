@@ -76,12 +76,15 @@ const verifyUser = async(token:string): Promise<{user: User; message: string; to
         const response = await authService.getProfile();
 
         console.log("User AuthService Response", response)
-        localStorage.setItem("user", JSON.stringify(response));
-        // console.log("user profie", profile);
+        const { user, message } = response;
+        localStorage.setItem("token", token);
+        saveUserToLocalStorage(user);
+        // localStorage.setItem("user", JSON.stringify(response));
+        // // console.log("user profie", profile);
 
         return {
-            user: response.user,
-            message:response.message,
+            user: user,
+            message:message,
             token: token!
         };
 
