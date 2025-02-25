@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useAppDispatch } from "../../hooks";
 import { verifyUser, getProfile } from "../../slices/auth/authSlice";
 
+
 const VerifyUser = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -33,7 +34,7 @@ const VerifyUser = () => {
           const profile = await dispatch(getProfile()).unwrap();
           if (profile) {
             toast.success("Welcome back! Redirecting to your dashboard...");
-            navigate("/dashboard");
+            window.location.href = "/dashboard";
             return;
           }
         }

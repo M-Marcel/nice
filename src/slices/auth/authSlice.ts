@@ -85,6 +85,9 @@ export const verifyUser = createAsyncThunk(
         try {
             localStorage.setItem("token", token);
             const response = await authService.getProfile();
+
+
+            console.log("v-user response", response)
             localStorage.setItem("user", JSON.stringify(response));
         
             return {
@@ -276,6 +279,7 @@ const authSlice = createSlice({
                 state.isLoading = false;
                 state.isSuccess = true;
                 state.user = action.payload.user;
+                console.log("user", state.user)
                 state.token = action.payload.token;
                 state.message = action.payload.message;
                 localStorage.setItem("user", JSON.stringify(action.payload.user));  // Save user to localStorage
