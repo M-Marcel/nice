@@ -105,3 +105,24 @@ export type FeatureFormData = {
 export type CreateAdminFormData = {
     email:string
 }
+export type Section = {
+    _id:string
+    type:string
+    designId:string
+    editableFields:string
+    designData:any
+}
+export type Template = {
+    _id: string
+    name:string
+    type:string
+    sections: Section[]
+
+}
+
+export type Portfolio = {
+    _id:string
+    userId:string
+    referenceTemplate:string
+    sections:any[]
+}

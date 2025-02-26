@@ -1,10 +1,9 @@
-import { useNavigate } from "react-router-dom"
+
 import RobotIcon from "../assets/svg/Robot"
 import Button from "./Button"
 
 
-const CreateProjectModal = () => {
-    const navigate = useNavigate()
+const CreateProjectModal = ({setActiveModal}:any) => {
    
     return (
         <div className="py-4 flex flex-col justify-center items-center">
@@ -38,7 +37,7 @@ const CreateProjectModal = () => {
                 </div>
                 <div>
                     <Button
-                        onClick={() => navigate('/create-portfolio')}
+                        onClick={() => setActiveModal("selectTemplateModal")}
                         className="lg:flex items-center gap-2 custom-bg text-sm text-white px-6 py-3
                     rounded-xl">
                         Continue

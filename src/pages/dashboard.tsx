@@ -22,12 +22,15 @@ import TawkTo from "../components/TawkTo"
 import { useDashboard } from "../context/DashboardContext"
 import FileIcon from "../assets/svg/fileIcon"
 import CreateProjectModal from "../components/CreateProjectModal"
+import TemplateSelector from "../components/TemplateSelector"
+
 
 
 const Dashboard = () => {
     const dispatch = useAppDispatch();
 
     const user = useAppSelector((state) => state.auth.user);
+   
     const { displayedFeatures = [], isLoading, isError, message, currentPage, totalPages, limit } = useAppSelector(
         (state) => state.feature
     );
@@ -65,6 +68,8 @@ const Dashboard = () => {
             dispatch(setPage(currentPage - 1));
         }
     };
+    
+
 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
@@ -279,7 +284,13 @@ const Dashboard = () => {
                 <TelegramModal />
             </Modal>
             <Modal isVisible={activeModal === "createProjectModal"} onClose={closeModal}>
-                <CreateProjectModal />
+                <CreateProjectModal
+                     activeModal={activeModal}
+                     setActiveModal={setActiveModal}
+                />
+            </Modal>
+            <Modal isVisible={activeModal === "selectTemplateModal"} onClose={closeModal}>
+                <TemplateSelector />
             </Modal>
         </div>
     )
