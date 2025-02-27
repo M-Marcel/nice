@@ -11,10 +11,10 @@ import LoaderIcon from "../assets/loader.svg";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { getTemplateById, reset } from "../slices/template/templateSlice";
 import templateMap from "../templates/templateMap";
-import { toast } from "react-toastify";
+
 
 const PortfolioBuilder = () => {
-    const { templateId } = useParams(); // Get the templateId from the URL
+    const { templateId } = useParams();
     const dispatch = useAppDispatch();
     const { template, isLoading, isSuccess, isError, message } = useAppSelector((state) => state.template);
     const [activeModal, setActiveModal] = useState<string | null>(null);
@@ -29,12 +29,11 @@ const PortfolioBuilder = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            console.log("Template Data from API:", template);
-            console.log("Template ID from API:", template?._id);
-            toast.success("Exact template fetched");
+            // toast.success("template retrieved");
             dispatch(reset());
         }
-    }, [isSuccess, dispatch, template]);
+        // eslint-disable-next-line
+    }, [dispatch, template]);
 
     const closeModal = () => {
         setActiveModal(null);
@@ -43,7 +42,7 @@ const PortfolioBuilder = () => {
 
     // Get the corresponding template component from the templateMap
     const TemplateComponent = templateId ? templateMap[templateId] : null;
-    console.log("Template Component:", TemplateComponent);
+
 
     return (
         <div className="h-[100vh] overflow-y-scroll lg:scrollbar-none">
@@ -66,7 +65,8 @@ const PortfolioBuilder = () => {
                 </div>
             </div>
             <div className="flex justify-between mx-4">
-                <div className="myTemplate px-4 w-[75%] h-[85vh] fixed left-2 border rounded-xl border-gray-600 mt-20">
+                <div className="myTemplate px-4 py-4 w-[75%] h-[85vh] overflow-y-scroll fixed left-2 border
+                 lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 rounded-xl border-gray-600 mt-20">
                     {/* Loading, Error, and Template Rendering Logic */}
                     {isLoading ? (
                         <div className="flex items-center justify-center gap-6 h-[60vh]">

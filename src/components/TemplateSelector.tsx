@@ -6,14 +6,13 @@ import LoaderIcon from "../assets/loader.svg"
 import { toast } from "react-toastify"
 import Button from "./Button"
 
-const TemplateSelector = () => {
+const TemplateSelector = ({setActiveModal}:any) => {
     const dispatch = useAppDispatch()
     const { templates, isSuccess, isLoading, isError, message } = useAppSelector((state) => state.template)
     const navigate = useNavigate()
 
     useEffect(() => {
         if (templates.length === 0) {
-            console.log("Fetching templates");
             dispatch(getTemplates({ page: 1, pageSize: 5 }));
         }
 
@@ -21,32 +20,26 @@ const TemplateSelector = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            toast.success("templated fetched");
+            toast.success("templates retrieved success");
         }
     }, [isSuccess, dispatch]);
 
 
     return (
         <>
-            {/* <div className="p-4">
-                <h2 className="text-2xl font-bold mb-4">Select a Template</h2>
-                <ul>
-                    {templates.map((template) => (
-                        <li key={template._id} className="mb-2">
-                            <button
-                                onClick={() => navigate(`/portfolio/${template._id}`)}
-                                className="bg-blue-500 text-white px-4 py-2 rounded"
-                            >
-                                {template.name}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            </div> */}
-            <div className="flex justify-center items-center text-center">
+            <div className="flex relative justify-center items-center text-center">
+                <Button 
+                onClick={() => setActiveModal("createProjectModal")}
+                className="absolute left-5"
+                >
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.825 9L9.425 14.6L8 16L0 8L8 0L9.425 1.4L3.825 7H16V9H3.825Z" fill="#1D1B20" />
+                    </svg>
+
+                </Button>
                 <h2 className="text-3xl">Select a template to start with</h2>
             </div>
-            <div className="mt-2 ">
+            <div className="mt-6 mb-6">
                 {isLoading ? (
                     <div className="flex items-center justify-center gap-6 h-[60vh]">
                         <img
@@ -63,36 +56,46 @@ const TemplateSelector = () => {
                 ) : (
                     <>
                         {templates && templates.length > 0 ? (
-                            templates.map((template) => (
-                                <div key={template._id}>
-                                    <div className="grid grid-cols-2">
-                                        <div key={template._id} className="mb-2">
-                                            <div
-                                                onClick={() => navigate(`/portfolio/${template._id}`)}
-                                                className="px-4 py-2 rounded"
-                                            >
-                                                <div className="w-full h-[30vh] border border-gray-600 rounded-lg"></div>
-                                                <div className="flex justify-between items-center">
-                                                    <div>
-                                                        <h2>{template.name}</h2>
-                                                        <p className="text-gray-500">Ideal for creatives</p>
-                                                    </div>
-                                                    <div>
-                                                        <Button className="">View</Button>
-                                                    </div>
+                            <div className="grid grid-cols-3 gap-4 w-full">
+                                {templates.map((template) => (
+                                    <div key={template._id} className="mb-2">
+                                        <div
+                                            onClick={() => navigate(`/portfolio/${template._id}`)}
+                                            className="px-4 py-2 cursor-pointer rounded-xl hover:scale-105 transform
+                                             transition-transform duration-300"
+                                        >
+                                            <div className="w-full h-[25vh] border border-gray-600 rounded-lg">
+                                            {template.name === "Test Template" && (
+                                                    <img
+                                                        src="https://plus.unsplash.com/premium_photo-1736165168647-e216dcd23720?q=80&w=1325&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                                        alt="frame"
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                )}
+                                            </div>
+                                            <div className="flex justify-between items-center mt-2">
+                                                <div>
+                                                    <h2 className="font-semibold text-sm">{template.name}</h2>
+                                                    <p className="text-gray-500 text-xs">Ideal for creatives</p>
+                                                </div>
+                                                <div>
+                                                    <Button
+                                                        className="px-2 py-1 text-sm border border-gray-600 rounded-xl lg:flex bg-white 
+                                                     shadow-lg text-black-500 hover:scale-105 transform
+                                             transition-transform duration-300"
+                                                    >
+                                                        View
+                                                    </Button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))
+                                ))}
+                            </div>
                         ) : (
                             <p className="text-gray-400">No templates available. Add a new request!</p>
                         )}
-
-
                     </>
-
                 )}
             </div>
 
