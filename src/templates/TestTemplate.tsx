@@ -1,10 +1,10 @@
-import { Template } from "../dataTypes";
-// import templateFrame from "../assets/templateFrame.png"
-// import Elipse from "../assets/Ellipse2.png"
+import { Portfolio, Template } from "../dataTypes";
+import templateFrame from "../assets/templateFrame.png"
+import Elipse from "../assets/Ellipse2.png"
 
 interface TestTemplateProps {
     templateId: string;
-    templateData: Template; // Replace `any` with a more specific type if possible
+    templateData: Portfolio // Replace `any` with a more specific type if possible
 }
 
 const TestTemplate: React.FC<TestTemplateProps> = ({ templateId, templateData }) => {
@@ -21,6 +21,9 @@ const TestTemplate: React.FC<TestTemplateProps> = ({ templateId, templateData })
         (section) => section.type === "Work"
     );
 
+
+    
+
     return (
         <div>
             {templateData ? (
@@ -29,23 +32,23 @@ const TestTemplate: React.FC<TestTemplateProps> = ({ templateId, templateData })
 
                     {templateData.sections.length > 0 && (
                         <>
-                            <div className="relative">
+                            <div className="relative ">
                                 <div className="w-full h-[250px]">
-                                    <img src="https://plus.unsplash.com/premium_photo-1736165168647-e216dcd23720?q=80&w=1325&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="frame" className="w-full h-full object-cover" />
+                                    <img src={templateData?.sections[0]?.customContent?.coverImg || templateFrame } alt="frame" className="w-full h-full object-cover" />
                                 </div>
                                 <div className="absolute -bottom-[90px] left-5">
                                     <div className="w-[100px] h-[100px] rounded-full">
-                                        <img src="https://images.unsplash.com/photo-1726137569966-a7354383e2ae?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className="rounded-full w-full h-full object-cover" alt="Ellipse" />
+                                        <img src={templateData?.sections[0]?.customContent?.profileImage || Elipse} className="rounded-full w-full h-full object-cover" alt="Ellipse" />
                                     </div>
-                                    <p className="font-semibold">{templateData?.sections[0]?.designData?.name}</p>
-                                    <p className="text-gray-500">{templateData?.sections[0]?.designData?.email}</p>
+                                    <p className="font-semibold">{templateData?.sections[0]?.customContent?.name}</p>
+                                    <p className="text-gray-500">{templateData?.sections[0]?.customContent?.email}</p>
                                 </div>
                                 <div className="flex items-center gap-2 absolute right-10 -bottom-[80px]">
-                                    <p className="rounded-2xl border border-gray-600 px-4 py-2 text-xs">{templateData?.sections[0]?.designData?.location}</p>
-                                    {templateData.sections[0].designData.socialLinks && (
+                                    <p className="rounded-2xl border border-gray-600 px-4 py-2 text-xs">{templateData?.sections[0]?.customContent?.location}</p>
+                                    {templateData.sections[0].customContent.socialLinks && (
                                         <>
                                             <a
-                                                href={templateData.sections[0].designData.socialLinks[0].x}
+                                                href={templateData.sections[0].customContent.socialLinks[0].x}
                                                 className="rounded-full border border-gray-600 px-3 py-2 text-xs"
                                             >
                                                 <svg width="18" height="29" viewBox="0 0 28 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -53,7 +56,7 @@ const TestTemplate: React.FC<TestTemplateProps> = ({ templateId, templateData })
                                                 </svg>
                                             </a>
                                             <a
-                                                href={templateData.sections[0].designData.socialLinks[0].linkedIn}
+                                                href={templateData.sections[0].customContent.socialLinks[0].linkedIn}
                                                 className="rounded-full border border-gray-600 px-4 py-2 text-xs"
                                             >
                                                 <svg width="15" height="29" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,17 +75,17 @@ const TestTemplate: React.FC<TestTemplateProps> = ({ templateId, templateData })
                                     </div>
                                     <div>
                                         <p className="text-sm text-black-980">
-                                            {templateData.sections[0].designData?.about}
+                                            {templateData.sections[0].customContent?.about}
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                            {skillsSection?.designData?.skills && (
+                            {skillsSection?.customContent?.skills && (
                                 <div className="px-4 mt-2 py-8">
                                     <div className="flex flex-col items-center justify-center">
                                         <h2 className="text-lg text-gray-980">Skills</h2>
                                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-4">
-                                            {skillsSection.designData.skills.map((skill, index) => (
+                                            {skillsSection.customContent.skills.map((skill, index) => (
                                                 <div
                                                     key={index}
                                                     className="rounded-xl border border-gray-600 px-4 py-2 text-center"
@@ -94,12 +97,12 @@ const TestTemplate: React.FC<TestTemplateProps> = ({ templateId, templateData })
                                     </div>
                                 </div>
                             )}
-                            {projectsSection?.designData?.projects && (
+                            {projectsSection?.customContent?.projects && (
                                 <div className="px-4 mt-[10px] py-8 rounded-xl border border-gray-900">
                                     <div className="flex justify-between">
                                         <h2 className="text-lg text-gray-980">Projects</h2>
                                         <div className="mt-4 w-[60%] px-4">
-                                            {projectsSection.designData.projects.map((project, index) => (
+                                            {projectsSection.customContent.projects.map((project, index) => (
                                                 <>
                                                     <div key={index} className="mb-4 flex items-center justify-between">
                                                         <div>
@@ -124,11 +127,11 @@ const TestTemplate: React.FC<TestTemplateProps> = ({ templateId, templateData })
                             {/* Certificates and Work History Section */}
                             <div className="flex justify-between mt-10">
                                 {/* Certificates Section */}
-                                {certificatesSection?.designData?.certificates && (
+                                {certificatesSection?.customContent?.certificates && (
                                     <div className="certificates w-[42%] px-4 py-8 rounded-xl border border-gray-900">
                                         <div className="flex flex-col gap-4">
                                             <h2 className="text-lg text-gray-980">Certificates</h2>
-                                            {certificatesSection.designData.certificates.map((certificate, index) => (
+                                            {certificatesSection.customContent.certificates.map((certificate, index) => (
                                                 <div key={index} className="flex items-center gap-4">
                                                     <div className="border border-gray-600 rounded-full px-2">
                                                         <svg width="14" height="32" viewBox="0 0 34 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -149,11 +152,11 @@ const TestTemplate: React.FC<TestTemplateProps> = ({ templateId, templateData })
                                 )}
 
                                 {/* Work History Section */}
-                                {workSection?.designData?.work && (
+                                {workSection?.customContent?.work && (
                                     <div className="workHistory w-[55%] px-4 py-8 rounded-xl border border-gray-900">
                                         <div className="flex flex-col gap-4">
                                             <h2 className="text-lg text-gray-980">Work History</h2>
-                                            {workSection.designData.work.map((work, index) => (
+                                            {workSection.customContent.work.map((work, index) => (
                                                 <div key={index} className="flex justify-between items-center">
                                                     <div>
                                                         <h2 className="font-semibold">{work.role}</h2>
