@@ -77,7 +77,7 @@ function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/create-portfolio" element={<PortfolioBuilder />} />
-          <Route path="/portfolio/:templateId" element={<PortfolioBuilder />} />
+          <Route path="/portfolio/:portfolioId" element={<PortfolioBuilder />} />
           
 
           <Route element={<ProtectedAdminRoute />}>

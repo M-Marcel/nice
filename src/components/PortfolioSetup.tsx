@@ -6,9 +6,16 @@ import Projects from "./Projects";
 import Work from "./Work";
 import Education from "./Education";
 import Certification from "./Certification";
+import { Portfolio } from "../dataTypes";
 
+type PortfolioProps = {
+    activeModal: string | null; // Add activeModal
+    setActiveModal: (modal: string | null) => void; // Use a more specific type for setActiveModal
+    portfolioData?: Portfolio; // Make portfolioData optional
+    updatePortfolioData: (updatedData: Partial<Portfolio>) => void;
+};
 
-const PortfolioSetup = ({ setActiveModal }:any) => {
+const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData }: PortfolioProps) => {
     const [activeTab, setActiveTab] = useState<string>("Info");
     const tabs = [
         { name: "Info" },
@@ -18,25 +25,29 @@ const PortfolioSetup = ({ setActiveModal }:any) => {
         { name: "Education" },
         { name: "Certification" },
     ];
+
     const renderContent = () => {
+        if (!portfolioData) {
+            return <p className="text-gray-400">Loading template data...</p>;
+        }
+
         switch (activeTab) {
             case "Info":
-                return <Info />;
+                return <Info portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} />;
             case "Skills":
-                return <Skills />;
+                return <Skills portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} />;
             case "Projects":
                 return <Projects setActiveModal={setActiveModal} />;
             case "Work":
                 return <Work />;
             case "Education":
-                 return <Education />;
+                return <Education />;
             case "Certification":
-                 return <Certification />;
+                return <Certification />;
             default:
                 return null;
         }
     };
-
 
     return (
         <div className="px-2 py-2">
@@ -84,7 +95,7 @@ const PortfolioSetup = ({ setActiveModal }:any) => {
                 <div className="w-full">{renderContent()}</div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default PortfolioSetup
+export default PortfolioSetup;

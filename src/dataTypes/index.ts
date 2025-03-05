@@ -149,11 +149,11 @@ export type DesignData = {
     }>;
 }
 
-export type Section = {
+export type TemplateSection = {
     _id: string
     type: string
-    designId: string
-    editableFields: string
+    templateId:string
+    sectionId:string
     designData: DesignData;
     createdAt: string;
     lastUpdated: string;
@@ -164,7 +164,7 @@ export type Template = {
     _id: string
     name: string
     type: string
-    sections: Section[]
+    sections: TemplateSection[]
     createdBy: string;
     createdAt: string;
     lastUpdated: string;
@@ -175,5 +175,23 @@ export type Portfolio = {
     _id: string
     userId: string
     referenceTemplate: string
-    sections: any[]
+    sections: PortfolioSection[]
+    createdAt: string
+    lastUpdated: string
+    __v: number
+}
+
+export type PortfolioSection = {
+    _id: string
+    type: string
+    portfolioId:string
+    sectionId:string
+    customContent: DesignData;
+    createdAt: string;
+    lastUpdated: string;
+    __v: number;
+}
+
+export type PortfolioFormData = {
+    referenceTemplate: string
 }

@@ -5,6 +5,8 @@ import { getTemplates } from "../slices/template/templateSlice"
 import LoaderIcon from "../assets/loader.svg"
 import { toast } from "react-toastify"
 import Button from "./Button"
+import { createPortfolio } from "../slices/portfolio/portfolioSlice"
+import { Portfolio } from "../dataTypes"
 
 const TemplateSelector = ({setActiveModal}:any) => {
     const dispatch = useAppDispatch()
@@ -23,6 +25,26 @@ const TemplateSelector = ({setActiveModal}:any) => {
             toast.success("templates retrieved success");
         }
     }, [isSuccess, dispatch]);
+
+
+    const handleCreatePortfolio = async(id:string) => {
+        try{
+            const portfolioData = {
+                referenceTemplate: id
+            }
+            const response = await dispatch(createPortfolio(portfolioData))
+
+            if(response){
+                const payload = response?.payload as any
+                console.log("port resp", response)
+                navigate(`/portfolio/${payload.portfolio?.data._id}`)
+            }
+
+           
+        }catch(error:any){
+           toast.error('failed')     
+        }
+    }
 
 
     return (
@@ -60,7 +82,7 @@ const TemplateSelector = ({setActiveModal}:any) => {
                                 {templates.map((template) => (
                                     <div key={template._id} className="mb-2">
                                         <div
-                                            onClick={() => navigate(`/portfolio/${template._id}`)}
+                                            onClick={() => handleCreatePortfolio(template._id)}
                                             className="px-4 py-2 cursor-pointer rounded-xl hover:scale-105 transform
                                              transition-transform duration-300"
                                         >
