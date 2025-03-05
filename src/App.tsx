@@ -35,6 +35,7 @@ import { DashboardProvider } from "./context/DashboardContext";
 import FeatureDetails from "./pages/featureDetail";
 import PortfolioBuilder from "./pages/portfolio";
 import New404Page from "./components/New404Page";
+import ShowCase from "./components/ShowCase";
 
 
 
@@ -88,6 +89,7 @@ function App() {
             <Route path="/admin/payment" element={<AdminPayment />} />
             <Route path="/admin/profile" element={<AdminProfile />} />
             <Route path="/admin/payment/edit-plans" element={<EditPlan />} />
+            <Route path="/showcase" element={<ShowCase />} />
 
           </Route>
 
