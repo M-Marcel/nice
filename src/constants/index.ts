@@ -33,11 +33,16 @@ export const navigation = [
   },
   {
     id: "2",
+    title: "Pricing",
+    url: "/pricing",
+  },
+  {
+    id: "3",
     title: "Community",
     url: "/community",
   },
   {
-    id: "3",
+    id: "4",
     title: "Request a feature",
     url: "/request-a-feature",
   },

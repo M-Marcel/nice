@@ -89,7 +89,7 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
     return (
 
         <div>
-            <div className={`fixed header lg:h-[auto] w-full top-5 left-0 z-50 transition-all duration-1000 ${scrolled ? 'bg-white shadow-lg top-[0px]' : 'bg-transparent'}`}>
+            <div className={`fixed  header lg:h-[auto] w-full top-5 left-0 z-50 transition-all duration-1000 ${scrolled ? 'bg-white shadow-lg top-[0px]' : 'bg-transparent'}`}>
                 <div className="flex items-center justify-between px-5 lg:px-7.5
             xl:px-10 py-4 max-lg:py-6">
                     <a href="/">
@@ -107,10 +107,10 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
                                     Login
                                 </Button>
                                 <Button
-                                    className="hidden px-3 py-2  font-semibold cursor-pointer h-[8vh] rounded-md lg:flex items-center custom-bg text-white"
+                                    className="hidden px-4 py-2 text-xs font-semibold cursor-pointer h-[6vh] rounded-xl lg:flex items-center custom-bg text-white"
                                     onClick={openSignUpModal}
                                 >
-                                    Join Beta
+                                    Get Started
                                 </Button>
                             </>
                         ) : (

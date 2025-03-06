@@ -11,6 +11,10 @@
 .custom-l-bg2{
   background: linear-gradient(75deg, #f0f1f1e5, #4aa2bd);
 }
+.custom-l-bg3{
+  background-image: url('./assets/plansframe.jpg');
+  background-size: cover;
+}
 .Hero-section{
     background-image: url('./assets/frame.jpg');
     background-size: cover;
