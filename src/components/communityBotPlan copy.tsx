@@ -3,7 +3,7 @@ import BotSlide from "./botSlide"
 
 const CommunityBotPlan = () => {
     return (
-        <div className="relative top-[470px]">
+        <div className="relative top-[400px]">
             <div className="flex flex-col">
                 <div className="flex justify-center items-center flex-col text-center pb-6">
                     <h2 className="text-3xl lg:text-4xl mb-3 text-black-300 max-w-[20%]">Community bots and mini-apps  </h2>
