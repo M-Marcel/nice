@@ -39,6 +39,7 @@ import New404Page from "./components/New404Page";
 
 
 
+
 function App() {
 
   const dispatch = useAppDispatch();
@@ -75,8 +76,8 @@ function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/create-portfolio" element={<PortfolioBuilder />} />
-         
-
+          <Route path="/portfolio/:portfolioId" element={<PortfolioBuilder />} />
+          
 
           <Route element={<ProtectedAdminRoute />}>
             <Route path="/admin" element={<AdminDashboard />} />

@@ -55,7 +55,6 @@ const getAllFeatureRequest = async (page: number = 1, pageSize: number = 5): Pro
     });
 
     if (response?.data) {
-        console.log("authService features", response.data.data)
         return {
             features: response.data.data,
             pagination: response.data.pagination,

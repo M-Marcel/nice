@@ -22,12 +22,15 @@ import TawkTo from "../components/TawkTo"
 import { useDashboard } from "../context/DashboardContext"
 import FileIcon from "../assets/svg/fileIcon"
 import CreateProjectModal from "../components/CreateProjectModal"
+import TemplateSelector from "../components/TemplateSelector"
+
 
 
 const Dashboard = () => {
     const dispatch = useAppDispatch();
 
     const user = useAppSelector((state) => state.auth.user);
+   
     const { displayedFeatures = [], isLoading, isError, message, currentPage, totalPages, limit } = useAppSelector(
         (state) => state.feature
     );
@@ -65,6 +68,8 @@ const Dashboard = () => {
             dispatch(setPage(currentPage - 1));
         }
     };
+    
+
 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
@@ -104,7 +109,7 @@ const Dashboard = () => {
                     </div>
                 </div>
                 <div className="flex flex-col lg:flex-row gap-8 mt-14 lg:mt-8">
-                    <div className="w-[100%] lg:w-[65%] lg:px-4 relative z-10 lg:py-4 h-auto lg:h-[100vh] overflow-y-scroll
+                    <div className="w-[100%] lg:w-[65%] lg:px-4 relative z-10 lg:py-4 h-auto lg:h-[100vh] lg:overflow-y-scroll
                     lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
                         <div className="mt-10 mb-4 hidden md:block relative overflow-hidden">
                             <div className="mobile-dashboard-hero flex h-[auto]">
@@ -170,7 +175,7 @@ const Dashboard = () => {
                         <div className="mt-10">
                             <h2 className="text-black-500 text-lg font-semibold">My projects</h2>
                         </div>
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="">
                                 <div className="mt-8 py-10 purpose-bg flex flex-col">
                                     <img src={BotDesign} alt="dashboardHero" width={400} />
@@ -209,7 +214,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="w-[100%] lg:w-[35%] px-2 py-4 h-[100vh] overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
+                    <div className="w-[100%] lg:w-[35%] px-2 py-4 h-[100vh] lg:overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
                         <div className="flex justify-between gap-14 mt-10">
                             <div>
                                 <h2 className="text-sm mb- font-semibold">Feature requests</h2>
@@ -278,8 +283,17 @@ const Dashboard = () => {
             <Modal isVisible={activeModal === "telegramModal"} onClose={closeModal}>
                 <TelegramModal />
             </Modal>
-            <Modal isVisible={activeModal === "createProjectModal"} onClose={closeModal}>
-                <CreateProjectModal />
+            <Modal isVisible={activeModal === "createProjectModal"} width="500px" onClose={closeModal}>
+                <CreateProjectModal
+                     activeModal={activeModal}
+                     setActiveModal={setActiveModal}
+                />
+            </Modal>
+            <Modal isVisible={activeModal === "selectTemplateModal"} width="650px" onClose={closeModal}>
+                <TemplateSelector
+                 activeModal={activeModal}
+                setActiveModal={setActiveModal}
+                 />
             </Modal>
         </div>
     )
