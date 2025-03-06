@@ -104,7 +104,7 @@ const PortfolioBuilder = () => {
                 </div>
             </div>
             <div className="flex justify-between mx-4">
-                <div className="myTemplate px-4 py-4 w-[75%] overflow-y-scroll left-2 border lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 rounded-xl border-gray-600 mt-20">
+                <div className="myTemplate px-4 py-4 w-[75%] h-[100vh] overflow-y-scroll left-2 border lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 rounded-xl border-gray-600 mt-20">
                     {/* Loading, Error, and Template Rendering Logic */}
                     {isLoading ? (
                         <div className="flex items-center justify-center gap-6 h-[60vh]">
@@ -147,7 +147,7 @@ const PortfolioBuilder = () => {
                         <PortfolioSetup
                             activeModal={activeModal}
                             setActiveModal={setActiveModal}
-                            portfolioData={portfolioData} // Use local state
+                            portfolioData={portfolioData} 
                             updatePortfolioData={updatePortfolioData}
                         />
                     ) : (

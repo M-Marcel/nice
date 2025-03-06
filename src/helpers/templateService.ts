@@ -98,7 +98,7 @@ const getTemplateById = async (id: string): Promise<{
             throw new Error("No data received from the server.");
         }
     } catch (error: any) {
-        if(axios.isAxiosError(error)) {
+        if (axios.isAxiosError(error)) {
             handleApiError(error);
         } else {
             throw new Error("Failed fetching template by ID: " + error.message);
@@ -106,6 +106,8 @@ const getTemplateById = async (id: string): Promise<{
         throw new Error("Failed fetching template by ID");
     }
 };
+
+
 
 
 const templateService = {

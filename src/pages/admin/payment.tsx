@@ -1,8 +1,6 @@
 import LeftSidebar from "../../components/LeftSidebar";
 import cashImg from "../../assets/cash-01.png";
 import calenderImg from "../../assets/calendar-03.png";
-import catalogueImg from "../../assets/catalogue.png";
-import ellipesImg from "../../assets/Ellipse 1.png";
 import AdminHeader from "../../components/admin/Header";
 import { useAppSelector } from "../../hooks";
 import { useDashboard } from "../../context/DashboardContext";

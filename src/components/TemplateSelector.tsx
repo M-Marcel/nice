@@ -6,7 +6,7 @@ import LoaderIcon from "../assets/loader.svg"
 import { toast } from "react-toastify"
 import Button from "./Button"
 import { createPortfolio } from "../slices/portfolio/portfolioSlice"
-import { Portfolio } from "../dataTypes"
+
 
 const TemplateSelector = ({setActiveModal}:any) => {
     const dispatch = useAppDispatch()

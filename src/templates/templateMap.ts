@@ -1,5 +1,5 @@
 // src/templates/templateMap.ts
-import { Portfolio, Template } from "../dataTypes";
+import { Portfolio } from "../dataTypes";
 import Minimalist from "./Minmalist";
 import Professional from "./Professional";
 import TestTemplate from "./TestTemplate";

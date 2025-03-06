@@ -1,10 +1,6 @@
 import Logo from "../assets/lanepact-logo.png";
 import LogoText from "../assets/lanepact-logo-text.png";
-import Telegram from "../assets/telegram.png";
-import Twitter from "../assets/twitter.png";
-import Instagram from "../assets/instagram.png";
-import Linkedin from "../assets/linkedin.png";
-import Facebook from "../assets/facebook.png";
+
 
 const Footer = () => {
   return (
