@@ -52,27 +52,27 @@ const Home = () => {
             openLoginModal={() => setActiveModal("login")}
           />
           <Heading className="">
-            <div className="relative top-[190px] lg:top-[170px]">
+            <div className="relative top-[160px] lg:top-[170px]">
               <div className="flex flex-col items-center justify-center ">
                 {/* <Social /> */}
                 <div className="flex flex-col items-center max-w-lg justify-center">
-                  <h2 className="font-title text-4xl max-w-[95%] lg:max-w-lg lg:text-5xl mb-3 text-black-300 text-center  leading-none">
+                  <h2 className="font-title text-3xl max-w-[89%] lg:max-w-lg lg:text-5xl mb-3 text-black-300 text-center  leading-none">
                     Build, Automate & Scale. No Code Required
                   </h2>
-                  <p className="text-center px-2 w-auto lg:w-[84%] text-gray-970 mb-3">
+                  <p className="text-center text-sm px-2 w-auto lg:w-[84%] text-gray-970 mb-5">
                     Showcase your work with a sleek portfolio or automate
                     workflows with powerful bots. All in one platform.
                   </p>
                   <div>
                     <Button
-                      className="custom-bg text-white font-bold text-sm px-5 py-4 rounded-xl"
+                      className="custom-bg text-white font-bold text-xs px-4 py-3 lg:text-sm lg:px-5 lg:py-4 rounded-xl"
                       onClick={() => setActiveModal("signup")}
                     >
                       Get Started For Free
                     </Button>
                   </div>
                 </div>
-                <div className="mt-20 lg:mt-8 px-4 lg:px-[0]">
+                <div className="mt-16 lg:mt-8 px-4 lg:px-[0]">
                   <img
                     src={BotDesign2}
                     alt="botDesign2"
@@ -85,7 +85,7 @@ const Home = () => {
           </Heading>
         </Hero>
         {/* mapping logic goes here */}
-        <div className="relative top-[280px] lg:top-[340px] flex flex-col items-center justify-center">
+        <div className="relative top-[240px] lg:top-[340px] flex flex-col items-center justify-center">
           <div className="flex flex-col justify-center items-center">
             <ul className="flex flex-wrap text-xs px-2 font-medium text-center text-gray-500">
               <div className="flex gap-2 lg:gap-4 mb-4">
@@ -93,9 +93,9 @@ const Home = () => {
                   <li
                     key={tab.name}
                     onClick={() => setActiveTab(tab.name)}
-                    className={`flex items-center text-center gap-3 text-xs cursor-pointer text-black-500 lg:text-left ${activeTab === tab.name
-                      ? "text-white bg-black-600 px-4 py-2  rounded-full font-medium"
-                      : "text-black-500 border border-gray-100 rounded-full px-4 py-2  hover:text-black"
+                    className={`flex items-center text-center gap-3 py-2 px-2 text-[10px] lg:text-xs cursor-pointer text-black-500 lg:text-left ${activeTab === tab.name
+                      ? "text-white text-[10px] lg:text-xs bg-black-600 px-2 py-2 rounded-full font-medium"
+                      : "text-black-500 text-[10px] lg:text-xs border border-gray-100 rounded-full px-2 py-2  hover:text-black"
                       }`}
                   >
                     {tab.name}
@@ -109,7 +109,7 @@ const Home = () => {
         {/* mapping logic ends here */}
         <Plans />
         <CommunityBotPlan />
-        <div className="relative top-[290px] lg:top-[500px]">
+        <div className="relative top-[310px] lg:top-[500px]">
           <Join />
           <Footer />
         </div>
