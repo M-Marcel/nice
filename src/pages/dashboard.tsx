@@ -30,7 +30,7 @@ const Dashboard = () => {
     const dispatch = useAppDispatch();
 
     const user = useAppSelector((state) => state.auth.user);
-   
+
     const { displayedFeatures = [], isLoading, isError, message, currentPage, totalPages, limit } = useAppSelector(
         (state) => state.feature
     );
@@ -68,7 +68,7 @@ const Dashboard = () => {
             dispatch(setPage(currentPage - 1));
         }
     };
-    
+
 
 
     const handleNextPage = () => {
@@ -89,20 +89,25 @@ const Dashboard = () => {
 
 
     return (
-        <div className="dashboard flex flex-col lg:flex-row px-2">
+        <div className="dashboard flex flex-col h-[100vh] overflow-y-scroll lg:scrollbar-none lg:flex-row px-2">
             <LeftSidebar dashboardType={dashboardType} />
-            <div className="px-4 w-[100%] lg:w-[80%] lg:relative md:z-30  lg:z-40 left-[18%]">
-                <div className=" items-center justify-between hidden md:flex md:w-[92%] lg:w-[80%] bg-white py-4 px-2 fixed z-50">
+            <div className="px-4 w-[100%] lg:w-[82%] lg:relative md:z-30  lg:z-40 left-[18%]">
+                <div className=" items-center justify-between hidden md:flex md:w-[92%] lg:w-[82%] bg-white py-4 px-2 fixed z-50">
                     <Search />
                     <div className="flex gap-2">
-                        <a href="https://t.me/+iw2jh3VaeSg4MzBk" className="hidden lg:flex items-center gap-2 bg-gray-900 text-sm text-black-700 px-4 py-3 
-                     rounded-xl">
+                        <a 
+                        href="https://t.me/+iw2jh3VaeSg4MzBk" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="hidden lg:flex items-center gap-2 bg-gray-900 text-sm text-black-700 px-4 py-3 
+                         rounded-xl"
+                     >
                             <img src={TelegramIcon} alt="telIcon" width={18} height={18} />
                             Join Telegram
                         </a>
-                        <Button 
-                        onClick={() => setActiveModal("createProjectModal")}
-                        className="hidden lg:flex items-center gap-2 custom-bg text-sm text-white px-4 py-3 me-10
+                        <Button
+                            onClick={() => setActiveModal("createProjectModal")}
+                            className="hidden lg:flex items-center gap-2 custom-bg text-sm text-white px-4 py-3 me-10
                         rounded-xl">
                             Create new
                         </Button>
@@ -110,7 +115,7 @@ const Dashboard = () => {
                 </div>
                 <div className="flex flex-col lg:flex-row gap-8 mt-14 lg:mt-8">
                     <div className="w-[100%] lg:w-[65%] lg:px-4 relative z-10 lg:py-4 h-auto lg:h-[100vh] lg:overflow-y-scroll
-                    lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
+                    lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
                         <div className="mt-10 mb-4 hidden md:block relative overflow-hidden">
                             <div className="mobile-dashboard-hero flex h-[auto]">
                                 <img src={DashboardHero} alt="dhero" className="w-[100%]" />
@@ -214,7 +219,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="w-[100%] lg:w-[35%] px-2 py-4 h-[100vh] lg:overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
+                    <div className="w-[100%] lg:w-[35%] px-4 py-4 h-[100vh] lg:overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
                         <div className="flex justify-between gap-14 mt-10">
                             <div>
                                 <h2 className="text-sm mb- font-semibold">Feature requests</h2>
@@ -285,15 +290,15 @@ const Dashboard = () => {
             </Modal>
             <Modal isVisible={activeModal === "createProjectModal"} width="500px" onClose={closeModal}>
                 <CreateProjectModal
-                     activeModal={activeModal}
-                     setActiveModal={setActiveModal}
+                    activeModal={activeModal}
+                    setActiveModal={setActiveModal}
                 />
             </Modal>
             <Modal isVisible={activeModal === "selectTemplateModal"} width="650px" onClose={closeModal}>
                 <TemplateSelector
-                 activeModal={activeModal}
-                setActiveModal={setActiveModal}
-                 />
+                    activeModal={activeModal}
+                    setActiveModal={setActiveModal}
+                />
             </Modal>
         </div>
     )

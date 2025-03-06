@@ -1,4 +1,4 @@
-import { Portfolio, Template } from "../dataTypes";
+import { Portfolio } from "../dataTypes";
 import templateFrame from "../assets/templateFrame.png"
 import Elipse from "../assets/Ellipse2.png"
 
@@ -21,9 +21,6 @@ const Minimalist: React.FC<TestTemplateProps> = ({ templateId, templateData }) =
         (section) => section.type === "Work"
     );
 
-
-    
-
     return (
         <div>
             {templateData ? (
@@ -34,7 +31,7 @@ const Minimalist: React.FC<TestTemplateProps> = ({ templateId, templateData }) =
                         <>
                             <div className="relative ">
                                 <div className="w-full h-[250px]">
-                                    <img src={templateData?.sections[0]?.customContent?.coverImg || templateFrame } alt="frame" className="w-full h-full object-cover" />
+                                    <img src={templateData?.sections[0]?.customContent?.coverImg || templateFrame} alt="frame" className="w-full h-full object-cover" />
                                 </div>
                                 <div className="absolute -bottom-[90px] left-5">
                                     <div className="w-[100px] h-[100px] rounded-full">

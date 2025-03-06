@@ -1,4 +1,4 @@
-import { Portfolio, Template } from "../dataTypes";
+import { Portfolio } from "../dataTypes";
 import templateFrame from "../assets/templateFrame.png"
 import Elipse from "../assets/Ellipse2.png"
 

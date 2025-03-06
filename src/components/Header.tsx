@@ -89,7 +89,7 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
     return (
 
         <div>
-            <div className={`fixed  header lg:h-[auto] w-full top-5 left-0 z-50 transition-all duration-1000 ${scrolled ? 'bg-white shadow-lg top-[0px]' : 'bg-transparent'}`}>
+            <div className={`fixed header lg:h-[auto] w-full top-5 left-0 z-50 transition-all duration-1000 ${scrolled ? 'bg-white shadow-lg top-[0px]' : 'bg-transparent'}`}>
                 <div className="flex items-center justify-between px-5 lg:px-7.5
             xl:px-10 py-4 max-lg:py-6">
                     <a href="/">

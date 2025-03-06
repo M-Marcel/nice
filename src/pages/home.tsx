@@ -1,5 +1,4 @@
 import { useState } from "react";
-import CommunityBot from "../components/communityBot";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Heading from "../components/Heading";
@@ -9,12 +8,10 @@ import Modals from "../components/Modals";
 import { useModal } from "../context/ModalContext";
 import Button from "../components/Button";
 import BotDesign2 from "../assets/botdesigns.png";
-import Social from "../components/social";
 import TawkTo from "../components/TawkTo";
 import ShowCase from "../components/ShowCase";
 import Plans from "../components/Plans";
 import CommunityBotPlan from "../components/communityBotPlan copy";
-
 import WorkFlows from "../components/Workflows";
 import Remittance from "../components/Remittance";
 import NoCode from "../components/NoCode";
@@ -59,10 +56,10 @@ const Home = () => {
               <div className="flex flex-col items-center justify-center ">
                 {/* <Social /> */}
                 <div className="flex flex-col items-center max-w-lg justify-center">
-                  <h2 className="font-title text-5xl mb-3 text-black-300 text-center  leading-none">
+                  <h2 className="font-title text-4xl lg:text-5xl mb-3 text-black-300 text-center  leading-none">
                     Build, Automate & Scale. No Code Required
                   </h2>
-                  <p className="text-center w-auto lg:w-[84%] text-black-400 mb-3">
+                  <p className="text-center px-2 w-auto lg:w-[84%] text-gray-970 mb-3">
                     Showcase your work with a sleek portfolio or automate
                     workflows with powerful bots. All in one platform.
                   </p>
@@ -75,7 +72,7 @@ const Home = () => {
                     </Button>
                   </div>
                 </div>
-                <div className="mt-4 px-4 lg:px-[0]">
+                <div className="mt-14 lg:mt-8 px-4 lg:px-[0]">
                   <img
                     src={BotDesign2}
                     alt="botDesign2"
@@ -88,7 +85,7 @@ const Home = () => {
           </Heading>
         </Hero>
         {/* mapping logic goes here */}
-        <div className="relative top-[240px] flex flex-col items-center justify-center">
+        <div className="relative top-[280px] lg:top-[340px] flex flex-col items-center justify-center">
           <div className="flex flex-col justify-center items-center">
             <ul className="flex flex-wrap text-xs font-medium text-center text-gray-500">
               <div className="flex gap-4 mb-4">
@@ -96,7 +93,7 @@ const Home = () => {
                   <li
                     key={tab.name}
                     onClick={() => setActiveTab(tab.name)}
-                    className={`flex items-center gap-3 text-xs cursor-pointer text-black-500 text-left ${activeTab === tab.name
+                    className={`flex items-center text-center gap-3 text-xs cursor-pointer text-black-500 lg:text-left ${activeTab === tab.name
                       ? "text-white bg-black-600 px-4 py-2  rounded-full font-medium"
                       : "text-black-500 border border-gray-100 rounded-full px-4 py-2  hover:text-black"
                       }`}
@@ -107,19 +104,18 @@ const Home = () => {
               </div>
             </ul>
             <div className="w-full">{renderContent()}</div>
-          </div>
-          
+          </div>   
         </div>
         {/* mapping logic ends here */}
         <Plans />
         <CommunityBotPlan />
-        <div className="relative top-[600px]">
+        <div className="relative top-[280px] lg:top-[500px]">
           <Join />
           <Footer />
         </div>
         {/* Tawk.to Script */}
         <TawkTo />
-        Modals
+        {/* Modals */}
         <Modals email={email} setEmail={setEmail} />
       </div>
     </>
