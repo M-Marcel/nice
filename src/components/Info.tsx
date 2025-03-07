@@ -33,7 +33,7 @@ const Info = ({ portfolioData, updatePortfolioData }: templateDataProps) => {
                 email: designData.email || prevState.email,
                 about: designData.about || prevState.about,
                 location: designData.location || prevState.location,
-              
+
             }));
         }
     }, [portfolioData]);
@@ -47,15 +47,15 @@ const Info = ({ portfolioData, updatePortfolioData }: templateDataProps) => {
     };
 
     useEffect(() => {
-          
+
         console.log("Updated profile image:", profileImageFile);
     }, [profileImageFile]);
-    
+
     useEffect(() => {
         console.log("Updated cover image:", coverImageFile);
     }, [coverImageFile]);
 
-    
+
     const handleProfileImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
@@ -175,7 +175,6 @@ const Info = ({ portfolioData, updatePortfolioData }: templateDataProps) => {
                         <label className="text-xs mb-1 text-gray-400">Location</label>
                         <input type="text" name="location" className="border border-gray-900 rounded-lg outline-0 py-1 px-1" value={formData.location} onChange={onChange} />
                     </div>
-                   
                 </form>
                 <Button onClick={handleSave} className="lg:flex text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl">
                     Save Changes

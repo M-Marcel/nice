@@ -37,13 +37,13 @@ const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData }: 
             case "Skills":
                 return <Skills portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} />;
             case "Projects":
-                return <Projects setActiveModal={setActiveModal} />;
+                return <Projects portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} setActiveModal={setActiveModal} />;
             case "Work":
-                return <Work />;
+                return <Work portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} setActiveModal={setActiveModal} />;
             case "Education":
-                return <Education />;
+                return <Education portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} setActiveModal={setActiveModal} />;
             case "Certification":
-                return <Certification />;
+                return <Certification portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} setActiveModal={setActiveModal} />;
             default:
                 return null;
         }
