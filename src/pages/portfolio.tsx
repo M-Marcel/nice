@@ -11,6 +11,9 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import templateMap from "../templates/templateMap";
 import { Portfolio } from "../dataTypes";
 import { getPortfolioById } from "../slices/portfolio/portfolioSlice";
+import CreateWorkModal from "../components/createWorkModal";
+import CreateEducationModal from "../components/createEducationModal";
+import CreateCertificationModal from "../components/createCertificationModal";
 
 const PortfolioBuilder = () => {
     const { portfolioId } = useParams();
@@ -147,7 +150,7 @@ const PortfolioBuilder = () => {
                         <PortfolioSetup
                             activeModal={activeModal}
                             setActiveModal={setActiveModal}
-                            portfolioData={portfolioData} 
+                            portfolioData={portfolioData}
                             updatePortfolioData={updatePortfolioData}
                         />
                     ) : (
@@ -156,7 +159,69 @@ const PortfolioBuilder = () => {
                 </div>
             </div>
             <Modal isVisible={activeModal === "createProject"} onClose={closeModal}>
-                <CreateProject />
+                <CreateProject
+                    onAddProject={(newProject) => {
+                        // Handle adding the new project to the portfolioData
+                        const updatedProjects = [...(portfolioData?.sections.find(section => section.type === "Projects")?.customContent?.projects || []), newProject];
+                        updatePortfolioData({
+                            sections: portfolioData?.sections.map(section =>
+                                section.type === "Projects"
+                                    ? { ...section, customContent: { ...section.customContent, projects: updatedProjects } }
+                                    : section
+                            ) || [],
+                        });
+                        closeModal();
+                    }}
+                    onClose={closeModal}
+                />
+            </Modal>
+            <Modal isVisible={activeModal === "createWorkModal"} onClose={closeModal}>
+                <CreateWorkModal
+                    onAddWork={(newWork) => {
+                        const updatedWorks = [...(portfolioData?.sections.find(section => section.type === "Work")?.customContent?.work || []), newWork]; // Use `work` instead of `works`
+                        updatePortfolioData({
+                            sections: portfolioData?.sections.map(section =>
+                                section.type === "Work"
+                                    ? { ...section, customContent: { ...section.customContent, work: updatedWorks } } // Use `work` instead of `works`
+                                    : section
+                            ) || [],
+                        });
+                        closeModal();
+                    }}
+                    onClose={closeModal}
+                />
+            </Modal>
+            <Modal isVisible={activeModal === "createEducationModal"} onClose={closeModal}>
+                <CreateEducationModal
+                    onAddEducation={(newEducation) => {
+                        const updatedEducations = [...(portfolioData?.sections.find(section => section.type === "Education")?.customContent?.education || []), newEducation];
+                        updatePortfolioData({
+                            sections: portfolioData?.sections.map(section =>
+                                section.type === "Education"
+                                    ? { ...section, customContent: { ...section.customContent, education: updatedEducations } }
+                                    : section
+                            ) || [],
+                        });
+                        closeModal();
+                    }}
+                    onClose={closeModal}
+                />
+            </Modal>
+            <Modal isVisible={activeModal === "createCertificationModal"} onClose={closeModal}>
+                <CreateCertificationModal
+                    onAddCertification={(newCertificates) => {
+                        const updatedCertifications = [...(portfolioData?.sections.find(section => section.type === "Certificates")?.customContent?.certificates || []), newCertificates];
+                        updatePortfolioData({
+                            sections: portfolioData?.sections.map(section =>
+                                section.type === "Certificates"
+                                    ? { ...section, customContent: { ...section.customContent, certificates: updatedCertifications } }
+                                    : section
+                            ) || [],
+                        });
+                        closeModal();
+                    }}
+                    onClose={closeModal}
+                />
             </Modal>
         </div>
     );

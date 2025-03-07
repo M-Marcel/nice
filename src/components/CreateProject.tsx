@@ -1,8 +1,13 @@
 import { useState } from "react";
-import UploadIcon from '../assets/upload.png'
+import UploadIcon from "../assets/upload.png";
 import Button from "./Button";
 
-const CreateProject = () => {
+type CreateProjectProps = {
+    onAddProject: (project: any) => void;
+    onClose: () => void;
+};
+
+const CreateProject = ({ onAddProject, onClose }: CreateProjectProps) => {
     const [images, setImages] = useState<{ [key: string]: File | null }>({
         image1: null,
         image2: null,
@@ -10,15 +15,15 @@ const CreateProject = () => {
     });
 
     const [formData, setFormData] = useState({
-        projectName: '',
-        role: '',
-        about: '',
-        url: '',
+        projectName: "",
+        role: "",
+        about: "",
+        url: "",
         images: {
             image1: null,
             image2: null,
             image3: null,
-        }
+        },
     });
 
     const { projectName, role, about, url } = formData;
@@ -26,14 +31,15 @@ const CreateProject = () => {
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData((prevState) => ({
             ...prevState,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         }));
     };
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>, imageKey: string) => {
         if (event.target.files) {
             const file = event.target.files[0];
-            if (file && file.size <= 10 * 1024 * 1024) { // 10MB size limit
+            if (file && file.size <= 10 * 1024 * 1024) {
+                // 10MB size limit
                 setImages((prevState) => ({
                     ...prevState,
                     [imageKey]: file,
@@ -43,7 +49,7 @@ const CreateProject = () => {
                     images: {
                         ...prevState.images,
                         [imageKey]: file,
-                    }
+                    },
                 }));
             } else {
                 alert("File is too large. Please upload a file smaller than 10MB.");
@@ -61,23 +67,24 @@ const CreateProject = () => {
             images: {
                 ...prevState.images,
                 [imageKey]: null,
-            }
+            },
         }));
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log(formData); // This will include the images in the form data
-        // You can now send the formData to your backend or handle it as needed
+        onAddProject(formData); // Pass the new project data to the parent
+        onClose(); // Close the modal
     };
 
     return (
         <div className="px-4 h-[60vh] overflow-y-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
             <div className="">
+                <h2 className="text-3xl mb-4 mt-4 text-black-500">Add project</h2>
                 <form className="mb-8" onSubmit={handleSubmit}>
                     <label className="text-sm mb-4 text-black-500">Images</label>
                     <div className="grid grid-cols-3 gap-2 mt-2">
-                        {['image1', 'image2', 'image3'].map((imageKey, index) => (
+                        {["image1", "image2", "image3"].map((imageKey, index) => (
                             <div className="flex flex-col mb-2" key={imageKey}>
                                 {!images[imageKey] ? (
                                     <label
@@ -119,7 +126,9 @@ const CreateProject = () => {
                     </div>
                     <div className="flex flex-col mb-2">
                         <label className="text-xs mb-1 text-gray-400">Project Name</label>
-                        <input type="text"
+                        <input
+                            type="text"
+                            name="projectName"
                             className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
                             value={projectName}
                             onChange={onChange}
@@ -127,7 +136,9 @@ const CreateProject = () => {
                     </div>
                     <div className="flex flex-col mb-2">
                         <label className="text-xs mb-1 text-gray-400">Role</label>
-                        <input type="text"
+                        <input
+                            type="text"
+                            name="role"
                             className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
                             value={role}
                             onChange={onChange}
@@ -138,7 +149,7 @@ const CreateProject = () => {
                             About
                         </label>
                         <textarea
-                            name="message"
+                            name="about"
                             value={about}
                             onChange={onChange}
                             className="px-2 py-2 border border-gray-900 rounded-lg outline-none"
@@ -146,14 +157,18 @@ const CreateProject = () => {
                     </div>
                     <div className="flex flex-col mb-2">
                         <label className="text-xs mb-1 text-gray-400">Url</label>
-                        <input type="text"
+                        <input
+                            type="text"
+                            name="url"
                             className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
                             value={url}
                             onChange={onChange}
                         />
                     </div>
-                    <Button className="w-full lg:flex text-sm items-center text-center justify-center gap-2 custom-bg shadow-lg text-white px-6 py-3
-                    rounded-xl">
+                    <Button
+                        type="submit"
+                        className="w-full lg:flex text-sm items-center text-center justify-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl"
+                    >
                         Add Project
                     </Button>
                 </form>
