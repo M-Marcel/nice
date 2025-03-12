@@ -169,3 +169,9 @@ thead {
   width: 100%;
   table-layout: fixed;
 }
+
+.publish-section{
+  background-image: url('./assets/publishFrame.jpg');
+  background-size: cover;
+
+}

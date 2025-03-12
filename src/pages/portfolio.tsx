@@ -14,6 +14,7 @@ import { getPortfolioById } from "../slices/portfolio/portfolioSlice";
 import CreateWorkModal from "../components/createWorkModal";
 import CreateEducationModal from "../components/createEducationModal";
 import CreateCertificationModal from "../components/createCertificationModal";
+import PublishModal from "../components/publishModal";
 
 const PortfolioBuilder = () => {
     const { portfolioId } = useParams();
@@ -101,7 +102,9 @@ const PortfolioBuilder = () => {
                         <span className="text-gray-400 text-sm">Status</span>
                     </div>
                     <Button className="px-6 py-3 text-sm border border-gray-600 rounded-xl lg:flex bg-white shadow-lg text-black-500">Preview</Button>
-                    <Button className="lg:flex text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl">
+                    <Button 
+                      onClick={() => setActiveModal("publishModal")}
+                    className="lg:flex text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl">
                         Publish
                     </Button>
                 </div>
@@ -222,6 +225,10 @@ const PortfolioBuilder = () => {
                     }}
                     onClose={closeModal}
                 />
+            </Modal>
+
+            <Modal isVisible={activeModal === "publishModal"} className="publish-section bg-white" onClose={closeModal}>
+                    <PublishModal onClose={closeModal}  />
             </Modal>
         </div>
     );

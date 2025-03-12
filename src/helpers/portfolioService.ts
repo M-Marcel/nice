@@ -81,11 +81,29 @@ const getPortfolioById = async (id: string): Promise<{
     }
 };
 
+const updatePortfolio = async (id: string, portfolioData: Partial<Portfolio>): Promise<{ portfolio: Portfolio; message: string }> => {
+    try {
+        const response = await axios.patch(`${API_URL}/${id}`, portfolioData, {
+            headers: getAuthHeaders(),
+            withCredentials: true,
+        });
+
+        return {
+            portfolio: response.data.data,
+            message: response.data.message,
+        };
+    } catch (error: any) {
+        handleApiError(error);
+        throw new Error("Updating portfolio failed");
+    }
+};
+
 
 
 const portfolioService = {
    createPortfolio,
-   getPortfolioById
+   getPortfolioById,
+   updatePortfolio
 };
 
 export default portfolioService;

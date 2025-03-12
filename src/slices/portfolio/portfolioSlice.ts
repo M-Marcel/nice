@@ -46,6 +46,18 @@ export const getPortfolioById = createAsyncThunk(
     }
 );
 
+export const updatePortfolio = createAsyncThunk(
+    "portfolio/updatePortfolio",
+    async ({ id, portfolioData }: { id: string; portfolioData: Partial<Portfolio> }, { rejectWithValue }) => {
+        try {
+            const response = await portfolioService.updatePortfolio(id, portfolioData);
+            return response;
+        } catch (error: any) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 const portfolioSlice = createSlice({
     name: "portfolio",
     initialState,
@@ -87,6 +99,23 @@ const portfolioSlice = createSlice({
                 state.message = action.payload.message;
             })
             .addCase(getPortfolioById.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string;
+                state.message = action.payload as string;
+                toast.error(action.payload as string);
+            })
+            .addCase(updatePortfolio.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updatePortfolio.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.portfolio = action.payload.portfolio;
+                state.message = action.payload.message;
+                toast.success("Portfolio updated successfully");
+            })
+            .addCase(updatePortfolio.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.error = action.payload as string;
