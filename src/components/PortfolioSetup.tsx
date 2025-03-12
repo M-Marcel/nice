@@ -53,10 +53,10 @@ const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, on
         <div className="px-2 py-2">
             <div className="mt-8">
                 <form>
-                    <div className="relative">
+                    <div className="relative lg:-left-5 lg:top-[50px]">
                         <input
                             type="text"
-                            className="border border-gray-900 outline-0 pl-6 rounded-lg py-1"
+                            className="border w-full border-gray-900 outline-0 pl-6 rounded-lg py-1"
                             placeholder="Search for anything"
                         />
                         <span className="absolute left-1 top-[6px]">
@@ -75,9 +75,9 @@ const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, on
                     </div>
                 </form>
             </div>
-            <div className="relative top-[5px] z-20">
+            <div className="relative top-[10px] lg:top-[60px] z-20">
                 <div className="">
-                    <div className="flex right-8 lg:right-5  fixed z-20 lg:w-[22%] bg-white  gap-4 py-2 overflow-x-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 mb-4">
+                    <div className="flex -right-4 lg:right-9  fixed z-20 w-full lg:w-[22%] bg-white  gap-4 py-2 overflow-x-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 mb-4">
                         {tabs.map((tab) => (
                             <Button
                                 key={tab.name}

@@ -28,7 +28,7 @@ const CreateProjectModal = ({ setActiveModal }: any) => {
                     <h2 className="text-black-500 font-semibold text-lg">What do you want to create</h2>
                     <p className="text-sm text-gray-400">Select project type</p>
                 </div>
-                <div className="grid gap-4 grid-cols-3 items-start mt-4 mb-6">
+                <div className="grid gap-4 grid-cols-2 items-start mt-4 mb-6">
                     <div
                         onClick={() => handleProjectSelect("Bot")}
                         className={`flex flex-col cursor-pointer border ${selectedProject === "Bot" ? "border-gray-500" : "border-gray-600"
@@ -38,8 +38,8 @@ const CreateProjectModal = ({ setActiveModal }: any) => {
                         <span>
                             <RobotIcon />
                         </span>
-                        <p className="text-md font-semibold mb-1">Bot</p>
-                        <p className="text-xs text-gray-400 w-[60%]">New bot or mini app</p>
+                        <p className="text-md font-semibold mb-1">Mini app</p>
+                        <p className="text-xs text-gray-400 w-[60%]">New mini-app and bot</p>
                     </div>
                     <div
                         onClick={() => handleProjectSelect("Portfolio")}
@@ -53,18 +53,7 @@ const CreateProjectModal = ({ setActiveModal }: any) => {
                         <p className="text-md font-semibold mb-1">Portfolio</p>
                         <p className="text-xs text-gray-400 w-[80%]">New portfolio project</p>
                     </div>
-                    <div
-                        onClick={() => handleProjectSelect("AnotherBot")}
-                        className={`flex flex-col cursor-pointer border ${selectedProject === "AnotherBot" ? "border-gray-500" : "border-gray-600"
-                            } rounded-xl px-2 py-4 gap-1 text-center items-center justify-center text-sm hover:scale-105 
-                     transform transition-transform duration-300`}
-                    >
-                        <span>
-                            <RobotIcon />
-                        </span>
-                        <p className="text-md font-semibold mb-1">Bot</p>
-                        <p className="text-xs text-gray-400 w-[60%]">New bot or mini app</p>
-                    </div>
+                   
                 </div>
                 <div>
                     <Button

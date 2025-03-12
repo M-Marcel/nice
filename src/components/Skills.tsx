@@ -100,7 +100,7 @@ const Skills = ({ portfolioData, updatePortfolioData }: SkillsProps) => {
                     <Button
                         type="button"
                         onClick={handleAddSkill}
-                        className="px-4 py-1 bg-blue-500  text-white rounded-lg"
+                        className="px-2 py-2 lg:px-4 lg:py-1 bg-blue-500 text-xs lg:text-sm text-white rounded-lg"
                     >
                         Add
                     </Button>
@@ -109,10 +109,7 @@ const Skills = ({ portfolioData, updatePortfolioData }: SkillsProps) => {
 
             {/* Save Changes Button */}
             <div className="mt-6">
-                <Button
-                    onClick={handleSave}
-                    className="lg:flex text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl"
-                >
+                <Button onClick={handleSave} className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl">
                     Save Changes
                 </Button>
             </div>

@@ -69,6 +69,8 @@ const Dashboard = () => {
 
     useEffect(() => {
         dispatch(getAllPortfolios());
+
+       
     }, [dispatch]);
 
 
@@ -188,7 +190,7 @@ const Dashboard = () => {
                             <h2 className="text-black-500 text-lg font-semibold">My projects</h2>
                             <Button
                                 onClick={() => setActiveModal("createProjectModal")}
-                                className="lg:hidden items-center gap-2 custom-bg text-sm text-white px-3 py-3 
+                                className="lg:hidden items-center gap-2 custom-bg text-xs text-white px-2 py-2 
                                 rounded-xl">
                                 Create new
                             </Button>
@@ -216,8 +218,8 @@ const Dashboard = () => {
                                             <img
                                                 src={portfolio.sections.find(section => section.type === "Info")?.customContent?.profileImage || BotDesign}
                                                 alt="portfolio"
-                                                className="w-full object-contain"
-                                                width={200}
+                                                className="w-full lg:w-full object-contain"
+                                              
                                             />
                                         </div>
                                         <div>

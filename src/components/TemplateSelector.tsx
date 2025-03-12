@@ -10,7 +10,7 @@ import { createPortfolio } from "../slices/portfolio/portfolioSlice"
 
 const TemplateSelector = ({ setActiveModal }: any) => {
     const dispatch = useAppDispatch()
-    const { templates, isSuccess, isLoading, isError, message } = useAppSelector((state) => state.template)
+    const { templates, isLoading, isError, message } = useAppSelector((state) => state.template)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -20,11 +20,11 @@ const TemplateSelector = ({ setActiveModal }: any) => {
 
     }, [dispatch, templates.length]);
 
-    useEffect(() => {
-        if (isSuccess) {
-            toast.success("templates retrieved success");
-        }
-    }, [isSuccess, dispatch]);
+    // useEffect(() => {
+    //     if (isSuccess) {
+    //         toast.success("templates retrieved success");
+    //     }
+    // }, [isSuccess, dispatch]);
 
 
     const handleCreatePortfolio = async (id: string) => {
@@ -58,7 +58,7 @@ const TemplateSelector = ({ setActiveModal }: any) => {
                     </svg>
 
                 </Button>
-                <h2 className="text-3xl">Select a template to start with</h2>
+                <h2 className="text-lg lg:text-3xl">Select a template to start with</h2>
             </div>
             <div className="mt-6 mb-6">
                 {isLoading ? (
@@ -77,7 +77,7 @@ const TemplateSelector = ({ setActiveModal }: any) => {
                 ) : (
                     <>
                         {templates && templates.length > 0 ? (
-                            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+                            <div className="grid grid-cols-2 lg:grid-cols-3 w-full">
                                 {templates.map((template) => (
                                     <div key={template._id} className="mb-2">
                                         <div
@@ -85,7 +85,7 @@ const TemplateSelector = ({ setActiveModal }: any) => {
                                                 e.stopPropagation(); // Prevent event from bubbling up
                                                 handleCreatePortfolio(template._id);
                                             }}
-                                            className="px-4 py-2 cursor-pointer rounded-xl hover:scale-105 transform
+                                            className="px-2 lg:px-4 py-2 cursor-pointer rounded-xl hover:scale-105 transform
                                              transition-transform duration-300"
                                         >
                                             <div className="w-full h-[25vh] border border-gray-600 rounded-lg">

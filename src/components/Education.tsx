@@ -184,10 +184,7 @@ const Education = ({ portfolioData, updatePortfolioData, setActiveModal }: Educa
 
             {/* Save Changes Button */}
             <div className="mt-6">
-                <Button
-                    onClick={handleSave}
-                    className="lg:flex text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl"
-                >
+                <Button onClick={handleSave} className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl">
                     Save Changes
                 </Button>
             </div>

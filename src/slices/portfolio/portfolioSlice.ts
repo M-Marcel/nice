@@ -125,7 +125,7 @@ const portfolioSlice = createSlice({
                 state.isSuccess = true;
                 state.portfolio = action.payload.portfolio;
                 state.message = action.payload.message;
-                toast.success("Portfolio updated successfully");
+              
             })
             .addCase(updatePortfolio.rejected, (state, action) => {
                 state.isLoading = false;
