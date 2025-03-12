@@ -53,7 +53,8 @@ const Info = ({ portfolioData, updatePortfolioData }: templateDataProps) => {
 
     useEffect(() => {
         console.log("Updated cover image:", coverImageFile);
-    }, [coverImageFile]);
+        console.log("new info data", portfolioData)
+    }, [coverImageFile, portfolioData]);
 
 
     const handleProfileImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,6 +117,7 @@ const Info = ({ portfolioData, updatePortfolioData }: templateDataProps) => {
                 },
             ],
         });
+      
     };
 
     return (

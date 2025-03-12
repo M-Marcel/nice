@@ -23,6 +23,7 @@ import { useDashboard } from "../context/DashboardContext"
 import FileIcon from "../assets/svg/fileIcon"
 import CreateProjectModal from "../components/CreateProjectModal"
 import TemplateSelector from "../components/TemplateSelector"
+import { getAllPortfolios } from "../slices/portfolio/portfolioSlice"
 
 
 
@@ -30,12 +31,15 @@ const Dashboard = () => {
     const dispatch = useAppDispatch();
 
     const user = useAppSelector((state) => state.auth.user);
-
+    const { portfolios, isLoading:isPortfolioLoading } = useAppSelector(
+        (state) => state.portfolio
+    );
     const { displayedFeatures = [], isLoading, isError, message, currentPage, totalPages, limit } = useAppSelector(
         (state) => state.feature
     );
 
     const { dashboardType, setDashboardType } = useDashboard();
+
 
     // Set the dashboardType when the user data changes
     useEffect(() => {
@@ -63,13 +67,16 @@ const Dashboard = () => {
 
     }, [dispatch, currentPage, limit]);
 
+    useEffect(() => {
+        dispatch(getAllPortfolios());
+    }, [dispatch]);
+
+
     const handlePreviousPage = () => {
         if (currentPage > 1) {
             dispatch(setPage(currentPage - 1));
         }
     };
-
-
 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
@@ -95,13 +102,13 @@ const Dashboard = () => {
                 <div className=" items-center justify-between hidden md:flex md:w-[92%] lg:w-[82%] bg-white py-4 px-2 fixed z-50">
                     <Search />
                     <div className="flex gap-2">
-                        <a 
-                        href="https://t.me/+iw2jh3VaeSg4MzBk" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="hidden lg:flex items-center gap-2 bg-gray-900 text-sm text-black-700 px-4 py-3 
+                        <a
+                            href="https://t.me/+iw2jh3VaeSg4MzBk"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hidden lg:flex items-center gap-2 bg-gray-900 text-sm text-black-700 px-4 py-3 
                          rounded-xl"
-                     >
+                        >
                             <img src={TelegramIcon} alt="telIcon" width={18} height={18} />
                             Join Telegram
                         </a>
@@ -177,46 +184,55 @@ const Dashboard = () => {
                                 </div>
                             </div>
                         </div> */}
-                        <div className="mt-10">
+                        <div className="mt-10 flex items-center justify-between">
                             <h2 className="text-black-500 text-lg font-semibold">My projects</h2>
+                            <Button
+                                onClick={() => setActiveModal("createProjectModal")}
+                                className="lg:hidden items-center gap-2 custom-bg text-sm text-white px-3 py-3 
+                                rounded-xl">
+                                Create new
+                            </Button>
                         </div>
+                        {/* //here is where i want to display all the portfolios from the get All Portfolios endpoint */}
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div className="">
-                                <div className="mt-8 py-10 purpose-bg flex flex-col">
-                                    <img src={BotDesign} alt="dashboardHero" width={400} />
+                            {isPortfolioLoading ? (
+                                <div className="flex items-center lg:ml-[200px] justify-center gap-6 h-[60vh]">
+                                    <img
+                                        src={LoaderIcon}
+                                        alt="loader"
+                                        width={24}
+                                        height={24}
+                                        className="animate-spin"
+                                    />
+                                    Loading 
                                 </div>
-                                <div>
-                                    <p className="text-sm font-semibold text-black-500">Uniswap exchange bot</p>
-                                    <p className="text-xs text-gray-500">Edited 3h ago</p>
-                                </div>
-                            </div>
-                            <div className="">
-                                <div className="mt-8 py-10 purpose-bg flex flex-col">
-                                    <img src={BotDesign} alt="dashboardHero" width={400} />
-                                </div>
-                                <div>
-                                    <p className="text-sm font-semibold text-black-500">Uniswap exchange bot</p>
-                                    <p className="text-xs text-gray-500">Edited 3h ago</p>
-                                </div>
-                            </div>
-                            <div className="">
-                                <div className="mt-8 py-10 purpose-bg flex flex-col">
-                                    <img src={BotDesign} alt="dashboardHero" width={400} />
-                                </div>
-                                <div>
-                                    <p className="text-sm font-semibold text-black-500">Uniswap exchange bot</p>
-                                    <p className="text-xs text-gray-500">Edited 3h ago</p>
-                                </div>
-                            </div>
-                            <div className="">
-                                <div className="mt-8 py-10 purpose-bg flex flex-col">
-                                    <img src={BotDesign} alt="dashboardHero" width={400} />
-                                </div>
-                                <div>
-                                    <p className="text-sm font-semibold text-black-500">Uniswap exchange bot</p>
-                                    <p className="text-xs text-gray-500">Edited 3h ago</p>
-                                </div>
-                            </div>
+                            ) : isError ? (
+                                <p className="text-red-500">{message}</p>
+                            ) : portfolios && portfolios.length > 0 ? (
+                                portfolios.map((portfolio) => (
+                                    <div key={portfolio._id} className="">
+                                        <div className="mt-8 py-10 purpose-bg flex flex-col">
+                                            {/* Display portfolio image or placeholder */}
+                                            <img
+                                                src={portfolio.sections.find(section => section.type === "Info")?.customContent?.profileImage || BotDesign}
+                                                alt="portfolio"
+                                                className="w-full object-contain"
+                                                width={200}
+                                            />
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-semibold text-black-500">
+                                                {portfolio.sections.find(section => section.type === "Info")?.customContent?.name || "Untitled Portfolio"}
+                                            </p>
+                                            <p className="text-xs text-gray-500">
+                                                Last edited: {new Date(portfolio.createdAt).toLocaleDateString()}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-gray-400">No portfolios found. Create a new one!</p>
+                            )}
                         </div>
                     </div>
                     <div className="w-[100%] lg:w-[35%] px-4 py-4 h-[100vh] lg:overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">

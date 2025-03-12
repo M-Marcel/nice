@@ -22,6 +22,7 @@ const PortfolioBuilder = () => {
     const { portfolio, isLoading, isSuccess, isError, message } = useAppSelector((state) => state.portfolio);
     const [activeModal, setActiveModal] = useState<string | null>(null);
     const [portfolioData, setPortfolioData] = useState<Portfolio | null>(null);
+    const [isMobileEditVisible, setIsMobileEditVisible] = useState(false); // State to control mobile edit visibility
 
     // Load portfolio data from localStorage on initial render
     useEffect(() => {
@@ -109,8 +110,19 @@ const PortfolioBuilder = () => {
                     </Button>
                 </div>
             </div>
+
+            {/* Edit Button for Mobile */}
+            <div className="lg:hidden fixed bottom-20 right-4 z-50">
+                <Button
+                    onClick={() => setIsMobileEditVisible(!isMobileEditVisible)}
+                    className="bg-black-500 text-white px-6 py-3 rounded-xl shadow-lg"
+                >
+                    {isMobileEditVisible ? "Close" : "Edit"}
+                </Button>
+            </div>
+
             <div className="flex justify-between mx-4">
-                <div className="myTemplate px-4 py-4 w-[75%] h-[100vh] overflow-y-scroll left-2 border lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 rounded-xl border-gray-600 mt-20">
+                <div className="myTemplate lg:px-4 py-4 w-[100%] lg:w-[75%] h-[100vh] overflow-y-scroll left-2 border scrollbar-none lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 rounded-xl border-gray-600 mt-20">
                     {/* Loading, Error, and Template Rendering Logic */}
                     {isLoading ? (
                         <div className="flex items-center justify-center gap-6 h-[60vh]">
@@ -143,7 +155,9 @@ const PortfolioBuilder = () => {
                         </>
                     )}
                 </div>
-                <div className="w-[24%] h-[80vh] fixed right-0">
+
+                {/* PortfolioSetup for Desktop */}
+                <div className="hidden lg:block w-[24%] h-[80vh] fixed right-0">
                     {isLoading ? (
                         <div className="flex items-center justify-center h-full">
                             <img src={LoaderIcon} alt="loader" width={24} height={24} className="animate-spin" />
@@ -160,7 +174,22 @@ const PortfolioBuilder = () => {
                         <p className="text-gray-400">No portfolio data available.</p>
                     )}
                 </div>
+
+                {/* PortfolioSetup for Mobile */}
+                {isMobileEditVisible && portfolioData && (
+                    <div className="lg:hidden fixed inset-0 bg-white z-40 overflow-y-auto">
+                        <PortfolioSetup
+                            activeModal={activeModal}
+                            setActiveModal={setActiveModal}
+                            portfolioData={portfolioData}
+                            updatePortfolioData={updatePortfolioData}
+                            onClose={() => setIsMobileEditVisible(false)} // Pass the onClose prop
+                        />
+                    </div>
+                )}
             </div>
+
+            {/* Modals */}
             <Modal isVisible={activeModal === "createProject"} onClose={closeModal}>
                 <CreateProject
                     onAddProject={(newProject) => {
@@ -228,7 +257,7 @@ const PortfolioBuilder = () => {
             </Modal>
 
             <Modal isVisible={activeModal === "publishModal"} className="publish-section bg-white" onClose={closeModal}>
-                    <PublishModal onClose={closeModal}  />
+                    <PublishModal onClose={closeModal} portfolioData={portfolioData} />
             </Modal>
         </div>
     );

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Portfolio, PortfolioFormData } from "../../dataTypes";
+import { Portfolio, PortfolioFormData, PortfolioUpdatePayload } from "../../dataTypes";
 import { toast } from "react-toastify";
 import portfolioService from "../../helpers/portfolioService";
 
@@ -48,9 +48,21 @@ export const getPortfolioById = createAsyncThunk(
 
 export const updatePortfolio = createAsyncThunk(
     "portfolio/updatePortfolio",
-    async ({ id, portfolioData }: { id: string; portfolioData: Partial<Portfolio> }, { rejectWithValue }) => {
+    async ({ id, portfolioData }: { id: string; portfolioData: PortfolioUpdatePayload  }, { rejectWithValue }) => {
         try {
             const response = await portfolioService.updatePortfolio(id, portfolioData);
+            return response;
+        } catch (error: any) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const getAllPortfolios = createAsyncThunk(
+    "portfolio/fetchAllPortfolios",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await portfolioService.getAllPortfolios();
             return response;
         } catch (error: any) {
             return rejectWithValue(error.message);
@@ -116,6 +128,22 @@ const portfolioSlice = createSlice({
                 toast.success("Portfolio updated successfully");
             })
             .addCase(updatePortfolio.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string;
+                state.message = action.payload as string;
+                toast.error(action.payload as string);
+            })
+            .addCase(getAllPortfolios.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getAllPortfolios.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.portfolios = action.payload.portfolios; // Update the portfolios array
+                state.message = action.payload.message;
+            })
+            .addCase(getAllPortfolios.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.error = action.payload as string;

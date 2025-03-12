@@ -195,3 +195,10 @@ export type PortfolioSection = {
 export type PortfolioFormData = {
     referenceTemplate: string
 }
+
+export interface PortfolioUpdatePayload {
+    sections: Array<{
+        sectionId: string;
+        customContent: DesignData;
+    }>;
+}

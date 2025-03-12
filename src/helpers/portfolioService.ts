@@ -81,7 +81,8 @@ const getPortfolioById = async (id: string): Promise<{
     }
 };
 
-const updatePortfolio = async (id: string, portfolioData: Partial<Portfolio>): Promise<{ portfolio: Portfolio; message: string }> => {
+const updatePortfolio = async (id: string, portfolioData: { sections: any[] }): Promise<{ portfolio: Portfolio; message: string }> => {
+    console.log("portfoliodata", portfolioData)
     try {
         const response = await axios.patch(`${API_URL}/${id}`, portfolioData, {
             headers: getAuthHeaders(),
@@ -98,12 +99,33 @@ const updatePortfolio = async (id: string, portfolioData: Partial<Portfolio>): P
     }
 };
 
+const getAllPortfolios = async (): Promise<{ portfolios: Portfolio[]; message: string }> => {
+    try {
+        const response = await axios.get(`${API_URL}`, {
+            headers: getAuthHeaders(),
+            withCredentials: true,
+        });
+          console.log("port response", response.data)
+        if (response?.data) {
+            return {
+                portfolios: response.data, // Assuming the backend returns an array of portfolios
+                message: "Portfolios fetched successfully",
+            };
+        } else {
+            throw new Error("No data received from the server.");
+        }
+    } catch (error: any) {
+        handleApiError(error);
+        throw new Error("Failed to fetch portfolios: " + error.message);
+    }
+};
 
 
 const portfolioService = {
    createPortfolio,
    getPortfolioById,
-   updatePortfolio
+   updatePortfolio,
+   getAllPortfolios,
 };
 
 export default portfolioService;

@@ -44,7 +44,7 @@ const TestTemplate: React.FC<TestTemplateProps> = ({ templateId, templateData })
                                     <p className="font-semibold">{templateData?.sections[0]?.customContent?.name}</p>
                                     <p className="text-gray-500">{templateData?.sections[0]?.customContent?.email}</p>
                                 </div>
-                                <div className="flex items-center gap-2 absolute right-10 -bottom-[80px]">
+                                <div className="flex items-center gap-2 absolute right-0 lg:right-10 -bottom-[80px]">
                                     <p className="rounded-2xl border border-gray-600 px-4 py-2 text-xs">{templateData?.sections[0]?.customContent?.location}</p>
                                     {templateData.sections[0].customContent.socialLinks && (
                                         <>
@@ -70,7 +70,7 @@ const TestTemplate: React.FC<TestTemplateProps> = ({ templateId, templateData })
                             </div>
 
                             <div className="px-4 mt-[140px] py-8 rounded-xl border border-gray-900">
-                                <div className="flex justify-between">
+                                <div className="flex-col lg:flex justify-between">
                                     <div>
                                         <h2 className="text-lg text-gray-980">About</h2>
                                     </div>
@@ -100,12 +100,12 @@ const TestTemplate: React.FC<TestTemplateProps> = ({ templateId, templateData })
                             )}
                             {projectsSection?.customContent?.projects && (
                                 <div className="px-4 mt-[10px] py-8 rounded-xl border border-gray-900">
-                                    <div className="flex justify-between">
-                                        <h2 className="text-lg text-gray-980">Projects</h2>
-                                        <div className="mt-4 w-[60%] px-4">
+                                    <div className="flex-col lg:flex justify-between">
+                                        <h2 className="text-lg text-gray-980 mb-2 lg:mb-0">Projects</h2>
+                                        <div className="mt-4 lg:w-[60%] px-4">
                                             {projectsSection.customContent.projects.map((project, index) => (
                                                 <>
-                                                    <div key={index} className="mb-4 flex items-center justify-between">
+                                                    <div key={index} className="mb-8 lg:mb-4 flex items-center justify-between">
                                                         <div>
                                                             <h3 className="font-semibold text-lg text-black-980">{project.projectName}</h3>
                                                             <p className="text-sm font-light text-black-980">{project.about}</p>
@@ -126,10 +126,10 @@ const TestTemplate: React.FC<TestTemplateProps> = ({ templateId, templateData })
                                 </div>
                             )}
                             {/* Certificates and Work History Section */}
-                            <div className="flex justify-between mt-10">
+                            <div className="flex-col lg:flex justify-between mt-10">
                                 {/* Certificates Section */}
                                 {certificatesSection?.customContent?.certificates && (
-                                    <div className="certificates w-[42%] px-4 py-8 rounded-xl border border-gray-900">
+                                    <div className="certificates  w-[100%] lg:w-[42%] px-4 py-8 rounded-xl border border-gray-900">
                                         <div className="flex flex-col gap-4">
                                             <h2 className="text-lg text-gray-980">Certificates</h2>
                                             {certificatesSection.customContent.certificates.map((certificate, index) => (
@@ -153,7 +153,7 @@ const TestTemplate: React.FC<TestTemplateProps> = ({ templateId, templateData })
                                 )}
 
                                 {/* Work History Section */}
-                                <div className="workHistory w-[55%] px-4 py-8 rounded-xl border border-gray-900">
+                                <div className="workHistory w-[100%] lg:w-[55%] px-4 py-8 rounded-xl border border-gray-900">
                                     {/* Work History Section */}
                                     {workSection?.customContent?.work && (
                                         <div className="mb-8">
