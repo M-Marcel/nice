@@ -121,9 +121,9 @@ const Info = ({ portfolioData, updatePortfolioData }: templateDataProps) => {
     };
 
     return (
-        <div className="overflow-y-scroll h-[85vh] lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 px-4">
+        <div className="overflow-y-scroll scrollbar-none h-[85vh] lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 px-2">
             <div className="mt-20">
-                <form className="mb-8">
+                <form className="mb-8 lg:-ml-2">
                     {/* Profile Image Section */}
                     <div className="flex flex-col mb-2">
                         <label className="text-sm mb-1 text-gray-400">Profile Image</label>
@@ -178,7 +178,7 @@ const Info = ({ portfolioData, updatePortfolioData }: templateDataProps) => {
                         <input type="text" name="location" className="border border-gray-900 rounded-lg outline-0 py-1 px-1" value={formData.location} onChange={onChange} />
                     </div>
                 </form>
-                <Button onClick={handleSave} className="lg:flex text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl">
+                <Button onClick={handleSave} className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl">
                     Save Changes
                 </Button>
             </div>
