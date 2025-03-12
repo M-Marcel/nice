@@ -15,7 +15,7 @@ type PortfolioProps = {
     updatePortfolioData: (updatedData: Partial<Portfolio>) => void;
 };
 
-const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData }: PortfolioProps) => {
+const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, onClose }: PortfolioProps & { onClose?: () => void }) => {
     const [activeTab, setActiveTab] = useState<string>("Info");
     const tabs = [
         { name: "Info" },
@@ -77,7 +77,7 @@ const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData }: 
             </div>
             <div className="relative top-[5px] z-20">
                 <div className="">
-                    <div className="flex fixed z-20 w-[22%] bg-white  gap-4 py-2 overflow-x-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 mb-4">
+                    <div className="flex right-8 lg:right-5  fixed z-20 lg:w-[22%] bg-white  gap-4 py-2 overflow-x-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 mb-4">
                         {tabs.map((tab) => (
                             <Button
                                 key={tab.name}

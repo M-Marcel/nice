@@ -1,21 +1,33 @@
 // PublishModal.tsx
 
-import { useAppDispatch, useAppSelector } from "../hooks";
+import { useAppDispatch } from "../hooks";
 import { updatePortfolio } from "../slices/portfolio/portfolioSlice";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Button from "./Button";
+import { Portfolio } from "../dataTypes";
 
-const PublishModal = ({ onClose }: { onClose: () => void }) => {
+const PublishModal = ({ onClose, portfolioData }: { onClose: () => void, portfolioData: Portfolio | null }) => {
     const dispatch = useAppDispatch();
-    const { portfolio } = useAppSelector((state) => state.portfolio);
     const [isPublishing, setIsPublishing] = useState(false);
 
+
     const handlePublish = async () => {
-        if (portfolio) {
+        if (portfolioData) {
+            // Clean up the sections to remove unwanted properties
+            const cleanedSections = portfolioData.sections.map((section) => ({
+                sectionId: section.sectionId,
+                customContent: section.customContent,
+            }));
+            // Create the payload with only the required data
+            const payload = {
+                sections: cleanedSections,
+            };
+
+            console.log("Cleaned portfolio data for publishing:", payload);
             setIsPublishing(true);
             try {
-                await dispatch(updatePortfolio({ id: portfolio._id, portfolioData: portfolio })).unwrap();
+                await dispatch(updatePortfolio({ id: portfolioData._id, portfolioData: payload })).unwrap();
                 toast.success("Portfolio published successfully!");
                 onClose();
             } catch (error) {
