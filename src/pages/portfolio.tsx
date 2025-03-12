@@ -98,7 +98,7 @@ const PortfolioBuilder = () => {
                     <UntitledIcon />
                     <p>untitled</p>
                 </div>
-                <div className="ml-[260px] lg:ml-0 flex items-center gap-4 justify-end">
+                <div className="ml-[220px] lg:ml-0 flex items-center gap-4 justify-end">
                     <div className="flex">
                         <span className="text-gray-400 text-xs lg:text-sm">Status</span>
                     </div>
