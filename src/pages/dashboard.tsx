@@ -31,7 +31,7 @@ const Dashboard = () => {
     const dispatch = useAppDispatch();
 
     const user = useAppSelector((state) => state.auth.user);
-    const { portfolios, isLoading:isPortfolioLoading } = useAppSelector(
+    const { portfolios, isLoading: isPortfolioLoading } = useAppSelector(
         (state) => state.portfolio
     );
     const { displayedFeatures = [], isLoading, isError, message, currentPage, totalPages, limit } = useAppSelector(
@@ -70,7 +70,7 @@ const Dashboard = () => {
     useEffect(() => {
         dispatch(getAllPortfolios());
 
-       
+
     }, [dispatch]);
 
 
@@ -206,7 +206,7 @@ const Dashboard = () => {
                                         height={24}
                                         className="animate-spin"
                                     />
-                                    Loading 
+                                    Loading
                                 </div>
                             ) : isError ? (
                                 <p className="text-red-500">{message}</p>
@@ -215,12 +215,15 @@ const Dashboard = () => {
                                     <div key={portfolio._id} className="">
                                         <div className="mt-8 py-10 purpose-bg flex flex-col">
                                             {/* Display portfolio image or placeholder */}
-                                            <img
-                                                src={portfolio.sections.find(section => section.type === "Info")?.customContent?.profileImage || BotDesign}
-                                                alt="portfolio"
-                                                className="w-full lg:w-full object-contain"
-                                              
-                                            />
+                                            <div className="w-[200px] h-[100px] rounded-full mb-6">
+                                                <img
+                                                    src={portfolio.sections.find(section => section.type === "Info")?.customContent?.coverImg || BotDesign}
+                                                    alt="portfolio"
+                                                    className="w-full object-contain"
+
+                                                />
+                                            </div>
+
                                         </div>
                                         <div>
                                             <p className="text-sm font-semibold text-black-500">
