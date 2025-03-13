@@ -38,6 +38,7 @@ const TemplateSelector = ({ setActiveModal }: any) => {
                 const payload = response?.payload as any
                 console.log("port resp", response)
                 navigate(`/portfolio/${payload.portfolio?.data._id}`)
+                setActiveModal(null)
             }
 
         } catch (error: any) {
@@ -89,7 +90,7 @@ const TemplateSelector = ({ setActiveModal }: any) => {
                                              transition-transform duration-300"
                                         >
                                             <div className="w-full h-[25vh] border border-gray-600 rounded-lg">
-                                                {template.name === "Test Template" && (
+                                                {template.name === "Professional" && (
                                                     <img
                                                         src="https://plus.unsplash.com/premium_photo-1736165168647-e216dcd23720?q=80&w=1325&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                                         alt="frame"

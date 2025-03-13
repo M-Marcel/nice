@@ -18,7 +18,7 @@ import Modal from "../components/Modal"
 import RequestForm from "../components/RequestForm"
 import { useModal } from "../context/ModalContext"
 import TelegramModal from "../components/telegramModal"
-import TawkTo from "../components/TawkTo"
+// import TawkTo from "../components/TawkTo"
 import { useDashboard } from "../context/DashboardContext"
 import FileIcon from "../assets/svg/fileIcon"
 import CreateProjectModal from "../components/CreateProjectModal"
@@ -298,7 +298,7 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            <TawkTo />
+            {/* <TawkTo /> */}
 
             <Modal isVisible={activeModal === "requestForm"} onClose={closeModal}>
                 <RequestForm onNewFeature={() => { }} />

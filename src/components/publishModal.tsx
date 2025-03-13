@@ -6,9 +6,12 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import Button from "./Button";
 import { Portfolio } from "../dataTypes";
+import { useNavigate } from "react-router-dom";
+;
 
 const PublishModal = ({ onClose, portfolioData }: { onClose: () => void, portfolioData: Portfolio | null }) => {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate()
     const [isPublishing, setIsPublishing] = useState(false);
 
 
@@ -29,6 +32,7 @@ const PublishModal = ({ onClose, portfolioData }: { onClose: () => void, portfol
             try {
                 await dispatch(updatePortfolio({ id: portfolioData._id, portfolioData: payload })).unwrap();
                 toast.success("Portfolio published successfully!");
+                navigate('/dashboard')
                 onClose();
             } catch (error) {
                 toast.error("Failed to publish portfolio.");
