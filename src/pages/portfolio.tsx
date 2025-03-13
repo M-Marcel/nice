@@ -92,7 +92,10 @@ const PortfolioBuilder = () => {
         <div className="h-[100vh] overflow-y-scroll lg:scrollbar-none">
             <div className="grid grid-cols-3 px-2 fixed  w-full bg-white z-30 py-4 items-center">
                 <div className="hidden lg:block">
-                    <Logo />
+                    <a href="/">
+                        <Logo />
+                    </a>
+                  
                 </div>
                 <div className="flex items-center gap-1">
                     <UntitledIcon />
@@ -112,10 +115,10 @@ const PortfolioBuilder = () => {
             </div>
 
             {/* Edit Button for Mobile */}
-            <div className="lg:hidden fixed bottom-8 right-2 z-50">
+            <div className="lg:hidden fixed bottom-2 right-2 z-50">
                 <Button
                     onClick={() => setIsMobileEditVisible(!isMobileEditVisible)}
-                    className="bg-black-500 text-xs text-white px-4 py-2 rounded-xl shadow-lg"
+                    className="bg-black-500 text-xs text-white px-4 py-4 rounded-xl shadow-lg"
                 >
                     {isMobileEditVisible ? "View Changes" : "Edit"}
                 </Button>

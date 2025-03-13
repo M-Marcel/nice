@@ -175,3 +175,9 @@ thead {
   background-size: cover;
 
 }
+
+.creative-section{
+  background-image: url('./assets/creativeFrame.png');
+  background-size: cover;
+
+}

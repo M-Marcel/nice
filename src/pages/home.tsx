@@ -61,7 +61,7 @@ const Home = () => {
                   </h2>
                   <p className="text-center text-sm px-2 w-auto lg:w-[84%] text-gray-970 mb-5">
                     Showcase your work with a sleek portfolio or automate
-                    workflows with powerful bots. All in one platform.
+                    workflows with powerful bots. All in one platform
                   </p>
                   <div>
                     <Button
