@@ -7,9 +7,10 @@ type ProjectsProps = {
     portfolioData: Portfolio;
     updatePortfolioData: (updatedData: Partial<Portfolio>) => void;
     setActiveModal: (modal: string | null) => void;
+    setProjectToEdit: (project: any | null) => void; // Fix the type definition
 };
 
-const Projects = ({ portfolioData, updatePortfolioData, setActiveModal }: ProjectsProps) => {
+const Projects = ({ portfolioData, updatePortfolioData, setActiveModal, setProjectToEdit }: ProjectsProps) => {
     const [projects, setProjects] = useState<any[]>([]); // Local state for projects
 
     // Initialize projects from portfolioData
@@ -24,10 +25,11 @@ const Projects = ({ portfolioData, updatePortfolioData, setActiveModal }: Projec
         }
     }, [portfolioData]);
 
-    // Handle adding a new project
-    // const handleAddProject = (newProject: any) => {
-    //     setProjects((prevProjects) => [...prevProjects, newProject]);
-    // };
+    // Handle editing a project
+    const handleEditProject = (index: number) => {
+        setProjectToEdit(projects[index]); // Set the project to edit
+        setActiveModal("createProject"); // Open the modal
+    };
 
     // Handle removing a project
     const handleRemoveProject = (index: number) => {
@@ -68,7 +70,7 @@ const Projects = ({ portfolioData, updatePortfolioData, setActiveModal }: Projec
     return (
         <div className="relative pt-5">
             <div className="mt-10">
-                <div className="flex flex-col gap-4">
+                <div className="flex lg:w-[80%] flex-col gap-4">
                     {/* Display existing projects */}
                     {projects.map((project, index) => (
                         <div key={index} className="flex items-center justify-between">
@@ -98,7 +100,10 @@ const Projects = ({ portfolioData, updatePortfolioData, setActiveModal }: Projec
                                 </div>
                             </div>
                             <div className="flex gap-2 items-center w-[20%]">
-                                <span>
+                                <span
+                                    className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
+                                transform transition-transform duration-300"
+                                    onClick={() => handleEditProject(index)}>
                                     <svg
                                         width="20"
                                         height="21"
@@ -128,6 +133,8 @@ const Projects = ({ portfolioData, updatePortfolioData, setActiveModal }: Projec
                                     </svg>
                                 </span>
                                 <span
+                                    className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
+                                     transform transition-transform duration-300"
                                     onClick={() => handleRemoveProject(index)}
                                 >
                                     <svg
@@ -169,7 +176,10 @@ const Projects = ({ portfolioData, updatePortfolioData, setActiveModal }: Projec
 
                     {/* Add Project Button */}
                     <Button
-                        onClick={() => setActiveModal("createProject")}
+                        onClick={() => {
+                            setProjectToEdit(null); // Reset project to edit
+                            setActiveModal("createProject");
+                        }}
                         className="mt-4 flex justify-center bg-white items-center px-6 py-3 text-sm border border-gray-600 rounded-xl lg:flex shadow-lg text-black-50 gap-2"
                     >
                         <span>

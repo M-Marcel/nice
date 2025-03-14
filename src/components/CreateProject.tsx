@@ -1,13 +1,17 @@
-import { useState } from "react";
+// CreateProject.tsx
+
+import { useEffect, useState } from "react";
 import UploadIcon from "../assets/upload.png";
 import Button from "./Button";
 
 type CreateProjectProps = {
     onAddProject: (project: any) => void;
+    onUpdateProject: (project: any) => void;
     onClose: () => void;
+    projectToEdit?: any;
 };
 
-const CreateProject = ({ onAddProject, onClose }: CreateProjectProps) => {
+const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }: CreateProjectProps) => {
     const [images, setImages] = useState<{ [key: string]: File | null }>({
         image1: null,
         image2: null,
@@ -28,6 +32,27 @@ const CreateProject = ({ onAddProject, onClose }: CreateProjectProps) => {
 
     const { projectName, role, about, url } = formData;
 
+    useEffect(() => {
+        if (projectToEdit) {
+            setFormData({
+                projectName: projectToEdit.projectName,
+                role: projectToEdit.role,
+                about: projectToEdit.about,
+                url: projectToEdit.url,
+                images: projectToEdit.images || {
+                    image1: null,
+                    image2: null,
+                    image3: null,
+                },
+            });
+            setImages(projectToEdit.images || {
+                image1: null,
+                image2: null,
+                image3: null,
+            });
+        }
+    }, [projectToEdit]);
+
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData((prevState) => ({
             ...prevState,
@@ -39,7 +64,6 @@ const CreateProject = ({ onAddProject, onClose }: CreateProjectProps) => {
         if (event.target.files) {
             const file = event.target.files[0];
             if (file && file.size <= 10 * 1024 * 1024) {
-                // 10MB size limit
                 setImages((prevState) => ({
                     ...prevState,
                     [imageKey]: file,
@@ -73,14 +97,18 @@ const CreateProject = ({ onAddProject, onClose }: CreateProjectProps) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onAddProject(formData); // Pass the new project data to the parent
-        onClose(); // Close the modal
+        if (projectToEdit) {
+            onUpdateProject(formData);
+        } else {
+            onAddProject(formData);
+        }
+        onClose();
     };
 
     return (
         <div className="px-4 h-[60vh] overflow-y-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
             <div className="">
-                <h2 className="text-3xl mb-4 mt-4 text-black-500">Add project</h2>
+                <h2 className="text-3xl mb-4 mt-4 text-black-500">{projectToEdit ? "Edit Project" : "Add Project"}</h2>
                 <form className="mb-8" onSubmit={handleSubmit}>
                     <label className="text-sm mb-4 text-black-500">Images</label>
                     <div className="grid grid-cols-3 gap-2 mt-2">
@@ -169,7 +197,7 @@ const CreateProject = ({ onAddProject, onClose }: CreateProjectProps) => {
                         type="submit"
                         className="w-full lg:flex text-sm items-center text-center justify-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl"
                     >
-                        Add Project
+                        {projectToEdit ? "Update Project" : "Add Project"}
                     </Button>
                 </form>
             </div>
