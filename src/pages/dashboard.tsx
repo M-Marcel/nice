@@ -215,17 +215,16 @@ const Dashboard = () => {
                                     <div key={portfolio._id} className="">
                                         <div className="mt-8 py-10 purpose-bg flex flex-col">
                                             {/* Display portfolio image or placeholder */}
-                                            <div className="w-[200px] h-[100px] rounded-full mb-6">
+                                            <div className="w-full lg:w-[200px] lg:h-[100px] rounded-full lg:mb-8">
                                                 <img
                                                     src={portfolio.sections.find(section => section.type === "Info")?.customContent?.coverImg || BotDesign}
                                                     alt="portfolio"
                                                     className="w-full object-contain"
-
                                                 />
                                             </div>
 
                                         </div>
-                                        <div>
+                                        <div className="mb-4 lg:mb-8">
                                             <p className="text-sm font-semibold text-black-500">
                                                 {portfolio.sections.find(section => section.type === "Info")?.customContent?.name || "Untitled Portfolio"}
                                             </p>
