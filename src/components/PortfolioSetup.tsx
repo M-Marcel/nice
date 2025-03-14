@@ -10,13 +10,16 @@ import { Portfolio } from "../dataTypes";
 
 type PortfolioProps = {
     activeModal: string | null; // Add activeModal
-    setActiveModal: (modal: string | null) => void; // Use a more specific type for setActiveModal
+    setActiveModal: (modal: string | null) => void;
     portfolioData?: Portfolio; // Make portfolioData optional
     updatePortfolioData: (updatedData: Partial<Portfolio>) => void;
-    setProjectToEdit: (project: any) => void; // Add this line
+    setProjectToEdit: (project: any) => void;
+    setWorkToEdit: (work: any) => void;
+    setEducationToEdit: (education: any) => void;
+    setCertificationToEdit: (certification: any) => void;
 };
 
-const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, onClose, setProjectToEdit }: PortfolioProps & { onClose?: () => void }) => {
+const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, onClose, setProjectToEdit, setWorkToEdit, setEducationToEdit, setCertificationToEdit }: PortfolioProps & { onClose?: () => void }) => {
     const [activeTab, setActiveTab] = useState<string>("Info");
     const tabs = [
         { name: "Info" },
@@ -38,18 +41,33 @@ const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, on
             case "Skills":
                 return <Skills portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} />;
             case "Projects":
-                return <Projects 
-                portfolioData={portfolioData} 
-                updatePortfolioData={updatePortfolioData} 
-                setActiveModal={setActiveModal} 
-                setProjectToEdit={setProjectToEdit}
+                return <Projects
+                    portfolioData={portfolioData}
+                    updatePortfolioData={updatePortfolioData}
+                    setActiveModal={setActiveModal}
+                    setProjectToEdit={setProjectToEdit}
                 />;
             case "Work":
-                return <Work portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} setActiveModal={setActiveModal} />;
+                return <Work
+                    portfolioData={portfolioData}
+                    updatePortfolioData={updatePortfolioData}
+                    setActiveModal={setActiveModal}
+                    setWorkToEdit={setWorkToEdit}
+                />;
             case "Education":
-                return <Education portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} setActiveModal={setActiveModal} />;
+                return <Education
+                    portfolioData={portfolioData}
+                    updatePortfolioData={updatePortfolioData}
+                    setActiveModal={setActiveModal}
+                    setEducationToEdit={setEducationToEdit}
+                />;
             case "Certification":
-                return <Certification portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} setActiveModal={setActiveModal} />;
+                return <Certification
+                    portfolioData={portfolioData}
+                    updatePortfolioData={updatePortfolioData}
+                    setActiveModal={setActiveModal}
+                    setCertificationToEdit={setCertificationToEdit}
+                />;
             default:
                 return null;
         }
@@ -83,7 +101,7 @@ const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, on
             </div>
             <div className="relative top-[10px] lg:top-[60px] z-20">
                 <div className="">
-                    <div className="flex -right-4 lg:right-9  fixed z-20 w-full lg:w-[22%] bg-white  gap-4 py-2 overflow-x-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 mb-4">
+                    <div className="flex -right-4 lg:right-2 fixed z-20 w-full lg:w-[24%] bg-white  gap-4 py-2 overflow-x-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 mb-4">
                         {tabs.map((tab) => (
                             <Button
                                 key={tab.name}

@@ -24,7 +24,10 @@ const PortfolioBuilder = () => {
     const [activeModal, setActiveModal] = useState<string | null>(null);
     const [portfolioData, setPortfolioData] = useState<Portfolio | null>(null);
     const [isMobileEditVisible, setIsMobileEditVisible] = useState(false); // State to control mobile edit visibility
-    const [projectToEdit, setProjectToEdit] = useState<any | null>(null); // Add this line
+    const [projectToEdit, setProjectToEdit] = useState<any | null>(null);
+    const [workToEdit, setWorkToEdit] = useState<any | null>(null);
+    const [educationToEdit, setEducationToEdit] = useState<any | null>(null);
+    const [certificationToEdit, setCertificationToEdit] = useState<any | null>(null);
 
 
 
@@ -184,7 +187,10 @@ transform transition-transform duration-300 "
                             setActiveModal={setActiveModal}
                             portfolioData={portfolioData}
                             updatePortfolioData={updatePortfolioData}
-                            setProjectToEdit={setProjectToEdit} 
+                            setProjectToEdit={setProjectToEdit}
+                            setWorkToEdit={setWorkToEdit}
+                            setEducationToEdit={setEducationToEdit}
+                            setCertificationToEdit={setCertificationToEdit}
                         />
                     ) : (
                         <p className="text-gray-400">No portfolio data available.</p>
@@ -200,7 +206,10 @@ transform transition-transform duration-300 "
                             portfolioData={portfolioData}
                             updatePortfolioData={updatePortfolioData}
                             onClose={() => setIsMobileEditVisible(false)} // Pass the onClose prop
-                            setProjectToEdit={setProjectToEdit} // Pass setProjectToEdit
+                            setProjectToEdit={setProjectToEdit}
+                            setWorkToEdit={setWorkToEdit}
+                            setEducationToEdit={setEducationToEdit}
+                            setCertificationToEdit={setCertificationToEdit}
                         />
                     </div>
                 )}
@@ -245,17 +254,34 @@ transform transition-transform duration-300 "
             <Modal isVisible={activeModal === "createWorkModal"} onClose={closeModal}>
                 <CreateWorkModal
                     onAddWork={(newWork) => {
-                        const updatedWorks = [...(portfolioData?.sections.find(section => section.type === "Work")?.customContent?.work || []), newWork]; // Use `work` instead of `works`
+                        const updatedWorks = [...(portfolioData?.sections.find(section => section.type === "Work")?.customContent?.work || []), newWork];
                         updatePortfolioData({
                             sections: portfolioData?.sections.map(section =>
                                 section.type === "Work"
-                                    ? { ...section, customContent: { ...section.customContent, work: updatedWorks } } // Use `work` instead of `works`
+                                    ? { ...section, customContent: { ...section.customContent, work: updatedWorks } }
+                                    : section
+                            ) || [],
+                        });
+                        closeModal();
+                    }}
+                    onUpdateWork={(updatedWork) => {
+                        const worksSection = portfolioData?.sections?.find(section => section.type === "Work");
+                        const existingWorks = worksSection?.customContent?.work || [];
+
+                        const updatedWorks = existingWorks.map(work =>
+                            work === workToEdit ? updatedWork : work
+                        );
+                        updatePortfolioData({
+                            sections: portfolioData?.sections.map(section =>
+                                section.type === "Work"
+                                    ? { ...section, customContent: { ...section.customContent, work: updatedWorks } }
                                     : section
                             ) || [],
                         });
                         closeModal();
                     }}
                     onClose={closeModal}
+                    workToEdit={workToEdit} // Pass the work to edit (if any)
                 />
             </Modal>
             <Modal isVisible={activeModal === "createEducationModal"} onClose={closeModal}>
@@ -271,13 +297,30 @@ transform transition-transform duration-300 "
                         });
                         closeModal();
                     }}
+                    onUpdateEducation={(updatedEducation) => {
+                        const educationsSection = portfolioData?.sections?.find(section => section.type === "Education");
+                        const existingEducations = educationsSection?.customContent?.education || [];
+
+                        const updatedEducations = existingEducations.map(education =>
+                            education === educationToEdit ? updatedEducation : education
+                        );
+                        updatePortfolioData({
+                            sections: portfolioData?.sections.map(section =>
+                                section.type === "Education"
+                                    ? { ...section, customContent: { ...section.customContent, education: updatedEducations } }
+                                    : section
+                            ) || [],
+                        });
+                        closeModal();
+                    }}
                     onClose={closeModal}
+                    educationToEdit={educationToEdit} // Pass the education to edit (if any)
                 />
             </Modal>
             <Modal isVisible={activeModal === "createCertificationModal"} onClose={closeModal}>
                 <CreateCertificationModal
-                    onAddCertification={(newCertificates) => {
-                        const updatedCertifications = [...(portfolioData?.sections.find(section => section.type === "Certificates")?.customContent?.certificates || []), newCertificates];
+                    onAddCertification={(newCertification) => {
+                        const updatedCertifications = [...(portfolioData?.sections.find(section => section.type === "Certificates")?.customContent?.certificates || []), newCertification];
                         updatePortfolioData({
                             sections: portfolioData?.sections.map(section =>
                                 section.type === "Certificates"
@@ -287,9 +330,27 @@ transform transition-transform duration-300 "
                         });
                         closeModal();
                     }}
+                    onUpdateCertification={(updatedCertification) => {
+                        const certificatesSection = portfolioData?.sections?.find(section => section.type === "Certificates");
+                        const existingCertificates = certificatesSection?.customContent?.certificates || [];
+
+                        const updatedCertificates = existingCertificates.map(certificate =>
+                            certificate === certificationToEdit ? updatedCertification : certificate
+                        );
+                        updatePortfolioData({
+                            sections: portfolioData?.sections.map(section =>
+                                section.type === "Certificates"
+                                    ? { ...section, customContent: { ...section.customContent, certificates: updatedCertificates } }
+                                    : section
+                            ) || [],
+                        });
+                        closeModal();
+                    }}
                     onClose={closeModal}
+                    certificationToEdit={certificationToEdit} // Pass the certification to edit 
                 />
             </Modal>
+
 
             <Modal isVisible={activeModal === "publishModal"} className="publish-section bg-white" onClose={closeModal}>
                 <PublishModal onClose={closeModal} portfolioData={portfolioData} />

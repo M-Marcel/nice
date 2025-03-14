@@ -7,9 +7,10 @@ type EducationProps = {
     portfolioData: Portfolio;
     updatePortfolioData: (updatedData: Partial<Portfolio>) => void;
     setActiveModal: (modal: string | null) => void;
+    setEducationToEdit: (education: any) => void;
 };
 
-const Education = ({ portfolioData, updatePortfolioData, setActiveModal }: EducationProps) => {
+const Education = ({ portfolioData, updatePortfolioData, setActiveModal, setEducationToEdit }: EducationProps) => {
     const [educations, setEducations] = useState<any[]>([]); // Local state for educations
 
     // Initialize educations from portfolioData
@@ -24,6 +25,12 @@ const Education = ({ portfolioData, updatePortfolioData, setActiveModal }: Educa
         }
     }, [portfolioData]);
 
+    // Handle editing an education entry
+    const handleEditEducation = (index: number) => {
+        setEducationToEdit(educations[index]); // Set the education to edit
+        setActiveModal("createEducationModal"); // Open the modal
+    };
+
     // Handle adding a new education
     // const handleAddEducation = (newEducation: any) => {
     //     setEducations((prevEducations) => [...prevEducations, newEducation]);
@@ -37,38 +44,38 @@ const Education = ({ portfolioData, updatePortfolioData, setActiveModal }: Educa
     };
 
     // Handle saving changes
-    const handleSave = () => {
-        // Find the Education section from the portfolioData
-        const educationSection = portfolioData.sections.find(
-            (section) => section.type === "Education"
-        );
+    // const handleSave = () => {
+    //     // Find the Education section from the portfolioData
+    //     const educationSection = portfolioData.sections.find(
+    //         (section) => section.type === "Education"
+    //     );
 
-        if (!educationSection) {
-            console.error("Education section not found in portfolioData.");
-            return;
-        }
+    //     if (!educationSection) {
+    //         console.error("Education section not found in portfolioData.");
+    //         return;
+    //     }
 
-        // Ensure the _id is included in the updated section
-        const updatedEducationSection = {
-            ...educationSection,
-            customContent: {
-                ...educationSection.customContent,
-                education: educations, // Use `education` instead of `educations`
-            },
-        };
+    //     // Ensure the _id is included in the updated section
+    //     const updatedEducationSection = {
+    //         ...educationSection,
+    //         customContent: {
+    //             ...educationSection.customContent,
+    //             education: educations, // Use `education` instead of `educations`
+    //         },
+    //     };
 
-        // Update the portfolioData while preserving other sections
-        updatePortfolioData({
-            sections: portfolioData.sections.map((section) =>
-                section.type === "Education" ? updatedEducationSection : section
-            ),
-        });
-    };
+    //     // Update the portfolioData while preserving other sections
+    //     updatePortfolioData({
+    //         sections: portfolioData.sections.map((section) =>
+    //             section.type === "Education" ? updatedEducationSection : section
+    //         ),
+    //     });
+    // };
 
     return (
         <div className="relative pt-5">
             <div className="mt-10">
-                <div className="flex flex-col gap-4">
+                <div className="flex lg:w-[85%] flex-col gap-4">
                     {/* Display existing educations */}
                     {educations.map((education, index) => (
                         <div key={index} className="flex items-center justify-between">
@@ -100,7 +107,10 @@ const Education = ({ portfolioData, updatePortfolioData, setActiveModal }: Educa
                                 </div>
                             </div>
                             <div className="flex gap-2 items-center w-[20%]">
-                                <span>
+                                <span
+                                    className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
+                                transform transition-transform duration-300"
+                                    onClick={() => handleEditEducation(index)}>
                                     <svg
                                         width="20"
                                         height="21"
@@ -130,6 +140,8 @@ const Education = ({ portfolioData, updatePortfolioData, setActiveModal }: Educa
                                     </svg>
                                 </span>
                                 <span
+                                    className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
+                                transform transition-transform duration-300"
                                     onClick={() => handleRemoveEducation(index)}
                                 >
                                     <svg
@@ -171,7 +183,10 @@ const Education = ({ portfolioData, updatePortfolioData, setActiveModal }: Educa
 
                     {/* Add Education Button */}
                     <Button
-                        onClick={() => setActiveModal("createEducationModal")}
+                        onClick={() => {
+                            setEducationToEdit(null); // Reset education to edit
+                            setActiveModal("createEducationModal");
+                        }}
                         className="mt-4 flex justify-center bg-white items-center px-6 py-3 text-sm border border-gray-600 rounded-xl lg:flex shadow-lg text-black-50 gap-2"
                     >
                         <span>
@@ -183,11 +198,11 @@ const Education = ({ portfolioData, updatePortfolioData, setActiveModal }: Educa
             </div>
 
             {/* Save Changes Button */}
-            <div className="mt-6">
+            {/* <div className="mt-6">
                 <Button onClick={handleSave} className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl">
                     Save Changes
                 </Button>
-            </div>
+            </div> */}
         </div>
     );
 };

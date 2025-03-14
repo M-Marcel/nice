@@ -7,9 +7,10 @@ type CertificationProps = {
     portfolioData: Portfolio;
     updatePortfolioData: (updatedData: Partial<Portfolio>) => void;
     setActiveModal: (modal: string | null) => void;
+    setCertificationToEdit: (certification: any) => void;
 };
 
-const Certification = ({ portfolioData, updatePortfolioData, setActiveModal }: CertificationProps) => {
+const Certification = ({ portfolioData, updatePortfolioData, setActiveModal, setCertificationToEdit }: CertificationProps) => {
     const [certifications, setCertifications] = useState<any[]>([]); // Local state for certifications
 
     // Initialize certifications from portfolioData
@@ -24,6 +25,12 @@ const Certification = ({ portfolioData, updatePortfolioData, setActiveModal }: C
         }
     }, [portfolioData]);
 
+    // Handle editing a certification entry
+    const handleEditCertification = (index: number) => {
+        setCertificationToEdit(certifications[index]); // Set the certification to edit
+        setActiveModal("createCertificationModal"); // Open the modal
+    };
+
     // Handle adding a new certification
     // const handleAddCertification = (newCertification: any) => {
     //     setCertifications((prevCertifications) => [...prevCertifications, newCertification]);
@@ -37,38 +44,38 @@ const Certification = ({ portfolioData, updatePortfolioData, setActiveModal }: C
     };
 
     // Handle saving changes
-    const handleSave = () => {
-        // Find the Certification section from the portfolioData
-        const certificationSection = portfolioData.sections.find(
-            (section) => section.type === "Certificates"
-        );
+    // const handleSave = () => {
+    //     // Find the Certification section from the portfolioData
+    //     const certificationSection = portfolioData.sections.find(
+    //         (section) => section.type === "Certificates"
+    //     );
 
-        if (!certificationSection) {
-            console.error("Certification section not found in portfolioData.");
-            return;
-        }
+    //     if (!certificationSection) {
+    //         console.error("Certification section not found in portfolioData.");
+    //         return;
+    //     }
 
-        // Ensure the _id is included in the updated section
-        const updatedCertificationSection = {
-            ...certificationSection,
-            customContent: {
-                ...certificationSection.customContent,
-                certificates: certifications, // Use `certifications` instead of `certification`
-            },
-        };
+    //     // Ensure the _id is included in the updated section
+    //     const updatedCertificationSection = {
+    //         ...certificationSection,
+    //         customContent: {
+    //             ...certificationSection.customContent,
+    //             certificates: certifications, // Use `certifications` instead of `certification`
+    //         },
+    //     };
 
-        // Update the portfolioData while preserving other sections
-        updatePortfolioData({
-            sections: portfolioData.sections.map((section) =>
-                section.type === "Certificates" ? updatedCertificationSection : section
-            ),
-        });
-    };
+    //     // Update the portfolioData while preserving other sections
+    //     updatePortfolioData({
+    //         sections: portfolioData.sections.map((section) =>
+    //             section.type === "Certificates" ? updatedCertificationSection : section
+    //         ),
+    //     });
+    // };
 
     return (
         <div className="relative pt-5">
             <div className="mt-10">
-                <div className="flex flex-col gap-4">
+                <div className="flex lg:w-[85%] flex-col gap-4">
                     {/* Display existing certifications */}
                     {certifications.map((certification, index) => (
                         <div key={index} className="flex items-center justify-between">
@@ -100,7 +107,10 @@ const Certification = ({ portfolioData, updatePortfolioData, setActiveModal }: C
                                 </div>
                             </div>
                             <div className="flex gap-2 items-center w-[20%]">
-                                <span>
+                                <span
+                                    className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
+                                transform transition-transform duration-300"
+                                    onClick={() => handleEditCertification(index)}>
                                     <svg
                                         width="20"
                                         height="21"
@@ -129,7 +139,10 @@ const Certification = ({ portfolioData, updatePortfolioData, setActiveModal }: C
                                         />
                                     </svg>
                                 </span>
-                                <span onClick={() => handleRemoveCertification(index)}>
+                                <span
+                                    className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
+                                transform transition-transform duration-300"
+                                    onClick={() => handleRemoveCertification(index)}>
                                     <svg
                                         width="18"
                                         height="19"
@@ -169,8 +182,11 @@ const Certification = ({ portfolioData, updatePortfolioData, setActiveModal }: C
 
                     {/* Add Certification Button */}
                     <Button
-                        onClick={() => setActiveModal("createCertificationModal")}
-                        className="mt-4 flex justify-center bg-white items-center px-6 py-3 text-sm border border-gray-600 rounded-xl lg:flex shadow-lg text-black-50 gap-2"
+                        onClick={() => {
+                            setCertificationToEdit(null); // Reset certification to edit
+                            setActiveModal("createCertificationModal");
+                        }}
+                        className="mt-4 w-full flex justify-center bg-white items-center px-6 py-3 text-sm border border-gray-600 rounded-xl lg:flex shadow-lg text-black-50 gap-2"
                     >
                         <span>
                             <AdminPlusIcon />
@@ -181,11 +197,11 @@ const Certification = ({ portfolioData, updatePortfolioData, setActiveModal }: C
             </div>
 
             {/* Save Changes Button */}
-            <div className="mt-6">
+            {/* <div className="mt-6">
                 <Button onClick={handleSave} className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl">
                     Save Changes
                 </Button>
-            </div>
+            </div> */}
         </div>
     );
 };

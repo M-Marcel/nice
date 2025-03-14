@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import UploadIcon from '../assets/upload.png';
 import { Portfolio } from "../dataTypes";
 import Button from "./Button";
+import { toast } from "react-toastify";
 
 
 type templateDataProps = {
@@ -117,6 +118,7 @@ const Info = ({ portfolioData, updatePortfolioData }: templateDataProps) => {
                 },
             ],
         });
+        toast.success('changes saved')
       
     };
 

@@ -53,7 +53,7 @@ const CreateProjectModal = ({ setActiveModal }: any) => {
                         <p className="text-md font-semibold mb-1">Portfolio</p>
                         <p className="text-xs text-gray-400 w-[80%]">New portfolio project</p>
                     </div>
-                   
+
                 </div>
                 <div>
                     <Button

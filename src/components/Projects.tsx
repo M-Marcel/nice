@@ -3,6 +3,7 @@ import { Portfolio } from "../dataTypes";
 import Button from "./Button";
 import AdminPlusIcon from "../assets/svg/admin/plusIcon";
 
+
 type ProjectsProps = {
     portfolioData: Portfolio;
     updatePortfolioData: (updatedData: Partial<Portfolio>) => void;
@@ -39,38 +40,39 @@ const Projects = ({ portfolioData, updatePortfolioData, setActiveModal, setProje
     };
 
     // Handle saving changes
-    const handleSave = () => {
-        // Find the Projects section from the portfolioData
-        const projectsSection = portfolioData.sections.find(
-            (section) => section.type === "Projects"
-        );
+    // const handleSave = () => {
+    //     // Find the Projects section from the portfolioData
+    //     const projectsSection = portfolioData.sections.find(
+    //         (section) => section.type === "Projects"
+    //     );
 
-        if (!projectsSection) {
-            console.error("Projects section not found in portfolioData.");
-            return;
-        }
+    //     if (!projectsSection) {
+    //         console.error("Projects section not found in portfolioData.");
+    //         return;
+    //     }
 
-        // Ensure the _id is included in the updated section
-        const updatedProjectsSection = {
-            ...projectsSection,
-            customContent: {
-                ...projectsSection.customContent,
-                projects: projects, // Update the projects array
-            },
-        };
+    //     // Ensure the _id is included in the updated section
+    //     const updatedProjectsSection = {
+    //         ...projectsSection,
+    //         customContent: {
+    //             ...projectsSection.customContent,
+    //             projects: projects, // Update the projects array
+    //         },
+    //     };
 
-        // Update the portfolioData while preserving other sections
-        updatePortfolioData({
-            sections: portfolioData.sections.map((section) =>
-                section.type === "Projects" ? updatedProjectsSection : section
-            ),
-        });
-    };
+    //     // Update the portfolioData while preserving other sections
+    //     updatePortfolioData({
+    //         sections: portfolioData.sections.map((section) =>
+    //             section.type === "Projects" ? updatedProjectsSection : section
+    //         ),
+    //     });
+    //     toast.success('changes saved')
+    // };
 
     return (
         <div className="relative pt-5">
             <div className="mt-10">
-                <div className="flex lg:w-[80%] flex-col gap-4">
+                <div className="flex lg:w-[85%] flex-col gap-4">
                     {/* Display existing projects */}
                     {projects.map((project, index) => (
                         <div key={index} className="flex items-center justify-between">
@@ -102,7 +104,7 @@ const Projects = ({ portfolioData, updatePortfolioData, setActiveModal, setProje
                             <div className="flex gap-2 items-center w-[20%]">
                                 <span
                                     className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
-                                transform transition-transform duration-300"
+                                    transform transition-transform duration-300"
                                     onClick={() => handleEditProject(index)}>
                                     <svg
                                         width="20"
@@ -191,11 +193,11 @@ const Projects = ({ portfolioData, updatePortfolioData, setActiveModal, setProje
             </div>
 
             {/* Save Changes Button */}
-            <div className="mt-6">
+            {/* <div className="mt-6">
                 <Button onClick={handleSave} className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl">
                     Save Changes
                 </Button>
-            </div>
+            </div> */}
         </div>
     );
 };

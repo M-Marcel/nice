@@ -1,13 +1,15 @@
-import { useState } from "react";
-import UploadIcon from "../assets/upload.png";
+import { useEffect, useState } from "react";
+// import UploadIcon from "../assets/upload.png";
 import Button from "./Button";
 
 type CreateWorkModalProps = {
     onAddWork: (work: any) => void; // Updated prop name and type
+    onUpdateWork: (work: any) => void;
     onClose: () => void;
+    workToEdit?: any;
 };
 
-const CreateWorkModal = ({ onAddWork, onClose }: CreateWorkModalProps) => {
+const CreateWorkModal = ({ onAddWork, onUpdateWork, onClose, workToEdit }: CreateWorkModalProps) => {
     const [formData, setFormData] = useState({
         role: "",
         company: "",
@@ -17,6 +19,19 @@ const CreateWorkModal = ({ onAddWork, onClose }: CreateWorkModalProps) => {
     });
 
     const { role, company, startDate, endDate, currentlyWorking } = formData;
+
+    // Populate form data if editing
+    useEffect(() => {
+        if (workToEdit) {
+            setFormData({
+                role: workToEdit.role,
+                company: workToEdit.company,
+                startDate: workToEdit.startDate,
+                endDate: workToEdit.endDate === "Present" ? "" : workToEdit.endDate,
+                currentlyWorking: workToEdit.endDate === "Present",
+            });
+        }
+    }, [workToEdit]);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
@@ -46,13 +61,18 @@ const CreateWorkModal = ({ onAddWork, onClose }: CreateWorkModalProps) => {
             endDate: currentlyWorking ? "Present" : endDate, // Set endDate to "Present" if currently working
         };
 
-        onAddWork(workData); // Pass the new work data to the parent
+        if (workToEdit) {
+            onUpdateWork(workData); // Call update function if editing
+        } else {
+            onAddWork(workData); // Call add function if creating
+        }
         onClose(); // Close the modal
     };
 
     return (
         <div className="px-4 h-[60vh] overflow-y-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
             <div className="">
+                <h2 className="text-3xl mb-4 mt-4 text-black-500">{workToEdit ? "Edit Work" : "Add Work"}</h2>
                 <form className="mb-8" onSubmit={handleSubmit}>
                     <div className="flex flex-col mb-2">
                         <label className="text-xs mb-1 text-gray-400">Role</label>
@@ -113,7 +133,7 @@ const CreateWorkModal = ({ onAddWork, onClose }: CreateWorkModalProps) => {
                         type="submit"
                         className="w-full lg:flex text-sm items-center text-center justify-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl"
                     >
-                        Add Work
+                        {workToEdit ? "Update Work" : "Add Work"}
                     </Button>
                 </form>
             </div>
