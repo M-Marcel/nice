@@ -44,33 +44,33 @@ const Education = ({ portfolioData, updatePortfolioData, setActiveModal, setEduc
     };
 
     // Handle saving changes
-    // const handleSave = () => {
-    //     // Find the Education section from the portfolioData
-    //     const educationSection = portfolioData.sections.find(
-    //         (section) => section.type === "Education"
-    //     );
+    const handleSave = () => {
+        // Find the Education section from the portfolioData
+        const educationSection = portfolioData.sections.find(
+            (section) => section.type === "Education"
+        );
 
-    //     if (!educationSection) {
-    //         console.error("Education section not found in portfolioData.");
-    //         return;
-    //     }
+        if (!educationSection) {
+            console.error("Education section not found in portfolioData.");
+            return;
+        }
 
-    //     // Ensure the _id is included in the updated section
-    //     const updatedEducationSection = {
-    //         ...educationSection,
-    //         customContent: {
-    //             ...educationSection.customContent,
-    //             education: educations, // Use `education` instead of `educations`
-    //         },
-    //     };
+        // Ensure the _id is included in the updated section
+        const updatedEducationSection = {
+            ...educationSection,
+            customContent: {
+                ...educationSection.customContent,
+                education: educations, // Use `education` instead of `educations`
+            },
+        };
 
-    //     // Update the portfolioData while preserving other sections
-    //     updatePortfolioData({
-    //         sections: portfolioData.sections.map((section) =>
-    //             section.type === "Education" ? updatedEducationSection : section
-    //         ),
-    //     });
-    // };
+        // Update the portfolioData while preserving other sections
+        updatePortfolioData({
+            sections: portfolioData.sections.map((section) =>
+                section.type === "Education" ? updatedEducationSection : section
+            ),
+        });
+    };
 
     return (
         <div className="relative pt-5">
@@ -198,11 +198,11 @@ const Education = ({ portfolioData, updatePortfolioData, setActiveModal, setEduc
             </div>
 
             {/* Save Changes Button */}
-            {/* <div className="mt-6">
+            <div className="mt-6">
                 <Button onClick={handleSave} className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl">
                     Save Changes
                 </Button>
-            </div> */}
+            </div>
         </div>
     );
 };

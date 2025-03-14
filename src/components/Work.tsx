@@ -56,33 +56,33 @@ const Work = ({ portfolioData, updatePortfolioData, setActiveModal, setWorkToEdi
     };
 
     // Handle saving changes
-    // const handleSave = () => {
-    //     // Find the Work section from the portfolioData
-    //     const worksSection = portfolioData.sections.find(
-    //         (section) => section.type === "Work"
-    //     );
+    const handleSave = () => {
+        // Find the Work section from the portfolioData
+        const worksSection = portfolioData.sections.find(
+            (section) => section.type === "Work"
+        );
 
-    //     if (!worksSection) {
-    //         console.error("Work section not found in portfolioData.");
-    //         return;
-    //     }
+        if (!worksSection) {
+            console.error("Work section not found in portfolioData.");
+            return;
+        }
 
-    //     // Ensure the _id is included in the updated section
-    //     const updatedWorksSection = {
-    //         ...worksSection,
-    //         customContent: {
-    //             ...worksSection.customContent,
-    //             works: works, // Update the works array
-    //         },
-    //     };
+        // Ensure the _id is included in the updated section
+        const updatedWorksSection = {
+            ...worksSection,
+            customContent: {
+                ...worksSection.customContent,
+                works: works, // Update the works array
+            },
+        };
 
-    //     // Update the portfolioData while preserving other sections
-    //     updatePortfolioData({
-    //         sections: portfolioData.sections.map((section) =>
-    //             section.type === "Work" ? updatedWorksSection : section
-    //         ),
-    //     });
-    // };
+        // Update the portfolioData while preserving other sections
+        updatePortfolioData({
+            sections: portfolioData.sections.map((section) =>
+                section.type === "Work" ? updatedWorksSection : section
+            ),
+        });
+    };
 
     return (
         <div className="relative pt-5">
@@ -209,11 +209,11 @@ const Work = ({ portfolioData, updatePortfolioData, setActiveModal, setWorkToEdi
             </div>
 
             {/* Save Changes Button */}
-            {/* <div className="mt-6">
+            <div className="mt-6">
                 <Button onClick={handleSave} className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl">
                     Save Changes
                 </Button>
-            </div> */}
+            </div>
         </div>
     );
 };
