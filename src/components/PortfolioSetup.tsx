@@ -13,9 +13,10 @@ type PortfolioProps = {
     setActiveModal: (modal: string | null) => void; // Use a more specific type for setActiveModal
     portfolioData?: Portfolio; // Make portfolioData optional
     updatePortfolioData: (updatedData: Partial<Portfolio>) => void;
+    setProjectToEdit: (project: any) => void; // Add this line
 };
 
-const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, onClose }: PortfolioProps & { onClose?: () => void }) => {
+const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, onClose, setProjectToEdit }: PortfolioProps & { onClose?: () => void }) => {
     const [activeTab, setActiveTab] = useState<string>("Info");
     const tabs = [
         { name: "Info" },
@@ -37,7 +38,12 @@ const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, on
             case "Skills":
                 return <Skills portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} />;
             case "Projects":
-                return <Projects portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} setActiveModal={setActiveModal} />;
+                return <Projects 
+                portfolioData={portfolioData} 
+                updatePortfolioData={updatePortfolioData} 
+                setActiveModal={setActiveModal} 
+                setProjectToEdit={setProjectToEdit}
+                />;
             case "Work":
                 return <Work portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} setActiveModal={setActiveModal} />;
             case "Education":

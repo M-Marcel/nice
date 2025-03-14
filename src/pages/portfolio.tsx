@@ -15,6 +15,7 @@ import CreateWorkModal from "../components/createWorkModal";
 import CreateEducationModal from "../components/createEducationModal";
 import CreateCertificationModal from "../components/createCertificationModal";
 import PublishModal from "../components/publishModal";
+import PreviewModal from "../components/PreviewModal";
 
 const PortfolioBuilder = () => {
     const { portfolioId } = useParams();
@@ -23,6 +24,9 @@ const PortfolioBuilder = () => {
     const [activeModal, setActiveModal] = useState<string | null>(null);
     const [portfolioData, setPortfolioData] = useState<Portfolio | null>(null);
     const [isMobileEditVisible, setIsMobileEditVisible] = useState(false); // State to control mobile edit visibility
+    const [projectToEdit, setProjectToEdit] = useState<any | null>(null); // Add this line
+
+
 
     // Load portfolio data from localStorage on initial render
     useEffect(() => {
@@ -95,7 +99,7 @@ const PortfolioBuilder = () => {
                     <a href="/">
                         <Logo />
                     </a>
-                  
+
                 </div>
                 <div className="flex items-center gap-1">
                     <UntitledIcon />
@@ -105,10 +109,18 @@ const PortfolioBuilder = () => {
                     <div className="flex">
                         <span className="text-gray-400 text-xs lg:text-sm">Status</span>
                     </div>
-                    <Button className="px-2 py-2 lg:px-6 lg:py-3 text-xs lg:text-sm border border-gray-600 rounded-xl lg:flex bg-white shadow-lg text-black-500">Preview</Button>
-                    <Button 
-                      onClick={() => setActiveModal("publishModal")}
-                    className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl">
+                    <Button
+                        onClick={() => setActiveModal("previewModal")}
+                        className="px-2 py-2 lg:px-6 lg:py-3 text-xs lg:text-sm border 
+                    border-gray-600 rounded-xl lg:flex bg-white text-black-500
+                    hover:scale-105 
+transform transition-transform duration-300 "
+                    >
+                        Preview
+                    </Button>
+                    <Button
+                        onClick={() => setActiveModal("publishModal")}
+                        className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl">
                         Publish
                     </Button>
                 </div>
@@ -172,6 +184,7 @@ const PortfolioBuilder = () => {
                             setActiveModal={setActiveModal}
                             portfolioData={portfolioData}
                             updatePortfolioData={updatePortfolioData}
+                            setProjectToEdit={setProjectToEdit} 
                         />
                     ) : (
                         <p className="text-gray-400">No portfolio data available.</p>
@@ -187,6 +200,7 @@ const PortfolioBuilder = () => {
                             portfolioData={portfolioData}
                             updatePortfolioData={updatePortfolioData}
                             onClose={() => setIsMobileEditVisible(false)} // Pass the onClose prop
+                            setProjectToEdit={setProjectToEdit} // Pass setProjectToEdit
                         />
                     </div>
                 )}
@@ -196,7 +210,7 @@ const PortfolioBuilder = () => {
             <Modal isVisible={activeModal === "createProject"} onClose={closeModal}>
                 <CreateProject
                     onAddProject={(newProject) => {
-                        // Handle adding the new project to the portfolioData
+                        // Handle adding a new project
                         const updatedProjects = [...(portfolioData?.sections.find(section => section.type === "Projects")?.customContent?.projects || []), newProject];
                         updatePortfolioData({
                             sections: portfolioData?.sections.map(section =>
@@ -207,7 +221,25 @@ const PortfolioBuilder = () => {
                         });
                         closeModal();
                     }}
+                    onUpdateProject={(updatedProject) => {
+                        // Handle updating an existing project
+                        const projectsSection = portfolioData?.sections?.find(section => section.type === "Projects");
+                        const existingProjects = projectsSection?.customContent?.projects || [];
+
+                        const updatedProjects = existingProjects.map(project =>
+                            project === projectToEdit ? updatedProject : project
+                        );
+                        updatePortfolioData({
+                            sections: portfolioData?.sections.map(section =>
+                                section.type === "Projects"
+                                    ? { ...section, customContent: { ...section.customContent, projects: updatedProjects } }
+                                    : section
+                            ) || [],
+                        });
+                        closeModal();
+                    }}
                     onClose={closeModal}
+                    projectToEdit={projectToEdit} // Pass the project to edit (if any)
                 />
             </Modal>
             <Modal isVisible={activeModal === "createWorkModal"} onClose={closeModal}>
@@ -260,8 +292,13 @@ const PortfolioBuilder = () => {
             </Modal>
 
             <Modal isVisible={activeModal === "publishModal"} className="publish-section bg-white" onClose={closeModal}>
-                    <PublishModal onClose={closeModal} portfolioData={portfolioData} />
+                <PublishModal onClose={closeModal} portfolioData={portfolioData} />
             </Modal>
+
+            <Modal isVisible={activeModal === "previewModal"} className="bg-white w-full" width="" onClose={closeModal}>
+                <PreviewModal onClose={closeModal} portfolioData={portfolioData} />
+            </Modal>
+
         </div>
     );
 };
