@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./Button";
 
 type CreateEducationModalProps = {
     onAddEducation: (education: any) => void; // Updated prop name and type
+    onUpdateEducation: (education: any) => void;
     onClose: () => void;
+    educationToEdit?: any;
 };
 
-const CreateEducationModal = ({ onAddEducation, onClose }: CreateEducationModalProps) => {
+const CreateEducationModal = ({ onAddEducation, onUpdateEducation, onClose, educationToEdit }: CreateEducationModalProps) => {
     const [formData, setFormData] = useState({
         degree: "",
         school: "",
@@ -16,6 +18,19 @@ const CreateEducationModal = ({ onAddEducation, onClose }: CreateEducationModalP
     });
 
     const { degree, school, startYear, endYear, notGraduatedYet } = formData;
+
+    useEffect(() => {
+        if (educationToEdit) {
+            setFormData({
+                degree: educationToEdit.degree,
+                school: educationToEdit.school,
+                startYear: educationToEdit.startYear,
+                endYear: educationToEdit.endYear === "student" ? "" : educationToEdit.endYear,
+                notGraduatedYet: educationToEdit.notGraduatedYet === "student",
+            });
+        }
+    }, [educationToEdit]);
+
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
@@ -38,20 +53,24 @@ const CreateEducationModal = ({ onAddEducation, onClose }: CreateEducationModalP
         e.preventDefault();
 
         // Prepare the work data to be added
-        const EducationData = {
+        const educationData = {
             degree,
             school,
             startYear,
             endYear: notGraduatedYet ? "Student" : endYear, // Set endYear to "Student" if currently schooling
         };
-
-        onAddEducation(EducationData); // Pass the new work data to the parent
+        if (educationToEdit) {
+            onUpdateEducation(educationData); // Call update function if editing
+        } else {
+            onAddEducation(educationData); // Call add function if creating
+        }
         onClose(); // Close the modal
     };
 
     return (
         <div className="px-4 h-[60vh] overflow-y-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
             <div className="">
+                <h2 className="text-3xl mb-4 mt-4 text-black-500">{educationToEdit ? "Edit Education" : "Add Education"}</h2>
                 <form className="mb-8" onSubmit={handleSubmit}>
                     <div className="flex flex-col mb-2">
                         <label className="text-xs mb-1 text-gray-400">Degree</label>
@@ -112,7 +131,7 @@ const CreateEducationModal = ({ onAddEducation, onClose }: CreateEducationModalP
                         type="submit"
                         className="w-full lg:flex text-sm items-center text-center justify-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl"
                     >
-                        Add Education
+                        {educationToEdit ? "Update Education" : "Add Education"}
                     </Button>
                 </form>
             </div>

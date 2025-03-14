@@ -1,19 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./Button";
 
 type CreateCertificationModalProps = {
     onAddCertification: (certification: any) => void; // Updated prop name and type
+    onUpdateCertification: (certification: any) => void;
     onClose: () => void;
+    certificationToEdit?: any;
 };
 
-const CreateCertificationModal = ({ onAddCertification, onClose }: CreateCertificationModalProps) => {
+const CreateCertificationModal = ({ onAddCertification, onUpdateCertification, onClose, certificationToEdit }: CreateCertificationModalProps) => {
     const [formData, setFormData] = useState({
         name: "",
-        issuedBy : "",
+        issuedBy: "",
         yearIssued: "",
     });
 
     const { name, issuedBy, yearIssued } = formData;
+
+    // Populate form data if editing
+    useEffect(() => {
+        if (certificationToEdit) {
+            setFormData({
+                name: certificationToEdit.name,
+                issuedBy: certificationToEdit.issuedBy,
+                yearIssued: certificationToEdit.yearIssued,
+            });
+        }
+    }, [certificationToEdit]);
 
     const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
@@ -36,19 +49,24 @@ const CreateCertificationModal = ({ onAddCertification, onClose }: CreateCertifi
         e.preventDefault();
 
         // Prepare the certificate data to be added
-        const CertificationData = {
+        const certificationData = {
             name,
             issuedBy,
             yearIssued
         };
 
-        onAddCertification(CertificationData); // Pass the new work data to the parent
-        onClose(); // Close the modal
+        if (certificationToEdit) {
+            onUpdateCertification(certificationData);
+        } else {
+            onAddCertification(certificationData);
+        }
+        onClose();
     };
 
     return (
         <div className="px-4 h-[60vh] overflow-y-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
             <div className="">
+                <h2 className="text-3xl mb-4 mt-4 text-black-500">{certificationToEdit ? "Edit Certification" : "Add Certification"}</h2>
                 <form className="mb-8" onSubmit={handleSubmit}>
                     <div className="flex flex-col mb-2">
                         <label className="text-xs mb-1 text-gray-400">Certificate name</label>
@@ -88,7 +106,7 @@ const CreateCertificationModal = ({ onAddCertification, onClose }: CreateCertifi
                         type="submit"
                         className="w-full lg:flex text-sm items-center text-center justify-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl"
                     >
-                        Add Certificate
+                        {certificationToEdit ? "Update Certificate" : "Add Certificate"}
                     </Button>
                 </form>
             </div>

@@ -7,9 +7,10 @@ type WorkProps = {
     portfolioData: Portfolio;
     updatePortfolioData: (updatedData: Partial<Portfolio>) => void;
     setActiveModal: (modal: string | null) => void;
+    setWorkToEdit: (work: any) => void;
 };
 
-const Work = ({ portfolioData, updatePortfolioData, setActiveModal }: WorkProps) => {
+const Work = ({ portfolioData, updatePortfolioData, setActiveModal, setWorkToEdit }: WorkProps) => {
     const [works, setWorks] = useState<any[]>([]); // Local state for works
 
     // Initialize works from portfolioData
@@ -29,6 +30,24 @@ const Work = ({ portfolioData, updatePortfolioData, setActiveModal }: WorkProps)
     //     setWorks((prevWorks) => [...prevWorks, newWork]);
     // };
 
+    // Initialize works from portfolioData
+    useEffect(() => {
+        if (portfolioData?.sections?.length > 0) {
+            const worksSection = portfolioData.sections.find(
+                (section) => section.type === "Work"
+            );
+            if (worksSection) {
+                setWorks(worksSection.customContent?.work || []);
+            }
+        }
+    }, [portfolioData]);
+
+    // Handle editing a work entry
+    const handleEditWork = (index: number) => {
+        setWorkToEdit(works[index]); // Set the work to edit
+        setActiveModal("createWorkModal"); // Open the modal
+    };
+
     // Handle removing a work
     const handleRemoveWork = (index: number) => {
         setWorks((prevWorks) =>
@@ -37,38 +56,38 @@ const Work = ({ portfolioData, updatePortfolioData, setActiveModal }: WorkProps)
     };
 
     // Handle saving changes
-    const handleSave = () => {
-        // Find the Work section from the portfolioData
-        const worksSection = portfolioData.sections.find(
-            (section) => section.type === "Work"
-        );
+    // const handleSave = () => {
+    //     // Find the Work section from the portfolioData
+    //     const worksSection = portfolioData.sections.find(
+    //         (section) => section.type === "Work"
+    //     );
 
-        if (!worksSection) {
-            console.error("Work section not found in portfolioData.");
-            return;
-        }
+    //     if (!worksSection) {
+    //         console.error("Work section not found in portfolioData.");
+    //         return;
+    //     }
 
-        // Ensure the _id is included in the updated section
-        const updatedWorksSection = {
-            ...worksSection,
-            customContent: {
-                ...worksSection.customContent,
-                works: works, // Update the works array
-            },
-        };
+    //     // Ensure the _id is included in the updated section
+    //     const updatedWorksSection = {
+    //         ...worksSection,
+    //         customContent: {
+    //             ...worksSection.customContent,
+    //             works: works, // Update the works array
+    //         },
+    //     };
 
-        // Update the portfolioData while preserving other sections
-        updatePortfolioData({
-            sections: portfolioData.sections.map((section) =>
-                section.type === "Work" ? updatedWorksSection : section
-            ),
-        });
-    };
+    //     // Update the portfolioData while preserving other sections
+    //     updatePortfolioData({
+    //         sections: portfolioData.sections.map((section) =>
+    //             section.type === "Work" ? updatedWorksSection : section
+    //         ),
+    //     });
+    // };
 
     return (
         <div className="relative pt-5">
             <div className="mt-10">
-                <div className="flex flex-col gap-4">
+                <div className="flex lg:w-[85%] flex-col gap-4">
                     {/* Display existing works */}
                     {works.map((work, index) => (
                         <div key={index} className="flex items-center justify-between">
@@ -98,7 +117,11 @@ const Work = ({ portfolioData, updatePortfolioData, setActiveModal }: WorkProps)
                                 </div>
                             </div>
                             <div className="flex gap-2 items-center w-[20%]">
-                                <span>
+                                <span
+                                    className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
+                                transform transition-transform duration-300"
+                                    onClick={() => handleEditWork(index)}
+                                >
                                     <svg
                                         width="20"
                                         height="21"
@@ -128,6 +151,8 @@ const Work = ({ portfolioData, updatePortfolioData, setActiveModal }: WorkProps)
                                     </svg>
                                 </span>
                                 <span
+                                    className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
+                                transform transition-transform duration-300"
                                     onClick={() => handleRemoveWork(index)}
                                 >
                                     <svg
@@ -169,7 +194,10 @@ const Work = ({ portfolioData, updatePortfolioData, setActiveModal }: WorkProps)
 
                     {/* Add Work Button */}
                     <Button
-                        onClick={() => setActiveModal("createWorkModal")}
+                        onClick={() => {
+                            setWorkToEdit(null); // Reset work to edit
+                            setActiveModal("createWorkModal");
+                        }}
                         className="mt-4 flex justify-center bg-white items-center px-6 py-3 text-sm border border-gray-600 rounded-xl lg:flex shadow-lg text-black-50 gap-2"
                     >
                         <span>
@@ -181,11 +209,11 @@ const Work = ({ portfolioData, updatePortfolioData, setActiveModal }: WorkProps)
             </div>
 
             {/* Save Changes Button */}
-            <div className="mt-6">
+            {/* <div className="mt-6">
                 <Button onClick={handleSave} className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl">
                     Save Changes
                 </Button>
-            </div>
+            </div> */}
         </div>
     );
 };

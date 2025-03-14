@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Portfolio } from "../dataTypes";
 import Button from "./Button";
+import { toast } from "react-toastify";
 
 type SkillsProps = {
     portfolioData: Portfolio;
@@ -61,6 +62,7 @@ const Skills = ({ portfolioData, updatePortfolioData }: SkillsProps) => {
                 section.type === "Skills" ? updatedSkillsSection : section
             ),
         });
+        toast.success('changes saved')
     };
 
     return (
