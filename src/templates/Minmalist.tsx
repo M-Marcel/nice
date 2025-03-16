@@ -213,7 +213,7 @@ const Minimalist: React.FC<TestTemplateProps> = ({ templateId, templateData }) =
                                         <div className="flex flex-col gap-4">
                                             <h2 className="text-sm lg:text-lg text-black-580">Education</h2>
                                             {educationSection.customContent.education.map((education, index) => (
-                                                <div key={index} className="flex justify-between gap-3 items-center">
+                                                <div key={index} className="flex gap-3 items-center">
                                                     <div className="border border-gray-600 rounded-full px-2">
                                                         <svg width="14" height="32" viewBox="0 0 34 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <path d="M1.16602 9.49284C1.16602 11.6173 14.0008 17.4095 16.9994 17.4095C19.9979 17.4095 32.8327 11.6173 32.8327 9.49284C32.8327 7.36836 19.9979 1.57617 16.9994 1.57617C14.0008 1.57617 1.16602 7.36835 1.16602 9.49284Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />

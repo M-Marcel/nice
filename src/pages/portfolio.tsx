@@ -139,8 +139,8 @@ transform transition-transform duration-300 "
                 </Button>
             </div>
 
-            <div className="flex justify-between mx-4">
-                <div className="myTemplate lg:px-4 py-4 w-[100%] lg:w-[75%] h-[100vh] overflow-y-scroll left-2 border scrollbar-none lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 rounded-xl border-gray-600 mt-20">
+            <div className="flex justify-between mx-2 lg:mx-4">
+                <div className="myTemplate  lg:px-4 py-2 w-[100%] lg:w-[75%] h-[100vh] overflow-y-scroll left-2 lg:border scrollbar-none lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 rounded-xl border-gray-600 mt-20">
                     {/* Loading, Error, and Template Rendering Logic */}
                     {isLoading ? (
                         <div className="flex items-center justify-center gap-6 h-[60vh]">
@@ -356,7 +356,7 @@ transform transition-transform duration-300 "
                 <PublishModal onClose={closeModal} portfolioData={portfolioData} />
             </Modal>
 
-            <Modal isVisible={activeModal === "previewModal"} className="bg-white w-full" width="" onClose={closeModal}>
+            <Modal isVisible={activeModal === "previewModal"} className="bg-white w-full px-0 py-0" width="" onClose={closeModal}>
                 <PreviewModal onClose={closeModal} portfolioData={portfolioData} />
             </Modal>
 

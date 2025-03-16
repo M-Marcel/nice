@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import Button from "./Button";
 import { Portfolio } from "../dataTypes";
 import { useNavigate } from "react-router-dom";
-;
+
 
 const PublishModal = ({ onClose, portfolioData }: { onClose: () => void, portfolioData: Portfolio | null }) => {
     const dispatch = useAppDispatch();
