@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Button from "../components/Button"
 import LeftSidebar from "../components/LeftSidebar"
 import DashboardHero from "../assets/dbherro.png"
@@ -212,19 +213,19 @@ const Dashboard = () => {
                                 <p className="text-red-500">{message}</p>
                             ) : portfolios && portfolios.length > 0 ? (
                                 portfolios.map((portfolio) => (
-                                    <div key={portfolio._id} className="">
-                                        <div className="mt-8 py-10 purpose-bg flex flex-col">
+                                    <Link to={`/portfolio/view/${portfolio._id}`} key={portfolio._id} className=" hover:scale-105 transform 
+                                    transition-transform duration-300">
+                                        <div className="mt-8  purpose-bg flex flex-col">
                                             {/* Display portfolio image or placeholder */}
-                                            <div className="w-full lg:w-[200px] lg:h-[100px] rounded-full lg:mb-8">
+                                            <div className="w-full lg:w-full lg:h-[auto] rounded-full lg:mb-8">
                                                 <img
                                                     src={portfolio.sections.find(section => section.type === "Info")?.customContent?.coverImg || BotDesign}
                                                     alt="portfolio"
-                                                    className="w-full object-contain"
+                                                    className="w-full object-contain  rounded-2xl"
                                                 />
                                             </div>
-
                                         </div>
-                                        <div className="mb-4 lg:mb-8">
+                                        <div className="mt-4 lg:mt-0 mb-4 lg:mb-8">
                                             <p className="text-sm font-semibold text-black-500">
                                                 {portfolio.sections.find(section => section.type === "Info")?.customContent?.name || "Untitled Portfolio"}
                                             </p>
@@ -232,7 +233,7 @@ const Dashboard = () => {
                                                 Last edited: {new Date(portfolio.createdAt).toLocaleDateString()}
                                             </p>
                                         </div>
-                                    </div>
+                                    </Link>
                                 ))
                             ) : (
                                 <p className="text-gray-400">No portfolios found. Create a new one!</p>
