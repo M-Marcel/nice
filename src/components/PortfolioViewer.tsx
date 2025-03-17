@@ -38,6 +38,7 @@ const PortfolioViewer = () => {
     const TemplateComponent = portfolio.referenceTemplate ? templateMap[portfolio.referenceTemplate] : null;
 
     return (
+
         <div className="flex justify-center items-center bg-transparent px-0 py-0">
             <div className="w-[100%] h-full overflow-y-auto">
                 {TemplateComponent && portfolio ? (

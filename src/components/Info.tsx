@@ -123,7 +123,7 @@ const Info = ({ portfolioData, updatePortfolioData }: templateDataProps) => {
     };
 
     return (
-        <div className="overflow-y-scroll scrollbar-none h-[75vh] lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 px-2">
+        <div className="overflow-y-scroll scrollbar-none h-[75vh] lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 px-2">
             <div className="mt-20">
                 <form className="mb-8 lg:-ml-2">
                     {/* Profile Image Section */}
