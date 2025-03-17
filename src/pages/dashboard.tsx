@@ -240,16 +240,24 @@ const Dashboard = () => {
                             )}
                         </div>
                     </div>
-                    <div className="w-[100%] lg:w-[35%] px-4 py-4 h-[100vh] lg:overflow-y-scroll lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
-                        <div className="flex justify-between gap-14 mt-10">
-                            <div>
+                    <div className="w-[100%] lg:w-[35%] px-4 py-4 h-[100vh] lg:overflow-y-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
+                        <div className="flex justify-between mt-10 mb-4">
+                            <div className="w-[50%]">
                                 <h2 className="text-sm mb- font-semibold">Feature requests</h2>
                                 <p className="text-xs text-gray-400 ">Vote request or add yours</p>
                             </div>
                             <Button
-                                className="custom-bg text-xs  px-3 py-3 rounded-xl text-white"
+                                className="text-xs flex gap-1 items-center px-2 py-4 rounded-xl border border-gray-600  bg-white text-black-500 hover:scale-105  transform transition-transform duration-300"
                                 onClick={() => setActiveModal("requestForm")}
-                            >Add request
+                            >
+                                <span>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6 12H18" stroke="#1A1C1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M12 18V6" stroke="#1A1C1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+
+                                </span>
+                                <span>Add request</span>
                             </Button>
                         </div>
                         <div className="mt-2 ">

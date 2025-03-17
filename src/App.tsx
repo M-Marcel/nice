@@ -37,6 +37,7 @@ import PortfolioBuilder from "./pages/portfolio";
 import New404Page from "./components/New404Page";
 import ShowCase from "./components/ShowCase";
 import PortfolioViewer from "./components/PortfolioViewer";
+import PreviewPage from "./components/PreviewPage";
 
 
 
@@ -80,8 +81,9 @@ function App() {
           <Route path="/create-portfolio" element={<PortfolioBuilder />} />
           <Route path="/portfolio/:portfolioId" element={<PortfolioBuilder />} />
           <Route path="/portfolio/view/:portfolioId" element={<PortfolioViewer />} />
+          <Route path="/portfolio/preview/:portfolioId" element={<PreviewPage />} />
           
-
+s
           <Route element={<ProtectedAdminRoute />}>
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/feature-request" element={<FeatureRequest />} />
