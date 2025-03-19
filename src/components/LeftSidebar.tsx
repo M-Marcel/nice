@@ -70,7 +70,7 @@ const LeftSidebar = ({dashboardType}: LeftSidebarProps) => {
       >
         <div className="flex justify-between">
           <div className="flex items-center gap-2 ml-4 bg-white">
-            <a href="/">
+            <a href="/dashboard">
               <Logo />
             </a>
 
@@ -135,7 +135,7 @@ const LeftSidebar = ({dashboardType}: LeftSidebarProps) => {
           } lg:translate-x-0 transition-transform duration-300 lg:w-[18%] flex flex-col gap-3 px-4 py-4`}
       >
         <div className={`py-4 ${dashboardType === "superadmin" || dashboardType === "admin" ? "ml-8 mt-4" : "ml-0"}`}>
-          <a href="/">
+          <a href="/dashboard">
             {dashboardType === "superadmin" || dashboardType === "admin" ? <AdminLogo /> : <Logo />}
           </a>
         </div>

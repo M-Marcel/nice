@@ -1,5 +1,5 @@
 // PreviewModal.tsx
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import UntitledIcon from "../assets/svg/Untitledicon";
 import templateMap from "../templates/templateMap";
 import LoaderIcon from "../assets/loader.svg";
@@ -12,6 +12,7 @@ import { getPortfolioById } from "../slices/portfolio/portfolioSlice";
 
 
 const PreviewPage = () => {
+    const navigate = useNavigate()
      const { portfolioId } = useParams();
        const dispatch = useAppDispatch();
        const { portfolio, isLoading, isError, message } = useAppSelector((state) => state.portfolio);
@@ -61,13 +62,13 @@ const PreviewPage = () => {
                         <span className="text-gray-400 text-xs lg:text-sm">Status</span>
                     </div>
                     <Button
-                      
+                        onClick={() => navigate(-1)}
                         className="px-2 py-2 lg:px-6 lg:py-3 text-xs lg:text-sm border 
                     border-gray-600 rounded-xl lg:flex bg-white text-black-500
                     hover:scale-105 
 transform transition-transform duration-300 "
                     >
-                        Preview
+                       Back to Edit
                     </Button>
                     <Button
                       

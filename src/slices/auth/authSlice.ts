@@ -209,7 +209,7 @@ export const updateProfile = createAsyncThunk<
 
 // Logout thunk doesn't return anything
 export const logout = createAsyncThunk("auth/logout", async () => {
-    await authService.logout();
+    await authService.logoutUser();
 });
 
 const authSlice = createSlice({
@@ -222,6 +222,9 @@ const authSlice = createSlice({
         logout: (state) => {
             state.user = null;
             state.token = null;
+            state.isLoginSuccess = false;
+            state.isError = true; // Set isError to true for token expiration
+            state.message = "Session expired, please login";
             localStorage.removeItem("user");
             localStorage.removeItem("token");
         },
@@ -430,8 +433,7 @@ const authSlice = createSlice({
                 state.isLoginSuccess = false;
                 state.isError = false;
                 state.message = '';
-                localStorage.removeItem("user");
-                localStorage.removeItem("token");
+               
             });
     },
 });

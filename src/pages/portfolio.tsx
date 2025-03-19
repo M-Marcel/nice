@@ -99,7 +99,7 @@ const PortfolioBuilder = () => {
         <div className="h-[100vh] overflow-y-scroll lg:scrollbar-none">
             <div className="grid grid-cols-3 px-2 fixed  w-full bg-white z-30 py-4 items-center">
                 <div className="hidden lg:block">
-                    <a href="/">
+                    <a href="/dashboard">
                         <Logo />
                     </a>
 
