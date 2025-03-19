@@ -78,13 +78,9 @@ function App() {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/create-portfolio" element={<PortfolioBuilder />} />
-          <Route path="/portfolio/:portfolioId" element={<PortfolioBuilder />} />
-          <Route path="/portfolio/view/:portfolioId" element={<PortfolioViewer />} />
-          <Route path="/portfolio/preview/:portfolioId" element={<PreviewPage />} />
-          <Route path="/portfolio/edit/:portfolioId" element={<PortfolioBuilder />} />
-          
-s
+
+
+          s
           <Route element={<ProtectedAdminRoute />}>
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/feature-request" element={<FeatureRequest />} />
@@ -101,6 +97,11 @@ s
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/create-portfolio" element={<PortfolioBuilder />} />
+            <Route path="/portfolio/:portfolioId" element={<PortfolioBuilder />} />
+            <Route path="/portfolio/view/:portfolioId" element={<PortfolioViewer />} />
+            <Route path="/portfolio/preview/:portfolioId" element={<PreviewPage />} />
+            <Route path="/portfolio/edit/:portfolioId" element={<PortfolioBuilder />} />
           </Route>
 
           {/* Catch-all 404 Route */}
