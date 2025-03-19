@@ -305,7 +305,7 @@ const authSlice = createSlice({
                 state.user = action.payload.user;
                 state.token = action.payload.token;
                 state.message = action.payload.message;
-                toast.success('log in successful');
+                // toast.success('log in successful');
 
             })
             .addCase(login.rejected, (state, action) => {

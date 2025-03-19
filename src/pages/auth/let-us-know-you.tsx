@@ -212,7 +212,7 @@ const LetUsKnowYou = () => {
                         {/* Zroleak Usage */}
                         <div className="flex flex-col gap-2 mb-4">
                             <label htmlFor="password" className="text-sm text-gray-400 mb-2">
-                                What do you plan to use Zroleak for?
+                                What do you plan to use Lanepact for?
                             </label>
                             {
                                 [

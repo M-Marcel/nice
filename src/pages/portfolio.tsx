@@ -97,18 +97,18 @@ const PortfolioBuilder = () => {
 
     return (
         <div className="h-[100vh] overflow-y-scroll lg:scrollbar-none">
-            <div className="grid grid-cols-3 px-2 fixed  w-full bg-white z-30 py-4 items-center">
+            <div className="grid grid-cols-2 lg:grid-cols-3 px-4 fixed w-full bg-white z-30 py-4 items-center">
                 <div className="hidden lg:block">
                     <a href="/dashboard">
                         <Logo />
                     </a>
 
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="flex items-center lg:justify-center gap-1">
                     <UntitledIcon />
                     <p>untitled</p>
                 </div>
-                <div className="ml-[220px] lg:ml-0 flex items-center gap-4 justify-end">
+                <div className="flex items-center gap-4 justify-end">
                     <div className="flex">
                         <span className="text-gray-400 text-xs lg:text-sm">Status</span>
                     </div>

@@ -82,6 +82,7 @@ function App() {
           <Route path="/portfolio/:portfolioId" element={<PortfolioBuilder />} />
           <Route path="/portfolio/view/:portfolioId" element={<PortfolioViewer />} />
           <Route path="/portfolio/preview/:portfolioId" element={<PreviewPage />} />
+          <Route path="/portfolio/edit/:portfolioId" element={<PortfolioBuilder />} />
           
 s
           <Route element={<ProtectedAdminRoute />}>

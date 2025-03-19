@@ -110,7 +110,7 @@ const Dashboard = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="hidden lg:flex items-center gap-2 bg-gray-900 text-sm text-black-700 px-4 py-3 
-                         rounded-xl"
+                         rounded-xl hover:scale-105 transform transition-transform duration-300 "
                         >
                             <img src={TelegramIcon} alt="telIcon" width={18} height={18} />
                             Join Telegram
