@@ -12,7 +12,7 @@ import WaitList from "./pages/waitlist";
 import DragandDrop from "./components/DragandDrop";
 import LetUsKnowYou from "./pages/auth/let-us-know-you";
 import VerifyEmail from "./pages/auth/verifyEmail";
-import { ModalProvider } from "./context/ModalContext"; // Import ModalProvider
+import { ModalProvider } from "./context/ModalContext"; 
 import Contact from "./pages/contact";
 import Dashboard from "./pages/dashboard";
 import Profile from "./pages/profile";
