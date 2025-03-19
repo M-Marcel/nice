@@ -59,7 +59,7 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
     };
 
     const handleLogout = () => {
-        authService.logout()
+        authService.logoutUser()
         navigate('/')
         setLogoutModalOpen(false)
         enablePageScroll()
