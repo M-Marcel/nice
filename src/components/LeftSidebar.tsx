@@ -13,16 +13,17 @@ import ComputerIcon from "../assets/computer-white.png";
 import LogoutModal from "./LogoutModal";
 import AdminLogo from "./AdminLogo";
 import { useDashboard } from "../context/DashboardContext";
+import AwardIcon2 from '../assets/awardIcon2.png'
 
 interface LeftSidebarProps {
   dashboardType: "admin" | "superadmin" | "user"; // Define the prop type for dashboardType
 }
 
 
-const LeftSidebar = ({dashboardType}: LeftSidebarProps) => {
+const LeftSidebar = ({ dashboardType }: LeftSidebarProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
-  const { setDashboardType } = useDashboard(); 
+  const { setDashboardType } = useDashboard();
   const location = useLocation();
   const navigate = useNavigate();
   const sidebarRef = useRef<HTMLDivElement | null>(null);
@@ -213,26 +214,40 @@ const LeftSidebar = ({dashboardType}: LeftSidebarProps) => {
 
           return null;
         })}
+        <div className="flex flex-col justify-center mt-auto">
+          <div className="flex flex-col items-center mb-6">
+            <span className="rounded-2xl border border-gray-900 px-2 py-2 mb-2">
+              <img src={AwardIcon2} alt="" width={35} />
+            </span>
+            <span className="text-gray-500 text-sm mb-2">Current plan</span>
+            <span className="text-black-500 text-xs mb-2 font-semibold">Free</span>
+            <Button className="px-2 py-2 lg:px-6 lg:py-3 text-xs lg:text-xs border 
+                    border-gray-600 rounded-xl lg:flex bg-white text-black-500
+                    hover:scale-105 transform transition-transform duration-300 ">
+              Subscribe now
+            </Button>
+          </div>
+          <a
+            href="/contact-us"
+            className={`${dashboardType === "superadmin" || dashboardType === "admin" ? "hidden" : "flex"
+              } gap-2 items-center mb-3 text-gray-500 hover:text-black-500 hover:bg-gray-910 px-2 py-3`}
+          >
+            <img src={UserIcon} alt="dashboard" width={18} height={18} />
+            <p className="text-sm">Contact us</p>
+          </a>
 
+          {/* Logout Button */}
+          <Button
+            onClick={openLogoutModal}
+            className={`flex ${dashboardType === "superadmin" || dashboardType === "admin" ? "ml-4" : "mt-0 bg-white"
+              } gap-2 items-center text-sm`}
+          >
+            <Logout />
+            <span className="text-red-600">Log out</span>
+          </Button>
+        </div>
         {/* Contact Us Link */}
-        <a
-          href="/contact-us"
-          className={`${dashboardType === "superadmin" || dashboardType === "admin" ? "hidden" : "flex"
-            } gap-2 items-center mt-auto text-gray-500 hover:text-black-500 hover:bg-gray-910 px-2 py-3`}
-        >
-          <img src={UserIcon} alt="dashboard" width={18} height={18} />
-          <p className="text-sm">Contact us</p>
-        </a>
 
-        {/* Logout Button */}
-        <Button
-          onClick={openLogoutModal}
-          className={`flex ${dashboardType === "superadmin" || dashboardType === "admin" ? "mt-auto ml-4" : "mt-0 bg-white"
-            } gap-2 items-center text-sm`}
-        >
-          <Logout />
-          <span className="text-red-600">Log out</span>
-        </Button>
       </div>
 
       {/* Logout Modal */}
