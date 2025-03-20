@@ -70,7 +70,7 @@ const Professional: React.FC<TestTemplateProps> = ({ templateId, templateData })
                                 </div>
                             </div>
 
-                            <div className="px-4 mt-[140px] py-8 rounded-xl border border-gray-900">
+                            <div className="px-4 mt-[140px] py-8 rounded-xl lg:border border-gray-900">
                                 <div className="flex-col lg:flex justify-between">
                                     <div>
                                         <h2 className="text-sm lg:text-lg text-gray-980">About</h2>
@@ -130,7 +130,7 @@ const Professional: React.FC<TestTemplateProps> = ({ templateId, templateData })
                             <div className="flex-col lg:flex lg:flex-row justify-between mt-10">
                                 {/* Certificates Section */}
                                 {certificatesSection?.customContent?.certificates && (
-                                    <div className="certificates  w-[100%] lg:w-[42%] px-4 py-8 rounded-xl border border-gray-900">
+                                    <div className="certificates mb-6 lg:mb-0 w-[100%] lg:w-[42%] px-4 py-8 rounded-xl border border-gray-900">
                                         <div className="flex flex-col gap-4">
                                             <h2 className="text-sm lg:text-lg text-gray-980">Certificates</h2>
                                             {certificatesSection.customContent.certificates.map((certificate, index) => (

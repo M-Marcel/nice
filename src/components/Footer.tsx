@@ -11,8 +11,8 @@ const Footer = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row items-start justify-between mt-4 pb-8">
-          <div className="flex gap-2 items-center mb-4 lg:mb-0">
-            <div className="flex gap-3 ">
+          <div className="flex flex-col lg:flex-row gap-2 lg:items-center mb-4 lg:mb-0">
+            <div className="flex gap-3 mb-2 lg:mb-0">
               <a href="https://t.me/+iw2jh3VaeSg4MzBk" target="blank">
                 <span className="flex items-center justify-center">
                   <svg
@@ -142,7 +142,7 @@ const Footer = () => {
                 </span>
               </a>
             </div>
-            <a className="text-gray-300 text-sm ps-3" href="/">
+            <a className="text-gray-300 text-sm lg:ps-3" href="/">
               info@lanepact.org
             </a>
           </div>

@@ -127,7 +127,7 @@ const Dashboard = () => {
                     <div className="w-[100%] lg:w-[65%] lg:px-4 relative z-10 lg:py-4 h-auto lg:h-[100vh] lg:overflow-y-scroll
                     lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
                         <div className="mt-10 mb-4 hidden md:block relative overflow-hidden">
-                            <div className="mobile-dashboard-hero flex h-[auto]">
+                            <div className="desktop-dashboard-hero flex h-[auto]">
                                 <img src={DashboardHero} alt="dhero" className="w-[100%]" />
                             </div>
                             <div className="absolute flex justify-between top-2 w-full">
@@ -149,7 +149,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div className="mt-10 mb-4 md:hidden relative overflow-hidden">
-                            <div className="mobile-dashboard-hero flex h-[auto]">
+                            <div className="mobile-dashboard-hero flex h-[auto] py-2">
                                 <img src={DashboardHero} alt="dhero" className="w-[100%]" />
                             </div>
                             <div className="absolute flex justify-between top-1 w-full">
