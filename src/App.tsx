@@ -38,6 +38,10 @@ import New404Page from "./components/New404Page";
 import ShowCase from "./components/ShowCase";
 import PortfolioViewer from "./components/PortfolioViewer";
 import PreviewPage from "./components/PreviewPage";
+import PaymentPlans from "./pages/paymentPlans";
+import FreePlans from "./pages/freePlan";
+import PlansModal from "./components/PlansModal";
+
 
 
 
@@ -78,9 +82,12 @@ function App() {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/PaymentPage" element={<PaymentPlans />} />
+          <Route path="/freePage" element={<FreePlans />} />
+          <Route path="/plansModel" element={<PlansModal />} />
 
 
-          s
+          
           <Route element={<ProtectedAdminRoute />}>
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/feature-request" element={<FeatureRequest />} />
