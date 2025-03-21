@@ -34,6 +34,10 @@
     background-image: url('./assets/joinframe.jpg');
     background-size: cover;
 }
+.plans-bg{
+  background-image: url('./assets/Frame\ 471.jpg');
+  background-size: cover;
+}
 .custom-blue{
     background: #1D689D36;
 }
