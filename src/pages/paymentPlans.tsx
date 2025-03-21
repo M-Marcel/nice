@@ -1,9 +1,10 @@
-import React from "react";
-import paymentImg from "../assets/frame.jpg";
+import { useNavigate } from "react-router-dom";
 import LogoImage from "../assets/lanepact-logo.png";
 import Button from "../components/Button";
 
 const PaymentPlans = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col justify-center plans-bg  ">
       <div className="flex flex-col text-center items-center justify-center mt-20  ">
@@ -93,7 +94,9 @@ const PaymentPlans = () => {
             </li>
           </ul>
           <div className="mt-32">
-            <Button className="flex justify-center items-center w-full bg-white  text-black-500 border border-gray-900 text-xs px-4 py-3 lg:text-sm lg:px-5 lg:py-4 rounded-xl">
+            <Button 
+              onClick={() => navigate('/free-tier') }
+              className="flex justify-center items-center w-full bg-white  text-black-500 border border-gray-900 text-xs px-4 py-3 lg:text-sm lg:px-5 lg:py-4 rounded-xl">
               Start for free
             </Button>
           </div>

@@ -41,6 +41,7 @@ import PreviewPage from "./components/PreviewPage";
 import PaymentPlans from "./pages/paymentPlans";
 import FreePlans from "./pages/freePlan";
 import PlansModal from "./components/PlansModal";
+import WelcomePage from "./pages/WelcomePage";
 
 
 
@@ -82,9 +83,10 @@ function App() {
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/PaymentPage" element={<PaymentPlans />} />
-          <Route path="/freePage" element={<FreePlans />} />
-          <Route path="/plansModel" element={<PlansModal />} />
+          <Route path="/payment-page" element={<PaymentPlans />} />
+          <Route path="/free-tier" element={<FreePlans />} />
+          <Route path="/welcome" element={<WelcomePage />} />
+          <Route path="/plans-modal" element={<PlansModal />} />
 
 
           
