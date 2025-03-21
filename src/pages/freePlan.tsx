@@ -1,15 +1,16 @@
-import React from "react";
-import paymentImg from "../assets/frame.jpg";
+import { useNavigate } from "react-router-dom";
 import LogoImage from "../assets/lanepact-logo.png";
 import Button from "../components/Button";
 
 const FreePlans = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col justify-center plans-bg  ">
       <div className="flex flex-col text-center items-center justify-center mt-20  ">
         <img src={LogoImage} alt="logoImg" width={20} height={20} />
         <h1 className="font-title text-4xl text-blck-300 font-semi-bold pt-10 w-[70%] lg:w-[25%] ">
-        Enjoy a 1 month of Lanepact for free!
+          Enjoy a 1 month of Lanepact for free!
         </h1>
         <p className="text-sm pt-3 text-gray-500">Upgrade anytime for uninterrupted access</p>
       </div>
@@ -85,10 +86,12 @@ const FreePlans = () => {
           </ul>
         </div>
         <div className="mb-10">
-            <Button className="flex custom-bg  justify-center items-center w-full bg-white  text-white border border-gray-900 text-xs px-2 py-3 lg:text-sm lg:px-5 lg:py-2 rounded-xl">
-              Continue
-            </Button>
-          </div>
+          <Button
+            onClick={() => navigate('/welcome')}
+            className="flex custom-bg  justify-center items-center w-full bg-white  text-white border border-gray-900 text-xs px-2 py-3 lg:text-sm lg:px-5 lg:py-2 rounded-xl">
+            Continue
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,3 @@
-import React from "react";
-import LogoImage from "../assets/lanepact-logo.png";
 import Button from "../components/Button";
 
 const PlansModal = () => {
