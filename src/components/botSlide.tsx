@@ -19,7 +19,7 @@ const BotSlide = () => {
             {
                 breakpoint: 768, // Tablet and mobile view
                 settings: {
-                    slidesToShow: 2,
+                    slidesToShow: 1,
                     slidesToScroll: 1,
                     draggable: true,
                     swipe: true,

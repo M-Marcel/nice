@@ -7,6 +7,8 @@ import ValidateOtp from "../pages/auth/validate-otp";
 import Modal from "./Modal";
 import PasswordChangeSuccess from "./PasswordChangeSuccess";
 import { enablePageScroll } from "scroll-lock"
+import TelegramModal from "./telegramModal";
+
 
 
 
@@ -20,10 +22,11 @@ const Modals = ({ email, setEmail }: ModalsProps) => {
 
   const closeModal = () => {
     setActiveModal(null);
-    document.body.style.overflow = "auto"; 
+    document.body.style.overflow = "auto";
     enablePageScroll()
 
   };
+
 
   return (
     <>
@@ -32,14 +35,16 @@ const Modals = ({ email, setEmail }: ModalsProps) => {
         <SignUp />
       </Modal>
 
-     
-
+      <Modal isVisible={activeModal === "telegramModal"} onClose={closeModal}>
+        <TelegramModal />
+      </Modal>
       {/* Login Modal */}
       <Modal isVisible={activeModal === "login"} onClose={closeModal}>
-        <Login 
-        openForgotPasswordModal={() => setActiveModal("forgotPassword")} 
-        openSignUpModal={() => setActiveModal("signup")} 
-      />
+        <Login
+          openForgotPasswordModal={() => setActiveModal("forgotPassword")}
+          openSignUpModal={() => setActiveModal("signup")}
+          openTelegramModal={() => setActiveModal("telegramModal")}
+        />
       </Modal>
 
       {/* Forgot Password Modal */}

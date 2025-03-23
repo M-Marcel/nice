@@ -7,13 +7,14 @@ import Modals from "../components/Modals"
 import CommunityFrame from '../assets/communityFrame.png'
 import Footer from "../components/Footer"
 import Join from "../components/Join"
-import { communityBots} from "../constants"
+import { communityBots } from "../constants"
 import Button from "../components/Button"
 import Dropdown from "../components/Dropdown"
+import TawkTo from "../components/TawkTo"
+
+
 
 const Community = () => {
-    // Okay tried
-
     const [email, setEmail] = useState<string>("");
     const { setActiveModal } = useModal()
     const BlockOptions = ["Block1", "Block2", "Block3"];
@@ -60,7 +61,7 @@ const Community = () => {
             </div>
 
             <div className="px-5 lg:px-7.5 xl:px-10 lg:mx-8 mt-[40px]">
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                     {
                         communityBots.map((item) => (
                             <div key={item.id}>
@@ -76,7 +77,7 @@ const Community = () => {
                                     <div className="mt-5">
                                         <div className="flex flex-col lg:flex-row justify-between lg:items-center mb-2">
                                             <h2 className="text-black-300 text-md mb-2 lg:mb-0">{item.title}</h2>
-                                            <Button className="custom-bg rounded-lg px-4 py-2 text-white text-sm">{item.btnText}</Button>
+                                            <Button className="custom-bg rounded-lg px-4 py-4 text-white text-sm">{item.btnText}</Button>
                                         </div>
                                         <div>
                                             <p className="flex gap-1 items-center mb-2">
@@ -101,6 +102,10 @@ const Community = () => {
 
             <Join />
             <Footer />
+
+            {/* Tawk.to Script */}
+            <TawkTo />
+
         </>
     )
 }

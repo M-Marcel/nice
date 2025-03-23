@@ -5,6 +5,9 @@ import { getProfile, updateProfile } from "../slices/auth/authSlice";
 import Button from "../components/Button";
 import LeftSidebar from "../components/LeftSidebar";
 import ProfileFrame from "../assets/dbFrame.png";
+import Elipse from '../assets/Ellipse2.png'
+import Pencil from '../assets/pencil.png'
+import Dashboardicon from '../assets/dashboard.png'
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
@@ -24,22 +27,22 @@ const Profile = () => {
 
   // Fetch user profile
   useEffect(() => {
-    if (!user) dispatch(getProfile());    
-    
+    if (!user) dispatch(getProfile());
+
     if (isFetchProfileSuccess) toast.success("Profile loaded successfully");
 
     return () => {
-     
+
     };
   }, [dispatch, isFetchProfileSuccess, user]);
 
   useEffect(() => {
-    
+
     if (isUpdateProfileSuccess) {
       toast.success("Profile updated successfully!");
-      setIsEditable(false); 
+      setIsEditable(false);
       navigate("/dashboard")
-     
+
     }
   }, [isUpdateProfileSuccess, navigate]);
 
@@ -59,11 +62,11 @@ const Profile = () => {
     dispatch(updateProfile(updatedData));
     if (isUpdateProfileSuccess) {
       toast.success("Profile updated successfully!");
-      setIsEditable(false); 
+      setIsEditable(false);
       navigate("/dashboard")
-  
+
     }
-   
+
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,6 +92,15 @@ const Profile = () => {
               <img src={ProfileFrame} alt="profile-frame" className="rounded-3xl mb-6" />
 
               <div className="bg-white py-3 px-3">
+                <div className="mb-4 lg:absolute top-[30%]">
+                  <img
+                    src={Elipse}
+                    alt="Profile"
+                    width={65}
+                    height={65}
+                    className="rounded-full"
+                  />
+                </div>
                 <div className="flex justify-between items-center">
                   <div>
                     <h2 className="text-sm">{formData.fullName}</h2>
@@ -98,68 +110,93 @@ const Profile = () => {
                     Change image
                   </Button>
                 </div>
+                <div className="flex flex-col lg:flex-row gap-4 justify-between">
+                  <form className="w-[100%] lg:w-[50%]" onSubmit={handleSave}>
+                    {message && <p className="text-red-500 text-sm mt-2">{message}</p>}
+                    <div className="flex flex-col lg:flex-row justify-between items-center">
+                      <div className="flex w-[100%] lg:w-[70%] flex-col mb-3">
+                        <label className="mb-1 text-sm text-gray-500">Full name</label>
+                        <input
+                          type="text"
+                          name="fullName"
+                          value={formData.fullName}
+                          onChange={handleInputChange}
+                          disabled={!isEditable}
+                          className="border py-2 px-2 w-[100%] border-gray-600 outline-0 rounded-lg"
+                        />
+                      </div>
+                      <div className="w-[100%] lg:w-[25%] flex gap-6 items-center mt-4">
+                        {!isEditable && (
+                          <Button
+                            onClick={handleEditToggle}
+                            type="button"
+                            className="bg-white mt-3 gap-2 flex flex-row items-center border-none px-2 py-2"
+                          >
+                            <img src={Pencil} alt="pencil" width={20} height={20} />
+                            <span className="text-gray-500 text-sm">Edit</span>
+                          </Button>
+                        )}
+                        {isEditable && (
+                          <Button className="custom-bg px-4 py-2 rounded-lg text-white text-sm" type="submit" disabled={isLoading}>
+                            {isLoading ? "Saving..." : "Save"}
+                          </Button>
+                        )}
 
-                <form onSubmit={handleSave} className="mt-6">
-                  <div className="flex flex-col gap-4">
-                    {/* Full Name */}
-                    <div className="flex flex-col">
-                      <label className="text-sm text-gray-500">Full Name</label>
-                      <input
-                        type="text"
-                        name="fullName"
-                        value={formData.fullName}
-                        onChange={handleInputChange}
-                        disabled={!isEditable}
-                        className="border border-gray-600 py-2 px-2 rounded-lg"
-                      />
+
+                      </div>
                     </div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="flex w-[90%] flex-col mb-3">
+                        <label className="mb-1 text-sm text-gray-500">Role</label>
+                        <input
+                          type="text"
+                          name="workRole"
+                          value={formData.workRole}
+                          onChange={handleInputChange}
+                          disabled={!isEditable}
+                          className="border px-2 py-2 w-[100%] border-gray-600 outline-0 rounded-lg"
+                        />
+                      </div>
 
-                    {/* Work Role */}
-                    <div className="flex flex-col">
-                      <label className="text-sm text-gray-500">Role</label>
-                      <input
-                        type="text"
-                        name="workRole"
-                        value={formData.workRole}
-                        onChange={handleInputChange}
-                        disabled={!isEditable}
-                        className="border border-gray-600 py-2 px-2 rounded-lg"
-                      />
                     </div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <div className="flex w-[90%] flex-col mb-3">
+                        <label className="mb-1 text-sm text-gray-500">Experience level</label>
+                        <input
+                          type="text"
+                          name="experienceLevel"
+                          value={formData.experienceLevel}
+                          onChange={handleInputChange}
+                          disabled={!isEditable}
+                          className="px-2 border py-2 w-[100%] border-gray-600 outline-0 rounded-lg"
 
-                    {/* Experience Level */}
-                    <div className="flex flex-col">
-                      <label className="text-sm text-gray-500">Experience Level</label>
-                      <input
-                        type="text"
-                        name="experienceLevel"
-                        value={formData.experienceLevel}
-                        onChange={handleInputChange}
-                        disabled={!isEditable}
-                        className="border border-gray-600 py-2 px-2 rounded-lg"
-                      />
+                        />
+                      </div>
+                    </div>
+                  </form>
+                  <div className="w-[100%] lg:w-[35%]">
+                    <div className="mb-3 px-3 mt-4 border border-gray-600 py-4 rounded-lg">
+                      <div className="mb-3">
+                        <img src={Dashboardicon} alt="dashboardIcon" className="mb-2" width={20} height={20} />
+                        <p className="text-gray-500 text-sm">Account created</p>
+                      </div>
+                      <p className="text-sm">{formData?.createdAt}</p>
+                    </div>
+                    <div className="mb-3 px-3 mt-4 border border-gray-600 py-4 rounded-lg">
+                      <div className="mb-3">
+                        <img src={Dashboardicon} alt="dashboardIcon" className="mb-2" width={20} height={20} />
+                        <p className="text-gray-500 text-sm">Account created</p>
+                      </div>
+                      <p className="text-sm">{formData?.createdAt}</p>
+                    </div>
+                    <div className="mb-3 px-3 mt-4 border border-gray-600 py-4 rounded-lg">
+                      <div className="mb-3">
+                        <Button className="bg-black-500 text-xs text-white px-2 py-2 rounded-full">14 Invites</Button>
+                      </div>
+                      <p className="text-sm">www.lanepact.com/john</p>
                     </div>
                   </div>
-
-                  {/* Buttons */}
-                  <div className="flex justify-end mt-4">
-                    {/* Separate Edit Button */}
-                    {!isEditable && (
-                      <Button className="mr-4" type="button" onClick={handleEditToggle}>
-                        Edit
-                      </Button>
-                    )}
-
-                    {/* Separate Save Button */}
-                    {isEditable && (
-                      <Button className="mr-4" type="submit" disabled={isLoading}>
-                        {isLoading ? "Saving..." : "Save"}
-                      </Button>
-                    )}
-                  </div>
-                </form>
-
-                {message && <p className="text-red-500 text-sm mt-2">{message}</p>}
+                </div>
               </div>
             </div>
           </div>
@@ -170,3 +207,620 @@ const Profile = () => {
 };
 
 export default Profile;
+
+
+
+
+   <a key={item.id} href={item.url} className="text-gray-500 hover:text-black-500 hover:bg-gray-910 
+                    px-2 py-3">
+                            <div className="flex gap-2 items-center">
+                                <img src={item.image} alt="dashboard" width={18} height={18} />
+                                <p className="text-sm">{item.title}</p>
+                            </div>
+                        </a>
+
+
+
+
+
+
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+    CompleteSignUpFormData,
+    ForgotFormData,
+    LoginFormData,
+    ResetPasswordFormData,
+    SignUpFormData,
+    UpdateProfileFormData,
+    User,
+    ValidateFormData,
+} from "../../dataTypes";
+import authService from "../../helpers/authService";
+import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
+
+type InitialState = {
+    user: User | null;
+    isError: boolean;
+    token: string | null;
+    isSuccess: boolean;
+    isCompleteSignUpSuccess: boolean;
+    isForgotPasswordSuccess: boolean;
+    isLoginSuccess: boolean;
+    isValidationSuccess: boolean;
+    isFetchProfileSuccess: boolean
+    isResetPasswordSuccess: boolean;
+    isUpdateProfileSuccess: boolean;
+    isLoading: boolean;
+    message: string;
+};
+
+const storedRegisterUser = localStorage.getItem("user");
+const user = storedRegisterUser ? JSON.parse(storedRegisterUser) : null;
+const storedToken = localStorage.getItem("token");
+
+const initialState: InitialState = {
+    user: user || null,
+    token: storedToken,
+    isError: false,
+    isSuccess: false,
+    isCompleteSignUpSuccess: false,
+    isForgotPasswordSuccess: false,
+    isLoginSuccess: false,
+    isValidationSuccess: false,
+    isResetPasswordSuccess: false,
+    isFetchProfileSuccess: false,
+    isUpdateProfileSuccess: false,
+    isLoading: false,
+    message: "",
+};
+
+// Decode token function
+const decodeToken = (token: string): User | null => {
+    try {
+        const decoded: any = jwtDecode(token); // Decode JWT
+        return {
+            _id: decoded.sub,
+            email: decoded.email,
+            createdAt: decoded.createdAt,
+            gender: decoded.gender,
+            firstName: decoded.firstName,
+            freemium: decoded.freemium,
+            lastName: decoded.lastName,
+            premium: decoded.premium,
+            role: decoded.role,
+            otp: decoded.otp,
+            otpExpiry: decoded.otpExpiry,
+            userUseForZroleak: decoded.userUseForZroleak,
+            freemiumExpiresAt: decoded.freemiumExpiresAt,
+            userCompanySize: decoded.userCompanySize,
+            userTechnicalExperience: decoded.userTechnicalExperience,
+            userWorkRole: decoded.userWorkRole,
+            emailConfirmToken: decoded.emailConfirmToken,
+            emailConfirmTokenExpiry: decoded.emailConfirmTokenExpiry,
+            emailConfirmed: decoded.emailConfirmed
+        };
+    } catch (error) {
+        console.error("Invalid token", error);
+        return null;
+    }
+};
+
+// Updated thunk return types based on actual API responses
+export const register = createAsyncThunk<
+    { user: User; message: string },
+    SignUpFormData,
+    { rejectValue: string }
+>("auth/register", async (userData, thunkApi) => {
+    try {
+        const response = await authService.register(userData);
+        return response;
+    } catch (error: any) {
+        const message =
+            error.response?.data?.message || error.message || "Registration failed";
+        return thunkApi.rejectWithValue(message);
+    }
+});
+
+export const verifyEmail = createAsyncThunk<
+    { message: string, email: string, provider: string },
+    string,
+    { rejectValue: string }
+>("auth/verifyEmail", async (token, thunkApi) => {
+    try {
+        const response = await authService.verifyEmail(token);
+        return response;
+    } catch (error: any) {
+        const errorMessage =
+            error.response?.data?.message || "Verification failed. Please try again.";
+        return thunkApi.rejectWithValue(errorMessage);
+    }
+});
+
+export const verifyUser = createAsyncThunk<
+    { token: string; message: string },
+    string,
+    { rejectValue: string }
+>("auth/verifyUser", async (token, thunkApi) => {
+    try {
+        const response = await authService.verifyUser(token); // Assume token is returned
+        localStorage.setItem("token", response.token);
+        return response;
+    } catch (error: any) {
+        const errorMessage =
+            error.response?.data?.message || "Verification failed. Please try again.";
+        return thunkApi.rejectWithValue(errorMessage);
+    }
+});
+
+export const login = createAsyncThunk<
+    { user: User; token: string; message: string },
+    LoginFormData,
+    { rejectValue: string }
+>("auth/login", async (userData, thunkApi) => {
+    try {
+        const response = await authService.login(userData);
+        return response;
+    } catch (error: any) {
+        const message =
+            error.response?.data?.message || error.message || "Login failed";
+        return thunkApi.rejectWithValue(message);
+    }
+});
+
+export const forgotPassword = createAsyncThunk<
+    { message: string },
+    ForgotFormData,
+    { rejectValue: string }
+>("auth/forgot-password", async (userData, thunkApi) => {
+    try {
+        const response = await authService.forgotPassword(userData);
+        return response;
+    } catch (error: any) {
+        const message =
+            error.response?.data?.message || error.message || "Failed to send reset email";
+        return thunkApi.rejectWithValue(message);
+    }
+});
+
+export const validateOtp = createAsyncThunk<
+    { user: User; message: string },
+    ValidateFormData,
+    { rejectValue: string }
+>("auth/validate-otp", async (userData, thunkApi) => {
+    try {
+        const response = await authService.validateOtp(userData);
+        return response;
+    } catch (error: any) {
+        const message =
+            error.response?.data?.message || error.message || "OTP validation failed";
+        return thunkApi.rejectWithValue(message);
+    }
+});
+
+export const resetPassword = createAsyncThunk<
+    { message: string },
+    ResetPasswordFormData,
+    { rejectValue: string }
+>("auth/reset-password", async (userData, thunkApi) => {
+    try {
+        const response = await authService.resetPassword(userData);
+        return response;
+    } catch (error: any) {
+        const message =
+            error.response?.data?.message || error.message || "Password reset failed";
+        return thunkApi.rejectWithValue(message);
+    }
+});
+
+export const completeSignUp = createAsyncThunk<
+    { user: User; message: string },
+    CompleteSignUpFormData,
+    { rejectValue: string }
+>("auth/complete-signup", async (userData, thunkApi) => {
+    try {
+        const response = await authService.completeSignUp(userData);
+        return response;
+    } catch (error: any) {
+        const message =
+            error.response?.data?.message || error.message || "Signup completion failed";
+        return thunkApi.rejectWithValue(message);
+    }
+});
+
+export const getProfile = createAsyncThunk<
+    { user: User; message: string },
+    void,
+    { rejectValue: string }
+>("auth/getProfile", async (_, thunkApi) => {
+    try {
+        const response = await authService.getProfile();
+        return response;
+    } catch (error: any) {
+        const message =
+            error.response?.data?.message || error.message || "Failed to fetch profile";
+        return thunkApi.rejectWithValue(message);
+    }
+});
+
+export const updateProfile = createAsyncThunk<
+    { user: User | null; message: string },
+    UpdateProfileFormData,
+    { rejectValue: string }
+>("auth/updateProfile", async (userData, thunkApi) => {
+    try {
+        const response = await authService.updateProfile(userData);
+        return response;
+    } catch (error: any) {
+        const message =
+            error.response?.data?.message || error.message || "Profile update failed";
+        return thunkApi.rejectWithValue(message);
+    }
+});
+
+// Logout thunk doesn't return anything
+export const logout = createAsyncThunk("auth/logout", async () => {
+    await authService.logout();
+});
+
+const authSlice = createSlice({
+    name: "auth",
+    initialState,
+    reducers: {
+        setToken: (state, action) => {
+            state.token = action.payload;
+        },
+        logout: (state) => {
+            state.user = null;
+            state.token = null;
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+        },
+        reset: (state) => {
+            state.isLoading = false
+            state.isSuccess = false
+            state.isCompleteSignUpSuccess = false
+            state.isForgotPasswordSuccess = false
+            state.isLoginSuccess = false
+            state.isFetchProfileSuccess = false
+            state.isUpdateProfileSuccess = false
+            state.isError = false
+            state.message = ''
+        },
+        userRestored: (state, action) => {
+            state.user = action.payload;
+        },
+    },
+    extraReducers: (builder) => {
+        builder
+            // Register Reducers
+            .addCase(register.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(register.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.user = action.payload.user;
+                state.message = action.payload.message;
+            })
+            .addCase(register.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload as string;
+                toast.error(action.payload)
+            })
+            // Verify Email reducers
+            .addCase(verifyEmail.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(verifyEmail.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.message = action.payload.message;
+            })
+            .addCase(verifyEmail.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload as string;
+            })
+            .addCase(verifyUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(verifyUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                const { token } = action.payload;
+
+                // Decode the token to get user details
+                const decodedUser = decodeToken(token);
+                  console.log("decodedUser", decodedUser)
+                if (decodedUser) {
+                    state.user = decodedUser;
+                    state.token = token;
+                    localStorage.setItem("user", JSON.stringify(decodedUser)); // Save user to localStorage
+                } else {
+                    state.user = null;
+                    state.token = null;
+                }
+                state.message = action.payload.message;
+            })
+            .addCase(verifyUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.user = null;
+                state.message = action.payload as string;
+            })
+
+            // Login reducers
+            .addCase(login.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(login.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isLoginSuccess = true;
+                state.user = action.payload.user;
+                state.token = action.payload.token;
+                state.message = action.payload.message;
+                toast.success('log in successful');
+
+            })
+            .addCase(login.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload as string;
+                state.user = null;
+                toast.error(action.payload);
+            })
+
+            // Forgot Password reducers
+            .addCase(forgotPassword.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(forgotPassword.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isForgotPasswordSuccess = true;
+                state.message = action.payload.message;
+                toast.success('an OTP has been sent to your mail');
+            })
+            .addCase(forgotPassword.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload as string;
+                toast.error(action.payload);
+            })
+
+            // Validate OTP reducers
+            .addCase(validateOtp.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(validateOtp.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isValidationSuccess = true;
+                state.user = action.payload.user
+                state.message = action.payload.message;
+                toast.success("Validation successful");
+            })
+            .addCase(validateOtp.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.user = null
+                state.message = action.payload as string;
+                toast.error(action.payload)
+            })
+
+            // Reset Password reducers
+            .addCase(resetPassword.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(resetPassword.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isResetPasswordSuccess = true;
+                state.message = action.payload.message;
+                toast.success("Password reset successful");
+            })
+            .addCase(resetPassword.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload as string;
+                toast.error(action.payload);
+            })
+
+            // Complete Signup reducers
+            .addCase(completeSignUp.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(completeSignUp.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isCompleteSignUpSuccess = true;
+                state.user = action.payload.user;
+                state.message = action.payload.message;
+            })
+            .addCase(completeSignUp.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload as string;
+                toast.error(action.payload);
+            })
+
+            // Get Profile reducers
+            .addCase(getProfile.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getProfile.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isFetchProfileSuccess = true;
+                state.user = action.payload.user;
+
+                state.message = action.payload.message;
+            })
+            .addCase(getProfile.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.user = null;
+                state.message = action.payload as string;
+                toast.error(action.payload);
+            })
+
+            // Update Profile reducers
+            .addCase(updateProfile.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updateProfile.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isUpdateProfileSuccess = true;
+                state.user = action.payload.user;
+                state.message = action.payload.message;
+            })
+            .addCase(updateProfile.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload as string;
+                toast.error(action.payload as string);
+            })
+
+            // Logout reducers
+            .addCase(logout.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(logout.fulfilled, (state) => {
+                state.isLoading = false;
+                state.user = null;
+                state.token = null;
+                state.isLoginSuccess = false;
+                state.isError = false;
+                state.message = '';
+                localStorage.removeItem("user");
+                localStorage.removeItem("token");
+            });
+    },
+});
+
+export const { reset, setToken, userRestored } = authSlice.actions;
+export default authSlice.reducer;
+
+
+
+
+import React, { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { getProfile, verifyEmail } from '../../slices/auth/authSlice';
+import { toast } from 'react-toastify';
+import { useAppDispatch } from '../../hooks';
+
+const VerifyEmail = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { search } = useLocation();
+
+  useEffect(() => {
+    const token = new URLSearchParams(search).get('token');
+
+    if (!token) {
+      toast.error('No token provided. Please check your verification link.');
+      return;
+    }
+
+    const handleEmailVerification = async () => {
+      try {
+        const response = await dispatch(verifyEmail(token)).unwrap();
+
+        console.log('Verification response:', response);
+
+        if (response?.email) {
+          localStorage.setItem('userEmail', response.email);
+          if (response.provider === 'Google') {
+            toast.success('Email verified successfully! Redirecting to your dashboard...');
+            const profile = await dispatch(getProfile()).unwrap();
+            if (profile) {
+              navigate('/dashboard');
+            }
+            localStorage.getItem('userEmail')
+            return;
+
+          }
+        }
+
+        toast.success('Email verified successfully!');
+        navigate('/let-us-know-you', { state: { provider: response?.provider } });
+
+      } catch (error: any) {
+        console.error('Verification failed:', error);
+        toast.error(error.message || 'Verification failed. Please try again.');
+      }
+    };
+
+    handleEmailVerification();
+  }, [search, dispatch, navigate]);
+
+  return (
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+      <div className="p-8 bg-white rounded-lg shadow-lg max-w-md w-full">
+        <h2 className="text-xl font-semibold text-gray-700 mb-4">
+          Verifying your email...
+        </h2>
+        <p className="text-sm text-gray-500">
+          Please wait while we verify your email address...
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default VerifyEmail;
+
+
+
+import { useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAppDispatch } from "../../hooks";
+import { verifyUser } from "../../slices/auth/authSlice";
+
+const VerifyUser = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { search } = useLocation();
+
+  useEffect(() => {
+    const verifyUserProfile = async () => {
+      const token = new URLSearchParams(search).get("token");
+      console.log("Token:", token);
+      if (!token) {
+        toast.error("No token provided. Please try signing in again.");
+        navigate("/");
+        return;
+      }
+
+      try {
+        // Dispatch verifyUser and get the profile
+        const profile = await dispatch(verifyUser(token)).unwrap();
+        console.log("User profile:", profile);
+
+        // Store token in localStorage only if verification is successful
+        localStorage.setItem("token", token);
+
+        // Navigate to dashboard after successful verification
+        toast.success("Welcome back!");
+        navigate("/dashboard");
+      } catch (error) {
+        console.error("Error verifying user:", error);
+        toast.error("Verification failed. Please try again.");
+        navigate("/");
+      }
+    };
+
+    verifyUserProfile();
+  }, [navigate, search, dispatch]);
+
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <p>Verifying user... Please wait.</p>
+    </div>
+  );
+};
+
+export default VerifyUser;
+
+
+
+http://localhost:3000/verify-user?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJveWFsbWludGFAZ21haWwuY29tIiwic3ViIjoiNjdiZGZkZTg5ZTUwNjM4MDVlMDdmZDExIiwicm9sZSI6InVzZXIiLCJzdXNwZW5kZWQiOmZhbHNlLCJpYXQiOjE3NDA1MDczMjMsImV4cCI6MTc0MTExMjEyM30.O8whcaVqvOEgfWIU2KZ-dqdEEUCvTy-AJTf4qH16wlc

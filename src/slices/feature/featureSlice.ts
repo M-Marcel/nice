@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 type InitialState = {
     feature: Feature | null
     features: Feature[]
+    displayedFeatures: Feature[],
     isError: boolean
     isSuccess: boolean
     isVoteSuccess: boolean
@@ -15,14 +16,21 @@ type InitialState = {
     message: string
     currentPage: number;
     totalPages: number;
+    limit: number;
+    total: number;
 }
+
+const storedFeatures = localStorage.getItem('features');
+const features = storedFeatures ? JSON.parse(storedFeatures) : [];
+
 
 const storedCreatedFeature = localStorage.getItem('feature');
 const feature = storedCreatedFeature ? JSON.parse(storedCreatedFeature) : null;
 
 const initialState: InitialState = {
     feature: feature ? feature : null,
-    features: [],
+    features: features,
+    displayedFeatures: [],
     isError: false,
     isFetchRequestSuccess: false,
     isVoteSuccess: false,
@@ -30,9 +38,10 @@ const initialState: InitialState = {
     isLoading: false,
     message: "",
     currentPage: 1,
-    totalPages: 1
+    totalPages: 10,
+    limit: 5,
+    total: 0,
 }
-
 
 export const createFeatureRequest = createAsyncThunk<{ feature: Feature; message: string }, FeatureFormData, { rejectValue: string }>('feature/create-feature-request', async (featureData, thunkApi) => {
     try {
@@ -40,28 +49,32 @@ export const createFeatureRequest = createAsyncThunk<{ feature: Feature; message
         return response;
     } catch (error: any) {
         const message = error.response?.data?.message || error.message || 'feature request creation failed';
-        console.log(message)
+
         return thunkApi.rejectWithValue(message)
     }
 })
-export const getAllFeatureRequest = createAsyncThunk<{ features: Feature[]; message: string; pagination: { currentPage: number, totalPages: number } }, number, { rejectValue: string }
->("feature/getAll", async (page: number, thunkApi) => {
+
+export const getAllFeatureRequest = createAsyncThunk<
+    { features: Feature[]; pagination: { currentPage: number; totalPages: number; total: number; pageSize: number }; message: string },
+    { page: number; pageSize: number },
+    { rejectValue: string }
+>("feature/getAll", async ({ page, pageSize }, thunkApi) => {
     try {
-        const response = await featureService.getAllFeatureRequest(page);
-        return { features: response.features, message: response.message, pagination: response.pagination };
+        const response = await featureService.getAllFeatureRequest(page, pageSize);
+        return { features: response.features, pagination: response.pagination, message: response.message };
     } catch (error: any) {
-        const message =
-            error.response?.data?.message || error.message || "Failed to fetch features";
+        const message = error.response?.data?.message || error.message || "Failed to fetch features";
         return thunkApi.rejectWithValue(message);
     }
 });
+
 export const voteFeatureRequest = createAsyncThunk<{ feature: Feature; message: string }, string, { rejectValue: string }>('feature/vote-feature-request', async (id: string, thunkApi) => {
     try {
         const response = await featureService.voteFeatureRequest(id);
         return response;
     } catch (error: any) {
         const message = error.response?.data?.message || error.message || 'feature request vote failed';
-        console.log(message)
+
         return thunkApi.rejectWithValue(message)
     }
 })
@@ -77,7 +90,21 @@ const featureSlice = createSlice({
             state.isVoteSuccess = false
             state.isError = false
             state.message = ''
-        }
+            state.features = [];
+            state.displayedFeatures = [];
+            state.currentPage = 1;
+            state.totalPages = 5;
+            state.limit = 5;
+            state.total = 0;
+        },
+        setPage: (state, action) => {
+            if (state.currentPage !== action.payload) {
+                state.currentPage = action.payload;
+                const startIndex = (state.currentPage - 1) * state.limit;
+                const endIndex = startIndex + state.limit;
+                state.displayedFeatures = state.features.slice(startIndex, endIndex);
+            }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -85,10 +112,31 @@ const featureSlice = createSlice({
                 state.isLoading = true
             })
             .addCase(createFeatureRequest.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.isSuccess = true
-                state.feature = action.payload.feature
-                state.message = action.payload.message;
+                state.isLoading = false;
+                state.isSuccess = true;
+
+                const newFeature = action.payload.feature;
+
+                // Ensure features is always an array (fallback to empty array if null)
+                if (!state.features) {
+                    state.features = [];
+                }
+
+                // Add new feature immutably
+                state.features = [newFeature, ...state.features];
+                // Reset to the first page
+                state.currentPage = 1;
+
+                // Calculate pagination
+                state.totalPages = Math.ceil(state.features.length / state.limit);
+                const startIndex = (state.currentPage - 1) * state.limit;
+                const endIndex = startIndex + state.limit;
+                state.displayedFeatures = state.features.slice(startIndex, endIndex);
+
+                // Save updated features to localStorage
+                localStorage.setItem('features', JSON.stringify(state.features));
+
+                state.message = action.payload.message
             })
             .addCase(createFeatureRequest.rejected, (state, action) => {
                 state.isLoading = false
@@ -101,18 +149,42 @@ const featureSlice = createSlice({
                 state.isLoading = true
             })
             .addCase(getAllFeatureRequest.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.isFetchRequestSuccess = true
-                state.features = action.payload.features
+                state.isLoading = false;
+                state.isFetchRequestSuccess = true;
+                // Reset features array if it's the first page
+                if (action.payload.pagination.currentPage === 1) {
+                    state.features = action.payload.features;
+                } else {
+                    // Append new features to the existing features array
+                    state.features = [...state.features, ...action.payload.features];
+                }
+
+                if (state.currentPage !== action.payload.pagination.currentPage) {
+                    state.currentPage = action.payload.pagination.currentPage;
+                }
+                if (state.totalPages !== action.payload.pagination.totalPages) {
+                    state.totalPages = action.payload.pagination.totalPages;
+                }
+                if (state.total !== action.payload.pagination.total) {
+                    state.total = action.payload.pagination.total;
+                }
+                if (state.limit !== action.payload.pagination.pageSize) {
+                    state.limit = action.payload.pagination.pageSize;
+                }
+
+                const startIndex = (state.currentPage - 1) * state.limit;
+                const endIndex = startIndex + state.limit;
+                state.displayedFeatures = state.features.slice(startIndex, endIndex);
+
+                localStorage.setItem('features', JSON.stringify(state.features));
                 state.message = action.payload.message;
-                state.currentPage = action.payload.pagination.currentPage;
-                state.totalPages = action.payload.pagination.totalPages;
             })
             .addCase(getAllFeatureRequest.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload as string
                 state.features = []
+                state.displayedFeatures = []
                 // toast.error(action.payload)
             })
             .addCase(voteFeatureRequest.pending, (state) => {
@@ -128,6 +200,10 @@ const featureSlice = createSlice({
                 if (index !== -1) {
                     state.features[index] = updatedFeature;
                 }
+                // Update displayed features for the current page
+                const startIndex = (state.currentPage - 1) * state.limit;
+                const endIndex = startIndex + state.limit;
+                state.displayedFeatures = state.features.slice(startIndex, endIndex);
             })
             .addCase(voteFeatureRequest.rejected, (state, action) => {
                 state.isLoading = false
@@ -140,5 +216,5 @@ const featureSlice = createSlice({
     }
 })
 
-export const { reset } = featureSlice.actions
+export const { reset, setPage } = featureSlice.actions
 export default featureSlice.reducer
