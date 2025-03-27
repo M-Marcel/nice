@@ -1,11 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Portfolio, PortfolioFormData, PortfolioUpdatePayload } from "../../dataTypes";
+import { Category, Portfolio, PortfolioFormData, PortfolioUpdatePayload, Skill } from "../../dataTypes";
 import { toast } from "react-toastify";
 import portfolioService from "../../helpers/portfolioService";
 
 type InitialState = {
     portfolios: Portfolio[]
     portfolio: Portfolio | null
+    allSkills: Skill[]
+    categories: Category[]
     message: string;
     isLoading: boolean
     isSuccess: boolean
@@ -16,6 +18,8 @@ type InitialState = {
 const initialState: InitialState = {
     portfolios: [],
     portfolio: null,
+    allSkills: [],
+    categories: [],
     message: "",
     isLoading: false,
     isSuccess: false,
@@ -48,7 +52,7 @@ export const getPortfolioById = createAsyncThunk(
 
 export const updatePortfolio = createAsyncThunk(
     "portfolio/updatePortfolio",
-    async ({ id, portfolioData }: { id: string; portfolioData: PortfolioUpdatePayload  }, { rejectWithValue }) => {
+    async ({ id, portfolioData }: { id: string; portfolioData: PortfolioUpdatePayload }, { rejectWithValue }) => {
         try {
             const response = await portfolioService.updatePortfolio(id, portfolioData);
             return response;
@@ -63,6 +67,30 @@ export const getAllPortfolios = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await portfolioService.getAllPortfolios();
+            return response;
+        } catch (error: any) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const getAllSkills = createAsyncThunk(
+    "portfolio/fetchAllSkills",
+    async ({ page, limit }: { page: number; limit: number }, { rejectWithValue }) => {
+        try {
+            const response = await portfolioService.getAllSkills(page, limit);
+            return response;
+        } catch (error: any) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const getAllCategories = createAsyncThunk(
+    "portfolio/fetchAllCategories",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await portfolioService.getAllCategories();
             return response;
         } catch (error: any) {
             return rejectWithValue(error.message);
@@ -125,7 +153,7 @@ const portfolioSlice = createSlice({
                 state.isSuccess = true;
                 state.portfolio = action.payload.portfolio;
                 state.message = action.payload.message;
-              
+
             })
             .addCase(updatePortfolio.rejected, (state, action) => {
                 state.isLoading = false;
@@ -144,6 +172,40 @@ const portfolioSlice = createSlice({
                 state.message = action.payload.message;
             })
             .addCase(getAllPortfolios.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string;
+                state.message = action.payload as string;
+                toast.error(action.payload as string);
+            })
+            // Add these to your extraReducers
+            .addCase(getAllSkills.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getAllSkills.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.allSkills = action.payload.skills || [];
+                state.message = action.payload.message;
+                console.log("Skills updated in Redux:", state.allSkills); // Debug log
+            })
+            .addCase(getAllSkills.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string;
+                state.message = action.payload as string;
+                toast.error(action.payload as string);
+            })
+            .addCase(getAllCategories.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getAllCategories.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.categories = action.payload.categories;
+                state.message = action.payload.message;
+            })
+            .addCase(getAllCategories.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.error = action.payload as string;

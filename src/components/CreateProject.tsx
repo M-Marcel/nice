@@ -20,7 +20,7 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
 
     const [formData, setFormData] = useState({
         projectName: "",
-        role: "",
+        myRole: "",
         about: "",
         url: "",
         images: {
@@ -30,13 +30,13 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
         },
     });
 
-    const { projectName, role, about, url } = formData;
+    const { projectName, myRole, about, url } = formData;
 
     useEffect(() => {
         if (projectToEdit) {
             setFormData({
                 projectName: projectToEdit.projectName,
-                role: projectToEdit.role,
+                myRole: projectToEdit.myRole,
                 about: projectToEdit.about,
                 url: projectToEdit.url,
                 images: projectToEdit.images || {
@@ -166,9 +166,9 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
                         <label className="text-xs mb-1 text-gray-400">Role</label>
                         <input
                             type="text"
-                            name="role"
-                            className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
-                            value={role}
+                            name="myRole"
+                            className="border border-gray-900 text-black-500 rounded-lg outline-0 py-1 px-1"
+                            value={myRole}
                             onChange={onChange}
                         />
                     </div>

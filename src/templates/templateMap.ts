@@ -8,9 +8,9 @@ import TestTemplate from "./TestTemplate";
 
 const templateMap: { [key: string]: React.ComponentType<{ templateId: string; templateData: Portfolio }> } = {
     "67bf199038980fcd5b88065a": TestTemplate, // Test template ID
-    "67c027c65821c807b85b42ae":Professional,
-    "67d29552e8315c82e992d85e":Creative,
-    "67c03f3f5821c807b85b43bb": Minimalist, // Minimalist template ID
+    "67e3bb354309a5934d047221":Professional,
+    "67e3bb244309a5934d047216":Creative,
+    "67e3bb414309a5934d04722c": Minimalist, // Minimalist template ID
 
 };
 

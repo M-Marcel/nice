@@ -227,7 +227,7 @@ const Dashboard = () => {
                                         </div>
                                         <div className="mt-4 lg:mt-0 mb-4 lg:mb-8">
                                             <p className="text-sm font-semibold text-black-500">
-                                                {portfolio.sections.find(section => section.type === "Info")?.customContent?.name || "Untitled Portfolio"}
+                                               {portfolio?.name || 'Untitled Portfolio'}
                                             </p>
                                             <p className="text-xs text-gray-500">
                                                 Last edited: {new Date(portfolio.createdAt).toLocaleDateString()}

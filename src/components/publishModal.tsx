@@ -24,6 +24,7 @@ const PublishModal = ({ onClose, portfolioData }: { onClose: () => void, portfol
             }));
             // Create the payload with only the required data
             const payload = {
+                name: portfolioData.name, 
                 sections: cleanedSections,
             };
 
