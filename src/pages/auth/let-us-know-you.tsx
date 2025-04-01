@@ -125,7 +125,7 @@ const LetUsKnowYou = () => {
         useEffect(() => {
             if (isCompleteSignUpSuccess) {
                 toast.success('registration successful');
-                navigate('/')
+                navigate('/payment-page')
                 localStorage.removeItem('userEmail');
             }
             return () => {

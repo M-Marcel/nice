@@ -13,12 +13,13 @@ const CreateWorkModal = ({ onAddWork, onUpdateWork, onClose, workToEdit }: Creat
     const [formData, setFormData] = useState({
         role: "",
         company: "",
+        description:"",
         startDate: "",
         endDate: "",
-        currentlyWorking: false, // Added state for checkbox
+        isRoleActive: false, // Added state for checkbox
     });
 
-    const { role, company, startDate, endDate, currentlyWorking } = formData;
+    const { role, company, description, startDate, endDate, isRoleActive } = formData;
 
     // Populate form data if editing
     useEffect(() => {
@@ -26,9 +27,10 @@ const CreateWorkModal = ({ onAddWork, onUpdateWork, onClose, workToEdit }: Creat
             setFormData({
                 role: workToEdit.role,
                 company: workToEdit.company,
+                description:workToEdit.description,
                 startDate: workToEdit.startDate,
                 endDate: workToEdit.endDate === "Present" ? "" : workToEdit.endDate,
-                currentlyWorking: workToEdit.endDate === "Present",
+                isRoleActive: workToEdit.endDate === "Present",
             });
         }
     }, [workToEdit]);
@@ -50,15 +52,28 @@ const CreateWorkModal = ({ onAddWork, onUpdateWork, onClose, workToEdit }: Creat
         }
     };
 
+    const formatDateToMonthYear = (dateString: string): string => {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            month: 'long',
+            year: 'numeric'
+        });
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
+         // Format dates before sending
+         const formattedStartDate = formatDateToMonthYear(startDate);
+         const formattedEndDate = isRoleActive ? "Present" : formatDateToMonthYear(endDate);
         // Prepare the work data to be added
         const workData = {
             role,
             company,
-            startDate,
-            endDate: currentlyWorking ? "Present" : endDate, // Set endDate to "Present" if currently working
+            description,
+            startDate: formattedStartDate,
+            endDate: formattedEndDate,
+            isRoleActive
         };
 
         if (workToEdit) {
@@ -97,6 +112,18 @@ const CreateWorkModal = ({ onAddWork, onUpdateWork, onClose, workToEdit }: Creat
                             required
                         />
                     </div>
+                    <div className="flex flex-col gap-2 mb-3">
+                        <label htmlFor="company" className="text-sm text-gray-400">
+                            Description
+                        </label>
+                        <textarea
+                            name="description" // Fixed name attribute
+                            value={description}
+                            onChange={onChange}
+                            className="px-2 py-2 border border-gray-900 rounded-lg outline-none"
+                            required
+                        />
+                    </div>
                     <div className="flex flex-col mb-2">
                         <label className="text-xs mb-1 text-gray-400">Start Date</label>
                         <input
@@ -116,15 +143,15 @@ const CreateWorkModal = ({ onAddWork, onUpdateWork, onClose, workToEdit }: Creat
                             className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
                             value={endDate}
                             onChange={onChange}
-                            disabled={currentlyWorking} // Disable if currently working
-                            required={!currentlyWorking} // Make it optional if currently working
+                            disabled={isRoleActive} // Disable if currently working
+                            required={!isRoleActive} // Make it optional if currently working
                         />
                     </div>
                     <div className="flex items-center gap-2 mb-4">
                         <input
                             type="checkbox"
-                            name="currentlyWorking"
-                            checked={currentlyWorking}
+                            name="isRoleActive"
+                            checked={isRoleActive}
                             onChange={onChange}
                         />
                         <span className="text-sm text-gray-400">I still work here</span>

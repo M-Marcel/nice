@@ -29,7 +29,7 @@ const Info = ({ portfolioData, updatePortfolioData }: templateDataProps) => {
             setFormData(prevState => ({
                 ...prevState,
                 profileImage: designData.profileImage || prevState.profileImage,
-                coverImage: designData.coverImg || prevState.coverImg,
+                coverImg: designData.coverImg || prevState.coverImg,
                 name: designData.name || prevState.name,
                 email: designData.email || prevState.email,
                 about: designData.about || prevState.about,
@@ -47,6 +47,21 @@ const Info = ({ portfolioData, updatePortfolioData }: templateDataProps) => {
         }));
     };
 
+     // Helper function to convert file to base64
+     const convertToBase64 = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                const result = reader.result as string;
+                resolve(result);
+            };
+            reader.onerror = (error) => reject(error);
+        });
+    };
+
+    
+
     useEffect(() => {
 
         console.log("Updated profile image:", profileImageFile);
@@ -57,38 +72,49 @@ const Info = ({ portfolioData, updatePortfolioData }: templateDataProps) => {
         console.log("new info data", portfolioData)
     }, [coverImageFile, portfolioData]);
 
-
-    const handleProfileImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleProfileImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
             if (file.size <= 10 * 1024 * 1024) { // 10MB size limit
-                setProfileImageFile(file);
-                const imageUrl = URL.createObjectURL(file);
-                setFormData((prevState) => ({
-                    ...prevState,
-                    profileImage: imageUrl,
-                }));
+                try {
+                    const base64String = await convertToBase64(file);
+                    setProfileImageFile(file);
+                    setFormData((prevState) => ({
+                        ...prevState,
+                        profileImage: base64String, // Store base64 string
+                    }));
+                } catch (error) {
+                    console.error("Error converting profile image:", error);
+                    toast.error("Error processing profile image");
+                }
             } else {
-                alert("File is too large. Please upload a file smaller than 10MB.");
+                toast.error("File is too large. Please upload a file smaller than 10MB.");
             }
         }
     };
 
-    const handleCoverImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCoverImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
             if (file.size <= 10 * 1024 * 1024) { // 10MB size limit
-                setCoverImageFile(file);
-                const imageUrl = URL.createObjectURL(file);
-                setFormData((prevState) => ({
-                    ...prevState,
-                    coverImg: imageUrl,
-                }));
+                try {
+                    const base64String = await convertToBase64(file);
+                    setCoverImageFile(file);
+                    setFormData((prevState) => ({
+                        ...prevState,
+                        coverImg: base64String, // Store base64 string
+                    }));
+                } catch (error) {
+                    console.error("Error converting cover image:", error);
+                    toast.error("Error processing cover image");
+                }
             } else {
-                alert("File is too large. Please upload a file smaller than 10MB.");
+                toast.error("File is too large. Please upload a file smaller than 10MB.");
             }
         }
     };
+   
+    
 
     const handleRemoveProfileImage = () => {
         setProfileImageFile(null);
@@ -102,7 +128,7 @@ const Info = ({ portfolioData, updatePortfolioData }: templateDataProps) => {
         setCoverImageFile(null);
         setFormData((prevState) => ({
             ...prevState,
-            coverImage: '',
+            coverImg: '',
         }));
     };
 

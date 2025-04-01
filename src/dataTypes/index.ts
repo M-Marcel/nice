@@ -138,8 +138,8 @@ export type DesignData = {
     education?: Array<{
         degree: string;
         school: string;
-        startYear: string;
-        endYear: string;
+        startYear: number;
+        endYear: number;
         isStudent: boolean;
     }>;
     certificates?: Array<{
@@ -173,6 +173,9 @@ export type Template = {
 
 export type Portfolio = {
     _id: string
+    name:string
+    url:string
+    slug:string
     userId: string
     referenceTemplate: string
     sections: PortfolioSection[]
@@ -201,4 +204,18 @@ export interface PortfolioUpdatePayload {
         sectionId: string;
         customContent: DesignData;
     }>;
+}
+
+export interface Skill {
+    _id: string;
+    name: string;
+    category?: {
+        _id: string;
+        name: string;
+    };
+}
+
+export interface Category {
+    _id: string;
+    name: string;
 }

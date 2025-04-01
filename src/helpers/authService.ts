@@ -197,16 +197,18 @@ const completeSignUp = async (userData: {
     userCompanySize: string;
     userUseForZroleak: string[];
     userTechnicalExperience: string;
-}): Promise<{ user: User; message: string }> => {
+}): Promise<{ user: User; token:string; message: string }> => {
     try {
         const response = await axios.post(`${API_URL}/signup/complete`, userData, {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
         });
 
-        saveUserToLocalStorage(response.data);
+        localStorage.setItem("token", response.data.token);
+        saveUserToLocalStorage(response.data.user);
         return {
-            user: response.data,
+            user: response.data.user,
+            token:response.data.token,
             message: response.data.message,
         };
     } catch (error: any) {

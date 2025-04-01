@@ -1,44 +1,57 @@
-// PublishModal.tsx
-
 import { useAppDispatch } from "../hooks";
-import { updatePortfolio } from "../slices/portfolio/portfolioSlice";
+import { updatePortfolio, publishPortfolio } from "../slices/portfolio/portfolioSlice";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Button from "./Button";
 import { Portfolio } from "../dataTypes";
 import { useNavigate } from "react-router-dom";
-
+import LoaderIcon from "../assets/loader.svg";
 
 const PublishModal = ({ onClose, portfolioData }: { onClose: () => void, portfolioData: Portfolio | null }) => {
     const dispatch = useAppDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [isPublishing, setIsPublishing] = useState(false);
-
+    const [isSaving, setIsSaving] = useState(false);
+    const [isGeneratingUrl, setIsGeneratingUrl] = useState(false);
 
     const handlePublish = async () => {
-        if (portfolioData) {
-            // Clean up the sections to remove unwanted properties
+        if (!portfolioData) return;
+
+        try {
+            setIsSaving(true);
+            
+            // First save the portfolio updates
             const cleanedSections = portfolioData.sections.map((section) => ({
                 sectionId: section.sectionId,
                 customContent: section.customContent,
             }));
-            // Create the payload with only the required data
+            
             const payload = {
+                name: portfolioData.name, 
                 sections: cleanedSections,
             };
 
-            console.log("Cleaned portfolio data for publishing:", payload);
-            setIsPublishing(true);
-            try {
-                await dispatch(updatePortfolio({ id: portfolioData._id, portfolioData: payload })).unwrap();
-                toast.success("Portfolio published successfully!");
-                navigate('/dashboard')
-                onClose();
-            } catch (error) {
-                toast.error("Failed to publish portfolio.");
-            } finally {
-                setIsPublishing(false);
-            }
+            await dispatch(updatePortfolio({ 
+                id: portfolioData._id, 
+                portfolioData: payload 
+            })).unwrap();
+            
+            setIsSaving(false);
+            setIsGeneratingUrl(true);
+            
+            // Then publish to generate URL
+            const result = await dispatch(publishPortfolio(portfolioData._id)).unwrap();
+            
+            setIsGeneratingUrl(false);
+            toast.success(result.message);
+            navigate('/dashboard');
+            onClose();
+        } catch (error) {
+            toast.error("Failed to publish portfolio.");
+            setIsSaving(false);
+            setIsGeneratingUrl(false);
+        } finally {
+            setIsPublishing(false);
         }
     };
 
@@ -54,39 +67,39 @@ const PublishModal = ({ onClose, portfolioData }: { onClose: () => void, portfol
                     </span>
                 </div>
                 <p className="text-black-500 text-2xl w-[100%] text-center font-semibold leading-7">Publish project</p>
-                <p>My portfolio v1</p>
+                <p>{portfolioData?.name || "My Portfolio"}</p>
             </div>
             <p className="text-left mt-6 flex gap-1 items-center text-gray-930 text-xs w-[auto] lg:w-[70%]">
-                <span>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15.6027 17.672C13.8278 18.9682 11.6583 19.6089 9.46392 19.4849C7.26955 19.3608 5.18607 18.4798 3.56847 16.9918C1.95088 15.5038 0.899262 13.501 0.592803 11.3246C0.286343 9.14822 0.744003 6.93289 1.8878 5.05609C3.0316 3.17929 4.79077 1.75715 6.86557 1.03198C8.94037 0.306815 11.2024 0.323491 13.2663 1.07917C15.3302 1.83484 17.0682 3.28277 18.1842 5.17623C19.3002 7.06968 19.7252 9.29153 19.3866 11.4632" stroke="url(#paint0_linear_13251_34873)" />
-                        <defs>
-                            <linearGradient id="paint0_linear_13251_34873" x1="16.4" y1="5.2" x2="20" y2="16.4" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#1BC55F" />
-                                <stop offset="1" stop-color="#1BC55F" stop-opacity="0" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </span>
-                Setting up your domain
+                {isSaving ? (
+                    <img src={LoaderIcon} alt="loader" width={20} height={20} className="animate-spin" />
+                ) : (
+                    <span className="text-green-500">✓</span>
+                )}
+                Saving portfolio data to database
             </p>
             <p className="text-left flex gap-1 items-center mt-6 text-gray-930 text-xs w-[auto] lg:w-[70%]">
-                <span>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15.6027 17.672C13.8278 18.9682 11.6583 19.6089 9.46392 19.4849C7.26955 19.3608 5.18607 18.4798 3.56847 16.9918C1.95088 15.5038 0.899262 13.501 0.592803 11.3246C0.286343 9.14822 0.744003 6.93289 1.8878 5.05609C3.0316 3.17929 4.79077 1.75715 6.86557 1.03198C8.94037 0.306815 11.2024 0.323491 13.2663 1.07917C15.3302 1.83484 17.0682 3.28277 18.1842 5.17623C19.3002 7.06968 19.7252 9.29153 19.3866 11.4632" stroke="url(#paint0_linear_13251_34873)" />
-                        <defs>
-                            <linearGradient id="paint0_linear_13251_34873" x1="16.4" y1="5.2" x2="20" y2="16.4" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#1BC55F" />
-                                <stop offset="1" stop-color="#1BC55F" stop-opacity="0" />
-                            </linearGradient>
-                        </defs>
-                    </svg>
-                </span>
-                Optimizing performance
+                {isGeneratingUrl ? (
+                    <img src={LoaderIcon} alt="loader" width={20} height={20} className="animate-spin" />
+                ) : (
+                    <span className={isSaving ? "text-gray-400" : "text-green-500"}>
+                        {isSaving ? "" : "✓"}
+                    </span>
+                )}
+                Generating URL for portfolio
             </p>
             <div className="flex gap-2 w-full px-2 mt-6">
-                <Button onClick={onClose} className="px-6 w-full flex-1 py-3 items-center text-sm border border-gray-600 rounded-xl bg-white shadow-lg text-black-500">Cancel</Button>
-                <Button onClick={handlePublish} disabled={isPublishing} className="w-full flex-1 text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl">
+                <Button 
+                    onClick={onClose} 
+                    className="px-6 w-full flex-1 py-3 items-center text-sm border border-gray-600 rounded-xl bg-white shadow-lg text-black-500"
+                    disabled={isPublishing}
+                >
+                    Cancel
+                </Button>
+                <Button 
+                    onClick={handlePublish} 
+                    disabled={isPublishing}
+                    className="w-full flex-1 text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl"
+                >
                     {isPublishing ? "Publishing..." : "Publish"}
                 </Button>
             </div>

@@ -72,7 +72,7 @@ const Work = ({ portfolioData, updatePortfolioData, setActiveModal, setWorkToEdi
             ...worksSection,
             customContent: {
                 ...worksSection.customContent,
-                works: works, // Update the works array
+                work: works, // Update the works array
             },
         };
 

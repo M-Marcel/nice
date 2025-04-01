@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { Portfolio } from "../dataTypes";
+import { Category, Portfolio, Skill } from "../dataTypes";
 
 const API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/portfolio-builder/portfolio`;
 
@@ -120,12 +120,101 @@ const getAllPortfolios = async (): Promise<{ portfolios: Portfolio[]; message: s
     }
 };
 
+const getAllSkills = async (page: number = 1, limit: number = 10): Promise<{ skills: Skill[]; message: string }> => {
+    try {
+        const response = await axios.get(`${API_URL}/skills?page=${page}&limit=${limit}`, {
+            headers: getAuthHeaders(),
+            withCredentials: true,
+        });
+        console.log("Skills API Response:", response.data);
+
+        const skillsData = response.data?.data || [];
+        console.log("Extracted skills:", skillsData);
+
+        return {
+            skills: skillsData,
+            message: "Skills fetched successfully",
+        };
+    } catch (error: any) {
+        handleApiError(error);
+        throw new Error("Failed to fetch skills");
+    }
+};
+
+const getAllCategories = async (): Promise<{ categories: Category[]; message: string }> => {
+    try {
+        const response = await axios.get(`${API_URL}/categories`, {
+            headers: getAuthHeaders(),
+            withCredentials: true,
+        });
+        return {
+            categories: response.data,
+            message: "Categories fetched successfully",
+        };
+    } catch (error: any) {
+        handleApiError(error);
+        throw new Error("Failed to fetch categories");
+    }
+};
+
+const publishPortfolio = async (id: string): Promise<{ message: string; url: string }> => {
+    try {
+        const response = await axios.get(`${API_URL}/publish/${id}`, {
+            headers: getAuthHeaders(),
+            withCredentials: true,
+        });
+        return response.data;
+    } catch (error: any) {
+        handleApiError(error);
+        throw new Error("Publishing portfolio failed");
+    }
+};
+
+const getPortfolioBySlug = async (slug: string): Promise<{
+    portfolio: Portfolio;
+    message: string;
+}> => {
+    try {
+        const url = `${API_URL}/view/${slug}`;
+        console.log("API URL:", slug); // Debugging line
+
+           const response = await axios.get(url, {
+                 headers: {
+                     "Content-Type": "application/json",
+                 },
+                 withCredentials: true,
+             });
+         
+        console.log("API Response:", response); // Debugging line
+
+        if (response?.data) {
+            console.log("Template Services - Data:", response.data);
+            return {
+                portfolio: response.data, 
+                message: "Template fetched successfully",
+            };
+        } else {
+            throw new Error("No data received from the server.");
+        }
+    } catch (error: any) {
+        if(axios.isAxiosError(error)) {
+            handleApiError(error);
+        } else {
+            throw new Error("Failed fetching template by ID: " + error.message);
+        }
+        throw new Error("Failed fetching template by ID");
+    }
+};
 
 const portfolioService = {
    createPortfolio,
    getPortfolioById,
    updatePortfolio,
    getAllPortfolios,
+   getAllSkills,
+   getAllCategories,
+   publishPortfolio,
+   getPortfolioBySlug
 };
 
 export default portfolioService;

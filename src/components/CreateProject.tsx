@@ -11,8 +11,14 @@ type CreateProjectProps = {
     projectToEdit?: any;
 };
 
+
+type ImageKey = 'image1' | 'image2' | 'image3';
+type ImageType = File | string | null;
+type ImagesState = {
+    [key in ImageKey]: ImageType;
+};
 const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }: CreateProjectProps) => {
-    const [images, setImages] = useState<{ [key: string]: File | null }>({
+    const [images, setImages] = useState<ImagesState>({
         image1: null,
         image2: null,
         image3: null,
@@ -20,7 +26,7 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
 
     const [formData, setFormData] = useState({
         projectName: "",
-        role: "",
+        myRole: "",
         about: "",
         url: "",
         images: {
@@ -30,13 +36,13 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
         },
     });
 
-    const { projectName, role, about, url } = formData;
+    const { projectName, myRole, about, url } = formData;
 
     useEffect(() => {
         if (projectToEdit) {
             setFormData({
                 projectName: projectToEdit.projectName,
-                role: projectToEdit.role,
+                myRole: projectToEdit.myRole,
                 about: projectToEdit.about,
                 url: projectToEdit.url,
                 images: projectToEdit.images || {
@@ -64,17 +70,23 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
         if (event.target.files) {
             const file = event.target.files[0];
             if (file && file.size <= 10 * 1024 * 1024) {
-                setImages((prevState) => ({
+                // Update images state with File object for preview
+                setImages(prevState => ({
                     ...prevState,
-                    [imageKey]: file,
+                    [imageKey]: file
                 }));
-                setFormData((prevState) => ({
-                    ...prevState,
-                    images: {
-                        ...prevState.images,
-                        [imageKey]: file,
-                    },
-                }));
+
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onloadend = () => {
+                    setFormData(prevState => ({
+                        ...prevState,
+                        images: {
+                            ...prevState.images,
+                            [imageKey]: reader.result, // Store Base64 string
+                        },
+                    }));
+                };
             } else {
                 alert("File is too large. Please upload a file smaller than 10MB.");
             }
@@ -105,6 +117,12 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
         onClose();
     };
 
+    const getImageUrl = (image: ImageType): string => {
+        if (!image) return '';
+        if (typeof image === 'string') return image;
+        return URL.createObjectURL(image);
+    };
+
     return (
         <div className="px-4 h-[60vh] overflow-y-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
             <div className="">
@@ -112,7 +130,7 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
                 <form className="mb-8" onSubmit={handleSubmit}>
                     <label className="text-sm mb-4 text-black-500">Images</label>
                     <div className="grid grid-cols-3 gap-2 mt-2">
-                        {["image1", "image2", "image3"].map((imageKey, index) => (
+                        {(["image1", "image2", "image3"] as ImageKey[]).map((imageKey) => (
                             <div className="flex flex-col mb-2" key={imageKey}>
                                 {!images[imageKey] ? (
                                     <label
@@ -128,8 +146,8 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
                                     </label>
                                 ) : (
                                     <div className="relative w-32 h-32">
-                                        <img
-                                            src={URL.createObjectURL(images[imageKey]!)}
+                                         <img
+                                            src={getImageUrl(images[imageKey])}
                                             alt="uploaded preview"
                                             className="object-cover w-full h-full rounded-lg"
                                         />
@@ -166,9 +184,9 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
                         <label className="text-xs mb-1 text-gray-400">Role</label>
                         <input
                             type="text"
-                            name="role"
-                            className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
-                            value={role}
+                            name="myRole"
+                            className="border border-gray-900 text-black-500 rounded-lg outline-0 py-1 px-1"
+                            value={myRole}
                             onChange={onChange}
                         />
                     </div>

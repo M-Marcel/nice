@@ -196,44 +196,63 @@ const Dashboard = () => {
                                 Create new
                             </Button>
                         </div>
-                        {/* //here is where i want to display all the portfolios from the get All Portfolios endpoint */}
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {isPortfolioLoading ? (
                                 <div className="flex items-center lg:ml-[200px] justify-center gap-6 h-[60vh]">
-                                    <img
-                                        src={LoaderIcon}
-                                        alt="loader"
-                                        width={24}
-                                        height={24}
-                                        className="animate-spin"
-                                    />
+                                    <img src={LoaderIcon} alt="loader" width={24} height={24} className="animate-spin" />
                                     Loading
                                 </div>
                             ) : isError ? (
                                 <p className="text-red-500">{message}</p>
                             ) : portfolios && portfolios.length > 0 ? (
                                 portfolios.map((portfolio) => (
-                                    <Link to={`/portfolio/view/${portfolio._id}`} key={portfolio._id} className=" hover:scale-105 transform 
-                                    transition-transform duration-300">
-                                        <div className="mt-8  purpose-bg flex flex-col">
-                                            {/* Display portfolio image or placeholder */}
-                                            <div className="w-full lg:w-full lg:h-[auto] rounded-full lg:mb-8">
-                                                <img
-                                                    src={portfolio.sections.find(section => section.type === "Info")?.customContent?.coverImg || BotDesign}
-                                                    alt="portfolio"
-                                                    className="w-full object-contain  rounded-2xl"
-                                                />
+                                    <div key={portfolio._id} className="hover:scale-105 transform transition-transform duration-300">
+                                        <Link to={`/portfolio/display/${portfolio._id}`}>
+                                            <div className="mt-8 purpose-bg flex flex-col">
+                                                <div className="w-full lg:w-full lg:h-[auto] rounded-full lg:mb-8">
+                                                    <img
+                                                        src={portfolio.sections.find(section => section.type === "Info")?.customContent?.coverImg || BotDesign}
+                                                        alt="portfolio"
+                                                        className="w-full object-contain rounded-2xl"
+                                                    />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="mt-4 lg:mt-0 mb-4 lg:mb-8">
-                                            <p className="text-sm font-semibold text-black-500">
-                                                {portfolio.sections.find(section => section.type === "Info")?.customContent?.name || "Untitled Portfolio"}
-                                            </p>
-                                            <p className="text-xs text-gray-500">
-                                                Last edited: {new Date(portfolio.createdAt).toLocaleDateString()}
-                                            </p>
-                                        </div>
-                                    </Link>
+                                            <div className="mt-4 lg:mt-0 mb-4 lg:mb-8">
+                                                <p className="text-sm font-semibold text-black-500">
+                                                    {portfolio?.name || 'Untitled Portfolio'}
+                                                </p>
+                                                <p className="text-xs text-gray-500">
+                                                    Last edited: {new Date(portfolio.createdAt).toLocaleDateString()}
+                                                </p>
+                                            </div>
+                                        </Link>
+                                        {portfolio.url && (
+                                            <div className="mt-2 p-2 bg-gray-100 rounded-lg">
+                                                <p className="text-xs font-medium">Published URL:</p>
+                                                <div className="flex items-center gap-1">
+                                                    <a
+                                                        href={portfolio.url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="text-xs text-blue-500 break-all"
+                                                    >
+                                                        {portfolio.url}
+                                                    </a>
+                                                    <Button
+                                                        onClick={() => navigator.clipboard.writeText(portfolio.url)}
+                                                        className="mt-1 text-xs bg-white border border-gray-300 px-2 py-1 rounded"
+                                                    >
+                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                            <path d="M22 6.9V11.1C22 14.6 20.6 16 17.1 16H16V12.9C16 9.4 14.6 8 11.1 8H8V6.9C8 3.4 9.4 2 12.9 2H17.1C20.6 2 22 3.4 22 6.9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                        </svg>
+                                                    </Button>
+
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
                                 ))
                             ) : (
                                 <p className="text-gray-400">No portfolios found. Create a new one!</p>
