@@ -113,7 +113,7 @@ const Work = ({ portfolioData, updatePortfolioData, setActiveModal, setWorkToEdi
                                     <h2 className="text-md text-black-500 mb-1">
                                         {work.role}
                                     </h2>
-                                    <p className="text-xs text-gray-400">{work.company} {work.startDate} - {work.endDate}</p>
+                                    <p className="text-xs text-gray-400">{work.company} {work.startDate} -  {work.isRoleActive ? "Present" : work.endDate}</p>
                                 </div>
                             </div>
                             <div className="flex gap-2 items-center w-[20%]">

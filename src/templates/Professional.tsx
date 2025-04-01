@@ -105,22 +105,43 @@ const Professional: React.FC<TestTemplateProps> = ({ templateId, templateData })
                                         <h2 className="text-sm lg:text-lg text-gray-980 mb-2 lg:mb-0">Projects</h2>
                                         <div className="mt-4 lg:w-[60%] px-4">
                                             {projectsSection.customContent.projects.map((project, index) => (
-                                                <>
-                                                    <div key={index} className="mb-8 lg:mb-4 flex items-center justify-between">
+                                                <div key={index} className="mb-8 lg:mb-4">
+                                                    <div className="flex items-center justify-between">
                                                         <div>
-                                                            <h3 className="font-semibold text-sm lg:text-lg text-black-980">{project.projectName}</h3>
-                                                            <p className="text-sm font-light text-black-980">{project.about}</p>
+                                                            <h3 className="font-semibold text-sm lg:text-lg text-black-980">
+                                                                {project.projectName}
+                                                            </h3>
+                                                            <p className="text-sm font-light text-black-980">
+                                                                {project.about}
+                                                            </p>
                                                         </div>
-                                                        <div>
-                                                            <div className="border border-gray-600 rounded-full px-2">
-                                                                <svg width="10" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path d="M11.9593 25.0313V0.31543H13.323V25.0313H11.9593ZM0.283203 13.3552V11.9916H24.9991V13.3552H0.283203Z" fill="#939393" />
-                                                                </svg>
-                                                            </div>
+                                                        <div className="border border-gray-600 rounded-full px-2">
+                                                            <svg width="10" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                                <path d="M11.9593 25.0313V0.31543H13.323V25.0313H11.9593ZM0.283203 13.3552V11.9916H24.9991V13.3552H0.283203Z" fill="#939393" />
+                                                            </svg>
                                                         </div>
                                                     </div>
-                                                    <hr className="mt-2 mb-4 border border-gray-600" />
-                                                </>
+
+                                                    {/* Project Images Gallery */}
+                                                    {project.images && (
+                                                        <div className="mt-4 grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3  gap-2">
+                                                            {Object.entries(project.images).map(([key, image]) => {
+                                                                if (!image) return null;
+                                                                return (
+                                                                    <div key={key} className="relative h-[200px] px-2 py-2 rounded-lg overflow-hidden">
+                                                                        <img
+                                                                            src={image}
+                                                                            alt={`Project ${project.projectName} ${key}`}
+                                                                            className="w-full h-full object-cover"
+                                                                        />
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    )}
+
+                                                    <hr className="mt-4 mb-4 border border-gray-600" />
+                                                </div>
                                             ))}
                                         </div>
                                     </div>

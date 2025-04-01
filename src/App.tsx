@@ -89,8 +89,6 @@ function App() {
           <Route path="/welcome" element={<WelcomePage />} />
           <Route path="/plans-modal" element={<PlansModal />} />
 
-
-          
           <Route element={<ProtectedAdminRoute />}>
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/feature-request" element={<FeatureRequest />} />
@@ -101,7 +99,6 @@ function App() {
             <Route path="/admin/profile" element={<AdminProfile />} />
             <Route path="/admin/payment/edit-plans" element={<EditPlan />} />
             <Route path="/showcase" element={<ShowCase />} />
-
           </Route>
 
           <Route element={<ProtectedRoute />}>
