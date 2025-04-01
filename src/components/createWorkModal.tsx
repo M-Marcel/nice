@@ -65,15 +65,15 @@ const CreateWorkModal = ({ onAddWork, onUpdateWork, onClose, workToEdit }: Creat
         e.preventDefault();
          // Format dates before sending
          const formattedStartDate = formatDateToMonthYear(startDate);
-         const formattedEndDate = isRoleActive ? "Present" : formatDateToMonthYear(endDate);
+        //  const formattedEndDate = isRoleActive ? "Present" : formatDateToMonthYear(endDate);
         // Prepare the work data to be added
         const workData = {
             role,
             company,
             description,
             startDate: formattedStartDate,
-            endDate: formattedEndDate,
-            isRoleActive
+            endDate: formatDateToMonthYear(endDate),
+            isRoleActive: Boolean(isRoleActive)
         };
 
         if (workToEdit) {

@@ -124,7 +124,7 @@ const CreateEducationModal = ({ onAddEducation, onUpdateEducation, onClose, educ
                             className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
                             value={endYear}
                             onChange={onChange}
-                            // disabled={isStudent} // Disable if currently schooling
+                            disabled={isStudent} // Disable if currently schooling
                             required={!isStudent} // Make it optional if currently schooling
                         />
                     </div>

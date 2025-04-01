@@ -126,6 +126,11 @@ export type DesignData = {
         myRole: string;
         about: string;
         url: string;
+        images: {
+            image1: string | null;
+            image2: string | null;
+            image3: string | null;
+        };
     }>;
     work?: Array<{
         role: string;
@@ -152,8 +157,8 @@ export type DesignData = {
 export type TemplateSection = {
     _id: string
     type: string
-    templateId:string
-    sectionId:string
+    templateId: string
+    sectionId: string
     designData: DesignData;
     createdAt: string;
     lastUpdated: string;
@@ -173,9 +178,9 @@ export type Template = {
 
 export type Portfolio = {
     _id: string
-    name:string
-    url:string
-    slug:string
+    name: string
+    url: string
+    slug: string
     userId: string
     referenceTemplate: string
     sections: PortfolioSection[]
@@ -187,8 +192,8 @@ export type Portfolio = {
 export type PortfolioSection = {
     _id: string
     type: string
-    portfolioId:string
-    sectionId:string
+    portfolioId: string
+    sectionId: string
     customContent: DesignData;
     createdAt: string;
     lastUpdated: string;

@@ -165,13 +165,31 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
                                 <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2 lg:w-[100%] lg:px-4">
                                     {projectsSection.customContent.projects.map((project, index) => (
                                         <>
-                                            <div key={index} className="mb-8 lg:mb-4 justify-end flex flex-col bg-black-300 h-[60vh] py-4 px-4 
+                                            <div key={index} className="mb-8 lg:mb-4 flex flex-col bg-black-300 h-[auto] py-4 px-4 
                                               rounded-2xl">
-                                                <div>
-                                                    <h3 className="font-semibold text-sm lg:text-lg text-white">{project.projectName}</h3>
-                                                    <p className="text-sm font-light text-white">{project.about}</p>
+                                                {/* Project Images Gallery */}
+                                                {project.images && (
+                                                    <div className="mt-4 grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3  gap-2">
+                                                        {Object.entries(project.images).map(([key, image]) => {
+                                                            if (!image) return null;
+                                                            return (
+                                                                <div key={key} className="relative h-[200px] px-2 py-2 rounded-lg overflow-hidden">
+                                                                    <img
+                                                                        src={image}
+                                                                        alt={`Project ${project.projectName} ${key}`}
+                                                                        className="w-full h-full object-cover"
+                                                                    />
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                )}
+                                                <div className="flex flex-col justify-end mt-3">
+                                                    <div className="">
+                                                        <h3 className="font-semibold text-sm lg:text-lg text-white">{project.projectName}</h3>
+                                                        <p className="text-sm font-light text-white">{project.about}</p>
+                                                    </div>
                                                 </div>
-
                                             </div>
 
                                         </>

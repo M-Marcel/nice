@@ -102,7 +102,7 @@ const Education = ({ portfolioData, updatePortfolioData, setActiveModal, setEduc
                                         {education.degree}
                                     </h2>
                                     <p className="text-xs text-gray-400">
-                                        {education.school} {education.startYear} - {education.endYear}
+                                        {education.school} {education.startYear} - {education.isStudent ? "Student" : education.endYear}
                                     </p>
                                 </div>
                             </div>

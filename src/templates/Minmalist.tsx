@@ -143,14 +143,14 @@ const Minimalist: React.FC<TestTemplateProps> = ({ templateId, templateData }) =
 
                     {/* Skills Section */}
                     {skillsSection?.customContent?.skills && (
-                        <div className="px-4 flex justify-center py-8">
-                            <div className="flex w-[100%] lg:w-100%] py-8 rounded-2xl bg-white flex-col items-center justify-center">
+                        <div className="px-8 flex justify-center py-8">
+                            <div className="flex w-[100%] lg:w-100%] py-8 px-8 rounded-2xl bg-white flex-col items-center justify-center">
                                 <h2 className="text-sm lg:text-lg text-black-500">Skills</h2>
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-4">
                                     {skillsSection.customContent.skills.map((skill, index) => (
                                         <div
                                             key={index}
-                                            className="text-black-500 rounded-xl border border-gray-600 px-4 py-2 text-center"
+                                            className="text-black-500 flex items-center justify-center rounded-xl border border-gray-600 w-[auto] px-4 py-4 text-center"
                                         >
                                             {skill}
                                         </div>
@@ -168,13 +168,31 @@ const Minimalist: React.FC<TestTemplateProps> = ({ templateId, templateData }) =
                                 <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2 lg:w-[100%] lg:px-4">
                                     {projectsSection.customContent.projects.map((project, index) => (
                                         <>
-                                            <div key={index} className="mb-8 lg:mb-4 justify-end flex flex-col bg-white h-[60vh] py-4 px-4 
+                                            <div key={index} className="mb-8 lg:mb-4 justify-end flex flex-col bg-white h-[auto] py-4 px-4 
                                               rounded-2xl">
-                                                <div>
-                                                    <h3 className="font-semibold text-sm lg:text-lg text-black-500">{project.projectName}</h3>
-                                                    <p className="text-sm font-light text-black-500">{project.about}</p>
+                                                {/* Project Images Gallery */}
+                                                {project.images && (
+                                                    <div className="mt-4 grid grid-cols-1 md:grid-cols-2  lg:grid-cols-3  gap-2">
+                                                        {Object.entries(project.images).map(([key, image]) => {
+                                                            if (!image) return null;
+                                                            return (
+                                                                <div key={key} className="relative h-[200px] px-2 py-2 rounded-lg overflow-hidden">
+                                                                    <img
+                                                                        src={image}
+                                                                        alt={`Project ${project.projectName} ${key}`}
+                                                                        className="w-full h-full object-cover"
+                                                                    />
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                )}
+                                                <div className="flex flex-col justify-end mt-3">
+                                                    <div className="">
+                                                        <h3 className="font-semibold text-sm lg:text-lg text-black-500">{project.projectName}</h3>
+                                                        <p className="text-sm font-light text-black-500">{project.about}</p>
+                                                    </div>
                                                 </div>
-
                                             </div>
 
                                         </>
@@ -249,7 +267,8 @@ const Minimalist: React.FC<TestTemplateProps> = ({ templateId, templateData }) =
                                                 <div>
                                                     <h2 className="font-semibold text-sm text-black-500 lg:text-sm mb-2">{work.role}</h2>
                                                     <p className="text-sm text-gray-500 mb-3">
-                                                        {work.company} · {work.startDate} - {work.isRoleActive ? "Present" : work.endDate}
+                                                        {work.company} · {work.startDate} -{" "}
+                                                        {work.isRoleActive ? "Present" : work.endDate}
                                                     </p>
                                                     <p className="text-sm text-gray-500">
                                                         {work.description}
