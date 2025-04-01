@@ -157,13 +157,64 @@ const getAllCategories = async (): Promise<{ categories: Category[]; message: st
     }
 };
 
+const publishPortfolio = async (id: string): Promise<{ message: string; url: string }> => {
+    try {
+        const response = await axios.get(`${API_URL}/publish/${id}`, {
+            headers: getAuthHeaders(),
+            withCredentials: true,
+        });
+        return response.data;
+    } catch (error: any) {
+        handleApiError(error);
+        throw new Error("Publishing portfolio failed");
+    }
+};
+
+const getPortfolioBySlug = async (slug: string): Promise<{
+    portfolio: Portfolio;
+    message: string;
+}> => {
+    try {
+        const url = `${API_URL}/view/${slug}`;
+        console.log("API URL:", slug); // Debugging line
+
+           const response = await axios.get(url, {
+                 headers: {
+                     "Content-Type": "application/json",
+                 },
+                 withCredentials: true,
+             });
+         
+        console.log("API Response:", response); // Debugging line
+
+        if (response?.data) {
+            console.log("Template Services - Data:", response.data);
+            return {
+                portfolio: response.data, 
+                message: "Template fetched successfully",
+            };
+        } else {
+            throw new Error("No data received from the server.");
+        }
+    } catch (error: any) {
+        if(axios.isAxiosError(error)) {
+            handleApiError(error);
+        } else {
+            throw new Error("Failed fetching template by ID: " + error.message);
+        }
+        throw new Error("Failed fetching template by ID");
+    }
+};
+
 const portfolioService = {
    createPortfolio,
    getPortfolioById,
    updatePortfolio,
    getAllPortfolios,
    getAllSkills,
-   getAllCategories
+   getAllCategories,
+   publishPortfolio,
+   getPortfolioBySlug
 };
 
 export default portfolioService;

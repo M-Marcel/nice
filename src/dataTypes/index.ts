@@ -174,6 +174,8 @@ export type Template = {
 export type Portfolio = {
     _id: string
     name:string
+    url:string
+    slug:string
     userId: string
     referenceTemplate: string
     sections: PortfolioSection[]

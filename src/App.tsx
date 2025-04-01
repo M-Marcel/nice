@@ -42,6 +42,7 @@ import PaymentPlans from "./pages/paymentPlans";
 import FreePlans from "./pages/freePlan";
 import PlansModal from "./components/PlansModal";
 import WelcomePage from "./pages/WelcomePage";
+import PortfolioShow from "./pages/PortfolioShow";
 
 
 
@@ -107,8 +108,9 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/create-portfolio" element={<PortfolioBuilder />} />
+            <Route path="/portfolio/view/:slug" element={<PortfolioShow />} />
             <Route path="/portfolio/:portfolioId" element={<PortfolioBuilder />} />
-            <Route path="/portfolio/view/:portfolioId" element={<PortfolioViewer />} />
+            <Route path="/portfolio/display/:portfolioId" element={<PortfolioViewer />} />
             <Route path="/portfolio/preview/:portfolioId" element={<PreviewPage />} />
             <Route path="/portfolio/edit/:portfolioId" element={<PortfolioBuilder />} />
           </Route>

@@ -98,6 +98,30 @@ export const getAllCategories = createAsyncThunk(
     }
 );
 
+export const publishPortfolio = createAsyncThunk(
+    "portfolio/publishPortfolio",
+    async (id: string, { rejectWithValue }) => {
+        try {
+            const response = await portfolioService.publishPortfolio(id);
+            return response;
+        } catch (error: any) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
+export const getPortfolioBySlug = createAsyncThunk(
+    "portfolio/fetchPortfolioBySlug",
+    async (slug: string, { rejectWithValue }) => {
+        try {
+            const response = await portfolioService.getPortfolioBySlug(slug);
+            return response;
+        } catch (error: any) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
+
 const portfolioSlice = createSlice({
     name: "portfolio",
     initialState,
@@ -211,7 +235,43 @@ const portfolioSlice = createSlice({
                 state.error = action.payload as string;
                 state.message = action.payload as string;
                 toast.error(action.payload as string);
-            });
+            })
+            .addCase(publishPortfolio.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(publishPortfolio.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.message = action.payload.message;
+                // Update the portfolio with the URL if needed
+                if (state.portfolio) {
+                    state.portfolio.url = action.payload.url;
+                }
+                toast.success(action.payload.message);
+            })
+            .addCase(publishPortfolio.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string;
+                state.message = action.payload as string;
+                toast.error(action.payload as string);
+            })
+            .addCase(getPortfolioBySlug.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getPortfolioBySlug.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.portfolio = action.payload.portfolio;
+                state.message = action.payload.message;
+            })
+            .addCase(getPortfolioBySlug.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string;
+                state.message = action.payload as string;
+                toast.error(action.payload as string);
+            })
 
     }
 })

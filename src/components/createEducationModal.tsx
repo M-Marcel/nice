@@ -24,8 +24,8 @@ const CreateEducationModal = ({ onAddEducation, onUpdateEducation, onClose, educ
             setFormData({
                 degree: educationToEdit.degree,
                 school: educationToEdit.school,
-                startYear: educationToEdit.startYear,
-                endYear: educationToEdit.endYear === "student" ? "" : educationToEdit.endYear,
+                startYear: educationToEdit.startYear as number,
+                endYear: educationToEdit.endYear as number,
                 isStudent: educationToEdit.isStudent === "student",
             });
         }
@@ -39,9 +39,18 @@ const CreateEducationModal = ({ onAddEducation, onUpdateEducation, onClose, educ
         if (type === "checkbox") {
             setFormData((prevState) => ({
                 ...prevState,
-                [name]: (e.target as HTMLInputElement).checked, // Cast to HTMLInputElement for checkbox
+                [name]: (e.target as HTMLInputElement).checked,
             }));
-        } else {
+        }
+        // Convert number fields to numbers
+        else if (name === "startYear" || name === "endYear") {
+            setFormData((prevState) => ({
+                ...prevState,
+                [name]: value === "" ? 0 : parseInt(value, 10),
+            }));
+        }
+        // For all other fields
+        else {
             setFormData((prevState) => ({
                 ...prevState,
                 [name]: value,
@@ -57,7 +66,8 @@ const CreateEducationModal = ({ onAddEducation, onUpdateEducation, onClose, educ
             degree,
             school,
             startYear,
-            endYear: isStudent ? "Student" : endYear, // Set endYear to "Student" if currently schooling
+            endYear, // Set endYear to "Student" if currently schooling
+            isStudent
         };
         if (educationToEdit) {
             onUpdateEducation(educationData); // Call update function if editing
@@ -98,7 +108,7 @@ const CreateEducationModal = ({ onAddEducation, onUpdateEducation, onClose, educ
                     <div className="flex flex-col mb-2">
                         <label className="text-xs mb-1 text-gray-400">Start Year</label>
                         <input
-                            type="text"
+                            type="number"
                             name="startYear"
                             className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
                             value={startYear}
@@ -109,12 +119,12 @@ const CreateEducationModal = ({ onAddEducation, onUpdateEducation, onClose, educ
                     <div className="flex flex-col mb-2">
                         <label className="text-xs mb-1 text-gray-400">Graduation Year</label>
                         <input
-                            type="text"
+                            type="number"
                             name="endYear"
                             className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
                             value={endYear}
                             onChange={onChange}
-                            disabled={isStudent} // Disable if currently schooling
+                            // disabled={isStudent} // Disable if currently schooling
                             required={!isStudent} // Make it optional if currently schooling
                         />
                     </div>

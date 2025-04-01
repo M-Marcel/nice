@@ -961,3 +961,276 @@ export default Skills;
                     Save Changes
                 </Button>
             </div>
+
+
+
+
+            SKILLS2
+
+            import { useState, useEffect } from "react";
+import { Category, Portfolio, Skill } from "../dataTypes";
+import Button from "./Button";
+import { toast } from "react-toastify";
+import { useAppDispatch, useAppSelector } from "../hooks";
+import { getAllSkills, getAllCategories } from "../slices/portfolio/portfolioSlice";
+
+type SkillsProps = {
+    portfolioData: Portfolio;
+    updatePortfolioData: (updatedData: Partial<Portfolio>) => void;
+};
+
+const Skills = ({ portfolioData, updatePortfolioData }: SkillsProps) => {
+    const [skillInput, setSkillInput] = useState("");
+    const [skills, setSkills] = useState<string[]>([]);
+    const [showSkillSelector, setShowSkillSelector] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
+    const dispatch = useAppDispatch();
+
+    const {
+        allSkills,
+        categories,
+        isLoading: skillsLoading
+    } = useAppSelector((state) => state.portfolio);
+
+    // Debug logs
+    useEffect(() => {
+        console.log("Skills component mounted with:", {
+            allSkills,
+            categories,
+            skillsLoading,
+            skills
+        });
+    }, [allSkills, categories, skillsLoading, skills]);
+
+    // Initialize skills from portfolioData
+    useEffect(() => {
+        if (portfolioData?.sections?.length > 0) {
+            const skillsSection = portfolioData.sections.find(
+                (section) => section.type === "Skills"
+            );
+            if (skillsSection) {
+                setSkills(skillsSection.customContent?.skills || []);
+            }
+        }
+    }, [portfolioData]);
+
+    // Fetch all skills and categories
+    useEffect(() => {
+        dispatch(getAllSkills({ page: 1, limit: 100 }));
+        dispatch(getAllCategories());
+    }, [dispatch]);
+
+    // Filter skills safely with improved type checking
+    const filteredSkills = (allSkills || []).filter((skill: Skill) => {
+        if (!skill || !skill.name) return false;
+
+        const matchesCategory = !selectedCategory ||
+            (skill.category && 
+             skill.category.name.toLowerCase() === selectedCategory.toLowerCase());
+        
+        const matchesSearch = searchTerm === "" || 
+            skill.name.toLowerCase().includes(searchTerm.toLowerCase());
+        
+        return matchesCategory && matchesSearch;
+    });
+
+    const handleAddSkill = () => {
+        if (skillInput.trim() && !skills.includes(skillInput.trim())) {
+            setSkills((prevSkills) => [...prevSkills, skillInput.trim()]);
+            setSkillInput("");
+        }
+    };
+
+    const handleAddSkillFromList = (skillName: string) => {
+        if (!skills.includes(skillName)) {
+            setSkills((prevSkills) => [...prevSkills, skillName]);
+        }
+    };
+
+    const handleRemoveSkill = (skill: string) => {
+        setSkills((prevSkills) => prevSkills.filter((s) => s !== skill));
+    };
+
+    const handleSave = () => {
+        const skillsSection = portfolioData.sections.find(
+            (section) => section.type === "Skills"
+        );
+
+        if (!skillsSection) {
+            console.error("Skills section not found in portfolioData.");
+            return;
+        }
+
+        const updatedSkillsSection = {
+            ...skillsSection,
+            customContent: {
+                ...skillsSection.customContent,
+                skills: skills,
+            },
+        };
+
+        updatePortfolioData({
+            sections: portfolioData.sections.map((section) =>
+                section.type === "Skills" ? updatedSkillsSection : section
+            ),
+        });
+        toast.success('Changes saved');
+    };
+
+    // Improved loading and empty states
+    if (skillsLoading && allSkills.length === 0) {
+        return (
+            <div className="flex justify-center items-center h-32">
+                <span>Loading skills...</span>
+            </div>
+        );
+    }
+
+    if (!skillsLoading && allSkills.length === 0) {
+        return (
+            <div className="flex flex-col items-center justify-center h-32 gap-4">
+                <span>No skills found in the system.</span>
+                <Button
+                    onClick={() => dispatch(getAllSkills({ page: 1, limit: 100 }))}
+                    className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+                >
+                    Retry Loading Skills
+                </Button>
+            </div>
+        );
+    }
+
+    return (
+        <div className="pt-4 pb-4 relative z-10">
+            {/* Debug information - can be removed in production */}
+            <div className="mb-4 p-2 bg-gray-100 rounded text-xs">
+                <p><strong>Debug Info:</strong></p>
+                <p>Total Skills: {allSkills.length}</p>
+                <p>Filtered Skills: {filteredSkills.length}</p>
+                <p>Selected Category: {selectedCategory || "None"}</p>
+            </div>
+
+            <div className="grid grid-cols-3 items-start w-[95%] -ml-[20px] mt-5">
+                {skills.map((skill, index) => (
+
+                    <div key={index} className="flex gap-1 flex-col items-center mt-10">
+                        <span className="border border-gray-600 flex items-center px-4 rounded-xl">
+                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.5 0C5.59644 0 0 5.59644 0 12.5C0 19.4036 5.59644 25 12.5 25C19.4036 25 25 19.4036 25 12.5C25 5.59644 19.4036 0 12.5 0Z" fill="#4CAF50" />
+                            </svg>
+                        </span>
+                        <span className="text-xs">{skill}</span>
+                        <button
+                            type="button"
+                            onClick={() => handleRemoveSkill(skill)}
+                            className="text-xs text-red-500"
+                        >
+                            Remove
+                        </button>
+                    </div>
+                ))}
+            </div>
+
+            <div className="mt-10">
+                <div className="flex gap-2">
+                    <input
+                        type="text"
+                        value={skillInput}
+                        onChange={(e) => setSkillInput(e.target.value)}
+                        className="border w-[50%] border-gray-900 rounded-lg outline-0 py-1 px-1"
+                        placeholder="Add a skill"
+                    />
+                    <Button
+                        type="button"
+                        onClick={handleAddSkill}
+                        className="px-2 py-2 lg:px-4 lg:py-1 bg-blue-500 text-xs lg:text-sm text-white rounded-lg"
+                    >
+                        Add
+                    </Button>
+                    <Button
+                        type="button"
+                        onClick={() => setShowSkillSelector(!showSkillSelector)}
+                        className="px-2 py-2 lg:px-4 lg:py-1 bg-green-500 text-xs lg:text-sm text-white rounded-lg"
+                    >
+                        {showSkillSelector ? "Hide Selector" : "Select from List"}
+                    </Button>
+                </div>
+            </div>
+
+            {showSkillSelector && (
+                <div className="mt-4 p-4 border border-gray-300 rounded-lg">
+                    <div className="mb-4">
+                        <input
+                            type="text"
+                            placeholder="Search skills..."
+                            className="border border-gray-300 rounded-lg p-2 w-full"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <select
+                            className="border border-gray-300 rounded-lg p-2 w-full"
+                            value={selectedCategory}
+                            onChange={(e) => setSelectedCategory(e.target.value)}
+                        >
+                            <option value="">All Categories</option>
+                            {(categories || []).map((category: Category) => (
+                                <option key={category._id} value={category.name}>
+                                    {category.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="max-h-60 overflow-y-auto">
+                        {filteredSkills.length > 0 ? (
+                            <div className="grid grid-cols-2 gap-2">
+                                {filteredSkills.map((skill: Skill) => (
+                                    <div
+                                        key={skill._id}
+                                        className={`p-2 rounded-lg cursor-pointer ${
+                                            skills.includes(skill.name)
+                                                ? 'bg-gray-200'
+                                                : 'bg-gray-100 hover:bg-gray-200'
+                                        }`}
+                                        onClick={() => handleAddSkillFromList(skill.name)}
+                                    >
+                                        <div className="flex items-center justify-between">
+                                            <span>{skill.name}</span>
+                                            {skills.includes(skill.name) && (
+                                                <span className="text-green-500">✓</span>
+                                            )}
+                                        </div>
+                                        {skill.category && (
+                                            <div className="text-xs text-gray-500">
+                                                {skill.category.name}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-gray-500">
+                                {searchTerm 
+                                    ? "No skills match your search. Try different terms." 
+                                    : "No skills found in this category."}
+                            </p>
+                        )}
+                    </div>
+                </div>
+            )}
+
+            <div className="mt-6">
+                <Button
+                    onClick={handleSave}
+                    className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl"
+                >
+                    Save Changes
+                </Button>
+            </div>
+        </div>
+    );
+};
+
+export default Skills;

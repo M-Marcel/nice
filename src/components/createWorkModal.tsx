@@ -52,16 +52,28 @@ const CreateWorkModal = ({ onAddWork, onUpdateWork, onClose, workToEdit }: Creat
         }
     };
 
+    const formatDateToMonthYear = (dateString: string): string => {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+            month: 'long',
+            year: 'numeric'
+        });
+    };
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
+         // Format dates before sending
+         const formattedStartDate = formatDateToMonthYear(startDate);
+         const formattedEndDate = isRoleActive ? "Present" : formatDateToMonthYear(endDate);
         // Prepare the work data to be added
         const workData = {
             role,
             company,
             description,
-            startDate,
-            endDate: isRoleActive ? "Present" : endDate, // Set endDate to "Present" if currently working
+            startDate: formattedStartDate,
+            endDate: formattedEndDate,
+            isRoleActive
         };
 
         if (workToEdit) {
