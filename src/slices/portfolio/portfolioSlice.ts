@@ -7,6 +7,7 @@ type InitialState = {
     portfolios: Portfolio[]
     portfolio: Portfolio | null
     allSkills: Skill[]
+    selectedSkills: string[]
     categories: Category[]
     message: string;
     isLoading: boolean
@@ -19,6 +20,7 @@ const initialState: InitialState = {
     portfolios: [],
     portfolio: null,
     allSkills: [],
+    selectedSkills: [],
     categories: [],
     message: "",
     isLoading: false,
@@ -131,7 +133,17 @@ const portfolioSlice = createSlice({
             state.isSuccess = false
             state.isError = false
             state.message = ''
-
+        },
+        addSkill: (state, action: { payload: string }) => {
+            if (!state.selectedSkills.includes(action.payload)) {
+                state.selectedSkills.push(action.payload);
+            }
+        },
+        removeSkill: (state, action: { payload: string }) => {
+            state.selectedSkills = state.selectedSkills.filter(skill => skill !== action.payload);
+        },
+        setSelectedSkills: (state, action: { payload: string[] }) => {
+            state.selectedSkills = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -276,5 +288,5 @@ const portfolioSlice = createSlice({
     }
 })
 
-export const { reset } = portfolioSlice.actions;
+export const { reset, addSkill, removeSkill, setSelectedSkills } = portfolioSlice.actions;
 export default portfolioSlice.reducer;

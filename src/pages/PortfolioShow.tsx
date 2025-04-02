@@ -40,7 +40,7 @@ const PortfolioShow = () => {
 
     return (
         <>
-            <div className="flex mt-20 justify-center items-center bg-transparent px-0 py-0">
+            <div className="flex justify-center items-center bg-transparent px-0 py-0">
                 <div className="w-[100%] h-full overflow-y-auto">
                     {TemplateComponent && portfolio ? (
                         <TemplateComponent

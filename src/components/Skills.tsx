@@ -71,10 +71,20 @@ const Skills = ({ portfolioData, updatePortfolioData }: SkillsProps) => {
                 {/* Display existing skills */}
                 {skills.map((skill, index) => (
                     <div key={index} className="flex gap-1 flex-col items-center mt-10">
-                        <span className="border border-gray-600 flex items-center px-4 rounded-xl">
+                        <span className="flex items-center px-4 rounded-xl">
                             {/* Skill icon placeholder */}
-                            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M12.5 0C5.59644 0 0 5.59644 0 12.5C0 19.4036 5.59644 25 12.5 25C19.4036 25 25 19.4036 25 12.5C25 5.59644 19.4036 0 12.5 0Z" fill="#4CAF50" />
+                            <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+                                <circle cx="32" cy="32" r="30" fill="#f0f0f0" />
+
+                                <path d="M24 16H40C44.4183 16 48 19.5817 48 24V40C48 44.4183 44.4183 48 40 48H24C19.5817 48 16 44.4183 16 40V24C16 19.5817 19.5817 16 24 16Z" fill="#808080" />
+                                <path d="M24 16H32V12H24C19.5817 12 16 15.5817 16 20V28H20V24C20 21.7909 21.7909 20 24 20Z" fill="#606060" />
+                                <path d="M40 16H32V12H40C44.4183 12 48 15.5817 48 20V28H44V24C44 21.7909 42.2091 20 40 20Z" fill="#606060" />
+                                <path d="M16 40V32H12V40C12 44.4183 15.5817 48 20 48H28V44H24C21.7909 44 20 42.2091 20 40V36H16Z" fill="#606060" />
+                                <path d="M48 40V32H52V40C52 44.4183 48.4183 48 44 48H36V44H40C42.2091 44 44 42.2091 44 40V36H48Z" fill="#606060" />
+
+
+                                <text x="32" y="38" font-family="Arial" font-size="12" text-anchor="middle" fill="white">SKILL</text>
                             </svg>
                         </span>
                         <span className="text-xs">{skill}</span>
