@@ -209,10 +209,10 @@ const Dashboard = () => {
                                 <p className="text-red-500">{message}</p>
                             ) : portfolios && portfolios.length > 0 ? (
                                 portfolios.map((portfolio) => (
-                                    <div key={portfolio._id} className="hover:scale-105 transform transition-transform duration-300">
+                                    <div key={portfolio._id} className="hover:scale-105 mb-4 transform h-[auto] lg:h-[70vh] transition-transform duration-300">
                                         <Link to={`/portfolio/display/${portfolio._id}`}>
                                             <div className="mt-8 purpose-bg flex flex-col">
-                                                <div className="w-full lg:w-full lg:h-[auto] rounded-full lg:mb-8">
+                                                <div className="w-full lg:w-[250px] lg:h-[250px] rounded-full lg:mb-8">
                                                     <img
                                                         src={portfolio.sections.find(section => section.type === "Info")?.customContent?.coverImg || BotDesign}
                                                         alt="portfolio"
@@ -230,14 +230,14 @@ const Dashboard = () => {
                                             </div>
                                         </Link>
                                         {portfolio.url && (
-                                            <div className="mt-2 p-2 bg-gray-100 rounded-lg">
-                                                <p className="text-xs font-medium">Published URL:</p>
+                                            <div className="mt-2 p-2 bg-gray-900 rounded-lg">
+                                                <p className="text-xs font-medium mb-[2px]">Published URL:</p>
                                                 <div className="flex items-center gap-1">
                                                     <a
                                                         href={portfolio.url}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="text-xs text-blue-500 break-all"
+                                                        className="text-xs bg-gray-900 py-2 rounded-sm break-all"
                                                     >
                                                         {portfolio.url}
                                                     </a>

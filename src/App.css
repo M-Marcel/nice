@@ -183,5 +183,10 @@ thead {
 .creative-section{
   background-image: url('./assets/creativeFrame.png');
   background-size: cover;
+  background-position: right ;
 
+}
+.creative-frame{
+  background: linear-gradient(20deg, rgba(255, 255, 255, 0.04), rgba(37, 24, 62, 0.1));
+  background-size: cover;
 }

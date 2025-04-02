@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import UntitledIcon from "../assets/svg/Untitledicon";
 import Button from "../components/Button";
 import Logo from "../components/Logo";
@@ -94,6 +94,8 @@ const PortfolioBuilder = () => {
         }
     };
 
+    // Memoize portfolioData to prevent unnecessary re-renders
+    const memoizedPortfolioData = useMemo(() => portfolioData, [portfolioData]);
     // Get the corresponding template component from the templateMap
     const TemplateComponent = portfolioData?.referenceTemplate ? templateMap[portfolioData.referenceTemplate] : null;
 
@@ -127,14 +129,11 @@ const PortfolioBuilder = () => {
                             className="border-b border-gray-400 outline-none"
                         />
                     ) : (
-                        <p
-                            onClick={() => {
-                                setTempName(portfolioData?.name || '');
-                                setIsEditingName(true);
-                            }}
-                            className="cursor-pointer"
-                        >
-                            {portfolioData?.name}
+                        <p onClick={() => {
+                            setTempName(memoizedPortfolioData?.name || '');
+                            setIsEditingName(true);
+                        }} className="cursor-pointer">
+                            {memoizedPortfolioData?.name}
                         </p>
                     )}
                 </div>
@@ -181,14 +180,14 @@ const PortfolioBuilder = () => {
                     ) : (
                         <>
                             <div>
-                                {portfolioData ? (
+                                {memoizedPortfolioData ? (
                                     <div className="mt-2">
                                         {/* Render Template Frame */}
-                                        {TemplateComponent && portfolioData ? (
+                                        {TemplateComponent && memoizedPortfolioData ? (
                                             <TemplateComponent
-                                                key={portfolioData._id} // Ensure re-render
-                                                templateId={portfolioData.referenceTemplate}
-                                                templateData={portfolioData}
+                                                key={memoizedPortfolioData._id} // Ensure re-render
+                                                templateId={memoizedPortfolioData.referenceTemplate}
+                                                templateData={memoizedPortfolioData}
                                             />
                                         ) : (
                                             <p className="text-gray-400">Template component not found.</p>
@@ -210,11 +209,11 @@ const PortfolioBuilder = () => {
                             <img src={LoaderIcon} alt="loader" width={24} height={24} className="animate-spin" />
                             <p className="ml-2">Loading...</p>
                         </div>
-                    ) : portfolioData ? (
+                    ) : memoizedPortfolioData ? (
                         <PortfolioSetup
                             activeModal={activeModal}
                             setActiveModal={setActiveModal}
-                            portfolioData={portfolioData}
+                            portfolioData={memoizedPortfolioData}
                             updatePortfolioData={updatePortfolioData}
                             setProjectToEdit={setProjectToEdit}
                             setWorkToEdit={setWorkToEdit}
@@ -227,12 +226,12 @@ const PortfolioBuilder = () => {
                 </div>
 
                 {/* PortfolioSetup for Mobile */}
-                {isMobileEditVisible && portfolioData && (
+                {isMobileEditVisible && memoizedPortfolioData && (
                     <div className="lg:hidden fixed inset-0 bg-white z-40 overflow-y-auto">
                         <PortfolioSetup
                             activeModal={activeModal}
                             setActiveModal={setActiveModal}
-                            portfolioData={portfolioData}
+                            portfolioData={memoizedPortfolioData}
                             updatePortfolioData={updatePortfolioData}
                             onClose={() => setIsMobileEditVisible(false)} // Pass the onClose prop
                             setProjectToEdit={setProjectToEdit}
@@ -249,9 +248,9 @@ const PortfolioBuilder = () => {
                 <CreateProject
                     onAddProject={(newProject) => {
                         // Handle adding a new project
-                        const updatedProjects = [...(portfolioData?.sections.find(section => section.type === "Projects")?.customContent?.projects || []), newProject];
+                        const updatedProjects = [...(memoizedPortfolioData?.sections.find(section => section.type === "Projects")?.customContent?.projects || []), newProject];
                         updatePortfolioData({
-                            sections: portfolioData?.sections.map(section =>
+                            sections: memoizedPortfolioData?.sections.map(section =>
                                 section.type === "Projects"
                                     ? { ...section, customContent: { ...section.customContent, projects: updatedProjects } }
                                     : section
@@ -261,14 +260,14 @@ const PortfolioBuilder = () => {
                     }}
                     onUpdateProject={(updatedProject) => {
                         // Handle updating an existing project
-                        const projectsSection = portfolioData?.sections?.find(section => section.type === "Projects");
+                        const projectsSection = memoizedPortfolioData?.sections?.find(section => section.type === "Projects");
                         const existingProjects = projectsSection?.customContent?.projects || [];
 
                         const updatedProjects = existingProjects.map(project =>
                             project === projectToEdit ? updatedProject : project
                         );
                         updatePortfolioData({
-                            sections: portfolioData?.sections.map(section =>
+                            sections: memoizedPortfolioData?.sections.map(section =>
                                 section.type === "Projects"
                                     ? { ...section, customContent: { ...section.customContent, projects: updatedProjects } }
                                     : section
@@ -382,11 +381,11 @@ const PortfolioBuilder = () => {
 
 
             <Modal isVisible={activeModal === "publishModal"} className="publish-section bg-white" onClose={closeModal}>
-                <PublishModal onClose={closeModal} portfolioData={portfolioData} />
+                <PublishModal onClose={closeModal} portfolioData={memoizedPortfolioData} />
             </Modal>
 
             <Modal isVisible={activeModal === "previewModal"} className="bg-white w-full px-0 py-0" width="" onClose={closeModal}>
-                <PreviewModal onClose={closeModal} portfolioData={portfolioData} />
+                <PreviewModal onClose={closeModal} portfolioData={memoizedPortfolioData} />
             </Modal>
 
         </div>

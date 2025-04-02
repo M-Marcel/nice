@@ -1,5 +1,4 @@
 import { Portfolio } from "../dataTypes";
-import Person from "../assets/personcreative.png";
 import Elipse from '../assets/Ellipse2.png'
 
 interface TestTemplateProps {
@@ -25,12 +24,12 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
     );
 
     return (
-        <div className="bg h-[auto] bg-black-500 py-8 px-8">
+        <div className="bg h-[auto] bg-black-500 py-8 px-4 lg:px-8">
             {templateData ? (
                 <>
                     {/* Render Template Frame */}
                     <div className="">
-                        <div className="w-full creative-section flex items-center justify-center h-[650px] px-4">
+                        <div className="w-full rounded-3xl creative-section flex items-center justify-center h-[450px] py-8 lg:py-0 lg:h-[650px] lg:px-4">
                             <div className="flex justify-center items-center w-full">
                                 <div className="flex flex-col items-center w-full">
                                     <div className="flex items-center justify-center">
@@ -44,11 +43,11 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
                                     </div>
 
                                     <div className="flex flex-col justify-center items-center">
-                                        <p className="font-semibold mt-2 text-white">{templateData?.sections[0]?.customContent?.name}</p>
-                                        <p className="text-gray-500">{templateData?.sections[0]?.customContent?.email}</p>
+                                        <p className="font-bold mt-2 text-white text-xl">{templateData?.sections[0]?.customContent?.name}</p>
+                                        <p className="text-white text-sm">{templateData?.sections[0]?.customContent?.email}</p>
                                     </div>
-                                    <div className="w-[100%] lg:w-[50%] bg-black-300 mt-5 h-auto rounded-2xl px-4 py-4">
-                                        <div className="flex-col lg:flex justify-between">
+                                    <div className="w-[100%] lg:w-[40%] creative-frame mt-5 h-auto rounded-2xl px-4 py-4">
+                                        <div className="flex-col lg:flex center text-center">
                                             <div>
                                                 <p className="text-sm text-white">
                                                     {templateData.sections[0].customContent?.about}
@@ -140,9 +139,9 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
 
                     {/* Skills Section */}
                     {skillsSection?.customContent?.skills && (
-                        <div className="px-4 flex justify-center py-8">
+                        <div className="flex justify-center py-8">
                             <div className="flex w-[100%] lg:w-[80%] py-8 rounded-2xl bg-black-300 flex-col items-center justify-center">
-                                <h2 className="text-sm lg:text-lg text-white">Skills</h2>
+                                <h2 className="text-sm lg:text-xl mb-2 text-white">Skills</h2>
                                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-4">
                                     {skillsSection.customContent.skills.map((skill, index) => (
                                         <div
@@ -161,7 +160,7 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
                     {projectsSection?.customContent?.projects && (
                         <div className="mt-[10px] py-8 rounded-xl">
                             <div className="flex-col justify-between">
-                                <h2 className="text-sm lg:text-lg text-center text-white mb-2 lg:mb-0">Projects</h2>
+                                <h2 className="text-sm lg:text-xl text-center text-white mb-4 lg:mb-6">Projects</h2>
                                 <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2 lg:w-[100%] lg:px-4">
                                     {projectsSection.customContent.projects.map((project, index) => (
                                         <>
@@ -200,12 +199,12 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
                     )}
 
                     {/* Certificates and Work History Section */}
-                    <div className="flex-col lg:flex px-6 lg:flex-row justify-between mt-10">
+                    <div className="flex-col lg:flex lg:px-6 lg:flex-row justify-between mt-10">
                         {/* Certificates Section */}
                         {certificatesSection?.customContent?.certificates && (
                             <div className="certificates w-[100%] lg:w-[30%] px-4 py-8 rounded-xl ">
                                 <div className="flex flex-col gap-4">
-                                    <h2 className="text-sm lg:text-lg text-gray-980">Certificates</h2>
+                                    <h2 className="text-sm lg:text-xl -mt-[60px] lg:mt-0 text-white">Certificates</h2>
                                     {certificatesSection.customContent.certificates.map((certificate, index) => (
                                         <div key={index} className="flex items-center gap-3">
                                             <div className="border border-gray-600 rounded-full px-2">
@@ -216,8 +215,8 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
                                                 </svg>
                                             </div>
                                             <div>
-                                                <h2 className="font-semibold text-white text-sm lg:text-sm">{certificate.name}</h2>
-                                                <p className="text-sm text-gray-500">{certificate.issuedBy}</p>
+                                                <h2 className="font-semibold text-white text-sm lg:text-sm mb-[2px]">{certificate.name}</h2>
+                                                <p className="text-sm text-gray-500 mb-[2px]">{certificate.issuedBy}</p>
                                                 <p className="text-sm text-gray-500">{certificate.yearIssued}</p>
                                             </div>
                                         </div>
@@ -226,7 +225,7 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
                                 {educationSection?.customContent?.education && (
                                     <div className="mt-8">
                                         <div className="flex flex-col gap-4">
-                                            <h2 className="text-sm lg:text-lg text-gray-980">Education</h2>
+                                            <h2 className="text-sm lg:text-xl text-white">Education</h2>
                                             {educationSection.customContent.education.map((education, index) => (
                                                 <div key={index} className="flex gap-3 items-center">
                                                     <div className="border border-gray-600 rounded-full px-2">
@@ -237,7 +236,7 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
                                                         </svg>
                                                     </div>
                                                     <div>
-                                                        <h2 className="font-semibold text-sm text-white lg:text-sm">{education.degree}</h2>
+                                                        <h2 className="font-semibold text-sm text-white lg:text-sm mb-[2px]">{education.degree}</h2>
                                                         <p className="text-sm text-gray-500">
                                                             {education.school} · {education.startYear} - {education.isStudent ? "Student" : education.endYear}
                                                         </p>
@@ -258,19 +257,19 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
                             {workSection?.customContent?.work && (
                                 <div className="mb-8">
                                     <div className="flex flex-col gap-4">
-                                        <h2 className="text-sm lg:text-lg text-white">Experience</h2>
+                                        <h2 className="text-sm lg:text-xl text-white">Experience</h2>
                                         {workSection.customContent.work.map((work, index) => (
                                             <div key={index} className="flex justify-between items-center">
                                                 <div>
-                                                    <h2 className="font-semibold text-sm text-white lg:text-sm mb-2">{work.role}</h2>
+                                                    <h2 className="font-semibold text-sm text-white lg:text-xl mb-2">{work.role}</h2>
                                                     <p className="text-sm text-gray-500 mb-3">
                                                         {work.company} · {work.startDate} - {work.isRoleActive ? "Present" : work.endDate}
                                                     </p>
-                                                    <p className="text-sm text-gray-500">
+                                                    <p className="text-sm text-gray-500 leading-7 text-justify">
                                                         {work.description}
                                                     </p>
                                                 </div>
-                                                <div className="border border-gray-600 rounded-full px-2">
+                                                <div className="border border-gray-600 rounded-full hidden px-2">
                                                     <svg width="10" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <path d="M11.9593 25.0313V0.31543H13.323V25.0313H11.9593ZM0.283203 13.3552V11.9916H24.9991V13.3552H0.283203Z" fill="white" />
                                                     </svg>
@@ -286,7 +285,7 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
                     <div className="flex justify-center items-center mt-10">
                         <div className="flex flex-col">
                             <div className="flex justify-center">
-                                <img src={Person} alt="person" width={50} />
+                               <img src={templateData?.sections[0]?.customContent?.profileImage || Elipse} className="rounded-full w-[50px] h-full object-cover" alt="Ellipse" />
                             </div>
                             <div>
                                 <h2 className="text-white text-xl mb-3">Let’s work together</h2>

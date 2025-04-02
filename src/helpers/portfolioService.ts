@@ -147,8 +147,11 @@ const getAllCategories = async (): Promise<{ categories: Category[]; message: st
             headers: getAuthHeaders(),
             withCredentials: true,
         });
+
+        console.log('Categories Response', response.data.data)
+        const categoriesData = response.data?.data || [];
         return {
-            categories: response.data,
+            categories: categoriesData,
             message: "Categories fetched successfully",
         };
     } catch (error: any) {
