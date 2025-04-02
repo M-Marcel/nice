@@ -1,7 +1,7 @@
 import { Portfolio } from "../dataTypes";
 import templateFrame from "../assets/templateFrame.png"
 import Elipse from "../assets/Ellipse2.png"
-import Person from "../assets/personcreative.png";
+
 
 interface TestTemplateProps {
     templateId: string;
@@ -229,7 +229,7 @@ const Professional: React.FC<TestTemplateProps> = ({ templateId, templateData })
                             <div className="flex justify-center items-center mt-10">
                                 <div className="flex flex-col">
                                     <div className="flex justify-center mb-2">
-                                        <img src={templateData?.sections[0]?.customContent?.profileImage || Elipse} className="rounded-full w-[50px] h-full object-cover" alt="Ellipse" />
+                                         <img src={templateData?.sections[0]?.customContent?.profileImage || Elipse} className="rounded-full w-[50px] h-[50px] object-cover" alt="Ellipse" />
                                     </div>
                                     <div>
                                         <h2 className="text-black-500 text-xl mb-3">Let’s work together</h2>

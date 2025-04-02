@@ -290,7 +290,7 @@ const Minimalist: React.FC<TestTemplateProps> = ({ templateId, templateData }) =
                     <div className="flex justify-center items-center mt-10">
                         <div className="flex flex-col">
                             <div className="flex justify-center">
-                                <img src={templateData?.sections[0]?.customContent?.profileImage || Elipse} className="rounded-full w-[50px] h-full object-cover" alt="Ellipse" />
+                                <img src={templateData?.sections[0]?.customContent?.profileImage || Elipse} className="rounded-full w-[50px] h-[50px] object-cover" alt="Ellipse" />
                             </div>
                             <div>
                                 <h2 className="text-black-500 text-xl mt-1 mb-3">Let’s work together</h2>
