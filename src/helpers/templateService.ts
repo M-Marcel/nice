@@ -42,17 +42,13 @@ const getAllTemplates = async (
 }> => {
     try {
         const url = `${API_URL}?page=${page}&pageSize=${pageSize}`;
-        console.log("API URL:", url); // Debugging line
-
         const response = await axios.get(url, {
             headers: getAuthHeaders(),
             withCredentials: true,
         });
 
-        console.log("API Response:", response); // Debugging line
 
         if (response?.data) {
-            console.log("Template Services - Data:", response.data.data);
             return {
                 templates: response.data.data, // Match the API response structure
                 pagination: response.data.pagination, // Match the API response structure

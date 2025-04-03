@@ -49,7 +49,6 @@ const PortfolioBuilder = () => {
 
     useEffect(() => {
         if (isSuccess) {
-            console.log("Initializing templateData with fetched template:", portfolio);
             setPortfolioData(portfolio);
         }
     }, [portfolio, isSuccess]);
@@ -68,7 +67,6 @@ const PortfolioBuilder = () => {
 
     const updatePortfolioData = (updatedData: Partial<Portfolio>) => {
         if (portfolioData) {
-            console.log("Updating PortfolioData:", updatedData);
             setPortfolioData((prev) => ({
                 ...prev!, // Preserve the existing state
                 ...updatedData, // Merge the updated data

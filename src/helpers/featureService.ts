@@ -79,7 +79,6 @@ const voteFeatureRequest = async (id: string): Promise<{ feature: Feature; messa
 
     if (response.data) {
         localStorage.setItem('featureData', JSON.stringify(response.data))
-        console.log(response.data);
         return {
             feature: response.data,
             message: response.data.message,

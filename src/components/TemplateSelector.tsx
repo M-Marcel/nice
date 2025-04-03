@@ -36,7 +36,6 @@ const TemplateSelector = ({ setActiveModal }: any) => {
 
             if (response) {
                 const payload = response?.payload as any
-                console.log("port resp", response)
                 navigate(`/portfolio/${payload.portfolio?.data._id}`)
                 setActiveModal(null)
             }
