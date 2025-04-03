@@ -18,39 +18,53 @@ const createFeatureRequest = async (featureData: { title: string; tag: string; d
     })
 
     if (response.data) {
-        localStorage.setItem('featureData', JSON.stringify(response.data))
-        console.log(response.data);
+        // Get the current features from localStorage
+        const currentFeatures = JSON.parse(localStorage.getItem("features") || "[]");
+
+        // Add the new feature at the start of the list
+        const updatedFeatures = [response.data.data, ...currentFeatures];
+
+        // Save updated features to localStorage
+        localStorage.setItem("features", JSON.stringify(updatedFeatures));
+
+        console.log("Response from createFeatureRequest API:", response.data.data);
+
         return {
-            feature: response.data,
+            feature: response.data.data,
             message: response.data.message,
         };
     }
     throw new Error('feature creation failed')
 }
 
-
-const getAllFeatureRequest =  async(page:number):Promise<{ features: Feature[]; message: string; pagination:{currentPage:number, totalPages:number} }> => {
-
-    const LIMIT = 5;
-
-    const response = await axios.get(`${API_URL}?page=${page}&limit=${LIMIT}`, {
+const getAllFeatureRequest = async (page: number = 1, pageSize: number = 5): Promise<{
+    features: Feature[];
+    pagination: {
+        total: number;
+        currentPage: number;
+        totalPages: number;
+        pageSize: number;
+    };
+    message: string;
+}> => {
+    const response = await axios.get(`${API_URL}?page=${page}&pageSize=${pageSize}`, {
         headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
         },
         withCredentials: true,
-    })
+    });
+
     if (response?.data) {
-        console.log(response.data);
         return {
             features: response.data.data,
+            pagination: response.data.pagination,
             message: response.data.message,
-            pagination: response.data.pagination
         };
     }
-    throw new Error('fetching features failed')
-}
+    throw new Error("Fetching features failed");
+};
 
-const voteFeatureRequest = async(id:string): Promise<{ feature: Feature; message: string }> => {
+const voteFeatureRequest = async (id: string): Promise<{ feature: Feature; message: string }> => {
     const token = localStorage.getItem("token");
     if (!token) {
         throw new Error("You must login to vote");
@@ -65,7 +79,6 @@ const voteFeatureRequest = async(id:string): Promise<{ feature: Feature; message
 
     if (response.data) {
         localStorage.setItem('featureData', JSON.stringify(response.data))
-        console.log(response.data);
         return {
             feature: response.data,
             message: response.data.message,
@@ -77,7 +90,8 @@ const voteFeatureRequest = async(id:string): Promise<{ feature: Feature; message
 const featureService = {
     createFeatureRequest,
     getAllFeatureRequest,
-    voteFeatureRequest
+    voteFeatureRequest,
+ 
 
 }
 
