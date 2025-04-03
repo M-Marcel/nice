@@ -53,17 +53,12 @@ const getPortfolioById = async (id: string): Promise<{
 }> => {
     try {
         const url = `${API_URL}/${id}`;
-        console.log("API URL:", url); // Debugging line
-
         const response = await axios.get(url, {
             headers: getAuthHeaders(),
             withCredentials: true,
         });
 
-        console.log("API Response:", response); // Debugging line
-
         if (response?.data) {
-            console.log("Template Services - Data:", response.data);
             return {
                 portfolio: response.data, 
                 message: "Template fetched successfully",
@@ -82,7 +77,6 @@ const getPortfolioById = async (id: string): Promise<{
 };
 
 const updatePortfolio = async (id: string, portfolioData: { sections: any[] }): Promise<{ portfolio: Portfolio; message: string }> => {
-    console.log("portfoliodata", portfolioData)
     try {
         const response = await axios.patch(`${API_URL}/${id}`, portfolioData, {
             headers: getAuthHeaders(),
@@ -105,7 +99,7 @@ const getAllPortfolios = async (): Promise<{ portfolios: Portfolio[]; message: s
             headers: getAuthHeaders(),
             withCredentials: true,
         });
-          console.log("port response", response.data)
+        
         if (response?.data) {
             return {
                 portfolios: response.data, // Assuming the backend returns an array of portfolios

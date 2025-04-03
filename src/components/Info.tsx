@@ -63,13 +63,9 @@ const Info = ({ portfolioData, updatePortfolioData }: templateDataProps) => {
     
 
     useEffect(() => {
-
-        console.log("Updated profile image:", profileImageFile);
     }, [profileImageFile]);
 
     useEffect(() => {
-        console.log("Updated cover image:", coverImageFile);
-        console.log("new info data", portfolioData)
     }, [coverImageFile, portfolioData]);
 
     const handleProfileImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {

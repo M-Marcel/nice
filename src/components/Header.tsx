@@ -124,7 +124,6 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
                                 <Button
                                     className="hidden px-3 py-2  font-semibold rounded-md lg:flex custom-bg shadow-lg text-white"
                                     onClick={() => {
-                                        console.log('Navigating to Dashboard');
                                         navigate('/dashboard');
                                     }}
                                 >
