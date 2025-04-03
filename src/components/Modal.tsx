@@ -4,9 +4,11 @@ type ModalProps = {
     isVisible: boolean
     onClose: () => void
     children: React.ReactNode
+    width?:string
+    className?:string
 }
 
-const Modal = ({ isVisible, onClose, children }: ModalProps) => {
+const Modal = ({ isVisible, onClose, children, width="400px", className }: ModalProps) => {
     if (!isVisible) return null
 
 
@@ -21,9 +23,9 @@ const Modal = ({ isVisible, onClose, children }: ModalProps) => {
         flex justify-center items-center"
 
         >
-            <div className="w-[400px] flex flex-col">
+            <div style={{ width }} className={className ?? "flex flex-col bg-white"}>
 
-                <div className="bg-white p-2 rounded-3xl overflow-y-auto max-h-screen">
+                <div className=" p-2 rounded-3xl overflow-y-auto max-h-screen">
                     <div className="flex flex-col py-2 px-2">
                         <button
                             className="text-red-600 text-sm  place-self-end"

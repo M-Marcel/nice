@@ -1,16 +1,16 @@
+import { Link } from "react-router-dom";
 import Button from "../components/Button"
 import LeftSidebar from "../components/LeftSidebar"
 import DashboardHero from "../assets/dbherro.png"
 import BotDesign from '../assets/zrobot.png'
-import ComputerIcon from '../assets/computer-white.png'
 import TelegramIcon from '../assets/telegram2.png'
 import Search from "../components/Search"
 import { useAppDispatch, useAppSelector } from "../hooks"
-import {enablePageScroll } from "scroll-lock"
-import Person from '../assets/person.png'
-import { getAllFeatureRequest } from "../slices/feature/featureSlice"
-import { useEffect, useState } from "react"
-import FeatureRequest from "../components/FeatureRequest"
+import { enablePageScroll } from "scroll-lock"
+import Person from '../assets/dbavatar.png'
+import { getAllFeatureRequest, setPage } from "../slices/feature/featureSlice"
+import { useEffect } from "react"
+import AllFeatureRequest from "../components/FeatureRequest"
 import NextIcon from "../assets/svg/NextIcon"
 import PrevIcon from "../assets/svg/PrevIcon"
 import LoaderIcon from "../assets/loader.svg"
@@ -19,8 +19,13 @@ import Modal from "../components/Modal"
 import RequestForm from "../components/RequestForm"
 import { useModal } from "../context/ModalContext"
 import TelegramModal from "../components/telegramModal"
-
-
+// import TawkTo from "../components/TawkTo"
+import { useDashboard } from "../context/DashboardContext"
+import FileIcon from "../assets/svg/fileIcon"
+import CreateProjectModal from "../components/CreateProjectModal"
+import TemplateSelector from "../components/TemplateSelector"
+import { getAllPortfolios } from "../slices/portfolio/portfolioSlice"
+import CopyButton from "../components/CopyButton";
 
 
 
@@ -28,38 +33,63 @@ const Dashboard = () => {
     const dispatch = useAppDispatch();
 
     const user = useAppSelector((state) => state.auth.user);
-    const { features, isLoading, isError, message, totalPages } = useAppSelector(
+    const { portfolios, isLoading: isPortfolioLoading } = useAppSelector(
+        (state) => state.portfolio
+    );
+    const { displayedFeatures = [], isLoading, isError, message, currentPage, totalPages, limit } = useAppSelector(
         (state) => state.feature
     );
-    const [currentPage, setCurrentPage] = useState(1);
+
+    const { dashboardType, setDashboardType } = useDashboard();
+
+
+    // Set the dashboardType when the user data changes
+    useEffect(() => {
+        if (user) {
+            setDashboardType("user"); // Update the context with the new dashboardType
+        }
+    }, [user, dashboardType, setDashboardType]);
+
+
     const { activeModal, setActiveModal } = useModal()
 
     const userId = user?._id;
 
-    const enhancedFeatures = features.map((feature) => ({
+    const enhancedFeatures = displayedFeatures.map((feature) => ({
         ...feature,
-        isVoted: userId ? feature.likedUsers.includes(userId) : false
+        isVoted: Array.isArray(feature.likedUsers) && userId
+            ? feature.likedUsers.includes(userId)
+            : false,
     }));
 
     useEffect(() => {
-        dispatch(getAllFeatureRequest(currentPage));
+        dispatch(getAllFeatureRequest({ page: currentPage, pageSize: limit }));
         enablePageScroll()
         // setActiveModal("telegramModal")
-     
-    }, [dispatch, currentPage]);
+
+    }, [dispatch, currentPage, limit]);
+
+    useEffect(() => {
+        dispatch(getAllPortfolios());
+
+
+    }, [dispatch]);
+
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
+            dispatch(setPage(currentPage - 1));
         }
     };
 
     const handleNextPage = () => {
         if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
+            dispatch(setPage(currentPage + 1));
             console.log('moved to next page')
         }
     };
+
+
 
     const closeModal = () => {
         setActiveModal(null);
@@ -67,13 +97,17 @@ const Dashboard = () => {
         enablePageScroll()
     };
 
+    
+
+
     return (
-        <div className="dashboard flex flex-col lg:flex-row px-2">
-            <LeftSidebar />
-            <div className="px-4 w-[100%] lg:w-[80%] lg:relative md:z-30 lg:z-40 left-[18%]">
-                <div className=" items-center justify-between hidden md:flex md:w-[92%] lg:w-[80%] bg-white py-4 px-2 fixed z-50">
+        <div className="dashboard flex flex-col h-[100vh] overflow-y-scroll lg:scrollbar-none lg:flex-row px-2">
+            <LeftSidebar dashboardType={dashboardType} />
+            <div className="px-4 w-[100%] lg:w-[82%] lg:relative md:z-30  lg:z-40 left-[18%]">
+                <div className=" items-center justify-between hidden md:flex md:w-[92%] lg:w-[82%] bg-white py-4 px-2 fixed z-50">
                     <Search />
                     <div className="flex gap-2">
+<<<<<<< HEAD
                     <a href="https://t.me/+iw2jh3VaeSg4MzBk" className="hidden lg:flex items-center gap-2 bg-gray-900 text-sm text-black-700 px-4 py-3 
                      rounded-xl">
                         <img src={TelegramIcon} alt="telIcon" width={18} height={18} />
@@ -84,22 +118,44 @@ const Dashboard = () => {
                         <img src={ComputerIcon} alt="compIcon" width={18} height={18} />
                         Beta
                     </Button>
+=======
+                        <a
+                            href="https://t.me/+iw2jh3VaeSg4MzBk"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hidden lg:flex items-center gap-2 bg-gray-900 text-sm text-black-700 px-4 py-3 
+                         rounded-xl hover:scale-105 transform transition-transform duration-300 "
+                        >
+                            <img src={TelegramIcon} alt="telIcon" width={18} height={18} />
+                            Join Telegram
+                        </a>
+                        <Button
+                            onClick={() => setActiveModal("createProjectModal")}
+                            className="hidden lg:flex items-center gap-2 custom-bg text-sm text-white px-4 py-3 me-10
+                        rounded-xl">
+                            Create new
+                        </Button>
+>>>>>>> dev1.0
                     </div>
                 </div>
                 <div className="flex flex-col lg:flex-row gap-8 mt-14 lg:mt-8">
-                    <div className="w-[100%] lg:w-[65%] lg:px-4 relative z-10 lg:py-4 h-auto lg:h-[100vh]">
+                    <div className="w-[100%] lg:w-[65%] lg:px-4 relative z-10 lg:py-4 h-auto lg:h-[100vh] lg:overflow-y-scroll
+                    lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
                         <div className="mt-10 mb-4 hidden md:block relative overflow-hidden">
-                            <div className="mobile-dashboard-hero flex h-[auto]">
+                            <div className="desktop-dashboard-hero flex h-[auto]">
                                 <img src={DashboardHero} alt="dhero" className="w-[100%]" />
                             </div>
                             <div className="absolute flex justify-between top-2 w-full">
-                                <div className="px-3 py-2 lg:py-4 md:mt-[60px] lg:mt-[25px]">
-                                    <p className="text-white text-3xl leading-9 font-medium w-[100%]">You’re on <br />the list {user?.firstName || "User"}!</p>
-                                    <p className="mt-2 text-sm text-white font-500">Get Ready for the Launch</p>
-                                    {/* <p className="text-sm text-white mt-8 flex gap-1 items-center">
-                                        <img src={Alarm} alt="alarm" className="w-[30px]" />
-                                        <span className="w-[60%] lg:w-[auto]">Launching in 14 days!</span>
-                                    </p> */}
+                                <div className="px-3 py-2 lg:py-4 md:mt-[60px] lg:mt-[2px]">
+                                    <p className="text-white text-xl leading-9 font-medium w-[100%]">Welcome {user?.firstName || "User"}</p>
+                                    <p className="text-white text-xl leading-6 font-medium w-[100%] lg:w-[90%]">Are you ready for your solution creation journey?</p>
+                                    <div className="flex items-center mt-10 gap-2">
+                                        <span>
+                                            <FileIcon />
+                                        </span>
+                                        <p className="text-sm text-white font-medium w-[100%] lg:w-[60%]">start by creating your personal portfolio</p>
+                                    </div>
+
                                 </div>
                                 <div className="w-[60%]">
                                     <img className="w-[100%] mt-2 md:mt-0" src={Person} alt="Person" />
@@ -108,17 +164,19 @@ const Dashboard = () => {
                             </div>
                         </div>
                         <div className="mt-10 mb-4 md:hidden relative overflow-hidden">
-                            <div className="mobile-dashboard-hero flex h-[auto]">
+                            <div className="mobile-dashboard-hero flex h-[auto] py-2">
                                 <img src={DashboardHero} alt="dhero" className="w-[100%]" />
                             </div>
                             <div className="absolute flex justify-between top-1 w-full">
-                                <div className="px-2 py-1 mt-5">
-                                    <p className="text-white text-sm leading-4 font-medium w-[98%]">You’re on <br />the list {user?.firstName || "User"}!</p>
-                                    <p className="mt-2 text-[10px] text-white font-500">Get Ready for the Launch</p>
-                                    {/* <p className="text-[8px] text-white mt-1 mb-2 flex gap-1 items-center">
-                                        <img src={Alarm} alt="alarm" className="w-[30px]" />
-                                        <span className="w-[60%] lg:w-[auto]">Launching in 14 days!</span>
-                                    </p> */}
+                                <div className="px-2 py-1 mt-1">
+                                    <p className="text-white text-sm leading-4 font-medium w-[98%] mb-1">Welcome {user?.firstName || "User"}</p>
+                                    <p className="text-white text-sm leading-4 font-medium w-[98%]">Are you ready for your solution creation journey?</p>
+                                    <div className="flex items-center mt-5 gap-2">
+                                        <span>
+                                            <FileIcon />
+                                        </span>
+                                        <p className="text-xs text-white font-medium w-[80%] lg:w-[60%]">start by creating your personal portfolio</p>
+                                    </div>
                                 </div>
                                 <div className="w-[65%]">
                                     <img className="w-[100%] mt-2 md:mt-0" src={Person} alt="Person" />
@@ -144,28 +202,87 @@ const Dashboard = () => {
                                 </div>
                             </div>
                         </div> */}
-                        <div className="mt-8 py-10 purpose-bg flex justify-center items-center">
-                            <img src={BotDesign} alt="dashboardHero" width={400} />
+                        <div className="mt-10 flex items-center justify-between">
+                            <h2 className="text-black-500 text-lg font-semibold">My projects</h2>
+                            <Button
+                                onClick={() => setActiveModal("createProjectModal")}
+                                className="lg:hidden items-center gap-2 custom-bg text-xs text-white px-2 py-2 
+                                rounded-xl">
+                                Create new
+                            </Button>
                         </div>
 
-                        <div className="flex justify-center items-center mt-[40px]">
-                            <div className="w-[80%] flex flex-col items-center">
-                                <h1 className="text-center text-black-500 font-600 mb-2">View product progress</h1>
-                                <p className="text-gray-400 text-sm w-[85%] text-center">We are working really hard to get the product ready.
-                                    View our progress and give us a feedback or suggest features to add</p>
-                            </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {isPortfolioLoading ? (
+                                <div className="flex items-center lg:ml-[200px] justify-center gap-6 h-[60vh]">
+                                    <img src={LoaderIcon} alt="loader" width={24} height={24} className="animate-spin" />
+                                    Loading
+                                </div>
+                            ) : isError ? (
+                                <p className="text-red-500">{message}</p>
+                            ) : portfolios && portfolios.length > 0 ? (
+                                portfolios.map((portfolio) => (
+                                    <div key={portfolio._id} className="hover:scale-105 mb-4 transform h-[auto] lg:h-[70vh] transition-transform duration-300">
+                                        <Link to={`/portfolio/display/${portfolio._id}`}>
+                                            <div className="mt-8 purpose-bg flex flex-col">
+                                                <div className="w-full lg:w-[250px] lg:h-[250px] rounded-full lg:mb-8">
+                                                    <img
+                                                        src={portfolio.sections.find(section => section.type === "Info")?.customContent?.coverImg || BotDesign}
+                                                        alt="portfolio"
+                                                        className="w-full object-contain rounded-2xl"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="mt-4 lg:mt-0 mb-4 lg:mb-8">
+                                                <p className="text-sm font-semibold text-black-500">
+                                                    {portfolio?.name || 'Untitled Portfolio'}
+                                                </p>
+                                                <p className="text-xs text-gray-500">
+                                                    Last edited: {new Date(portfolio.createdAt).toLocaleDateString()}
+                                                </p>
+                                            </div>
+                                        </Link>
+                                        {portfolio.url && (
+                                            <div className="mt-2 p-2 bg-gray-900 rounded-lg">
+                                                <p className="text-xs font-medium mb-[2px]">Published URL:</p>
+                                                <div className="flex items-center gap-1">
+                                                    <a
+                                                        href={portfolio.url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="text-xs bg-gray-900 py-2 rounded-sm break-all"
+                                                    >
+                                                        {portfolio.url}
+                                                    </a>
+                                                    <CopyButton textToCopy={portfolio.url} />
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                ))
+                            ) : (
+                                <p className="text-gray-400">No portfolios found. Create a new one!</p>
+                            )}
                         </div>
                     </div>
-                    <div className="w-[100%] lg:w-[35%] px-2 py-4 h-[100vh]">
-                        <div className="flex justify-between gap-14 mt-10">
-                            <div>
+                    <div className="w-[100%] lg:w-[35%] px-4 py-4 h-[100vh] lg:overflow-y-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
+                        <div className="flex justify-between mt-10 mb-4">
+                            <div className="w-[50%]">
                                 <h2 className="text-sm mb- font-semibold">Feature requests</h2>
                                 <p className="text-xs text-gray-400 ">Vote request or add yours</p>
                             </div>
                             <Button
-                                className="custom-bg text-xs  px-3 py-3 rounded-xl text-white"
+                                className="text-xs flex gap-1 items-center px-2 py-4 rounded-xl border border-gray-600  bg-white text-black-500 hover:scale-105  transform transition-transform duration-300"
                                 onClick={() => setActiveModal("requestForm")}
-                            >Add request
+                            >
+                                <span>
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6 12H18" stroke="#1A1C1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                        <path d="M12 18V6" stroke="#1A1C1F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+
+                                </span>
+                                <span>Add request</span>
                             </Button>
                         </div>
                         <div className="mt-2 ">
@@ -186,7 +303,7 @@ const Dashboard = () => {
                                 <>
                                     {enhancedFeatures && enhancedFeatures.length > 0 ? (
                                         enhancedFeatures.map((feature) => (
-                                            <FeatureRequest key={feature._id} feature={feature} />
+                                            <AllFeatureRequest key={feature._id} feature={feature} />
                                         ))
                                     ) : (
                                         <p className="text-gray-400">No features available. Add a new request!</p>
@@ -216,11 +333,26 @@ const Dashboard = () => {
 
                 </div>
             </div>
+
+            {/* <TawkTo /> */}
+
             <Modal isVisible={activeModal === "requestForm"} onClose={closeModal}>
                 <RequestForm onNewFeature={() => { }} />
             </Modal>
             <Modal isVisible={activeModal === "telegramModal"} onClose={closeModal}>
                 <TelegramModal />
+            </Modal>
+            <Modal isVisible={activeModal === "createProjectModal"} width="500px" onClose={closeModal}>
+                <CreateProjectModal
+                    activeModal={activeModal}
+                    setActiveModal={setActiveModal}
+                />
+            </Modal>
+            <Modal isVisible={activeModal === "selectTemplateModal"} width="650px" onClose={closeModal}>
+                <TemplateSelector
+                    activeModal={activeModal}
+                    setActiveModal={setActiveModal}
+                />
             </Modal>
         </div>
     )

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { getProfile, updateProfile } from "../slices/auth/authSlice";
+import { format, toDate } from "date-fns-tz";
 import Button from "../components/Button";
 import ProfileFrame from "../assets/dbFrame.png";
 import MaleAvatar from '../assets/malee-avatae.png'
@@ -10,17 +11,20 @@ import Pencil from '../assets/pencil.png'
 import Dashboardicon from '../assets/dashboard.png'
 import { useNavigate } from "react-router-dom";
 
-const ProfileTab = () => {
+const ProfileTab = ({ dashboardType }: { dashboardType: string }) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate()
     const { isFetchProfileSuccess, user, isUpdateProfileSuccess, isLoading, message } = useAppSelector((state) => state.auth);
 
     const [formData, setFormData] = useState({
         fullName: `${user?.firstName || ""} ${user?.lastName || ""}`,
+        role: user?.role || "",
         workRole: user?.userWorkRole || "",
         experienceLevel: user?.userTechnicalExperience || "",
         email: user?.email || "",
-        createdAt: user?.createdAt ? new Date(user.createdAt).toLocaleString() : "",
+        createdAt: user?.createdAt
+            ? format(toDate(user.createdAt, { timeZone: "Africa/Lagos" }), "dd-MM-yyyy HH:mm:ss")
+            : ""
     });
 
     const [isEditable, setIsEditable] = useState(false);
@@ -83,13 +87,13 @@ const ProfileTab = () => {
                             <div className="bg-white py-3 px-3">
                                 <div className="mb-4 lg:absolute top-[30%]">
                                     <img
-                                         src={
+                                        src={
                                             user?.gender === "Male"
-                                              ? MaleAvatar
-                                              : user?.gender === "Female"
-                                              ? FemaleAvatar
-                                              : MaleAvatar
-                                          }
+                                                ? MaleAvatar
+                                                : user?.gender === "Female"
+                                                    ? FemaleAvatar
+                                                    : MaleAvatar
+                                        }
                                         alt="Profile"
                                         width={65}
                                         height={65}
@@ -103,84 +107,169 @@ const ProfileTab = () => {
                                     </div>
                                 </div>
                                 <div className="flex flex-col lg:flex-row gap-4 justify-between">
-                                    <form className="w-[100%] lg:w-[50%]" onSubmit={handleSave}>
-                                        {message && <p className="text-red-500 text-sm mt-2">{message}</p>}
-                                        <div className="flex flex-col lg:flex-row justify-between items-center">
-                                            <div className="flex w-[100%] lg:w-[70%] flex-col mb-3">
-                                            <div className="w-[100%] lg:w-[25%] flex justify-end lg:hidden gap-6 items-center mt-4 mb-3">
-                                                {!isEditable && (
-                                                    <Button
-                                                        onClick={handleEditToggle}
-                                                        type="button"
-                                                        className="bg-white mt-3 gap-2 flex flex-row items-center border-none px-2 py-2"
-                                                    >
-                                                        <img src={Pencil} alt="pencil" width={20} height={20} />
-                                                        <span className="text-gray-500 text-sm">Edit</span>
-                                                    </Button>
-                                                )}
-                                                {isEditable && (
-                                                    <Button className="custom-bg px-4 py-2 rounded-lg text-white text-sm" type="submit" disabled={isLoading}>
-                                                        {isLoading ? "Saving..." : "Save"}
-                                                    </Button>
-                                                )}
+                                    {dashboardType === "user" &&
+                                        <form className="w-[100%] lg:w-[50%]" onSubmit={handleSave}>
+                                            {message && <p className="text-red-500 text-sm mt-2">{message}</p>}
+                                            <div className="flex flex-col lg:flex-row justify-between items-center">
+                                                <div className="flex w-[100%] lg:w-[70%] flex-col mb-3">
+                                                    <div className="w-[100%] lg:w-[25%] flex justify-end lg:hidden gap-6 items-center mt-4 mb-3">
+                                                        {!isEditable && (
+                                                            <Button
+                                                                onClick={handleEditToggle}
+                                                                type="button"
+                                                                className="bg-white mt-3 gap-2 flex flex-row items-center border-none px-2 py-2"
+                                                            >
+                                                                <img src={Pencil} alt="pencil" width={20} height={20} />
+                                                                <span className="text-gray-500 text-sm">Edit</span>
+                                                            </Button>
+                                                        )}
+                                                        {isEditable && (
+                                                            <Button className="custom-bg px-4 py-2 rounded-lg text-white text-sm" type="submit" disabled={isLoading}>
+                                                                {isLoading ? "Saving..." : "Save"}
+                                                            </Button>
+                                                        )}
+                                                    </div>
+                                                    <label className="mb-1 text-sm text-gray-500">Full name</label>
+                                                    <input
+                                                        type="text"
+                                                        name="fullName"
+                                                        value={formData.fullName}
+                                                        onChange={handleInputChange}
+                                                        disabled={!isEditable}
+                                                        className="border py-2 px-2 w-[100%] lg:w-[100%] border-gray-600 outline-0 rounded-lg"
+                                                    />
+                                                </div>
+                                                <div className="w-[100%] lg:w-[25%] hidden lg:flex gap-6 items-center mt-4">
+                                                    {!isEditable && (
+                                                        <Button
+                                                            onClick={handleEditToggle}
+                                                            type="button"
+                                                            className="bg-white mt-3 gap-2 flex flex-row items-center border-none px-2 py-2"
+                                                        >
+                                                            <img src={Pencil} alt="pencil" width={20} height={20} />
+                                                            <span className="text-gray-500 text-sm">Edit</span>
+                                                        </Button>
+                                                    )}
+                                                    {isEditable && (
+                                                        <Button className="custom-bg px-4 py-2 rounded-lg text-white text-sm" type="submit" disabled={isLoading}>
+                                                            {isLoading ? "Saving..." : "Save"}
+                                                        </Button>
+                                                    )}
+                                                </div>
                                             </div>
-                                                <label className="mb-1 text-sm text-gray-500">Full name</label>
-                                                <input
-                                                    type="text"
-                                                    name="fullName"
-                                                    value={formData.fullName}
-                                                    onChange={handleInputChange}
-                                                    disabled={!isEditable}
-                                                    className="border py-2 px-2 w-[100%] lg:w-[100%] border-gray-600 outline-0 rounded-lg"
-                                                />
-                                            </div>
-                                            <div className="w-[100%] lg:w-[25%] hidden lg:flex gap-6 items-center mt-4">
-                                                {!isEditable && (
-                                                    <Button
-                                                        onClick={handleEditToggle}
-                                                        type="button"
-                                                        className="bg-white mt-3 gap-2 flex flex-row items-center border-none px-2 py-2"
-                                                    >
-                                                        <img src={Pencil} alt="pencil" width={20} height={20} />
-                                                        <span className="text-gray-500 text-sm">Edit</span>
-                                                    </Button>
-                                                )}
-                                                {isEditable && (
-                                                    <Button className="custom-bg px-4 py-2 rounded-lg text-white text-sm" type="submit" disabled={isLoading}>
-                                                        {isLoading ? "Saving..." : "Save"}
-                                                    </Button>
-                                                )}
-                                            </div>
-                                        </div>
-                                        <div className="flex items-center gap-2 mb-3">
-                                            <div className="flex w-[100%] lg:w-[90%] flex-col mb-3">
-                                                <label className="mb-1 text-sm text-gray-500">Role</label>
-                                                <input
-                                                    type="text"
-                                                    name="workRole"
-                                                    value={formData.workRole}
-                                                    onChange={handleInputChange}
-                                                    disabled={!isEditable}
-                                                    className="border px-2 py-2 w-[100%] border-gray-600 outline-0 rounded-lg"
-                                                />
-                                            </div>
+                                            <div className="flex items-center gap-2 mb-3">
+                                                <div className="flex w-[100%] lg:w-[90%] flex-col mb-3">
+                                                    <label className="mb-1 text-sm text-gray-500">Role</label>
+                                                    <input
+                                                        type="text"
+                                                        name="workRole"
+                                                        value={formData.workRole}
+                                                        onChange={handleInputChange}
+                                                        disabled={!isEditable}
+                                                        className="border px-2 py-2 w-[100%] border-gray-600 outline-0 rounded-lg"
+                                                    />
+                                                </div>
 
-                                        </div>
-                                        <div className="flex items-center gap-2 mb-3">
-                                            <div className="flex w-[100%] lg:w-[90%] flex-col mb-3">
-                                                <label className="mb-1 text-sm text-gray-500">Experience level</label>
-                                                <input
-                                                    type="text"
-                                                    name="experienceLevel"
-                                                    value={formData.experienceLevel}
-                                                    onChange={handleInputChange}
-                                                    disabled={!isEditable}
-                                                    className="px-2 border py-2 w-[100%] border-gray-600 outline-0 rounded-lg"
-
-                                                />
                                             </div>
-                                        </div>
-                                    </form>
+                                            <div className="flex items-center gap-2 mb-3">
+                                                <div className="flex w-[100%] lg:w-[90%] flex-col mb-3">
+                                                    <label className="mb-1 text-sm text-gray-500">Experience level</label>
+                                                    <input
+                                                        type="text"
+                                                        name="experienceLevel"
+                                                        value={formData.experienceLevel}
+                                                        onChange={handleInputChange}
+                                                        disabled={!isEditable}
+                                                        className="px-2 border py-2 w-[100%] border-gray-600 outline-0 rounded-lg"
+
+                                                    />
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    }
+                                    {dashboardType === "admin" &&
+                                        <form className="w-[100%] lg:w-[50%]" onSubmit={handleSave}>
+                                            {message && <p className="text-red-500 text-sm mt-2">{message}</p>}
+                                            <div className="flex flex-col lg:flex-row justify-between items-center">
+                                                <div className="flex w-[100%] lg:w-[70%] flex-col mb-3">
+                                                    <div className="w-[100%] lg:w-[25%] flex justify-end lg:hidden gap-6 items-center mt-4 mb-3">
+                                                        {!isEditable && (
+                                                            <Button
+                                                                onClick={handleEditToggle}
+                                                                type="button"
+                                                                className="bg-white mt-3 gap-2 flex flex-row items-center border-none px-2 py-2"
+                                                            >
+                                                                <img src={Pencil} alt="pencil" width={20} height={20} />
+                                                                <span className="text-gray-500 text-sm">Edit</span>
+                                                            </Button>
+                                                        )}
+                                                        {isEditable && (
+                                                            <Button className="custom-bg px-4 py-2 rounded-lg text-white text-sm" type="submit" disabled={isLoading}>
+                                                                {isLoading ? "Saving..." : "Save"}
+                                                            </Button>
+                                                        )}
+                                                    </div>
+                                                    <label className="mb-1 text-sm text-gray-500">Full name</label>
+                                                    <input
+                                                        type="text"
+                                                        name="fullName"
+                                                        value={formData.fullName}
+                                                        onChange={handleInputChange}
+                                                        disabled={!isEditable}
+                                                        className="border py-2 px-2 w-[100%] lg:w-[100%] border-gray-600 outline-0 rounded-lg"
+                                                    />
+                                                </div>
+                                                <div className="w-[100%] lg:w-[25%] hidden lg:flex gap-6 items-center mt-4">
+                                                    {!isEditable && (
+                                                        <Button
+                                                            onClick={handleEditToggle}
+                                                            type="button"
+                                                            className="bg-white mt-3 gap-2 flex flex-row items-center border-none px-2 py-2"
+                                                        >
+                                                            <img src={Pencil} alt="pencil" width={20} height={20} />
+                                                            <span className="text-gray-500 text-sm">Edit</span>
+                                                        </Button>
+                                                    )}
+                                                    {isEditable && (
+                                                        <Button className="custom-bg px-4 py-2 rounded-lg text-white text-sm" type="submit" disabled={isLoading}>
+                                                            {isLoading ? "Saving..." : "Save"}
+                                                        </Button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-2 mb-3">
+                                                <div className="flex w-[100%] lg:w-[90%] flex-col mb-3">
+                                                    <label className="mb-1 text-sm text-gray-500">Role</label>
+                                                    <input
+                                                        type="text"
+                                                        name="workRole"
+                                                        value={formData.role}
+                                                        onChange={handleInputChange}
+                                                        disabled={!isEditable}
+                                                        className="border px-2 py-2 w-[100%] border-gray-600 outline-0 rounded-lg"
+                                                    />
+                                                </div>
+
+                                            </div>
+                                            <div className="flex items-center gap-2 mb-3">
+                                                <div className="flex w-[100%] lg:w-[90%] flex-col mb-3">
+                                                    <label className="mb-1 text-sm text-gray-500">Email</label>
+                                                    <input
+                                                        type="text"
+                                                        name="experienceLevel"
+                                                        value={formData.email}
+                                                        onChange={handleInputChange}
+                                                        disabled={!isEditable}
+                                                        className="px-2 border py-2 w-[100%] border-gray-600 outline-0 rounded-lg"
+
+                                                    />
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    }
+
                                     <div className="w-[100%] lg:w-[35%]">
                                         <div className="mb-3 px-3 mt-4 border border-gray-600 py-4 rounded-lg">
                                             <div className="mb-3">

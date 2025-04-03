@@ -1,12 +1,12 @@
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { User } from "../dataTypes";
+import { toast } from "react-toastify";
+import store  from "../app/store"; // Import your Redux store
+import { logout } from "../slices/auth/authSlice"; // Import the logout action
 
-
-
-const API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/auth`
-const VERIFY_API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/auth/signup/confirm`
-const GET_USER_PROFILE = `${process.env.REACT_APP_BASEURL}/api/v1/users/profile/me`
-
+const API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/auth`;
+const VERIFY_API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/auth/signup/confirm`;
+const GET_USER_PROFILE = `${process.env.REACT_APP_BASEURL}/api/v1/users/profile/me`;
 
 interface ApiErrorResponse {
     message: string;
@@ -23,7 +23,8 @@ const getAuthHeaders = (): Record<string, string> => {
         'Authorization': `Bearer ${token}`,
     };
 };
-// handle API errors
+
+// Handle API errors
 const handleApiError = (error: AxiosError): never => {
     const errorMessage = (error.response?.data as ApiErrorResponse)?.message ||
         "An unexpected error occurred. Please try again.";
@@ -34,6 +35,36 @@ const handleApiError = (error: AxiosError): never => {
 const saveUserToLocalStorage = (data: any) => {
     localStorage.setItem("user", JSON.stringify(data));
 };
+
+// Axios request interceptor to add the auth token to requests
+axios.interceptors.request.use(
+    (config: InternalAxiosRequestConfig) => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+// Axios response interceptor to handle token expiration
+axios.interceptors.response.use(
+    (response: AxiosResponse) => response,
+    (error: AxiosError) => {
+        if (error.response?.status === 401) {
+            // Token expired or invalid
+            toast.error("Session expired. Please log in again.");
+            store.dispatch(logout()); // Dispatch logout action
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            window.location.href = "/"; // Redirect to login page
+        }
+        return Promise.reject(error);
+    }
+);
 
 // Register user
 const register = async (userData: { firstName: string; lastName: string; email: string }): Promise<{ user: User; message: string }> => {
@@ -55,15 +86,38 @@ const register = async (userData: { firstName: string; lastName: string; email: 
 };
 
 // Verify email
-const verifyEmail = async (token: string): Promise<{ email: string; message: string }> => {
+const verifyEmail = async (token: string): Promise<{ email: string; provider: string; message: string }> => {
     try {
         const response = await axios.get(VERIFY_API_URL, {
             params: { token },
         });
+        console.log("Confirm resp", response.data);
         return response.data;
     } catch (error: any) {
         handleApiError(error);
-        throw new Error("verification failed");
+        throw new Error("Verification failed");
+    }
+};
+
+// Verify user
+const verifyUser = async (token: string): Promise<{ user: User; message: string; token: string }> => {
+    console.log('Token:', token); // Debugging log
+    localStorage.setItem("token", token);
+    try {
+        const response = await getProfile();
+
+        console.log("User AuthService Response", response);
+        const { user, message } = response;
+        localStorage.setItem("token", token);
+        saveUserToLocalStorage(user);
+        return {
+            user: user,
+            message: message,
+            token: token,
+        };
+    } catch (error: any) {
+        handleApiError(error);
+        throw new Error("Verification failed");
     }
 };
 
@@ -81,7 +135,7 @@ const login = async (userData: { email: string; password: string }): Promise<{ u
         return { user, token, message };
     } catch (error: any) {
         handleApiError(error);
-        throw new Error("login failed");
+        throw new Error("Login failed");
     }
 };
 
@@ -96,7 +150,7 @@ const forgotPassword = async (userData: { email: string }): Promise<{ message: s
         return response.data;
     } catch (error: any) {
         handleApiError(error);
-        throw new Error("failed");
+        throw new Error("Failed to send reset email");
     }
 };
 
@@ -130,34 +184,36 @@ const resetPassword = async (userData: { email: string; newPassword: string }): 
         return response.data;
     } catch (error: any) {
         handleApiError(error);
-        throw new Error("password reset failed");
+        throw new Error("Password reset failed");
     }
 };
 
 // Complete signup
 const completeSignUp = async (userData: {
     email: string;
-    gender:string;
-    password: string;
+    gender: string;
+    password?: string;
     userWorkRole: string;
     userCompanySize: string;
     userUseForZroleak: string[];
     userTechnicalExperience: string;
-}): Promise<{ user: User; message: string }> => {
+}): Promise<{ user: User; token:string; message: string }> => {
     try {
         const response = await axios.post(`${API_URL}/signup/complete`, userData, {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
         });
 
-        saveUserToLocalStorage(response.data);
+        localStorage.setItem("token", response.data.token);
+        saveUserToLocalStorage(response.data.user);
         return {
-            user: response.data,
+            user: response.data.user,
+            token:response.data.token,
             message: response.data.message,
         };
     } catch (error: any) {
         handleApiError(error);
-        throw new Error("registration failed");
+        throw new Error("Registration failed");
     }
 };
 
@@ -172,10 +228,9 @@ const getProfile = async (): Promise<{ user: User; message: string }> => {
         return response.data;
     } catch (error: any) {
         handleApiError(error);
-        throw new Error("failed fetching profile");
+        throw new Error("Failed fetching profile");
     }
 };
-
 
 // Update user profile
 const updateProfile = async (userData: {
@@ -190,7 +245,6 @@ const updateProfile = async (userData: {
             withCredentials: true,
         });
         saveUserToLocalStorage(response.data);
-        // Return updated user data along with a success flag
         return {
             user: response.data,
             message: "Profile updated successfully",
@@ -198,7 +252,6 @@ const updateProfile = async (userData: {
         };
     } catch (error: any) {
         handleApiError(error);
-        // Return error information
         return {
             user: null,
             message: "Failed updating profile",
@@ -207,16 +260,17 @@ const updateProfile = async (userData: {
     }
 };
 
-
 // Logout user
-const logout = (): void => {
+const logoutUser = (): void => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+  
 };
 
 const authService = {
     register,
     verifyEmail,
+    verifyUser,
     login,
     forgotPassword,
     validateOtp,
@@ -224,7 +278,7 @@ const authService = {
     completeSignUp,
     getProfile,
     updateProfile,
-    logout,
+    logoutUser,
 };
 
 export default authService;

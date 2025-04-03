@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
     CompleteSignUpFormData,
     ForgotFormData,
@@ -21,7 +21,7 @@ type InitialState = {
     isForgotPasswordSuccess: boolean;
     isLoginSuccess: boolean;
     isValidationSuccess: boolean;
-    isFetchProfileSuccess:boolean
+    isFetchProfileSuccess: boolean
     isResetPasswordSuccess: boolean;
     isUpdateProfileSuccess: boolean;
     isLoading: boolean;
@@ -42,7 +42,7 @@ const initialState: InitialState = {
     isLoginSuccess: false,
     isValidationSuccess: false,
     isResetPasswordSuccess: false,
-    isFetchProfileSuccess:false,
+    isFetchProfileSuccess: false,
     isUpdateProfileSuccess: false,
     isLoading: false,
     message: "",
@@ -65,19 +65,42 @@ export const register = createAsyncThunk<
 });
 
 export const verifyEmail = createAsyncThunk<
-    { message: string, email: string },
+    { message: string, email: string, provider:string },
     string,
     { rejectValue: string }
 >("auth/verifyEmail", async (token, thunkApi) => {
     try {
         const response = await authService.verifyEmail(token);
-        return { email: response.email, message: response.message };
+        return response;
     } catch (error: any) {
         const errorMessage =
             error.response?.data?.message || "Verification failed. Please try again.";
         return thunkApi.rejectWithValue(errorMessage);
     }
 });
+
+export const verifyUser = createAsyncThunk(
+    'auth/verifyUser',
+    async (token: string, { rejectWithValue }) => {
+        try {
+            localStorage.setItem("token", token);
+            const response = await authService.getProfile();
+
+
+            console.log("v-user response", response)
+            localStorage.setItem("user", JSON.stringify(response));
+        
+            return {
+                user: response.user || response, 
+                message: response.message || "No message", 
+                token: token,
+            };
+        } catch (error: any) {
+            
+            return rejectWithValue("Verification failed");
+        }
+    }
+);
 
 export const login = createAsyncThunk<
     { user: User; token: string; message: string },
@@ -110,7 +133,7 @@ export const forgotPassword = createAsyncThunk<
 });
 
 export const validateOtp = createAsyncThunk<
-    {user:User; message: string },
+    { user: User; message: string },
     ValidateFormData,
     { rejectValue: string }
 >("auth/validate-otp", async (userData, thunkApi) => {
@@ -170,7 +193,7 @@ export const getProfile = createAsyncThunk<
 });
 
 export const updateProfile = createAsyncThunk<
-    { user: User | null ; message: string },
+    { user: User | null; message: string },
     UpdateProfileFormData,
     { rejectValue: string }
 >("auth/updateProfile", async (userData, thunkApi) => {
@@ -186,7 +209,7 @@ export const updateProfile = createAsyncThunk<
 
 // Logout thunk doesn't return anything
 export const logout = createAsyncThunk("auth/logout", async () => {
-    await authService.logout();
+    await authService.logoutUser();
 });
 
 const authSlice = createSlice({
@@ -199,6 +222,9 @@ const authSlice = createSlice({
         logout: (state) => {
             state.user = null;
             state.token = null;
+            state.isLoginSuccess = false;
+            state.isError = true; // Set isError to true for token expiration
+            state.message = "Session expired, please login";
             localStorage.removeItem("user");
             localStorage.removeItem("token");
         },
@@ -249,6 +275,25 @@ const authSlice = createSlice({
                 state.isError = true;
                 state.message = action.payload as string;
             })
+            .addCase(verifyUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(verifyUser.fulfilled, (state,  action: PayloadAction<any>) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.user = action.payload.user;
+                console.log("user", state.user)
+                state.token = action.payload.token;
+                state.message = action.payload.message;
+                localStorage.setItem("user", JSON.stringify(action.payload.user));  // Save user to localStorage
+                localStorage.setItem("token", action.payload.token);
+            })
+            .addCase(verifyUser.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.user = null;
+                state.message = action.payload as string;
+            })
 
             // Login reducers
             .addCase(login.pending, (state) => {
@@ -260,8 +305,8 @@ const authSlice = createSlice({
                 state.user = action.payload.user;
                 state.token = action.payload.token;
                 state.message = action.payload.message;
-                toast.success('log in successful');
-              
+                // toast.success('log in successful');
+
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false;
@@ -270,7 +315,7 @@ const authSlice = createSlice({
                 state.user = null;
                 toast.error(action.payload);
             })
-
+            
             // Forgot Password reducers
             .addCase(forgotPassword.pending, (state) => {
                 state.isLoading = true;
@@ -349,6 +394,7 @@ const authSlice = createSlice({
                 state.isLoading = false;
                 state.isFetchProfileSuccess = true;
                 state.user = action.payload.user;
+               
                 state.message = action.payload.message;
             })
             .addCase(getProfile.rejected, (state, action) => {
@@ -387,8 +433,7 @@ const authSlice = createSlice({
                 state.isLoginSuccess = false;
                 state.isError = false;
                 state.message = '';
-                localStorage.removeItem("user");
-                localStorage.removeItem("token");
+               
             });
     },
 });

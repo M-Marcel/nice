@@ -59,7 +59,7 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
     };
 
     const handleLogout = () => {
-        authService.logout()
+        authService.logoutUser()
         navigate('/')
         setLogoutModalOpen(false)
         enablePageScroll()
@@ -107,10 +107,10 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
                                     Login
                                 </Button>
                                 <Button
-                                    className="hidden px-3 py-2  font-semibold cursor-pointer h-[8vh] rounded-md lg:flex items-center custom-bg text-white"
+                                    className="hidden px-4 py-2 text-xs font-semibold cursor-pointer h-[6vh] rounded-xl lg:flex items-center custom-bg text-white"
                                     onClick={openSignUpModal}
                                 >
-                                    Join Beta
+                                    Get Started
                                 </Button>
                             </>
                         ) : (
@@ -124,7 +124,6 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
                                 <Button
                                     className="hidden px-3 py-2  font-semibold rounded-md lg:flex custom-bg shadow-lg text-white"
                                     onClick={() => {
-                                        console.log('Navigating to Dashboard');
                                         navigate('/dashboard');
                                     }}
                                 >

@@ -7,9 +7,12 @@ import Modals from "../components/Modals"
 import CommunityFrame from '../assets/communityFrame.png'
 import Footer from "../components/Footer"
 import Join from "../components/Join"
-import { communityBots} from "../constants"
+import { communityBots } from "../constants"
 import Button from "../components/Button"
 import Dropdown from "../components/Dropdown"
+import TawkTo from "../components/TawkTo"
+
+
 
 const Community = () => {
     const [email, setEmail] = useState<string>("");
@@ -74,7 +77,7 @@ const Community = () => {
                                     <div className="mt-5">
                                         <div className="flex flex-col lg:flex-row justify-between lg:items-center mb-2">
                                             <h2 className="text-black-300 text-md mb-2 lg:mb-0">{item.title}</h2>
-                                            <Button className="custom-bg rounded-lg px-4 py-2 text-white text-sm">{item.btnText}</Button>
+                                            <Button className="custom-bg rounded-lg px-4 py-4 text-white text-sm">{item.btnText}</Button>
                                         </div>
                                         <div>
                                             <p className="flex gap-1 items-center mb-2">
@@ -99,6 +102,10 @@ const Community = () => {
 
             <Join />
             <Footer />
+
+            {/* Tawk.to Script */}
+            <TawkTo />
+
         </>
     )
 }
