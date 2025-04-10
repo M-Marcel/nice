@@ -142,11 +142,11 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
                         <div className="flex justify-center py-8">
                             <div className="flex w-[100%] lg:w-[80%] py-8 rounded-2xl bg-black-300 flex-col items-center justify-center">
                                 <h2 className="text-sm lg:text-xl mb-2 text-white">Skills</h2>
-                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-4">
+                                <div className="flex flex-wrap justify-center gap-4 mt-4 max-w-4xl mx-auto">
                                     {skillsSection.customContent.skills.map((skill, index) => (
                                         <div
                                             key={index}
-                                            className="text-white rounded-xl border border-gray-600 px-4 py-2 text-center"
+                                            className="rounded-xl border text-white border-gray-600 px-4 py-2 text-center"
                                         >
                                             {skill}
                                         </div>
@@ -157,7 +157,7 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
                     )}
 
                     {/* Projects Section */}
-                    {projectsSection?.customContent?.projects && (
+                    {projectsSection?.customContent?.projects && projectsSection.customContent.projects.length > 0 &&  (
                         <div className="mt-[10px] py-8 rounded-xl">
                             <div className="flex-col justify-between">
                                 <h2 className="text-sm lg:text-xl text-center text-white mb-4 lg:mb-6">Projects</h2>
@@ -201,7 +201,7 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
                     {/* Certificates and Work History Section */}
                     <div className="flex-col lg:flex lg:px-6 lg:flex-row justify-between mt-10">
                         {/* Certificates Section */}
-                        {certificatesSection?.customContent?.certificates && (
+                        {certificatesSection?.customContent?.certificates && certificatesSection.customContent.certificates.length > 0 &&(
                             <div className="certificates w-[100%] lg:w-[30%] px-4 py-8 rounded-xl ">
                                 <div className="flex flex-col gap-4">
                                     <h2 className="text-sm lg:text-xl -mt-[60px] lg:mt-0 text-white">Certificates</h2>
@@ -222,7 +222,7 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
                                         </div>
                                     ))}
                                 </div>
-                                {educationSection?.customContent?.education && (
+                                {educationSection?.customContent?.education && educationSection.customContent.education.length > 0 &&(
                                     <div className="mt-8">
                                         <div className="flex flex-col gap-4">
                                             <h2 className="text-sm lg:text-xl text-white">Education</h2>
@@ -252,10 +252,10 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
 
 
                         {/* Work History Section */}
-                        <div className="workHistory w-[100%] lg:w-[65%] px-4 py-8 rounded-xl bg-black-300">
+                        <div className="workHistory w-[100%] lg:w-[65%] ">
                             {/* Work History Section */}
-                            {workSection?.customContent?.work && (
-                                <div className="mb-8">
+                            {workSection?.customContent?.work && workSection.customContent.work.length > 0 && (
+                                <div className="mb-8 bg-black-300  px-4 py-8 rounded-xl">
                                     <div className="flex flex-col gap-4">
                                         <h2 className="text-sm lg:text-xl text-white">Experience</h2>
                                         {workSection.customContent.work.map((work, index) => (
@@ -285,7 +285,7 @@ const Creative: React.FC<TestTemplateProps> = ({ templateId, templateData }) => 
                     <div className="flex justify-center items-center mt-10">
                         <div className="flex flex-col">
                             <div className="flex justify-center">
-                               <img src={templateData?.sections[0]?.customContent?.profileImage || Elipse} className="rounded-full w-[50px] h-[50px] object-cover" alt="Ellipse" />
+                                <img src={templateData?.sections[0]?.customContent?.profileImage || Elipse} className="rounded-full w-[50px] h-[50px] object-cover" alt="Ellipse" />
                             </div>
                             <div>
                                 <h2 className="text-white text-xl mb-3">Let’s work together</h2>

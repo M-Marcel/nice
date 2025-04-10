@@ -1,7 +1,27 @@
 import axios from "axios";
 import { Feature } from "../dataTypes";
 
-const API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/feature`
+const getApiConfig = () => {
+    const env = process.env.REACT_APP_ENV || 'development';
+    
+    const apiConfig = {
+      development: {
+        baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
+      },
+      staging: {
+        baseUrl: "https://apidhykngtwistaging.lanepact.com",
+      },
+      production: {
+        baseUrl: "https://coreapi.lanepact.com",
+      }
+    };
+  
+    return apiConfig[env as keyof typeof apiConfig];
+  };
+
+  const { baseUrl } = getApiConfig();
+
+const API_URL = `${baseUrl}/api/v1/feature`
 
 
 const createFeatureRequest = async (featureData: { title: string; tag: string; description: string }): Promise<{ feature: Feature; message: string }> => {

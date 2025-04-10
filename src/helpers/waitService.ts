@@ -1,6 +1,25 @@
 import axios from "axios";
+const getApiConfig = () => {
+    const env = process.env.REACT_APP_ENV || 'development';
+    
+    const apiConfig = {
+      development: {
+        baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
+      },
+      staging: {
+        baseUrl: "https://apidhykngtwistaging.lanepact.com",
+      },
+      production: {
+        baseUrl: "https://coreapi.lanepact.com",
+      }
+    };
+  
+    return apiConfig[env as keyof typeof apiConfig];
+  };
 
-const API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/waitlist`
+  const { baseUrl } = getApiConfig();
+
+const API_URL = `${baseUrl}/api/v1/waitlist`
 
 
 const join = async(userData:{fullName:string; email:string}) => {

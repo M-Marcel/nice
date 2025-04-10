@@ -14,6 +14,7 @@ import { getPortfolioById } from "../slices/portfolio/portfolioSlice";
 import CreateWorkModal from "../components/createWorkModal";
 import CreateEducationModal from "../components/createEducationModal";
 import CreateCertificationModal from "../components/createCertificationModal";
+import UpdateModal from "../components/UpdateModal";
 import PublishModal from "../components/publishModal";
 import PreviewModal from "../components/PreviewModal";
 
@@ -148,9 +149,10 @@ const PortfolioBuilder = () => {
                         Preview
                     </Button>
                     <Button
-                        onClick={() => setActiveModal("publishModal")}
-                        className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl">
-                        Publish
+                        onClick={() => portfolioData?.url ? setActiveModal("updateModal") : setActiveModal("publishModal")}
+                        className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl"
+                    >
+                        {portfolioData?.url ? "Update" : "Publish"}
                     </Button>
                 </div>
             </div>
@@ -377,6 +379,9 @@ const PortfolioBuilder = () => {
                 />
             </Modal>
 
+            <Modal isVisible={activeModal === "updateModal"} className="publish-section bg-white" onClose={closeModal}>
+                <UpdateModal onClose={closeModal} portfolioData={memoizedPortfolioData} />
+            </Modal>
 
             <Modal isVisible={activeModal === "publishModal"} className="publish-section bg-white" onClose={closeModal}>
                 <PublishModal onClose={closeModal} portfolioData={memoizedPortfolioData} />
