@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Portfolio, PortfolioFormData, PortfolioUpdatePayload,  } from "../../dataTypes";
+import { Portfolio, PortfolioFormData, PortfolioUpdatePayload, } from "../../dataTypes";
 import { toast } from "react-toastify";
 import portfolioService from "../../helpers/portfolioService";
 
