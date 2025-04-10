@@ -86,7 +86,7 @@ const Professional: React.FC<TestTemplateProps> = ({ templateId, templateData })
                                 <div className="px-4 mt-2 py-8">
                                     <div className="flex flex-col items-center justify-center">
                                         <h2 className="text-sm lg:text-xl text-gray-980">Skills</h2>
-                                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-4">
+                                        <div className="flex flex-wrap justify-center gap-4 mt-4 max-w-4xl mx-auto">
                                             {skillsSection.customContent.skills.map((skill, index) => (
                                                 <div
                                                     key={index}
@@ -99,7 +99,7 @@ const Professional: React.FC<TestTemplateProps> = ({ templateId, templateData })
                                     </div>
                                 </div>
                             )}
-                            {projectsSection?.customContent?.projects && (
+                            {projectsSection?.customContent?.projects && projectsSection.customContent.projects.length > 0 && (
                                 <div className="mx-6 lg:mx-8 px-4 mt-[10px] py-8 rounded-xl border border-gray-900">
                                     <div className="flex-col lg:flex lg:flex-row justify-between">
                                         <h2 className="text-sm lg:text-xl text-gray-980 mb-2 lg:mb-0">Projects</h2>
@@ -150,7 +150,7 @@ const Professional: React.FC<TestTemplateProps> = ({ templateId, templateData })
                             {/* Certificates and Work History Section */}
                             <div className="flex-col lg:flex lg:flex-row mx-6 lg:mx-8 justify-between mt-10">
                                 {/* Certificates Section */}
-                                {certificatesSection?.customContent?.certificates && (
+                                {certificatesSection?.customContent?.certificates && certificatesSection.customContent.certificates.length > 0 && (
                                     <div className="certificates mb-6 lg:mb-0 w-[100%] lg:w-[30%] px-4 py-8 rounded-xl">
                                         <div className="flex flex-col gap-4">
                                             <h2 className="text-sm lg:text-xl text-gray-980">Certificates</h2>
@@ -177,7 +177,7 @@ const Professional: React.FC<TestTemplateProps> = ({ templateId, templateData })
                                 {/* Work History Section */}
                                 <div className="workHistory w-[100%] lg:w-[65%] px-4 py-8 rounded-xl border border-gray-900">
                                     {/* Work History Section */}
-                                    {workSection?.customContent?.work && (
+                                    {workSection?.customContent?.work && workSection.customContent.work.length > 0 && (
                                         <div className="mb-8">
                                             <div className="flex flex-col gap-4">
                                                 <h2 className="text-sm lg:text-xl text-gray-980">Work History</h2>
@@ -202,7 +202,7 @@ const Professional: React.FC<TestTemplateProps> = ({ templateId, templateData })
                                             </div>
                                         </div>
                                     )}
-                                    {educationSection?.customContent?.education && (
+                                    {educationSection?.customContent?.education && educationSection.customContent.education.length > 0 && (
                                         <div>
                                             <div className="flex flex-col gap-4">
                                                 <h2 className="text-sm lg:text-xl text-gray-980">Education</h2>
@@ -229,7 +229,7 @@ const Professional: React.FC<TestTemplateProps> = ({ templateId, templateData })
                             <div className="flex justify-center items-center mt-10">
                                 <div className="flex flex-col">
                                     <div className="flex justify-center mb-2">
-                                         <img src={templateData?.sections[0]?.customContent?.profileImage || Elipse} className="rounded-full w-[50px] h-[50px] object-cover" alt="Ellipse" />
+                                        <img src={templateData?.sections[0]?.customContent?.profileImage || Elipse} className="rounded-full w-[50px] h-[50px] object-cover" alt="Ellipse" />
                                     </div>
                                     <div>
                                         <h2 className="text-black-500 text-xl mb-3">Let’s work together</h2>

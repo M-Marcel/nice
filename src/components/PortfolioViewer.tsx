@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { getPortfolioById } from "../slices/portfolio/portfolioSlice";
@@ -7,13 +7,17 @@ import templateMap from "../templates/templateMap";
 import Button from "./Button";
 import Logo from "./Logo";
 import UntitledIcon from "../assets/svg/Untitledicon";
-// import { Portfolio } from "../dataTypes";
+import Modal from "./Modal";
+import UpdateModal from "./UpdateModal";
+import PublishModal from "../components/publishModal";
 
 const PortfolioViewer = () => {
     const navigate = useNavigate();
     const { portfolioId } = useParams();
     const dispatch = useAppDispatch();
     const { portfolio, isLoading, isError, message } = useAppSelector((state) => state.portfolio);
+    const [showUpdateModal, setShowUpdateModal] = useState(false);
+    const [showPublishModal, setShowPublishModal] = useState(false);
 
     useEffect(() => {
         if (portfolioId) {
@@ -48,7 +52,6 @@ const PortfolioViewer = () => {
                     <a href="/">
                         <Logo />
                     </a>
-
                 </div>
                 <div className="flex items-center gap-1 lg:justify-center">
                     <UntitledIcon />
@@ -59,23 +62,22 @@ const PortfolioViewer = () => {
                         <span className="text-gray-400 text-xs lg:text-sm">Status</span>
                     </div>
                     <Button
-                         onClick={() => navigate(`/portfolio/edit/${portfolioId}`)}
+                        onClick={() => navigate(`/portfolio/edit/${portfolioId}`)}
                         className="px-2 py-2 lg:px-6 lg:py-3 text-xs lg:text-sm border 
-                    border-gray-600 rounded-xl lg:flex bg-white text-black-500
-                    hover:scale-105 
-                    transform transition-transform duration-300 "
+                        border-gray-600 rounded-xl lg:flex bg-white text-black-500
+                        hover:scale-105 
+                        transform transition-transform duration-300"
                     >
-                         Edit
+                        Edit
                     </Button>
                     <Button
-
-                        className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl">
-                        Publish
+                        onClick={() => portfolio?.url ? setShowUpdateModal(true) : setShowPublishModal(true)}
+                        className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl"
+                    >
+                        {portfolio?.url ? "Update" : "Publish"}
                     </Button>
                 </div>
             </div>
-
-
 
             <div className="flex mt-20 justify-center items-center bg-transparent px-0 py-0">
                 <div className="w-[100%] h-full overflow-y-auto">
@@ -91,8 +93,24 @@ const PortfolioViewer = () => {
                 </div>
             </div>
 
-        </>
+            {showUpdateModal && (
+                <Modal isVisible={showUpdateModal} onClose={() => setShowUpdateModal(false)}>
+                    <UpdateModal 
+                        onClose={() => setShowUpdateModal(false)} 
+                        portfolioData={portfolio} 
+                    />
+                </Modal>
+            )}
 
+            {showPublishModal && (
+                <Modal isVisible={showPublishModal} onClose={() => setShowPublishModal(false)}>
+                    <PublishModal 
+                        onClose={() => setShowPublishModal(false)} 
+                        portfolioData={portfolio} 
+                    />
+                </Modal>
+            )}
+        </>
     );
 };
 

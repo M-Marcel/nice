@@ -1,14 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { Category, Portfolio, PortfolioFormData, PortfolioUpdatePayload, Skill } from "../../dataTypes";
+import { Portfolio, PortfolioFormData, PortfolioUpdatePayload,  } from "../../dataTypes";
 import { toast } from "react-toastify";
 import portfolioService from "../../helpers/portfolioService";
 
 type InitialState = {
     portfolios: Portfolio[]
     portfolio: Portfolio | null
-    allSkills: Skill[]
-    selectedSkills: string[]
-    categories: Category[]
     message: string;
     isLoading: boolean
     isSuccess: boolean
@@ -19,9 +16,6 @@ type InitialState = {
 const initialState: InitialState = {
     portfolios: [],
     portfolio: null,
-    allSkills: [],
-    selectedSkills: [],
-    categories: [],
     message: "",
     isLoading: false,
     isSuccess: false,
@@ -76,30 +70,6 @@ export const getAllPortfolios = createAsyncThunk(
     }
 );
 
-export const getAllSkills = createAsyncThunk(
-    "portfolio/fetchAllSkills",
-    async ({ page, limit }: { page: number; limit: number }, { rejectWithValue }) => {
-        try {
-            const response = await portfolioService.getAllSkills(page, limit);
-            return response;
-        } catch (error: any) {
-            return rejectWithValue(error.message);
-        }
-    }
-);
-
-export const getAllCategories = createAsyncThunk(
-    "portfolio/fetchAllCategories",
-    async (_, { rejectWithValue }) => {
-        try {
-            const response = await portfolioService.getAllCategories();
-            return response;
-        } catch (error: any) {
-            return rejectWithValue(error.message);
-        }
-    }
-);
-
 export const publishPortfolio = createAsyncThunk(
     "portfolio/publishPortfolio",
     async (id: string, { rejectWithValue }) => {
@@ -134,17 +104,7 @@ const portfolioSlice = createSlice({
             state.isError = false
             state.message = ''
         },
-        addSkill: (state, action: { payload: string }) => {
-            if (!state.selectedSkills.includes(action.payload)) {
-                state.selectedSkills.push(action.payload);
-            }
-        },
-        removeSkill: (state, action: { payload: string }) => {
-            state.selectedSkills = state.selectedSkills.filter(skill => skill !== action.payload);
-        },
-        setSelectedSkills: (state, action: { payload: string[] }) => {
-            state.selectedSkills = action.payload;
-        },
+       
     },
     extraReducers: (builder) => {
         builder
@@ -215,39 +175,7 @@ const portfolioSlice = createSlice({
                 toast.error(action.payload as string);
             })
             // Add these to your extraReducers
-            .addCase(getAllSkills.pending, (state) => {
-                state.isLoading = true;
-            })
-            .addCase(getAllSkills.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.isSuccess = true;
-                state.allSkills = action.payload.skills || [];
-                state.message = action.payload.message;
-                console.log("Skills updated in Redux:", state.allSkills); // Debug log
-            })
-            .addCase(getAllSkills.rejected, (state, action) => {
-                state.isLoading = false;
-                state.isError = true;
-                state.error = action.payload as string;
-                state.message = action.payload as string;
-                toast.error(action.payload as string);
-            })
-            .addCase(getAllCategories.pending, (state) => {
-                state.isLoading = true;
-            })
-            .addCase(getAllCategories.fulfilled, (state, action) => {
-                state.isLoading = false;
-                state.isSuccess = true;
-                state.categories = action.payload.categories;
-                state.message = action.payload.message;
-            })
-            .addCase(getAllCategories.rejected, (state, action) => {
-                state.isLoading = false;
-                state.isError = true;
-                state.error = action.payload as string;
-                state.message = action.payload as string;
-                toast.error(action.payload as string);
-            })
+            
             .addCase(publishPortfolio.pending, (state) => {
                 state.isLoading = true;
             })
@@ -288,5 +216,5 @@ const portfolioSlice = createSlice({
     }
 })
 
-export const { reset, addSkill, removeSkill, setSelectedSkills } = portfolioSlice.actions;
+export const { reset } = portfolioSlice.actions;
 export default portfolioSlice.reducer;

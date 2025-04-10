@@ -1,7 +1,27 @@
 import axios, { AxiosError } from "axios";
-import { Category, Portfolio, Skill } from "../dataTypes";
+import {  Portfolio} from "../dataTypes";
 
-const API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/portfolio-builder/portfolio`;
+const getApiConfig = () => {
+    const env = process.env.REACT_APP_ENV || 'development';
+    
+    const apiConfig = {
+      development: {
+        baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
+      },
+      staging: {
+        baseUrl: "https://apidhykngtwistaging.lanepact.com",
+      },
+      production: {
+        baseUrl: "https://coreapi.lanepact.com",
+      }
+    };
+  
+    return apiConfig[env as keyof typeof apiConfig];
+  };
+
+  const { baseUrl } = getApiConfig();
+
+const API_URL = `${baseUrl}/api/v1/portfolio-builder/portfolio`;
 
 interface ApiErrorResponse {
     message: string;
@@ -114,45 +134,7 @@ const getAllPortfolios = async (): Promise<{ portfolios: Portfolio[]; message: s
     }
 };
 
-const getAllSkills = async (page: number = 1, limit: number = 10): Promise<{ skills: Skill[]; message: string }> => {
-    try {
-        const response = await axios.get(`${API_URL}/skills?page=${page}&limit=${limit}`, {
-            headers: getAuthHeaders(),
-            withCredentials: true,
-        });
-        console.log("Skills API Response:", response.data);
 
-        const skillsData = response.data?.data || [];
-        console.log("Extracted skills:", skillsData);
-
-        return {
-            skills: skillsData,
-            message: "Skills fetched successfully",
-        };
-    } catch (error: any) {
-        handleApiError(error);
-        throw new Error("Failed to fetch skills");
-    }
-};
-
-const getAllCategories = async (): Promise<{ categories: Category[]; message: string }> => {
-    try {
-        const response = await axios.get(`${API_URL}/categories`, {
-            headers: getAuthHeaders(),
-            withCredentials: true,
-        });
-
-        console.log('Categories Response', response.data.data)
-        const categoriesData = response.data?.data || [];
-        return {
-            categories: categoriesData,
-            message: "Categories fetched successfully",
-        };
-    } catch (error: any) {
-        handleApiError(error);
-        throw new Error("Failed to fetch categories");
-    }
-};
 
 const publishPortfolio = async (id: string): Promise<{ message: string; url: string }> => {
     try {
@@ -208,8 +190,6 @@ const portfolioService = {
    getPortfolioById,
    updatePortfolio,
    getAllPortfolios,
-   getAllSkills,
-   getAllCategories,
    publishPortfolio,
    getPortfolioBySlug
 };

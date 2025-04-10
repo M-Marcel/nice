@@ -214,7 +214,7 @@ const Dashboard = () => {
                                             <div className="mt-8 purpose-bg flex flex-col">
                                                 <div className="w-full lg:w-[250px] lg:h-[250px] rounded-full lg:mb-8">
                                                     <img
-                                                        src={portfolio.sections.find(section => section.type === "Info")?.customContent?.coverImg || BotDesign}
+                                                        src={portfolio.sections.find(section => section.type === "Info")?.customContent?.profileImage || BotDesign}
                                                         alt="portfolio"
                                                         className="w-full object-contain rounded-2xl"
                                                     />
