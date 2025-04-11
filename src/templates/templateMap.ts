@@ -1,16 +1,17 @@
 // src/templates/templateMap.ts
+import { getTemplateIds } from "../config/templates";
 import { Portfolio } from "../dataTypes";
 import Creative from "./Creative";
 import Minimalist from "./Minmalist";
 import Professional from "./Professional";
 
 
-
+const templateIds = getTemplateIds();
 const templateMap: { [key: string]: React.ComponentType<{ templateId: string; templateData: Portfolio }> } = {
   
-    "67ea5945202df9e57c4968a7":Professional,
-    "67ea593b202df9e57c49689c":Creative,
-    "67ea592e202df9e57c496891": Minimalist, // Minimalist template ID
+    [templateIds.Professional]:Professional,
+    [templateIds.Creative]:Creative,
+    [templateIds.Minimalist]: Minimalist, // Minimalist template ID
 
 };
 

@@ -2,9 +2,27 @@ import axios, { AxiosError } from "axios";
 import { User } from "../../dataTypes";
 
 
+const getApiConfig = () => {
+    const env = process.env.REACT_APP_ENV || 'development';
 
+    const apiConfig = {
+        development: {
+            baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
+        },
+        staging: {
+            baseUrl: "https://apidhykngtwistaging.lanepact.com",
+        },
+        production: {
+            baseUrl: "https://coreapi.lanepact.com",
+        }
+    };
 
-const API_URL = `${process.env.REACT_APP_BASEURL}/api/v1/auth/admin`
+    return apiConfig[env as keyof typeof apiConfig];
+};
+
+const { baseUrl } = getApiConfig();
+
+const API_URL = `${baseUrl}/api/v1/auth/admin`
 
 interface ApiErrorResponse {
     message: string;

@@ -7,6 +7,7 @@ import Work from "./Work";
 import Education from "./Education";
 import Certification from "./Certification";
 import { Portfolio } from "../dataTypes";
+import { getTemplateIds } from "../config/templates";
 
 type PortfolioProps = {
     activeModal: string | null; // Add activeModal
@@ -20,6 +21,7 @@ type PortfolioProps = {
 };
 
 const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, onClose, setProjectToEdit, setWorkToEdit, setEducationToEdit, setCertificationToEdit }: PortfolioProps & { onClose?: () => void }) => {
+    const templateIds = getTemplateIds();
     const [activeTab, setActiveTab] = useState<string>("Info");
     const tabs = [
         { name: "Info" },
@@ -37,11 +39,19 @@ const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, on
 
         switch (activeTab) {
             case "Info":
-                return <Info portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} />;
+                return <Info
+                    isPublished={!!portfolioData?.url}
+                    portfolioData={portfolioData}
+                    updatePortfolioData={updatePortfolioData}
+                    templateName={portfolioData.referenceTemplate === templateIds.Professional ? 'Professional' :
+                        portfolioData.referenceTemplate === templateIds.Creative ? 'Creative' :
+                            'Minimalist'}
+                />;
             case "Skills":
-                return <Skills portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} />;
+                return <Skills isPublished={!!portfolioData?.url} portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} />;
             case "Projects":
                 return <Projects
+                    isPublished={!!portfolioData?.url}
                     portfolioData={portfolioData}
                     updatePortfolioData={updatePortfolioData}
                     setActiveModal={setActiveModal}
@@ -49,6 +59,7 @@ const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, on
                 />;
             case "Work":
                 return <Work
+                    isPublished={!!portfolioData?.url}
                     portfolioData={portfolioData}
                     updatePortfolioData={updatePortfolioData}
                     setActiveModal={setActiveModal}
@@ -56,6 +67,7 @@ const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, on
                 />;
             case "Education":
                 return <Education
+                    isPublished={!!portfolioData?.url}
                     portfolioData={portfolioData}
                     updatePortfolioData={updatePortfolioData}
                     setActiveModal={setActiveModal}
@@ -63,6 +75,7 @@ const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, on
                 />;
             case "Certification":
                 return <Certification
+                    isPublished={!!portfolioData?.url}
                     portfolioData={portfolioData}
                     updatePortfolioData={updatePortfolioData}
                     setActiveModal={setActiveModal}

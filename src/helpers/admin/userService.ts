@@ -1,7 +1,27 @@
 import axios, { AxiosError } from "axios";
 import { User } from "../../dataTypes";
 
-const API_URL = `${process.env.REACT_APP_BASEURL}/api/v1`
+const getApiConfig = () => {
+    const env = process.env.REACT_APP_ENV || 'development';
+
+    const apiConfig = {
+        development: {
+            baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
+        },
+        staging: {
+            baseUrl: "https://apidhykngtwistaging.lanepact.com",
+        },
+        production: {
+            baseUrl: "https://coreapi.lanepact.com",
+        }
+    };
+
+    return apiConfig[env as keyof typeof apiConfig];
+};
+
+const { baseUrl } = getApiConfig();
+
+const API_URL = `${baseUrl}/api/v1`
 
 interface ApiErrorResponse {
     message: string;
@@ -43,12 +63,12 @@ const getAllUsers = async (page: number = 1, pageSize: number = 5): Promise<{
     message: string;
 }> => {
     const headers = getAuthHeaders()
-    try{
+    try {
         const response = await axios.get(`${API_URL}/users?page=${page}&pageSize=${pageSize}`, {
             headers: headers,
             withCredentials: true,
         });
-    
+
         if (response?.data) {
             console.log("authService features", response.data.data)
             return {
@@ -56,13 +76,13 @@ const getAllUsers = async (page: number = 1, pageSize: number = 5): Promise<{
                 pagination: response.data.pagination,
                 message: response.data.message,
             };
-        }else{
+        } else {
             throw new Error("Fetching users failed");
         }
-    }catch(error:any){
+    } catch (error: any) {
         handleApiError(error);
         throw new Error("fetching users failed")
-    }  
+    }
 };
 
 const AdminUserService = {

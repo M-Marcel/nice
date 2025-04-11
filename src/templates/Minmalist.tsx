@@ -146,11 +146,11 @@ const Minimalist: React.FC<TestTemplateProps> = ({ templateId, templateData }) =
                         <div className="flex justify-center py-8">
                             <div className="flex w-[100%] lg:w-100%] py-8 px-8 rounded-2xl bg-white flex-col items-center justify-center">
                                 <h2 className="text-sm lg:text-xl text-black-500">Skills</h2>
-                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+                                <div className="flex flex-wrap justify-center gap-4 mt-4 max-w-4xl mx-auto">
                                     {skillsSection.customContent.skills.map((skill, index) => (
                                         <div
                                             key={index}
-                                            className="text-black-500 flex items-center justify-center rounded-xl border border-gray-600 w-[auto] px-4 py-4 text-center"
+                                            className="rounded-xl border border-gray-600 px-4 py-2 text-center"
                                         >
                                             {skill}
                                         </div>
@@ -161,7 +161,7 @@ const Minimalist: React.FC<TestTemplateProps> = ({ templateId, templateData }) =
                     )}
 
                     {/* Projects Section */}
-                    {projectsSection?.customContent?.projects && (
+                    {projectsSection?.customContent?.projects && projectsSection.customContent.projects.length > 0 && (
                         <div className="mt-[10px] bg-white py-8 rounded-xl">
                             <div className="flex-col justify-between">
                                 <h2 className="text-sm lg:text-xl text-left ml-4 text-black-500 mb-2 lg:mb-0">Projects</h2>
@@ -205,7 +205,7 @@ const Minimalist: React.FC<TestTemplateProps> = ({ templateId, templateData }) =
                     {/* Certificates and Work History Section */}
                     <div className="flex-col bg-white rounded-2xl lg:flex px-6 lg:flex-row justify-between mt-10">
                         {/* Certificates Section */}
-                        {certificatesSection?.customContent?.certificates && (
+                        {certificatesSection?.customContent?.certificates && certificatesSection.customContent.certificates.length > 0 &&(
                             <div className="certificates w-[100%] lg:w-[30%] px-4 py-8 rounded-xl ">
                                 <div className="flex flex-col gap-4">
                                     <h2 className="text-sm lg:text-xl text-black-580">Certificates</h2>
@@ -226,7 +226,7 @@ const Minimalist: React.FC<TestTemplateProps> = ({ templateId, templateData }) =
                                         </div>
                                     ))}
                                 </div>
-                                {educationSection?.customContent?.education && (
+                                {educationSection?.customContent?.education && educationSection.customContent.education.length > 0 && (
                                     <div className="mt-8">
                                         <div className="flex flex-col gap-4">
                                             <h2 className="text-sm lg:text-xl text-black-580">Education</h2>
@@ -258,7 +258,7 @@ const Minimalist: React.FC<TestTemplateProps> = ({ templateId, templateData }) =
                         {/* Work History Section */}
                         <div className="workHistory w-[100%] lg:w-[65%] px-4 py-8 rounded-xl">
                             {/* Work History Section */}
-                            {workSection?.customContent?.work && (
+                            {workSection?.customContent?.work && workSection.customContent.work.length > 0 && (
                                 <div className="mb-8">
                                     <div className="flex flex-col gap-4">
                                         <h2 className="text-sm lg:text-xl text-black-500">Experience</h2>

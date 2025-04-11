@@ -7,6 +7,7 @@ import templateSliceReducer from '../slices/template/templateSlice'
 import adminAuthSliceReducer from '../slices/admin/auth/authSlice'
 import adminUserSliceReducer from '../slices/admin/users/userSlice'
 import portfolioSliceReducer from '../slices/portfolio/portfolioSlice'
+import skillsSliceReducer from '../slices/skills/skillsSlice'
 
 
 const store = configureStore({
@@ -18,7 +19,8 @@ const store = configureStore({
      template: templateSliceReducer,
      adminauth:adminAuthSliceReducer,
      adminuser:adminUserSliceReducer,
-     portfolio:portfolioSliceReducer
+     portfolio:portfolioSliceReducer,
+     skills:skillsSliceReducer
     }
 })
 

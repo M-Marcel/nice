@@ -1,80 +1,116 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Portfolio } from "../dataTypes";
 import Button from "./Button";
 import AdminPlusIcon from "../assets/svg/admin/plusIcon";
 import { toast } from "react-toastify";
 
-
 type ProjectsProps = {
     portfolioData: Portfolio;
     updatePortfolioData: (updatedData: Partial<Portfolio>) => void;
     setActiveModal: (modal: string | null) => void;
-    setProjectToEdit: (project: any | null) => void; // Fix the type definition
+    setProjectToEdit: (project: any | null) => void;
+    isPublished: boolean;
 };
 
-const Projects = ({ portfolioData, updatePortfolioData, setActiveModal, setProjectToEdit }: ProjectsProps) => {
-    const [projects, setProjects] = useState<any[]>([]); // Local state for projects
-
-    // Initialize projects from portfolioData
-    useEffect(() => {
-        if (portfolioData?.sections?.length > 0) {
-            const projectsSection = portfolioData.sections.find(
-                (section) => section.type === "Projects"
-            );
-            if (projectsSection) {
-                setProjects(projectsSection.customContent?.projects || []);
-            }
+const Projects = ({ portfolioData, updatePortfolioData, setActiveModal, setProjectToEdit, isPublished }: ProjectsProps) => {
+    const localStorageKey = `projectsDraft_${portfolioData._id}`;
+    const [editingIndex, setEditingIndex] = useState<number | null>(null);
+    
+    // Get initial projects from localStorage or portfolio data
+    const getInitialProjects = useCallback(() => {
+        try {
+            const savedDraft = localStorage.getItem(localStorageKey);
+            if (savedDraft) return JSON.parse(savedDraft);
+        } catch (e) {
+            console.error("Failed to parse saved projects draft", e);
         }
-    }, [portfolioData]);
-
-    // Handle editing a project
-    const handleEditProject = (index: number) => {
-        setProjectToEdit(projects[index]); // Set the project to edit
-        setActiveModal("createProject"); // Open the modal
-    };
-
-    // Handle removing a project
-    const handleRemoveProject = (index: number) => {
-        setProjects((prevProjects) =>
-            prevProjects.filter((_, i) => i !== index)
+        
+        const projectsSection = portfolioData?.sections?.find(
+            (section) => section.type === "Projects"
         );
+        return projectsSection?.customContent?.projects || [];
+    }, [portfolioData, localStorageKey]);
+
+    const [projects, setProjects] = useState<any[]>(getInitialProjects());
+
+    // Initialize projects state
+    useEffect(() => {
+        setProjects(getInitialProjects());
+    }, [getInitialProjects]);
+
+    // Handle project updates from modal
+    useEffect(() => {
+        const handleProjectUpdate = (e: CustomEvent) => {
+            if (editingIndex !== null && editingIndex >= 0) {
+                // Update existing project
+                setProjects(prev => prev.map((project, index) => 
+                    index === editingIndex ? e.detail : project
+                ));
+            } else {
+                // Add new project
+                setProjects(prev => [...prev, e.detail]);
+            }
+            setEditingIndex(null);
+        };
+
+        // @ts-ignore - CustomEvent type workaround
+        window.addEventListener('projectUpdate', handleProjectUpdate);
+        return () => {
+            // @ts-ignore
+            window.removeEventListener('projectUpdate', handleProjectUpdate);
+        };
+    }, [editingIndex]);
+
+    // Edit project handler
+    const handleEditProject = (index: number) => {
+        setEditingIndex(index);
+        setProjectToEdit(projects[index]);
+        setActiveModal("createProject");
     };
 
-    // Handle saving changes
+    // Remove project handler
+    const handleRemoveProject = (index: number) => {
+        setProjects(prev => prev.filter((_, i) => i !== index));
+    };
+
+    // Persist to localStorage
+    useEffect(() => {
+        localStorage.setItem(localStorageKey, JSON.stringify(projects));
+    }, [projects, localStorageKey]);
+
+    // Clear draft when published
+    useEffect(() => {
+        if (isPublished) localStorage.removeItem(localStorageKey);
+    }, [isPublished, localStorageKey]);
+
+    // Save to portfolio data
     const handleSave = () => {
-        // Find the Projects section from the portfolioData
         const projectsSection = portfolioData.sections.find(
             (section) => section.type === "Projects"
         );
 
         if (!projectsSection) {
-            console.error("Projects section not found in portfolioData.");
+            toast.error("Projects section not found");
             return;
         }
 
-        // Ensure the _id is included in the updated section
-        const updatedProjectsSection = {
-            ...projectsSection,
-            customContent: {
-                ...projectsSection.customContent,
-                projects: projects, // Update the projects array
-            },
-        };
-
-        // Update the portfolioData while preserving other sections
         updatePortfolioData({
-            sections: portfolioData.sections.map((section) =>
-                section.type === "Projects" ? updatedProjectsSection : section
+            sections: portfolioData.sections.map(section =>
+                section.type === "Projects" ? {
+                    ...section,
+                    customContent: { ...section.customContent, projects }
+                } : section
             ),
         });
-        toast.success('changes saved')
+
+        localStorage.removeItem(localStorageKey);
+        toast.success('Changes saved successfully');
     };
 
     return (
         <div className="relative pt-5">
             <div className="mt-10">
                 <div className="flex lg:w-[85%] flex-col gap-4">
-                    {/* Display existing projects */}
                     {projects.map((project, index) => (
                         <div key={index} className="flex items-center justify-between">
                             <div className="flex gap-2 items-center w-[60%]">
@@ -104,10 +140,10 @@ const Projects = ({ portfolioData, updatePortfolioData, setActiveModal, setProje
                             </div>
                             <div className="flex gap-2 items-center w-[20%]">
                                 <span
-                                    className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
-                                    transform transition-transform duration-300"
-                                    onClick={() => handleEditProject(index)}>
-                                    <svg
+                                    className="px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer transform transition-transform duration-300"
+                                    onClick={() => handleEditProject(index)}
+                                >
+                                <svg
                                         width="20"
                                         height="21"
                                         viewBox="0 0 20 21"
@@ -136,11 +172,10 @@ const Projects = ({ portfolioData, updatePortfolioData, setActiveModal, setProje
                                     </svg>
                                 </span>
                                 <span
-                                    className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
-                                     transform transition-transform duration-300"
+                                    className="px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer transform transition-transform duration-300"
                                     onClick={() => handleRemoveProject(index)}
                                 >
-                                    <svg
+                                  <svg
                                         width="18"
                                         height="19"
                                         viewBox="0 0 18 19"
@@ -177,25 +212,25 @@ const Projects = ({ portfolioData, updatePortfolioData, setActiveModal, setProje
                         </div>
                     ))}
 
-                    {/* Add Project Button */}
                     <Button
                         onClick={() => {
-                            setProjectToEdit(null); // Reset project to edit
+                            setEditingIndex(null);
+                            setProjectToEdit(null);
                             setActiveModal("createProject");
                         }}
                         className="mt-4 flex justify-center bg-white items-center px-6 py-3 text-sm border border-gray-600 rounded-xl lg:flex shadow-lg text-black-50 gap-2"
                     >
-                        <span>
-                            <AdminPlusIcon />
-                        </span>
-                        <span>Add project</span>
+                        <span><AdminPlusIcon /></span>
+                        <span>Add Project</span>
                     </Button>
                 </div>
             </div>
 
-            {/* Save Changes Button */}
             <div className="mt-6">
-                <Button onClick={handleSave} className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl">
+                <Button 
+                    onClick={handleSave} 
+                    className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl"
+                >
                     Save Changes
                 </Button>
             </div>

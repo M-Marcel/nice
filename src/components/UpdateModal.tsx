@@ -1,5 +1,5 @@
 import { useAppDispatch } from "../hooks";
-import { updatePortfolio, publishPortfolio } from "../slices/portfolio/portfolioSlice";
+import { updatePortfolio } from "../slices/portfolio/portfolioSlice";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import Button from "./Button";
@@ -7,30 +7,24 @@ import { Portfolio } from "../dataTypes";
 import { useNavigate } from "react-router-dom";
 import LoaderIcon from "../assets/loader.svg";
 
-type PublishModalProps = {
+type UpdateModalProps = {
   onClose: () => void;
   portfolioData: Portfolio | null;
   onSuccess?: () => void; // Added onSuccess prop
 };
 
-const PublishModal = ({ onClose, portfolioData, onSuccess }: PublishModalProps) => {
+const UpdateModal = ({ onClose, portfolioData, onSuccess }: UpdateModalProps) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const [publishStatus, setPublishStatus] = useState<{
-        saving: boolean;
-        generatingUrl: boolean;
-    }>({
-        saving: false,
-        generatingUrl: false
-    });
+    const [isUpdating, setIsUpdating] = useState(false);
 
-    const handlePublish = async () => {
+    const handleUpdate = async () => {
         if (!portfolioData) return;
 
         try {
-            setPublishStatus({ saving: true, generatingUrl: false });
+            setIsUpdating(true);
             
-            // First save the portfolio updates
+            // Prepare the updated portfolio data
             const cleanedSections = portfolioData.sections.map((section) => ({
                 sectionId: section.sectionId,
                 customContent: section.customContent,
@@ -41,32 +35,30 @@ const PublishModal = ({ onClose, portfolioData, onSuccess }: PublishModalProps) 
                 sections: cleanedSections,
             };
 
+            // Only update the portfolio without publishing
             await dispatch(updatePortfolio({ 
                 id: portfolioData._id, 
                 portfolioData: payload 
             })).unwrap();
             
-            setPublishStatus({ saving: false, generatingUrl: true });
+            toast.success("Portfolio updated successfully");
             
-            // Then publish to generate URL
-            const result = await dispatch(publishPortfolio(portfolioData._id)).unwrap();
+            // Call onSuccess if provided
+            if (onSuccess) {
+                onSuccess();
+            }
             
-            // Success actions
-            toast.success(result.message);
-            if (onSuccess) onSuccess(); // Call onSuccess callback
             navigate('/dashboard');
             onClose();
         } catch (error) {
-            toast.error("Failed to publish portfolio.");
+            toast.error("Failed to update portfolio");
         } finally {
-            setPublishStatus({ saving: false, generatingUrl: false });
+            setIsUpdating(false);
         }
     };
 
-    const isPublishing = publishStatus.saving || publishStatus.generatingUrl;
-
     return (
-        <div className="py-4 flex flex-col justify-center items-center">
+        <div className="py-4 flex flex-col justify-center items-center ">
             <div className="flex flex-col gap-4 justify-center items-center">
                 <div className="py-3 bg-white rounded-lg px-3">
                     <span className="">
@@ -76,48 +68,39 @@ const PublishModal = ({ onClose, portfolioData, onSuccess }: PublishModalProps) 
                         </svg>
                     </span>
                 </div>
-                <p className="text-black-500 text-2xl w-[100%] text-center font-semibold leading-7">Publish project</p>
+                <p className="text-black-500 text-2xl w-[100%] text-center font-semibold leading-7">Update project</p>
                 <p>{portfolioData?.name || "My Portfolio"}</p>
             </div>
-            
             <p className="text-left mt-6 flex gap-1 items-center text-gray-930 text-xs w-[auto] lg:w-[70%]">
-                {publishStatus.saving ? (
+                {isUpdating ? (
                     <img src={LoaderIcon} alt="loader" width={20} height={20} className="animate-spin" />
                 ) : (
                     <span className="text-green-500">✓</span>
                 )}
-                Saving portfolio data to database
+                Updating portfolio data
             </p>
-            
             <p className="text-left flex gap-1 items-center mt-6 text-gray-930 text-xs w-[auto] lg:w-[70%]">
-                {publishStatus.generatingUrl ? (
-                    <img src={LoaderIcon} alt="loader" width={20} height={20} className="animate-spin" />
-                ) : (
-                    <span className={publishStatus.saving ? "text-gray-400" : "text-green-500"}>
-                        {publishStatus.saving ? "" : "✓"}
-                    </span>
-                )}
-                Generating URL for portfolio
+                <span className="text-gray-400">-</span>
+                Keeping existing portfolio URL
             </p>
-            
             <div className="flex gap-2 w-full px-2 mt-6">
                 <Button 
                     onClick={onClose} 
                     className="px-6 w-full flex-1 py-3 items-center text-sm border border-gray-600 rounded-xl bg-white shadow-lg text-black-500"
-                    disabled={isPublishing}
+                    disabled={isUpdating}
                 >
                     Cancel
                 </Button>
                 <Button 
-                    onClick={handlePublish} 
-                    disabled={isPublishing}
+                    onClick={handleUpdate} 
+                    disabled={isUpdating}
                     className="w-full flex-1 text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl"
                 >
-                    {isPublishing ? "Publishing..." : "Publish"}
+                    {isUpdating ? "Updating..." : "Update"}
                 </Button>
             </div>
         </div>
     );
 };
 
-export default PublishModal;
+export default UpdateModal;

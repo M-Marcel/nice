@@ -14,8 +14,24 @@ import { getPortfolioById } from "../slices/portfolio/portfolioSlice";
 import CreateWorkModal from "../components/createWorkModal";
 import CreateEducationModal from "../components/createEducationModal";
 import CreateCertificationModal from "../components/createCertificationModal";
+import UpdateModal from "../components/UpdateModal";
 import PublishModal from "../components/publishModal";
 import PreviewModal from "../components/PreviewModal";
+const PORTFOLIO_LOCALSTORAGE_KEY = 'portfolioBuilderData';
+
+const loadFromLocalStorage = (portfolioId: string) => {
+    const savedData = localStorage.getItem(`${PORTFOLIO_LOCALSTORAGE_KEY}_${portfolioId}`);
+    return savedData ? JSON.parse(savedData) : null;
+};
+
+const saveToLocalStorage = (portfolioId: string, data: Portfolio) => {
+    localStorage.setItem(`${PORTFOLIO_LOCALSTORAGE_KEY}_${portfolioId}`, JSON.stringify(data));
+};
+
+const clearLocalStorage = (portfolioId: string) => {
+    localStorage.removeItem(`${PORTFOLIO_LOCALSTORAGE_KEY}_${portfolioId}`);
+};
+
 
 const PortfolioBuilder = () => {
     const { portfolioId } = useParams();
@@ -34,17 +50,27 @@ const PortfolioBuilder = () => {
 
 
     // Load portfolio data from localStorage on initial render
+    // Load portfolio data - combine API and localStorage
     useEffect(() => {
-        const savedPortfolioData = localStorage.getItem("portfolioData");
-        if (savedPortfolioData) {
-            setPortfolioData(JSON.parse(savedPortfolioData));
-        }
-    }, []);
+        const loadData = async () => {
+            try {
+                // First try to load from localStorage
+                const localData = portfolioId ? loadFromLocalStorage(portfolioId) : null;
 
-    useEffect(() => {
-        if (portfolioId) {
-            dispatch(getPortfolioById(portfolioId));
-        }
+                if (localData) {
+                    setPortfolioData(localData);
+                }
+
+                // Then load from API
+                if (portfolioId) {
+                    await dispatch(getPortfolioById(portfolioId));
+                }
+            } catch (error) {
+                console.error("Error loading portfolio data:", error);
+            }
+        };
+
+        loadData();
     }, [dispatch, portfolioId]);
 
     useEffect(() => {
@@ -53,12 +79,21 @@ const PortfolioBuilder = () => {
         }
     }, [portfolio, isSuccess]);
 
-    // Persist portfolioData to localStorage whenever it changes
+    // Persist to localStorage whenever portfolioData changes
     useEffect(() => {
-        if (portfolioData) {
-            localStorage.setItem("portfolioData", JSON.stringify(portfolioData));
+        if (portfolioData && portfolioId) {
+            saveToLocalStorage(portfolioId, portfolioData);
         }
-    }, [portfolioData]);
+    }, [portfolioData, portfolioId]);
+
+    // Add cleanup when publishing/updating
+    const handlePublishSuccess = () => {
+        if (portfolioId) {
+            clearLocalStorage(portfolioId);
+        }
+    };
+
+
 
     const closeModal = () => {
         setActiveModal(null);
@@ -148,9 +183,10 @@ const PortfolioBuilder = () => {
                         Preview
                     </Button>
                     <Button
-                        onClick={() => setActiveModal("publishModal")}
-                        className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl">
-                        Publish
+                        onClick={() => portfolioData?.url ? setActiveModal("updateModal") : setActiveModal("publishModal")}
+                        className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl"
+                    >
+                        {portfolioData?.url ? "Update" : "Publish"}
                     </Button>
                 </div>
             </div>
@@ -245,141 +281,74 @@ const PortfolioBuilder = () => {
             <Modal isVisible={activeModal === "createProject"} onClose={closeModal}>
                 <CreateProject
                     onAddProject={(newProject) => {
-                        // Handle adding a new project
-                        const updatedProjects = [...(memoizedPortfolioData?.sections.find(section => section.type === "Projects")?.customContent?.projects || []), newProject];
-                        updatePortfolioData({
-                            sections: memoizedPortfolioData?.sections.map(section =>
-                                section.type === "Projects"
-                                    ? { ...section, customContent: { ...section.customContent, projects: updatedProjects } }
-                                    : section
-                            ) || [],
-                        });
+                        window.dispatchEvent(new CustomEvent('projectUpdate', { detail: newProject }));
                         closeModal();
                     }}
                     onUpdateProject={(updatedProject) => {
-                        // Handle updating an existing project
-                        const projectsSection = memoizedPortfolioData?.sections?.find(section => section.type === "Projects");
-                        const existingProjects = projectsSection?.customContent?.projects || [];
-
-                        const updatedProjects = existingProjects.map(project =>
-                            project === projectToEdit ? updatedProject : project
-                        );
-                        updatePortfolioData({
-                            sections: memoizedPortfolioData?.sections.map(section =>
-                                section.type === "Projects"
-                                    ? { ...section, customContent: { ...section.customContent, projects: updatedProjects } }
-                                    : section
-                            ) || [],
-                        });
+                        window.dispatchEvent(new CustomEvent('projectUpdate', { detail: updatedProject }));
                         closeModal();
                     }}
                     onClose={closeModal}
-                    projectToEdit={projectToEdit} // Pass the project to edit (if any)
+                    projectToEdit={projectToEdit}
                 />
             </Modal>
             <Modal isVisible={activeModal === "createWorkModal"} onClose={closeModal}>
                 <CreateWorkModal
                     onAddWork={(newWork) => {
-                        const updatedWorks = [...(portfolioData?.sections.find(section => section.type === "Work")?.customContent?.work || []), newWork];
-                        updatePortfolioData({
-                            sections: portfolioData?.sections.map(section =>
-                                section.type === "Work"
-                                    ? { ...section, customContent: { ...section.customContent, work: updatedWorks } }
-                                    : section
-                            ) || [],
-                        });
+                        window.dispatchEvent(new CustomEvent('workUpdate', { detail: newWork }));
                         closeModal();
                     }}
                     onUpdateWork={(updatedWork) => {
-                        const worksSection = portfolioData?.sections?.find(section => section.type === "Work");
-                        const existingWorks = worksSection?.customContent?.work || [];
-
-                        const updatedWorks = existingWorks.map(work =>
-                            work === workToEdit ? updatedWork : work
-                        );
-                        updatePortfolioData({
-                            sections: portfolioData?.sections.map(section =>
-                                section.type === "Work"
-                                    ? { ...section, customContent: { ...section.customContent, work: updatedWorks } }
-                                    : section
-                            ) || [],
-                        });
+                        window.dispatchEvent(new CustomEvent('workUpdate', { detail: updatedWork }));
                         closeModal();
                     }}
                     onClose={closeModal}
-                    workToEdit={workToEdit} // Pass the work to edit (if any)
+                    workToEdit={workToEdit}
                 />
             </Modal>
             <Modal isVisible={activeModal === "createEducationModal"} onClose={closeModal}>
                 <CreateEducationModal
                     onAddEducation={(newEducation) => {
-                        const updatedEducations = [...(portfolioData?.sections.find(section => section.type === "Education")?.customContent?.education || []), newEducation];
-                        updatePortfolioData({
-                            sections: portfolioData?.sections.map(section =>
-                                section.type === "Education"
-                                    ? { ...section, customContent: { ...section.customContent, education: updatedEducations } }
-                                    : section
-                            ) || [],
-                        });
+                        window.dispatchEvent(new CustomEvent('educationUpdate', { detail: newEducation }));
                         closeModal();
                     }}
                     onUpdateEducation={(updatedEducation) => {
-                        const educationsSection = portfolioData?.sections?.find(section => section.type === "Education");
-                        const existingEducations = educationsSection?.customContent?.education || [];
-
-                        const updatedEducations = existingEducations.map(education =>
-                            education === educationToEdit ? updatedEducation : education
-                        );
-                        updatePortfolioData({
-                            sections: portfolioData?.sections.map(section =>
-                                section.type === "Education"
-                                    ? { ...section, customContent: { ...section.customContent, education: updatedEducations } }
-                                    : section
-                            ) || [],
-                        });
+                        window.dispatchEvent(new CustomEvent('educationUpdate', { detail: updatedEducation }));
                         closeModal();
                     }}
                     onClose={closeModal}
-                    educationToEdit={educationToEdit} // Pass the education to edit (if any)
+                    educationToEdit={educationToEdit}
                 />
             </Modal>
             <Modal isVisible={activeModal === "createCertificationModal"} onClose={closeModal}>
                 <CreateCertificationModal
                     onAddCertification={(newCertification) => {
-                        const updatedCertifications = [...(portfolioData?.sections.find(section => section.type === "Certificates")?.customContent?.certificates || []), newCertification];
-                        updatePortfolioData({
-                            sections: portfolioData?.sections.map(section =>
-                                section.type === "Certificates"
-                                    ? { ...section, customContent: { ...section.customContent, certificates: updatedCertifications } }
-                                    : section
-                            ) || [],
-                        });
+                        window.dispatchEvent(new CustomEvent('certificationUpdate', { detail: newCertification }));
                         closeModal();
                     }}
                     onUpdateCertification={(updatedCertification) => {
-                        const certificatesSection = portfolioData?.sections?.find(section => section.type === "Certificates");
-                        const existingCertificates = certificatesSection?.customContent?.certificates || [];
-
-                        const updatedCertificates = existingCertificates.map(certificate =>
-                            certificate === certificationToEdit ? updatedCertification : certificate
-                        );
-                        updatePortfolioData({
-                            sections: portfolioData?.sections.map(section =>
-                                section.type === "Certificates"
-                                    ? { ...section, customContent: { ...section.customContent, certificates: updatedCertificates } }
-                                    : section
-                            ) || [],
-                        });
+                        window.dispatchEvent(new CustomEvent('certificationUpdate', { detail: updatedCertification }));
                         closeModal();
                     }}
                     onClose={closeModal}
-                    certificationToEdit={certificationToEdit} // Pass the certification to edit 
+                    certificationToEdit={certificationToEdit}
                 />
             </Modal>
 
+            <Modal isVisible={activeModal === "updateModal"} className="publish-section bg-white" onClose={closeModal}>
+                <UpdateModal
+                    onClose={closeModal}
+                    portfolioData={memoizedPortfolioData}
+                    onSuccess={handlePublishSuccess}
+                />
+            </Modal>
 
             <Modal isVisible={activeModal === "publishModal"} className="publish-section bg-white" onClose={closeModal}>
-                <PublishModal onClose={closeModal} portfolioData={memoizedPortfolioData} />
+                <PublishModal
+                    onClose={closeModal}
+                    portfolioData={memoizedPortfolioData}
+                    onSuccess={handlePublishSuccess}
+                />
             </Modal>
 
             <Modal isVisible={activeModal === "previewModal"} className="bg-white w-full px-0 py-0" width="" onClose={closeModal}>
