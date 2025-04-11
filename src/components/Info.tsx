@@ -36,18 +36,19 @@ const Info = ({ portfolioData, updatePortfolioData, isPublished }: templateDataP
         if (savedDraft) return JSON.parse(savedDraft);
 
         // 2. If no draft, check for existing portfolio data
-        const existingData = portfolioData?.sections[0]?.customContent || {};
+        const existingData = portfolioData?.sections?.[0]?.customContent || {};
+        const socialLinks = existingData?.socialLinks?.[0] || {};
         return {
-            profileImage: existingData.profileImage || '',
-            coverImg: existingData.coverImg || '',
-            name: existingData.name || '',
-            email: existingData.email || '',
-            about: existingData.about || '',
-            location: existingData.location || '',
+            profileImage: existingData?.profileImage || '',
+            coverImg: existingData?.coverImg || '',
+            name: existingData?.name || '',
+            email: existingData?.email || '',
+            about: existingData?.about || '',
+            location: existingData?.location || '',
             socialLinks: {
-                x: existingData.socialLinks?.[0]?.x || '',
-                linkedIn: existingData.socialLinks?.[0]?.linkedIn || '',
-                facebook: existingData.socialLinks?.[0]?.facebook || ''
+                x: socialLinks?.x || '',
+                linkedIn: socialLinks?.linkedIn || '',
+                facebook: socialLinks?.facebook || ''
             }
         };
     });
