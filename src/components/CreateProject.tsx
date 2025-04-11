@@ -1,5 +1,3 @@
-// CreateProject.tsx
-
 import { useEffect, useState } from "react";
 import UploadIcon from "../assets/upload.png";
 import Button from "./Button";
@@ -11,12 +9,12 @@ type CreateProjectProps = {
     projectToEdit?: any;
 };
 
-
 type ImageKey = 'image1' | 'image2' | 'image3';
 type ImageType = File | string | null;
 type ImagesState = {
     [key in ImageKey]: ImageType;
 };
+
 const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }: CreateProjectProps) => {
     const [images, setImages] = useState<ImagesState>({
         image1: null,
@@ -38,6 +36,7 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
 
     const { projectName, myRole, about, url } = formData;
 
+    // Initialize form with projectToEdit data
     useEffect(() => {
         if (projectToEdit) {
             setFormData({
@@ -59,9 +58,9 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
         }
     }, [projectToEdit]);
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormData((prevState) => ({
-            ...prevState,
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData(prev => ({
+            ...prev,
             [e.target.name]: e.target.value,
         }));
     };
@@ -71,18 +70,18 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
             const file = event.target.files[0];
             if (file && file.size <= 10 * 1024 * 1024) {
                 // Update images state with File object for preview
-                setImages(prevState => ({
-                    ...prevState,
+                setImages(prev => ({
+                    ...prev,
                     [imageKey]: file
                 }));
 
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onloadend = () => {
-                    setFormData(prevState => ({
-                        ...prevState,
+                    setFormData(prev => ({
+                        ...prev,
                         images: {
-                            ...prevState.images,
+                            ...prev.images,
                             [imageKey]: reader.result, // Store Base64 string
                         },
                     }));
@@ -94,14 +93,14 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
     };
 
     const handleRemoveImage = (imageKey: string) => {
-        setImages((prevState) => ({
-            ...prevState,
+        setImages(prev => ({
+            ...prev,
             [imageKey]: null,
         }));
-        setFormData((prevState) => ({
-            ...prevState,
+        setFormData(prev => ({
+            ...prev,
             images: {
-                ...prevState.images,
+                ...prev.images,
                 [imageKey]: null,
             },
         }));
@@ -109,12 +108,21 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        const projectData = {
+            ...formData,
+            // Ensure we're sending the latest images
+            images: {
+                image1: formData.images.image1,
+                image2: formData.images.image2,
+                image3: formData.images.image3,
+            }
+        };
+
         if (projectToEdit) {
-            onUpdateProject(formData);
+            onUpdateProject(projectData);
         } else {
-            onAddProject(formData);
+            onAddProject(projectData);
         }
-        onClose();
     };
 
     const getImageUrl = (image: ImageType): string => {
@@ -124,9 +132,11 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
     };
 
     return (
-        <div className="px-4 h-[60vh] overflow-y-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
+        <div className="px-4 h-[60vh] overflow-y-scroll lg:scrollbar-none">
             <div className="">
-                <h2 className="text-3xl mb-4 mt-4 text-black-500">{projectToEdit ? "Edit Project" : "Add Project"}</h2>
+                <h2 className="text-3xl mb-4 mt-4 text-black-500">
+                    {projectToEdit ? "Edit Project" : "Add Project"}
+                </h2>
                 <form className="mb-8" onSubmit={handleSubmit}>
                     <label className="text-sm mb-4 text-black-500">Images</label>
                     <div className="grid grid-cols-3 gap-2 mt-2">
@@ -142,11 +152,11 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
                                             alt="upload icon"
                                             className="w-10 h-10 mb-2 mx-auto"
                                         />
-                                        <p className="text-xs text-gray-500 ">PNG or JPG (Max 5mb)</p>
+                                        <p className="text-xs text-gray-500">PNG or JPG (Max 10mb)</p>
                                     </label>
                                 ) : (
                                     <div className="relative w-32 h-32">
-                                         <img
+                                        <img
                                             src={getImageUrl(images[imageKey])}
                                             alt="uploaded preview"
                                             className="object-cover w-full h-full rounded-lg"
@@ -177,7 +187,8 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
                             name="projectName"
                             className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
                             value={projectName}
-                            onChange={onChange}
+                            onChange={handleInputChange}
+                            required
                         />
                     </div>
                     <div className="flex flex-col mb-2">
@@ -187,7 +198,8 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
                             name="myRole"
                             className="border border-gray-900 text-black-500 rounded-lg outline-0 py-1 px-1"
                             value={myRole}
-                            onChange={onChange}
+                            onChange={handleInputChange}
+                            required
                         />
                     </div>
                     <div className="flex flex-col gap-2 mb-3">
@@ -197,8 +209,9 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
                         <textarea
                             name="about"
                             value={about}
-                            onChange={onChange}
+                            onChange={handleInputChange}
                             className="px-2 py-2 border border-gray-900 rounded-lg outline-none"
+                            required
                         />
                     </div>
                     <div className="flex flex-col mb-2">
@@ -208,7 +221,7 @@ const CreateProject = ({ onAddProject, onUpdateProject, onClose, projectToEdit }
                             name="url"
                             className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
                             value={url}
-                            onChange={onChange}
+                            onChange={handleInputChange}
                         />
                     </div>
                     <Button

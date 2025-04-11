@@ -7,7 +7,13 @@ import { Portfolio } from "../dataTypes";
 import { useNavigate } from "react-router-dom";
 import LoaderIcon from "../assets/loader.svg";
 
-const UpdateModal = ({ onClose, portfolioData }: { onClose: () => void, portfolioData: Portfolio | null }) => {
+type UpdateModalProps = {
+  onClose: () => void;
+  portfolioData: Portfolio | null;
+  onSuccess?: () => void; // Added onSuccess prop
+};
+
+const UpdateModal = ({ onClose, portfolioData, onSuccess }: UpdateModalProps) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [isUpdating, setIsUpdating] = useState(false);
@@ -36,6 +42,12 @@ const UpdateModal = ({ onClose, portfolioData }: { onClose: () => void, portfoli
             })).unwrap();
             
             toast.success("Portfolio updated successfully");
+            
+            // Call onSuccess if provided
+            if (onSuccess) {
+                onSuccess();
+            }
+            
             navigate('/dashboard');
             onClose();
         } catch (error) {
@@ -51,8 +63,8 @@ const UpdateModal = ({ onClose, portfolioData }: { onClose: () => void, portfoli
                 <div className="py-3 bg-white rounded-lg px-3">
                     <span className="">
                         <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M19.5477 2.05293C17.3697 -0.292637 0.986483 5.4532 1.00001 7.551C1.01535 9.92987 7.39809 10.6617 9.16722 11.1581C10.2311 11.4565 10.516 11.7625 10.7613 12.8781C11.8723 17.9305 12.4301 20.4435 13.7014 20.4996C15.7278 20.5892 21.6733 4.342 19.5477 2.05293Z" stroke="#141B34" stroke-width="1.5" />
-                            <path d="M10 11.5L13.5 8" stroke="#141B34" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M19.5477 2.05293C17.3697 -0.292637 0.986483 5.4532 1.00001 7.551C1.01535 9.92987 7.39809 10.6617 9.16722 11.1581C10.2311 11.4565 10.516 11.7625 10.7613 12.8781C11.8723 17.9305 12.4301 20.4435 13.7014 20.4996C15.7278 20.5892 21.6733 4.342 19.5477 2.05293Z" stroke="#141B34" strokeWidth="1.5" />
+                            <path d="M10 11.5L13.5 8" stroke="#141B34" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                     </span>
                 </div>

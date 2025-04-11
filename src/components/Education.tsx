@@ -1,82 +1,116 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Portfolio } from "../dataTypes";
 import Button from "./Button";
 import AdminPlusIcon from "../assets/svg/admin/plusIcon";
+import { toast } from "react-toastify";
 
 type EducationProps = {
     portfolioData: Portfolio;
     updatePortfolioData: (updatedData: Partial<Portfolio>) => void;
     setActiveModal: (modal: string | null) => void;
     setEducationToEdit: (education: any) => void;
+    isPublished: boolean;
 };
 
-const Education = ({ portfolioData, updatePortfolioData, setActiveModal, setEducationToEdit }: EducationProps) => {
-    const [educations, setEducations] = useState<any[]>([]); // Local state for educations
+const Education = ({ portfolioData, updatePortfolioData, setActiveModal, setEducationToEdit, isPublished }: EducationProps) => {
+    const localStorageKey = `educationDraft_${portfolioData._id}`;
+    const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-    // Initialize educations from portfolioData
-    useEffect(() => {
-        if (portfolioData?.sections?.length > 0) {
-            const educationSection = portfolioData.sections.find(
-                (section) => section.type === "Education"
-            );
-            if (educationSection) {
-                setEducations(educationSection.customContent?.education || []); // Use `education` instead of `educations`
-            }
+    // Get initial educations from localStorage or portfolio data
+    const getInitialEducations = useCallback(() => {
+        try {
+            const savedDraft = localStorage.getItem(localStorageKey);
+            if (savedDraft) return JSON.parse(savedDraft);
+        } catch (e) {
+            console.error("Failed to parse saved education draft", e);
         }
-    }, [portfolioData]);
 
-    // Handle editing an education entry
-    const handleEditEducation = (index: number) => {
-        setEducationToEdit(educations[index]); // Set the education to edit
-        setActiveModal("createEducationModal"); // Open the modal
-    };
-
-    // Handle adding a new education
-    // const handleAddEducation = (newEducation: any) => {
-    //     setEducations((prevEducations) => [...prevEducations, newEducation]);
-    // };
-
-    // Handle removing an education
-    const handleRemoveEducation = (index: number) => {
-        setEducations((prevEducations) =>
-            prevEducations.filter((_, i) => i !== index)
+        const educationSection = portfolioData?.sections?.find(
+            (section) => section.type === "Education"
         );
+        return educationSection?.customContent?.education || [];
+    }, [portfolioData, localStorageKey]);
+
+    const [educations, setEducations] = useState<any[]>(getInitialEducations());
+
+    // Initialize educations state
+    useEffect(() => {
+        setEducations(getInitialEducations());
+    }, [getInitialEducations]);
+
+    // Handle education updates from modal
+    useEffect(() => {
+        const handleEducationUpdate = (e: CustomEvent) => {
+            if (editingIndex !== null && editingIndex >= 0) {
+                // Update existing education
+                setEducations(prev => prev.map((education, index) =>
+                    index === editingIndex ? e.detail : education
+                ));
+            } else {
+                // Add new education
+                setEducations(prev => [...prev, e.detail]);
+            }
+            setEditingIndex(null);
+        };
+
+        // @ts-ignore - CustomEvent type workaround
+        window.addEventListener('educationUpdate', handleEducationUpdate);
+        return () => {
+            // @ts-ignore
+            window.removeEventListener('educationUpdate', handleEducationUpdate);
+        };
+    }, [editingIndex]);
+
+    // Edit education handler
+    const handleEditEducation = (index: number) => {
+        setEditingIndex(index);
+        setEducationToEdit(educations[index]);
+        setActiveModal("createEducationModal");
     };
 
-    // Handle saving changes
+    // Remove education handler
+    const handleRemoveEducation = (index: number) => {
+        setEducations(prev => prev.filter((_, i) => i !== index));
+    };
+
+    // Persist to localStorage
+    useEffect(() => {
+        localStorage.setItem(localStorageKey, JSON.stringify(educations));
+    }, [educations, localStorageKey]);
+
+    // Clear draft when published
+    useEffect(() => {
+        if (isPublished) localStorage.removeItem(localStorageKey);
+    }, [isPublished, localStorageKey]);
+
+    // Save to portfolio data
     const handleSave = () => {
-        // Find the Education section from the portfolioData
         const educationSection = portfolioData.sections.find(
             (section) => section.type === "Education"
         );
 
         if (!educationSection) {
-            console.error("Education section not found in portfolioData.");
+            toast.error("Education section not found");
             return;
         }
 
-        // Ensure the _id is included in the updated section
-        const updatedEducationSection = {
-            ...educationSection,
-            customContent: {
-                ...educationSection.customContent,
-                education: educations, // Use `education` instead of `educations`
-            },
-        };
-
-        // Update the portfolioData while preserving other sections
         updatePortfolioData({
-            sections: portfolioData.sections.map((section) =>
-                section.type === "Education" ? updatedEducationSection : section
+            sections: portfolioData.sections.map(section =>
+                section.type === "Education" ? {
+                    ...section,
+                    customContent: { ...section.customContent, education: educations }
+                } : section
             ),
         });
+
+        localStorage.removeItem(localStorageKey);
+        toast.success('Changes saved successfully');
     };
 
     return (
         <div className="relative pt-5">
             <div className="mt-10">
                 <div className="flex lg:w-[85%] flex-col gap-4">
-                    {/* Display existing educations */}
                     {educations.map((education, index) => (
                         <div key={index} className="flex items-center justify-between">
                             <div className="flex gap-2 items-center w-[60%]">
@@ -108,16 +142,15 @@ const Education = ({ portfolioData, updatePortfolioData, setActiveModal, setEduc
                             </div>
                             <div className="flex gap-2 items-center w-[20%]">
                                 <span
-                                    className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
-                                transform transition-transform duration-300"
-                                    onClick={() => handleEditEducation(index)}>
-                                    <svg
-                                        width="20"
-                                        height="21"
-                                        viewBox="0 0 20 21"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
+                                    className="px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer transform transition-transform duration-300"
+                                    onClick={() => handleEditEducation(index)}
+                                ><svg
+                                    width="20"
+                                    height="21"
+                                    viewBox="0 0 20 21"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
                                         <path
                                             d="M11.7284 3.7382C12.3494 3.06539 12.6599 2.72899 12.9898 2.53276C13.7859 2.05929 14.7662 2.04457 15.5756 2.49393C15.9111 2.68016 16.2311 3.00709 16.8712 3.66096C17.5113 4.31483 17.8313 4.64176 18.0136 4.98443C18.4535 5.81126 18.4391 6.81265 17.9756 7.62591C17.7835 7.96296 17.4542 8.28014 16.7956 8.9145L8.95918 16.4622C7.71106 17.6644 7.08699 18.2655 6.30704 18.5701C5.52709 18.8747 4.66966 18.8523 2.9548 18.8075L2.72147 18.8014C2.19941 18.7877 1.93838 18.7809 1.78665 18.6087C1.63491 18.4365 1.65563 18.1706 1.69706 17.6388L1.71956 17.35C1.83617 15.8533 1.89447 15.1049 2.18675 14.4322C2.47903 13.7594 2.98319 13.2132 3.99151 12.1207L11.7284 3.7382Z"
                                             stroke="#141B34"
@@ -139,12 +172,12 @@ const Education = ({ portfolioData, updatePortfolioData, setActiveModal, setEduc
                                         />
                                     </svg>
                                 </span>
+                          
                                 <span
-                                    className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
-                                transform transition-transform duration-300"
+                                    className="px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer transform transition-transform duration-300"
                                     onClick={() => handleRemoveEducation(index)}
                                 >
-                                    <svg
+                                   <svg
                                         width="18"
                                         height="19"
                                         viewBox="0 0 18 19"
@@ -181,25 +214,25 @@ const Education = ({ portfolioData, updatePortfolioData, setActiveModal, setEduc
                         </div>
                     ))}
 
-                    {/* Add Education Button */}
                     <Button
                         onClick={() => {
-                            setEducationToEdit(null); // Reset education to edit
+                            setEditingIndex(null);
+                            setEducationToEdit(null);
                             setActiveModal("createEducationModal");
                         }}
                         className="mt-4 flex justify-center bg-white items-center px-6 py-3 text-sm border border-gray-600 rounded-xl lg:flex shadow-lg text-black-50 gap-2"
                     >
-                        <span>
-                            <AdminPlusIcon />
-                        </span>
+                        <span><AdminPlusIcon /></span>
                         <span>Add Education</span>
                     </Button>
                 </div>
             </div>
 
-            {/* Save Changes Button */}
             <div className="mt-6">
-                <Button onClick={handleSave} className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl">
+                <Button
+                    onClick={handleSave}
+                    className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl"
+                >
                     Save Changes
                 </Button>
             </div>
