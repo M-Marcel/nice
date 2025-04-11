@@ -3,11 +3,13 @@ import UploadIcon from '../assets/upload.png';
 import { Portfolio } from "../dataTypes";
 import Button from "./Button";
 import { toast } from "react-toastify";
+import { getTemplateIds } from "../config/templates";
 
 type templateDataProps = {
     portfolioData: Portfolio;
     updatePortfolioData: (updatedData: Partial<Portfolio>) => void;
     isPublished: boolean
+    templateName?: string; 
 };
 
 type FormData = {
@@ -24,10 +26,11 @@ type FormData = {
     };
 };
 
-const Info = ({ portfolioData, updatePortfolioData, isPublished }: templateDataProps) => {
+const Info = ({ portfolioData, updatePortfolioData, isPublished, templateName }: templateDataProps) => {
+    const templateIds = getTemplateIds();
     // Create a unique localStorage key based on portfolio ID
     const localStorageKey = `infoDraft_${portfolioData._id}`;
-
+     
     // Initialize empty form state but check localStorage for drafts
     // Initialize form state
     const [formData, setFormData] = useState<FormData>(() => {
@@ -40,7 +43,7 @@ const Info = ({ portfolioData, updatePortfolioData, isPublished }: templateDataP
         const socialLinks = existingData?.socialLinks?.[0] || {};
         return {
             profileImage: existingData?.profileImage || '',
-            coverImg: existingData?.coverImg || '',
+            coverImg: existingData?.coverImg || '', // Always include coverImg in state
             name: existingData?.name || '',
             email: existingData?.email || '',
             about: existingData?.about || '',
@@ -52,9 +55,10 @@ const Info = ({ portfolioData, updatePortfolioData, isPublished }: templateDataP
             }
         };
     });
-
+    
     const profileInputRef = useRef<HTMLInputElement>(null);
     const coverInputRef = useRef<HTMLInputElement>(null);
+    const supportsCoverImage = portfolioData.referenceTemplate === templateIds.Professional;
 
     // Save to localStorage when formData changes
     useEffect(() => {
@@ -186,25 +190,27 @@ const Info = ({ portfolioData, updatePortfolioData, isPublished }: templateDataP
                     </div>
 
                     {/* Cover Image Section */}
-                    <div className="flex flex-col mb-2">
-                        <label className="text-sm mb-1 text-gray-400">Cover Image</label>
-                        {!formData.coverImg ? (
-                            <div className="cursor-pointer p-4 border border-dashed border-gray-600 rounded-lg w-full text-center"
-                                onClick={() => triggerFileInput('cover')}>
-                                <img src={UploadIcon} alt="upload icon" className="w-10 h-10 mb-2 mx-auto" />
-                                <p className="text-md text-black-500">Upload a file</p>
-                                <p className="text-xs text-gray-500">PNG or JPG (Max 10mb)</p>
-                            </div>
-                        ) : (
-                            <div className="relative w-full h-32">
-                                <img src={formData.coverImg} alt="Cover preview" className="object-cover w-full h-full rounded-lg" />
-                                <button type="button" onClick={() => handleRemoveImage('cover')} className="text-xs absolute top-0 right-0 bg-gray-600 text-white rounded-full p-1 w-[25px]">
-                                    X
-                                </button>
-                            </div>
-                        )}
-                        <input ref={coverInputRef} type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'cover')} hidden />
-                    </div>
+                    {supportsCoverImage && (
+                        <div className="flex flex-col mb-2">
+                            <label className="text-sm mb-1 text-gray-400">Cover Image</label>
+                            {!formData.coverImg ? (
+                                <div className="cursor-pointer p-4 border border-dashed border-gray-600 rounded-lg w-full text-center"
+                                    onClick={() => triggerFileInput('cover')}>
+                                    <img src={UploadIcon} alt="upload icon" className="w-10 h-10 mb-2 mx-auto" />
+                                    <p className="text-md text-black-500">Upload a file</p>
+                                    <p className="text-xs text-gray-500">PNG or JPG (Max 10mb)</p>
+                                </div>
+                            ) : (
+                                <div className="relative w-full h-32">
+                                    <img src={formData.coverImg} alt="Cover preview" className="object-cover w-full h-full rounded-lg" />
+                                    <button type="button" onClick={() => handleRemoveImage('cover')} className="text-xs absolute top-0 right-0 bg-gray-600 text-white rounded-full p-1 w-[25px]">
+                                        X
+                                    </button>
+                                </div>
+                            )}
+                            <input ref={coverInputRef} type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'cover')} hidden />
+                        </div>
+                    )}
 
                     {/* Form Fields */}
                     <div className="flex flex-col mb-2">
