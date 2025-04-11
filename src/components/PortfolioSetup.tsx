@@ -37,11 +37,12 @@ const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, on
 
         switch (activeTab) {
             case "Info":
-                return <Info portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} />;
+                return <Info isPublished={!!portfolioData?.url} portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} />;
             case "Skills":
-                return <Skills portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} />;
+                return <Skills isPublished={!!portfolioData?.url} portfolioData={portfolioData} updatePortfolioData={updatePortfolioData} />;
             case "Projects":
                 return <Projects
+                    isPublished={!!portfolioData?.url}
                     portfolioData={portfolioData}
                     updatePortfolioData={updatePortfolioData}
                     setActiveModal={setActiveModal}
@@ -49,6 +50,7 @@ const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, on
                 />;
             case "Work":
                 return <Work
+                    isPublished={!!portfolioData?.url}
                     portfolioData={portfolioData}
                     updatePortfolioData={updatePortfolioData}
                     setActiveModal={setActiveModal}
@@ -56,6 +58,7 @@ const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, on
                 />;
             case "Education":
                 return <Education
+                    isPublished={!!portfolioData?.url}
                     portfolioData={portfolioData}
                     updatePortfolioData={updatePortfolioData}
                     setActiveModal={setActiveModal}
@@ -63,6 +66,7 @@ const PortfolioSetup = ({ setActiveModal, portfolioData, updatePortfolioData, on
                 />;
             case "Certification":
                 return <Certification
+                    isPublished={!!portfolioData?.url}
                     portfolioData={portfolioData}
                     updatePortfolioData={updatePortfolioData}
                     setActiveModal={setActiveModal}

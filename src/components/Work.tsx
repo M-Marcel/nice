@@ -1,94 +1,116 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Portfolio } from "../dataTypes";
 import Button from "./Button";
 import AdminPlusIcon from "../assets/svg/admin/plusIcon";
+import { toast } from "react-toastify";
 
 type WorkProps = {
     portfolioData: Portfolio;
     updatePortfolioData: (updatedData: Partial<Portfolio>) => void;
     setActiveModal: (modal: string | null) => void;
     setWorkToEdit: (work: any) => void;
+    isPublished: boolean;
 };
 
-const Work = ({ portfolioData, updatePortfolioData, setActiveModal, setWorkToEdit }: WorkProps) => {
-    const [works, setWorks] = useState<any[]>([]); // Local state for works
-
-    // Initialize works from portfolioData
-    useEffect(() => {
-        if (portfolioData?.sections?.length > 0) {
-            const worksSection = portfolioData.sections.find(
-                (section) => section.type === "Work"
-            );
-            if (worksSection) {
-                setWorks(worksSection.customContent?.work || []); // Use `work` instead of `works`
-            }
+const Work = ({ portfolioData, updatePortfolioData, setActiveModal, setWorkToEdit, isPublished }: WorkProps) => {
+    const localStorageKey = `workDraft_${portfolioData._id}`;
+    const [editingIndex, setEditingIndex] = useState<number | null>(null);
+    
+    // Get initial works from localStorage or portfolio data
+    const getInitialWorks = useCallback(() => {
+        try {
+            const savedDraft = localStorage.getItem(localStorageKey);
+            if (savedDraft) return JSON.parse(savedDraft);
+        } catch (e) {
+            console.error("Failed to parse saved work draft", e);
         }
-    }, [portfolioData]);
-
-    // Handle adding a new work
-    // const handleAddWork = (newWork: any) => {
-    //     setWorks((prevWorks) => [...prevWorks, newWork]);
-    // };
-
-    // Initialize works from portfolioData
-    useEffect(() => {
-        if (portfolioData?.sections?.length > 0) {
-            const worksSection = portfolioData.sections.find(
-                (section) => section.type === "Work"
-            );
-            if (worksSection) {
-                setWorks(worksSection.customContent?.work || []);
-            }
-        }
-    }, [portfolioData]);
-
-    // Handle editing a work entry
-    const handleEditWork = (index: number) => {
-        setWorkToEdit(works[index]); // Set the work to edit
-        setActiveModal("createWorkModal"); // Open the modal
-    };
-
-    // Handle removing a work
-    const handleRemoveWork = (index: number) => {
-        setWorks((prevWorks) =>
-            prevWorks.filter((_, i) => i !== index)
+        
+        const worksSection = portfolioData?.sections?.find(
+            (section) => section.type === "Work"
         );
+        return worksSection?.customContent?.work || [];
+    }, [portfolioData, localStorageKey]);
+
+    const [works, setWorks] = useState<any[]>(getInitialWorks());
+
+    // Initialize works state
+    useEffect(() => {
+        setWorks(getInitialWorks());
+    }, [getInitialWorks]);
+
+    // Handle work updates from modal
+    useEffect(() => {
+        const handleWorkUpdate = (e: CustomEvent) => {
+            if (editingIndex !== null && editingIndex >= 0) {
+                // Update existing work
+                setWorks(prev => prev.map((work, index) => 
+                    index === editingIndex ? e.detail : work
+                ));
+            } else {
+                // Add new work
+                setWorks(prev => [...prev, e.detail]);
+            }
+            setEditingIndex(null);
+        };
+
+        // @ts-ignore - CustomEvent type workaround
+        window.addEventListener('workUpdate', handleWorkUpdate);
+        return () => {
+            // @ts-ignore
+            window.removeEventListener('workUpdate', handleWorkUpdate);
+        };
+    }, [editingIndex]);
+
+    // Edit work handler
+    const handleEditWork = (index: number) => {
+        setEditingIndex(index);
+        setWorkToEdit(works[index]);
+        setActiveModal("createWorkModal");
     };
 
-    // Handle saving changes
+    // Remove work handler
+    const handleRemoveWork = (index: number) => {
+        setWorks(prev => prev.filter((_, i) => i !== index));
+    };
+
+    // Persist to localStorage
+    useEffect(() => {
+        localStorage.setItem(localStorageKey, JSON.stringify(works));
+    }, [works, localStorageKey]);
+
+    // Clear draft when published
+    useEffect(() => {
+        if (isPublished) localStorage.removeItem(localStorageKey);
+    }, [isPublished, localStorageKey]);
+
+    // Save to portfolio data
     const handleSave = () => {
-        // Find the Work section from the portfolioData
         const worksSection = portfolioData.sections.find(
             (section) => section.type === "Work"
         );
 
         if (!worksSection) {
-            console.error("Work section not found in portfolioData.");
+            toast.error("Work section not found");
             return;
         }
 
-        // Ensure the _id is included in the updated section
-        const updatedWorksSection = {
-            ...worksSection,
-            customContent: {
-                ...worksSection.customContent,
-                work: works, // Update the works array
-            },
-        };
-
-        // Update the portfolioData while preserving other sections
         updatePortfolioData({
-            sections: portfolioData.sections.map((section) =>
-                section.type === "Work" ? updatedWorksSection : section
+            sections: portfolioData.sections.map(section =>
+                section.type === "Work" ? {
+                    ...section,
+                    customContent: { ...section.customContent, work: works }
+                } : section
             ),
         });
+
+        localStorage.removeItem(localStorageKey);
+        toast.success('Changes saved successfully');
     };
 
     return (
         <div className="relative pt-5">
             <div className="mt-10">
                 <div className="flex lg:w-[85%] flex-col gap-4">
-                    {/* Display existing works */}
                     {works.map((work, index) => (
                         <div key={index} className="flex items-center justify-between">
                             <div className="flex gap-2 items-center w-[60%]">
@@ -113,13 +135,14 @@ const Work = ({ portfolioData, updatePortfolioData, setActiveModal, setWorkToEdi
                                     <h2 className="text-md text-black-500 mb-1">
                                         {work.role}
                                     </h2>
-                                    <p className="text-xs text-gray-400">{work.company} {work.startDate} -  {work.isRoleActive ? "Present" : work.endDate}</p>
+                                    <p className="text-xs text-gray-400">
+                                        {work.company} {work.startDate} - {work.isRoleActive ? "Present" : work.endDate}
+                                    </p>
                                 </div>
                             </div>
                             <div className="flex gap-2 items-center w-[20%]">
                                 <span
-                                    className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
-                                transform transition-transform duration-300"
+                                    className="px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer transform transition-transform duration-300"
                                     onClick={() => handleEditWork(index)}
                                 >
                                     <svg
@@ -151,8 +174,7 @@ const Work = ({ portfolioData, updatePortfolioData, setActiveModal, setWorkToEdi
                                     </svg>
                                 </span>
                                 <span
-                                    className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
-                                transform transition-transform duration-300"
+                                    className="px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer transform transition-transform duration-300"
                                     onClick={() => handleRemoveWork(index)}
                                 >
                                     <svg
@@ -192,25 +214,25 @@ const Work = ({ portfolioData, updatePortfolioData, setActiveModal, setWorkToEdi
                         </div>
                     ))}
 
-                    {/* Add Work Button */}
                     <Button
                         onClick={() => {
-                            setWorkToEdit(null); // Reset work to edit
+                            setEditingIndex(null);
+                            setWorkToEdit(null);
                             setActiveModal("createWorkModal");
                         }}
                         className="mt-4 flex justify-center bg-white items-center px-6 py-3 text-sm border border-gray-600 rounded-xl lg:flex shadow-lg text-black-50 gap-2"
                     >
-                        <span>
-                            <AdminPlusIcon />
-                        </span>
+                        <span><AdminPlusIcon /></span>
                         <span>Add Work History</span>
                     </Button>
                 </div>
             </div>
 
-            {/* Save Changes Button */}
             <div className="mt-6">
-                <Button onClick={handleSave} className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl">
+                <Button 
+                    onClick={handleSave} 
+                    className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl"
+                >
                     Save Changes
                 </Button>
             </div>

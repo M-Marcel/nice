@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-// import UploadIcon from "../assets/upload.png";
 import Button from "./Button";
 
 type CreateWorkModalProps = {
-    onAddWork: (work: any) => void; // Updated prop name and type
+    onAddWork: (work: any) => void;
     onUpdateWork: (work: any) => void;
     onClose: () => void;
     workToEdit?: any;
@@ -13,21 +12,21 @@ const CreateWorkModal = ({ onAddWork, onUpdateWork, onClose, workToEdit }: Creat
     const [formData, setFormData] = useState({
         role: "",
         company: "",
-        description:"",
+        description: "",
         startDate: "",
         endDate: "",
-        isRoleActive: false, // Added state for checkbox
+        isRoleActive: false,
     });
 
     const { role, company, description, startDate, endDate, isRoleActive } = formData;
 
-    // Populate form data if editing
+    // Initialize form with workToEdit data
     useEffect(() => {
         if (workToEdit) {
             setFormData({
                 role: workToEdit.role,
                 company: workToEdit.company,
-                description:workToEdit.description,
+                description: workToEdit.description,
                 startDate: workToEdit.startDate,
                 endDate: workToEdit.endDate === "Present" ? "" : workToEdit.endDate,
                 isRoleActive: workToEdit.endDate === "Present",
@@ -35,21 +34,14 @@ const CreateWorkModal = ({ onAddWork, onUpdateWork, onClose, workToEdit }: Creat
         }
     }, [workToEdit]);
 
-    const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
-
-        // Handle checkbox separately
-        if (type === "checkbox") {
-            setFormData((prevState) => ({
-                ...prevState,
-                [name]: (e.target as HTMLInputElement).checked, // Cast to HTMLInputElement for checkbox
-            }));
-        } else {
-            setFormData((prevState) => ({
-                ...prevState,
-                [name]: value,
-            }));
-        }
+        setFormData(prev => ({
+            ...prev,
+            [name]: type === "checkbox" 
+                ? (e.target as HTMLInputElement).checked 
+                : value
+        }));
     };
 
     const formatDateToMonthYear = (dateString: string): string => {
@@ -63,31 +55,29 @@ const CreateWorkModal = ({ onAddWork, onUpdateWork, onClose, workToEdit }: Creat
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-         // Format dates before sending
-         const formattedStartDate = formatDateToMonthYear(startDate);
-        //  const formattedEndDate = isRoleActive ? "Present" : formatDateToMonthYear(endDate);
-        // Prepare the work data to be added
+        
         const workData = {
             role,
             company,
             description,
-            startDate: formattedStartDate,
+            startDate: formatDateToMonthYear(startDate),
             endDate: formatDateToMonthYear(endDate),
             isRoleActive: Boolean(isRoleActive)
         };
 
         if (workToEdit) {
-            onUpdateWork(workData); // Call update function if editing
+            onUpdateWork(workData);
         } else {
-            onAddWork(workData); // Call add function if creating
+            onAddWork(workData);
         }
-        onClose(); // Close the modal
     };
 
     return (
-        <div className="px-4 h-[60vh] overflow-y-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
+        <div className="px-4 h-[60vh] overflow-y-scroll lg:scrollbar-none">
             <div className="">
-                <h2 className="text-3xl mb-4 mt-4 text-black-500">{workToEdit ? "Edit Work" : "Add Work"}</h2>
+                <h2 className="text-3xl mb-4 mt-4 text-black-500">
+                    {workToEdit ? "Edit Work" : "Add Work"}
+                </h2>
                 <form className="mb-8" onSubmit={handleSubmit}>
                     <div className="flex flex-col mb-2">
                         <label className="text-xs mb-1 text-gray-400">Role</label>
@@ -96,7 +86,7 @@ const CreateWorkModal = ({ onAddWork, onUpdateWork, onClose, workToEdit }: Creat
                             name="role"
                             className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
                             value={role}
-                            onChange={onChange}
+                            onChange={handleInputChange}
                             required
                         />
                     </div>
@@ -105,21 +95,21 @@ const CreateWorkModal = ({ onAddWork, onUpdateWork, onClose, workToEdit }: Creat
                             Company
                         </label>
                         <textarea
-                            name="company" // Fixed name attribute
+                            name="company"
                             value={company}
-                            onChange={onChange}
+                            onChange={handleInputChange}
                             className="px-2 py-2 border border-gray-900 rounded-lg outline-none"
                             required
                         />
                     </div>
                     <div className="flex flex-col gap-2 mb-3">
-                        <label htmlFor="company" className="text-sm text-gray-400">
+                        <label htmlFor="description" className="text-sm text-gray-400">
                             Description
                         </label>
                         <textarea
-                            name="description" // Fixed name attribute
+                            name="description"
                             value={description}
-                            onChange={onChange}
+                            onChange={handleInputChange}
                             className="px-2 py-2 border border-gray-900 rounded-lg outline-none"
                             required
                         />
@@ -131,7 +121,7 @@ const CreateWorkModal = ({ onAddWork, onUpdateWork, onClose, workToEdit }: Creat
                             name="startDate"
                             className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
                             value={startDate}
-                            onChange={onChange}
+                            onChange={handleInputChange}
                             required
                         />
                     </div>
@@ -142,9 +132,9 @@ const CreateWorkModal = ({ onAddWork, onUpdateWork, onClose, workToEdit }: Creat
                             name="endDate"
                             className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
                             value={endDate}
-                            onChange={onChange}
-                            disabled={isRoleActive} // Disable if currently working
-                            required={!isRoleActive} // Make it optional if currently working
+                            onChange={handleInputChange}
+                            disabled={isRoleActive}
+                            required={!isRoleActive}
                         />
                     </div>
                     <div className="flex items-center gap-2 mb-4">
@@ -152,7 +142,7 @@ const CreateWorkModal = ({ onAddWork, onUpdateWork, onClose, workToEdit }: Creat
                             type="checkbox"
                             name="isRoleActive"
                             checked={isRoleActive}
-                            onChange={onChange}
+                            onChange={handleInputChange}
                         />
                         <span className="text-sm text-gray-400">I still work here</span>
                     </div>

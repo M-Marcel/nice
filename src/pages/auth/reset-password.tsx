@@ -14,8 +14,12 @@ type ResetPasswordProps = {
 }
 const ResetPassword = ({ email, openPasswordChangeSuccessModal }: ResetPasswordProps) => {
     const [passWordVisible, setPassWordVisible] = useState<boolean>(false)
+    const [confirmPassWordVisible, setConfirmPassWordVisible] = useState<boolean>(false)
     const togglePassWordVisibility = () => {
         setPassWordVisible(!passWordVisible)
+    }
+    const toggleConfirmPassWordVisibility = () => {
+        setConfirmPassWordVisible(!confirmPassWordVisible)
     }
 
     const [formData, setFormData] = useState({
@@ -123,14 +127,14 @@ const ResetPassword = ({ email, openPasswordChangeSuccessModal }: ResetPasswordP
                     </label>
                     <div className="relative w-full">
                         <input
-                            type={passWordVisible ? 'text' : 'password'}
+                            type={confirmPassWordVisible ? 'text' : 'password'}
                             name="confirmNewPassword"
                             value={confirmNewPassword}
                             onChange={onChange}
                             className="w-full px-4 py-2 border border-gray-600 rounded-lg outline-none"
                         />
-                        <Button type="button" className="flex justify-center items-center absolute top-2 right-[10px] lg:right-[10px] text-gray-800" onClick={togglePassWordVisibility}>
-                            {passWordVisible ?
+                        <Button type="button" className="flex justify-center items-center absolute top-2 right-[10px] lg:right-[10px] text-gray-800" onClick={toggleConfirmPassWordVisibility}>
+                            {confirmPassWordVisible ?
                                 (
                                     <OpenEye />
                                 ) : (

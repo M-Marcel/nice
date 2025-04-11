@@ -8,26 +8,42 @@ import { getAllSkills, getAllCategories } from "../slices/skills/skillsSlice";
 type SkillsProps = {
     portfolioData: Portfolio;
     updatePortfolioData: (updatedData: Partial<Portfolio>) => void;
+    isPublished: boolean;
 };
 
-const Skills = ({ portfolioData, updatePortfolioData }: SkillsProps) => {
+const Skills = ({ portfolioData, updatePortfolioData, isPublished }: SkillsProps) => {
     const dispatch = useAppDispatch();
     const { allSkills, categories, isLoading: isSkillsLoading } = useAppSelector((state) => state.skills);
-    // const [skillInput, setSkillInput] = useState("");
-    const [skills, setSkills] = useState<string[]>([]);
+    
+    // Create a unique localStorage key based on portfolio ID
+    const localStorageKey = `skillsDraft_${portfolioData._id}`;
+
+    // Initialize state with localStorage draft or portfolio data
+    const [skills, setSkills] = useState<string[]>(() => {
+        // 1. Check for unsaved draft in localStorage
+        const savedDraft = localStorage.getItem(localStorageKey);
+        if (savedDraft) return JSON.parse(savedDraft);
+
+        // 2. If no draft, check for existing portfolio data
+        const skillsSection = portfolioData?.sections?.find((section) => section.type === "Skills");
+        return skillsSection?.customContent?.skills || [];
+    });
+
     const [selectedCategory, setSelectedCategory] = useState<string>("");
     const [filteredSkills, setFilteredSkills] = useState<any[]>([]);
     const [isInitialLoad, setIsInitialLoad] = useState(true);
 
-    // Initialize skills from portfolioData
+    // Save to localStorage when skills change
     useEffect(() => {
-        if (portfolioData?.sections?.length > 0) {
-            const skillsSection = portfolioData.sections.find((section) => section.type === "Skills");
-            if (skillsSection) {
-                setSkills(skillsSection.customContent?.skills || []);
-            }
+        localStorage.setItem(localStorageKey, JSON.stringify(skills));
+    }, [skills, localStorageKey]);
+
+    // Clear draft when portfolio is published
+    useEffect(() => {
+        if (isPublished) {
+            localStorage.removeItem(localStorageKey);
         }
-    }, [portfolioData]);
+    }, [isPublished, localStorageKey]);
 
     // Load skills and categories
     useEffect(() => {
@@ -95,6 +111,9 @@ const Skills = ({ portfolioData, updatePortfolioData }: SkillsProps) => {
                 section.type === "Skills" ? updatedSkillsSection : section
             ),
         });
+
+        // Clear draft after successful save
+        localStorage.removeItem(localStorageKey);
         toast.success('Skills updated successfully');
     };
 

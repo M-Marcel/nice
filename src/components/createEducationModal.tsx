@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Button from "./Button";
 
 type CreateEducationModalProps = {
-    onAddEducation: (education: any) => void; // Updated prop name and type
+    onAddEducation: (education: any) => void;
     onUpdateEducation: (education: any) => void;
     onClose: () => void;
     educationToEdit?: any;
@@ -12,13 +12,14 @@ const CreateEducationModal = ({ onAddEducation, onUpdateEducation, onClose, educ
     const [formData, setFormData] = useState({
         degree: "",
         school: "",
-        startYear: 0,
-        endYear: 0,
+        startYear: 2000,
+        endYear: 2005,
         isStudent: false, // Added state for checkbox
     });
 
     const { degree, school, startYear, endYear, isStudent } = formData;
 
+    // Initialize form with educationToEdit data
     useEffect(() => {
         if (educationToEdit) {
             setFormData({
@@ -31,37 +32,19 @@ const CreateEducationModal = ({ onAddEducation, onUpdateEducation, onClose, educ
         }
     }, [educationToEdit]);
 
-
-    const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
-
-        // Handle checkbox separately
-        if (type === "checkbox") {
-            setFormData((prevState) => ({
-                ...prevState,
-                [name]: (e.target as HTMLInputElement).checked,
-            }));
-        }
-        // Convert number fields to numbers
-        else if (name === "startYear" || name === "endYear") {
-            setFormData((prevState) => ({
-                ...prevState,
-                [name]: value === "" ? 0 : parseInt(value, 10),
-            }));
-        }
-        // For all other fields
-        else {
-            setFormData((prevState) => ({
-                ...prevState,
-                [name]: value,
-            }));
-        }
+        setFormData(prev => ({
+            ...prev,
+            [name]: type === "checkbox" 
+                ? (e.target as HTMLInputElement).checked 
+                : value
+        }));
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
-        // Prepare the work data to be added
+        
         const educationData = {
             degree,
             school,
@@ -69,18 +52,20 @@ const CreateEducationModal = ({ onAddEducation, onUpdateEducation, onClose, educ
             endYear, // Set endYear to "Student" if currently schooling
             isStudent
         };
+
         if (educationToEdit) {
-            onUpdateEducation(educationData); // Call update function if editing
+            onUpdateEducation(educationData);
         } else {
-            onAddEducation(educationData); // Call add function if creating
+            onAddEducation(educationData);
         }
-        onClose(); // Close the modal
     };
 
     return (
-        <div className="px-4 h-[60vh] overflow-y-scroll lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
+        <div className="px-4 h-[60vh] overflow-y-scroll lg:scrollbar-none">
             <div className="">
-                <h2 className="text-3xl mb-4 mt-4 text-black-500">{educationToEdit ? "Edit Education" : "Add Education"}</h2>
+                <h2 className="text-3xl mb-4 mt-4 text-black-500">
+                    {educationToEdit ? "Edit Education" : "Add Education"}
+                </h2>
                 <form className="mb-8" onSubmit={handleSubmit}>
                     <div className="flex flex-col mb-2">
                         <label className="text-xs mb-1 text-gray-400">Degree</label>
@@ -89,18 +74,18 @@ const CreateEducationModal = ({ onAddEducation, onUpdateEducation, onClose, educ
                             name="degree"
                             className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
                             value={degree}
-                            onChange={onChange}
+                            onChange={handleInputChange}
                             required
                         />
                     </div>
                     <div className="flex flex-col gap-2 mb-3">
-                        <label htmlFor="company" className="text-sm text-gray-400">
+                        <label htmlFor="school" className="text-sm text-gray-400">
                             School
                         </label>
                         <textarea
-                            name="school" // Fixed name attribute
+                            name="school"
                             value={school}
-                            onChange={onChange}
+                            onChange={handleInputChange}
                             className="px-2 py-2 border border-gray-900 rounded-lg outline-none"
                             required
                         />
@@ -112,7 +97,7 @@ const CreateEducationModal = ({ onAddEducation, onUpdateEducation, onClose, educ
                             name="startYear"
                             className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
                             value={startYear}
-                            onChange={onChange}
+                            onChange={handleInputChange}
                             required
                         />
                     </div>
@@ -123,9 +108,9 @@ const CreateEducationModal = ({ onAddEducation, onUpdateEducation, onClose, educ
                             name="endYear"
                             className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
                             value={endYear}
-                            onChange={onChange}
-                            disabled={isStudent} // Disable if currently schooling
-                            required={!isStudent} // Make it optional if currently schooling
+                            onChange={handleInputChange}
+                            disabled={isStudent}
+                            required={!isStudent}
                         />
                     </div>
                     <div className="flex items-center gap-2 mb-4">
@@ -133,7 +118,7 @@ const CreateEducationModal = ({ onAddEducation, onUpdateEducation, onClose, educ
                             type="checkbox"
                             name="isStudent"
                             checked={isStudent}
-                            onChange={onChange}
+                            onChange={handleInputChange}
                         />
                         <span className="text-sm text-gray-400">Not graduated yet</span>
                     </div>

@@ -1,82 +1,116 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Portfolio } from "../dataTypes";
 import Button from "./Button";
 import AdminPlusIcon from "../assets/svg/admin/plusIcon";
+import { toast } from "react-toastify";
 
 type CertificationProps = {
     portfolioData: Portfolio;
     updatePortfolioData: (updatedData: Partial<Portfolio>) => void;
     setActiveModal: (modal: string | null) => void;
     setCertificationToEdit: (certification: any) => void;
+    isPublished: boolean;
 };
 
-const Certification = ({ portfolioData, updatePortfolioData, setActiveModal, setCertificationToEdit }: CertificationProps) => {
-    const [certifications, setCertifications] = useState<any[]>([]); // Local state for certifications
+const Certification = ({ portfolioData, updatePortfolioData, setActiveModal, setCertificationToEdit, isPublished }: CertificationProps) => {
+    const localStorageKey = `certificationDraft_${portfolioData._id}`;
+    const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-    // Initialize certifications from portfolioData
-    useEffect(() => {
-        if (portfolioData?.sections?.length > 0) {
-            const certificationSection = portfolioData.sections.find(
-                (section) => section.type === "Certificates"
-            );
-            if (certificationSection) {
-                setCertifications(certificationSection.customContent?.certificates || []); // Use `certifications` instead of `certification`
-            }
+    // Get initial certifications from localStorage or portfolio data
+    const getInitialCertifications = useCallback(() => {
+        try {
+            const savedDraft = localStorage.getItem(localStorageKey);
+            if (savedDraft) return JSON.parse(savedDraft);
+        } catch (e) {
+            console.error("Failed to parse saved certification draft", e);
         }
-    }, [portfolioData]);
 
-    // Handle editing a certification entry
-    const handleEditCertification = (index: number) => {
-        setCertificationToEdit(certifications[index]); // Set the certification to edit
-        setActiveModal("createCertificationModal"); // Open the modal
-    };
-
-    // Handle adding a new certification
-    // const handleAddCertification = (newCertification: any) => {
-    //     setCertifications((prevCertifications) => [...prevCertifications, newCertification]);
-    // };
-
-    // Handle removing a certification
-    const handleRemoveCertification = (index: number) => {
-        setCertifications((prevCertifications) =>
-            prevCertifications.filter((_, i) => i !== index)
+        const certificationSection = portfolioData?.sections?.find(
+            (section) => section.type === "Certificates"
         );
+        return certificationSection?.customContent?.certificates || [];
+    }, [portfolioData, localStorageKey]);
+
+    const [certifications, setCertifications] = useState<any[]>(getInitialCertifications());
+
+    // Initialize certifications state
+    useEffect(() => {
+        setCertifications(getInitialCertifications());
+    }, [getInitialCertifications]);
+
+    // Handle certification updates from modal
+    useEffect(() => {
+        const handleCertificationUpdate = (e: CustomEvent) => {
+            if (editingIndex !== null && editingIndex >= 0) {
+                // Update existing certification
+                setCertifications(prev => prev.map((certification, index) =>
+                    index === editingIndex ? e.detail : certification
+                ));
+            } else {
+                // Add new certification
+                setCertifications(prev => [...prev, e.detail]);
+            }
+            setEditingIndex(null);
+        };
+
+        // @ts-ignore - CustomEvent type workaround
+        window.addEventListener('certificationUpdate', handleCertificationUpdate);
+        return () => {
+            // @ts-ignore
+            window.removeEventListener('certificationUpdate', handleCertificationUpdate);
+        };
+    }, [editingIndex]);
+
+    // Edit certification handler
+    const handleEditCertification = (index: number) => {
+        setEditingIndex(index);
+        setCertificationToEdit(certifications[index]);
+        setActiveModal("createCertificationModal");
     };
 
-    // Handle saving changes
+    // Remove certification handler
+    const handleRemoveCertification = (index: number) => {
+        setCertifications(prev => prev.filter((_, i) => i !== index));
+    };
+
+    // Persist to localStorage
+    useEffect(() => {
+        localStorage.setItem(localStorageKey, JSON.stringify(certifications));
+    }, [certifications, localStorageKey]);
+
+    // Clear draft when published
+    useEffect(() => {
+        if (isPublished) localStorage.removeItem(localStorageKey);
+    }, [isPublished, localStorageKey]);
+
+    // Save to portfolio data
     const handleSave = () => {
-        // Find the Certification section from the portfolioData
         const certificationSection = portfolioData.sections.find(
             (section) => section.type === "Certificates"
         );
 
         if (!certificationSection) {
-            console.error("Certification section not found in portfolioData.");
+            toast.error("Certification section not found");
             return;
         }
 
-        // Ensure the _id is included in the updated section
-        const updatedCertificationSection = {
-            ...certificationSection,
-            customContent: {
-                ...certificationSection.customContent,
-                certificates: certifications, // Use `certifications` instead of `certification`
-            },
-        };
-
-        // Update the portfolioData while preserving other sections
         updatePortfolioData({
-            sections: portfolioData.sections.map((section) =>
-                section.type === "Certificates" ? updatedCertificationSection : section
+            sections: portfolioData.sections.map(section =>
+                section.type === "Certificates" ? {
+                    ...section,
+                    customContent: { ...section.customContent, certificates: certifications }
+                } : section
             ),
         });
+
+        localStorage.removeItem(localStorageKey);
+        toast.success('Changes saved successfully');
     };
 
     return (
         <div className="relative pt-5">
             <div className="mt-10">
                 <div className="flex lg:w-[85%] flex-col gap-4">
-                    {/* Display existing certifications */}
                     {certifications.map((certification, index) => (
                         <div key={index} className="flex items-center justify-between">
                             <div className="flex gap-2 items-center w-[60%]">
@@ -108,9 +142,9 @@ const Certification = ({ portfolioData, updatePortfolioData, setActiveModal, set
                             </div>
                             <div className="flex gap-2 items-center w-[20%]">
                                 <span
-                                    className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
-                                transform transition-transform duration-300"
-                                    onClick={() => handleEditCertification(index)}>
+                                    className="px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer transform transition-transform duration-300"
+                                    onClick={() => handleEditCertification(index)}
+                                >
                                     <svg
                                         width="20"
                                         height="21"
@@ -140,9 +174,9 @@ const Certification = ({ portfolioData, updatePortfolioData, setActiveModal, set
                                     </svg>
                                 </span>
                                 <span
-                                    className=" px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer
-                                transform transition-transform duration-300"
-                                    onClick={() => handleRemoveCertification(index)}>
+                                    className="px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer transform transition-transform duration-300"
+                                    onClick={() => handleRemoveCertification(index)}
+                                >
                                     <svg
                                         width="18"
                                         height="19"
@@ -180,25 +214,25 @@ const Certification = ({ portfolioData, updatePortfolioData, setActiveModal, set
                         </div>
                     ))}
 
-                    {/* Add Certification Button */}
                     <Button
                         onClick={() => {
-                            setCertificationToEdit(null); // Reset certification to edit
+                            setEditingIndex(null);
+                            setCertificationToEdit(null);
                             setActiveModal("createCertificationModal");
                         }}
                         className="mt-4 w-full flex justify-center bg-white items-center px-6 py-3 text-sm border border-gray-600 rounded-xl lg:flex shadow-lg text-black-50 gap-2"
                     >
-                        <span>
-                            <AdminPlusIcon />
-                        </span>
+                        <span><AdminPlusIcon /></span>
                         <span>Add Certification</span>
                     </Button>
                 </div>
             </div>
 
-            {/* Save Changes Button */}
             <div className="mt-6">
-                <Button onClick={handleSave} className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl">
+                <Button
+                    onClick={handleSave}
+                    className="lg:flex text-xs lg:text-sm items-center gap-2 custom-bg shadow-lg text-white px-2 py-2 lg:px-6 lg:py-3 rounded-xl"
+                >
                     Save Changes
                 </Button>
             </div>
