@@ -97,7 +97,7 @@ const Dashboard = () => {
         enablePageScroll()
     };
 
-    
+
 
 
     return (
@@ -209,28 +209,32 @@ const Dashboard = () => {
                                 <p className="text-red-500">{message}</p>
                             ) : portfolios && portfolios.length > 0 ? (
                                 portfolios.map((portfolio) => (
-                                    <div key={portfolio._id} className="hover:scale-105 mb-4 transform h-[auto] lg:h-[70vh] transition-transform duration-300">
-                                        <Link to={`/portfolio/display/${portfolio._id}`}>
-                                            <div className="mt-8 purpose-bg flex flex-col">
-                                                <div className="w-full lg:w-[250px] lg:h-[250px] rounded-full lg:mb-8">
+                                    <div key={portfolio._id} className="group hover:scale-105 mb-4 transition-transform duration-300 w-full flex flex-col h-full">
+                                        <Link to={`/portfolio/display/${portfolio._id}`} className="flex flex-col h-full">
+                                            <div className="mt-8 purpose-bg flex flex-col flex-grow">
+                                                {/* Image container with fixed aspect ratio and consistent height */}
+                                                <div className="w-full aspect-[4/3] overflow-hidden rounded-2xl mb-4 flex-shrink-0">
                                                     <img
                                                         src={portfolio.sections.find(section => section.type === "Info")?.customContent?.profileImage || BotDesign}
                                                         alt="portfolio"
-                                                        className="w-full object-contain rounded-2xl"
+                                                        className="w-full h-full object-cover rounded-2xl group-hover:scale-110 transition-transform duration-300"
                                                     />
                                                 </div>
-                                            </div>
-                                            <div className="mt-4 lg:mt-0 mb-4 lg:mb-8">
-                                                <p className="text-sm font-semibold text-black-500">
-                                                    {portfolio?.name || 'Untitled Portfolio'}
-                                                </p>
-                                                <p className="text-xs text-gray-500">
-                                                    Last edited: {new Date(portfolio.createdAt).toLocaleDateString()}
-                                                </p>
+
+                                                {/* Text content that takes remaining space */}
+                                                <div className="flex flex-col flex-grow">
+                                                    <p className="text-sm font-semibold text-black-500 line-clamp-2">
+                                                        {portfolio?.name || 'Untitled Portfolio'}
+                                                    </p>
+                                                    <p className="text-xs text-gray-500 mt-1">
+                                                        Last edited: {new Date(portfolio.createdAt).toLocaleDateString()}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </Link>
+
                                         {portfolio.url && (
-                                            <div className="mt-2 p-2 bg-gray-900 rounded-lg">
+                                            <div className="mt-auto p-2 bg-gray-900 rounded-lg">
                                                 <p className="text-xs font-medium mb-[2px]">Published URL:</p>
                                                 <div className="flex items-center gap-1">
                                                     <a

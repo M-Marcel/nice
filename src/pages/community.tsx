@@ -6,7 +6,6 @@ import { useModal } from "../context/ModalContext"
 import Modals from "../components/Modals"
 import CommunityFrame from '../assets/communityFrame.png'
 import Footer from "../components/Footer"
-import Join from "../components/Join"
 import { communityBots } from "../constants"
 import Button from "../components/Button"
 import Dropdown from "../components/Dropdown"
