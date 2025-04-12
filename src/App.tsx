@@ -88,6 +88,7 @@ function App() {
           <Route path="/free-tier" element={<FreePlans />} />
           <Route path="/welcome" element={<WelcomePage />} />
           <Route path="/plans-modal" element={<PlansModal />} />
+          <Route path="/portfolio/view/:slug" element={<PortfolioShow />} />
 
           <Route element={<ProtectedAdminRoute />}>
             <Route path="/admin" element={<AdminDashboard />} />
@@ -105,7 +106,6 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/create-portfolio" element={<PortfolioBuilder />} />
-            <Route path="/portfolio/view/:slug" element={<PortfolioShow />} />
             <Route path="/portfolio/:portfolioId" element={<PortfolioBuilder />} />
             <Route path="/portfolio/display/:portfolioId" element={<PortfolioViewer />} />
             <Route path="/portfolio/preview/:portfolioId" element={<PreviewPage />} />

@@ -5,7 +5,6 @@ import Hero from "../components/Hero"
 import { useModal } from "../context/ModalContext";
 import Modals from "../components/Modals";
 import ContactForm from "../components/ContactForm";
-import Join from "../components/Join";
 import Footer from "../components/Footer";
 import Questions from "../components/Questions";
 import CommunityJoin from "../components/CommunityJoin";
