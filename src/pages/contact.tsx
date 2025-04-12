@@ -7,6 +7,8 @@ import Modals from "../components/Modals";
 import ContactForm from "../components/ContactForm";
 import Join from "../components/Join";
 import Footer from "../components/Footer";
+import Questions from "../components/Questions";
+import CommunityJoin from "../components/CommunityJoin";
 
 
 
@@ -43,7 +45,10 @@ const Contact = () => {
                 </Hero>
             </div>
             <Modals email={email} setEmail={setEmail} />
-            <Join />
+            <div className="p-4 ">
+            <Questions />
+            </div>
+            <CommunityJoin />
             <Footer />
         </>
 

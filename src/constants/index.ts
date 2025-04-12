@@ -26,25 +26,25 @@ export const navigation = [
     title: "Home",
     url: "/",
   },
+  // {
+  //   id: "1",
+  //   title: "Features",
+  //   url: "/features",
+  // },
   {
     id: "1",
-    title: "Features",
-    url: "/features",
+    title: "Product",
+    url: "/product",
   },
   {
     id: "2",
-    title: "Pricing",
-    url: "/pricing",
-  },
-  {
-    id: "3",
     title: "Community",
     url: "/community",
   },
   {
-    id: "4",
-    title: "Request a feature",
-    url: "/request-a-feature",
+    id: "3",
+    title: "Contact us",
+    url: "/contact-us",
   },
 
 ];
