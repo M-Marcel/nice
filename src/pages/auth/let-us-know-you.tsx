@@ -88,10 +88,10 @@ const LetUsKnowYou = () => {
         if (isLoading) return;
 
         if (!email || !userWorkRole || !userCompanySize || !userUseForZroleak || !userTechnicalExperience ||
-            (state?.provider !== "Google" && (!password || password !== confirmPassword))) {
+            (state?.provider !== "Google" && (!password))) {
             return toast.error('Please provide all details');
         }
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s])[A-Za-z\d\W]{8,}$/;
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s])[\w\W ]{8,}$/;
         if (state?.provider !== "Google" && password.length < 8) {
             return toast.error("Password too short, should not be less than 8 characters");
         }

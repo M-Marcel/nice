@@ -85,7 +85,7 @@ const Home = () => {
           </Heading>
         </Hero>
         {/* mapping logic goes here */}
-        <div className="relative top-[240px] lg:top-[340px] flex flex-col items-center justify-center">
+        <div id="product" className="relative top-[240px] lg:top-[340px] flex flex-col items-center justify-center">
           <div className="flex flex-col justify-center items-center">
             <ul className="flex flex-wrap text-xs px-2 font-medium text-center text-gray-500">
               <div className="flex gap-2 lg:gap-4 mb-4">

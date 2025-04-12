@@ -1,10 +1,6 @@
-import { useModal } from "../context/ModalContext";
-import Button from "./Button";
-
 const CommunityJoin = () => {
-  const { setActiveModal } = useModal();
   return (
-    <div className="join-bg px-8 py-28 h-[auto] mt-[130px] mb-[70px]">
+    <div className="join-bg px-8 py-28 h-[auto] lg:mt-[130px] mb-[70px]">
       <div className="flex justify-center flex-col items-center text-center">
         <h2 className="text-black-500 text-2xl lg:text-5xl mt-[30px] mb-3">
         Join our community

@@ -40,7 +40,7 @@ const ContactForm = () => {
     };
 
     return (
-        <div className="bg-white w-[100%] md:w-[50%] lg:w-[30%] px-8 lg:px-4 py-6 h-auto mt-[120px] lg:mt-[40px] rounded-2xl">
+        <div className="bg-white w-[100%] md:w-[50%] lg:w-[35%] px-8 lg:px-8 py-6 h-auto mt-[120px] lg:mt-[40px] rounded-2xl">
             <form className="h-[auto] relative z-10 overflow-y-scroll hide-scrollbar">
                 <div className="flex flex-col gap-2 mb-8">
                     <label htmlFor="name" className="text-sm text-gray-400">
