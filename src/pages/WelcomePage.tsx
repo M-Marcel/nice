@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import LogoImage from "../assets/lanepact-logo.png";
 import Button from "../components/Button";
+import WelcomeFrame from "../assets/welcomeframe.png"
 
 const WelcomePage = () => {
 
@@ -17,15 +18,9 @@ const WelcomePage = () => {
             </div>
 
             <div className="flex mb-4 lg:mb-6 flex-col lg:flex-row w-[100%] justify-center items-center gap-4 mt-7 lg:mt-7">
-                <div className="flex flex-col w-[95%] lg:w-[30%] text-left border border-gray-900 rounded-2xl h-[40vh] p-4 mb-2 bg-white ">
-
-                </div>
-                <div className="flex flex-col w-[95%] lg:w-[30%] text-left border border-gray-900 rounded-2xl h-[40vh] p-4 mb-2 bg-white ">
-
-                </div>
-                <div className="flex flex-col w-[95%] lg:w-[30%] text-left border border-gray-900 rounded-2xl h-[40vh] p-4 mb-2 bg-white ">
-
-                </div>
+                <div className="flex flex-col w-[95%] lg:w-[30%] text-left border border-gray-900 rounded-2xl h-auto p-4 mb-2 bg-white ">
+                    <img src={WelcomeFrame} alt="welcome" className="w-full" />
+                </div> 
             </div>
             <div className="mb-10">
                 <Button 

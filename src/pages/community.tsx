@@ -11,6 +11,7 @@ import { communityBots } from "../constants"
 import Button from "../components/Button"
 import Dropdown from "../components/Dropdown"
 import TawkTo from "../components/TawkTo"
+import CommunityJoin from "../components/CommunityJoin"
 
 
 
@@ -100,7 +101,7 @@ const Community = () => {
             </div>
 
 
-            <Join />
+            <CommunityJoin />
             <Footer />
 
             {/* Tawk.to Script */}

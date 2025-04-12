@@ -10,7 +10,7 @@ const Join = () => {
           Join the future of digital innovation
         </h2>
         <p className="text-gray-200 text-sm w-[auto] lg:w-[32%]">
-          Whether you’re launching a business, automating tasks,
+          Whether you are  launching a business, automating tasks,
           or showcasing your portfolio, we make it easy.
         </p>
 

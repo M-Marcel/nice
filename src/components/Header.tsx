@@ -146,14 +146,49 @@ const Header = ({ openSignUpModal, openLoginModal }: HeaderProps) => {
                         lg:bottom-0 lg:static lg:mx-auto lg:bg-white rounded-full'>
                             <div className={`${openNavigation ? 'flex' : 'hidden'} flex-col items-center lg:flex lg:flex-row gap-4
                              bg-white w-full px-3 py-2 rounded-full text-xs lg:text-sm`}>
-                                {navigation.map((item) => (
-                                    <a key={item.id} href={item.url} onClick={handleClick}
-                                        className={`block relative transition-colors
-                                hover:bg-black-100 hover:rounded-full hover:text-black-200 px-3 py-2
-                                ${item.url === pathname.pathname ? 'z-2 lg:text-black-200' : 'lg:text-black-200/55'}`}>
-                                        {item.title}
-                                    </a>
-                                ))}
+                                {navigation.map((item) => {
+                                    // Special handling for Product link
+                                    if (item.title === "Product") {
+                                        return (
+                                            <a
+                                                key={item.id}
+                                                href={item.url + (item.hash || "")}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    navigate(item.url);
+                                                    setTimeout(() => {
+                                                        const element = document.getElementById(item.hash?.substring(1) || "");
+                                                        if (element) element.scrollIntoView({ behavior: "smooth" });
+                                                    }, 100);
+                                                    handleClick();
+                                                }}
+                                                className={`block relative transition-colors
+          hover:bg-black-100 hover:rounded-full hover:text-black-200 px-3 py-2
+          ${pathname.pathname === '/' && pathname.hash === item.hash
+                                                        ? 'z-2 lg:text-black-200'
+                                                        : 'lg:text-black-200/55'}`}
+                                            >
+                                                {item.title}
+                                            </a>
+                                        );
+                                    }
+
+                                    // Normal links
+                                    return (
+                                        <a
+                                            key={item.id}
+                                            href={item.url}
+                                            onClick={handleClick}
+                                            className={`block relative transition-colors
+        hover:bg-black-100 hover:rounded-full hover:text-black-200 px-3 py-2
+        ${pathname.pathname === item.url
+                                                    ? 'z-2 lg:text-black-200'
+                                                    : 'lg:text-black-200/55'}`}
+                                        >
+                                            {item.title}
+                                        </a>
+                                    );
+                                })}
                                 <div className='flex flex-col lg:hidden'>
                                     {!isLoggedIn ? (
                                         <>
