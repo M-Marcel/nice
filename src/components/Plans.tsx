@@ -284,9 +284,9 @@ const Plans = () => {
               </li>
             </ul>
             <div className="mt-24">
-            <Button className="flex justify-center items-center w-full bg-white  text-black-500 border border-gray-900   text-xs px-4 py-3 lg:text-sm lg:px-5 lg:py-4 rounded-xl">
+            <a href="/contact-us"  target="_blank" className="flex justify-center items-center w-full bg-white  text-black-500 border border-gray-900   text-xs px-4 py-3 lg:text-sm lg:px-5 lg:py-4 rounded-xl">
               Contact us
-            </Button>
+            </a>
             </div>
           </div>
         </div>

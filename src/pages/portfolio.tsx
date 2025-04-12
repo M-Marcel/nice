@@ -44,8 +44,7 @@ const PortfolioBuilder = () => {
     const [workToEdit, setWorkToEdit] = useState<any | null>(null);
     const [educationToEdit, setEducationToEdit] = useState<any | null>(null);
     const [certificationToEdit, setCertificationToEdit] = useState<any | null>(null);
-    const [isEditingName, setIsEditingName] = useState(false);
-    const [tempName, setTempName] = useState(portfolio?.name || '');
+
 
 
 
@@ -143,32 +142,9 @@ const PortfolioBuilder = () => {
                 </div>
                 <div className="flex items-center lg:justify-center gap-1">
                     <UntitledIcon />
-                    {isEditingName ? (
-                        <input
-                            type="text"
-                            value={tempName}
-                            onChange={(e) => setTempName(e.target.value)}
-                            onBlur={() => {
-                                updatePortfolioData({ name: tempName });
-                                setIsEditingName(false);
-                            }}
-                            onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
-                                    updatePortfolioData({ name: tempName });
-                                    setIsEditingName(false);
-                                }
-                            }}
-                            autoFocus
-                            className="border-b border-gray-400 outline-none"
-                        />
-                    ) : (
-                        <p onClick={() => {
-                            setTempName(memoizedPortfolioData?.name || '');
-                            setIsEditingName(true);
-                        }} className="cursor-pointer">
-                            {memoizedPortfolioData?.name}
-                        </p>
-                    )}
+                    <p>
+                        {memoizedPortfolioData?.name}
+                    </p>
                 </div>
                 <div className="flex items-center gap-4 justify-end">
                     <div className="flex">

@@ -26,15 +26,11 @@ export const navigation = [
     title: "Home",
     url: "/",
   },
-  // {
-  //   id: "1",
-  //   title: "Features",
-  //   url: "/features",
-  // },
   {
-    id: "1",
-    title: "Product",
-    url: "/product",
+      id: "1",
+      title: "Product",
+      url: "/", 
+      hash: "#product"   
   },
   {
     id: "2",

@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 
-
-
 const Questions = () => {
   const [accordianOpen, setAccordianOpen] = useState<number | null>(null);
 
@@ -33,20 +31,20 @@ const faqData = [
 ];
 
   return (
-    <div className="relative top-[80px] w-[100%] flex flex-col flex-wrap items-center justify-center ">
-      <h2 className="text-[30px]  lg:text-[42px] w-[100%] lg:w-[45%]">
+    <div className="relative lg:top-[98px] w-[100%] flex flex-col flex-wrap items-center justify-center ">
+      <h2 className="text-lg font-medium lg:text-2xl text-gray-200 w-[100%] lg:w-[45%]">
         Questions you may have
       </h2>
       {faqData.map((item, index) => (
         <div 
         key={index}
-        className="py-12 px-4 border border-gray-100 rounded-[40px] w-full lg:w-[45%] mt-8"
+        className="py-12 px-4 border border-gray-900 rounded-[40px] w-full lg:w-[45%] mt-8"
         >
         <button
           className="flex text-xl text-black-200 justify-between w-full "
           onClick={() => toggleAccordion(index)}
         >
-          <span className="text-lg lg:text-2xl px-4 ">
+          <span className="text-lg lg:text-lg font-medium px-4 ">
             {item.question}
           </span>
 
@@ -72,8 +70,8 @@ const faqData = [
           ) : (
             <span className="pe-8" id="accord-1">
               <svg
-                width="21"
-                height="20"
+                width="15"
+                height="15"
                 viewBox="0 0 21 20"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +94,7 @@ const faqData = [
               : "grid-rows-[0fr] opacity-0 hidden "
           } `}
         >
-          <div className="text-gray-500 text-start text-[18px] py-4 px-4 lg:w-[100%] overflow-hidden ">
+          <div className="text-gray-500 leading-6 mt-4 text-start text-sm py-4 px-4 lg:w-[100%] overflow-hidden ">
             {item.answer}
           </div>
         </div>
