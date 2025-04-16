@@ -103,6 +103,7 @@ const LetUsKnowYou = () => {
         if (state.provider !== "Google" && password !== confirmPassword) {
             return toast.error("Passwords do not match");
         }
+        // testing
         else {
 
             const userData: any = {
@@ -161,7 +162,7 @@ const LetUsKnowYou = () => {
                             <label htmlFor="gender" className="text-sm text-gray-400 mb-2">
                                 Gender
                             </label>
-                            {["Male", "Female", "Others"].map((sex) => (
+                            {["Male", "Female", "Other"].map((sex) => (
                                 <InputChecker
                                     className="custom-radio"
                                     type="radio"

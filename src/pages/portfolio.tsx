@@ -171,7 +171,7 @@ const PortfolioBuilder = () => {
             <div className="lg:hidden fixed bottom-2 right-2 z-50">
                 <Button
                     onClick={() => setIsMobileEditVisible(!isMobileEditVisible)}
-                    className="bg-black-500 text-xs text-white px-4 py-4 rounded-xl shadow-lg"
+                    className="bg-black-500 text-sm font-semibold text-white px-4 py-4 rounded-xl shadow-lg"
                 >
                     {isMobileEditVisible ? "View Changes" : "Edit"}
                 </Button>
