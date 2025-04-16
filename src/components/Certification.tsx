@@ -117,6 +117,7 @@ const Certification = ({ portfolioData, updatePortfolioData, setActiveModal, set
                     Save Changes
                 </Button>
             </div>
+            {/* Certificate Section */}
             <div className="relative pt-5">
                 <div className="mt-10">
                     <div className="flex lg:w-[85%] flex-col gap-4">
