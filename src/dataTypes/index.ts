@@ -110,6 +110,14 @@ export type SocialLinks = {
     x?: string;
     linkedIn?: string;
     facebook?: string;
+    tiktok?:string;
+    dribble?:string;
+    github?:string;
+    instagram?:string;
+    pinterest?:string;
+    threads?:string;
+    telegram?:string;
+    whatsapp?:string;
 }
 
 export type DesignData = {
