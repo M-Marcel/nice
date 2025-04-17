@@ -185,13 +185,27 @@ const getPortfolioBySlug = async (slug: string): Promise<{
     }
 };
 
+const deletePortfolio = async (id: string): Promise<{ message: string }> => {
+    try {
+        const response = await axios.delete(`${API_URL}/${id}`, {
+            headers: getAuthHeaders(),
+            withCredentials: true,
+        });
+        return response.data;
+    } catch (error: any) {
+        handleApiError(error);
+        throw new Error("Deleting portfolio failed");
+    }
+};
+
 const portfolioService = {
    createPortfolio,
    getPortfolioById,
    updatePortfolio,
    getAllPortfolios,
    publishPortfolio,
-   getPortfolioBySlug
+   getPortfolioBySlug,
+   deletePortfolio
 };
 
 export default portfolioService;

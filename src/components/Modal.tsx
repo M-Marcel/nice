@@ -23,7 +23,7 @@ const Modal = ({ isVisible, onClose, children, width="400px", className }: Modal
         flex justify-center items-center"
 
         >
-            <div style={{ width }} className={className ?? "flex flex-col bg-white"}>
+            <div style={{ width }} className={className ?? "flex flex-col rounded-2xl bg-white"}>
 
                 <div className=" p-2 rounded-3xl overflow-y-auto max-h-screen">
                     <div className="flex flex-col py-2 px-2">

@@ -54,10 +54,12 @@ module.exports = {
           300: '#eef8fe',
           400: '#30A6EF',
           500: '#1574EA',
-          600: '#3EB0F7'
+          600: '#3EB0F7',
+          700: '#2caaee'
         },
         'red':{
-          100:'#FB4E4E'
+          100:'#FB4E4E',
+          200:'#f04d4d'
         }
       },
       fontFamily: {
