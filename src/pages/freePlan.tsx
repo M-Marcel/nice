@@ -9,8 +9,8 @@ const FreePlans = () => {
     <div className="flex flex-col justify-center plans-bg  ">
       <div className="flex flex-col text-center items-center justify-center mt-20  ">
         <img src={LogoImage} alt="logoImg" width={20} height={20} />
-        <h1 className="font-title text-4xl text-blck-300 font-semi-bold pt-10 w-[70%] lg:w-[25%] ">
-          Enjoy a 1 month of Lanepact for free!
+        <h1 className="font-title text-4xl leading-[40px] text-blck-300 font-semi-bold pt-10 w-[70%] lg:w-[35%] ">
+           Build stunning portfolios for free until May 31st!
         </h1>
         <p className="text-sm pt-3 text-gray-500">Upgrade anytime for uninterrupted access</p>
       </div>

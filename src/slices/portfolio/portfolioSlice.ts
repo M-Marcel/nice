@@ -93,6 +93,17 @@ export const getPortfolioBySlug = createAsyncThunk(
         }
     }
 );
+export const deletePortfolio = createAsyncThunk(
+    "portfolio/deletePortfolio",
+    async (id: string, { rejectWithValue }) => {
+        try {
+            const response = await portfolioService.deletePortfolio(id);
+            return { id, message: response.message };
+        } catch (error: any) {
+            return rejectWithValue(error.message);
+        }
+    }
+);
 
 const portfolioSlice = createSlice({
     name: "portfolio",
@@ -206,6 +217,30 @@ const portfolioSlice = createSlice({
                 state.message = action.payload.message;
             })
             .addCase(getPortfolioBySlug.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.error = action.payload as string;
+                state.message = action.payload as string;
+                toast.error(action.payload as string);
+            })
+            .addCase(deletePortfolio.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(deletePortfolio.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.message = action.payload.message;
+                // Remove the deleted portfolio from the state
+                state.portfolios = state.portfolios.filter(
+                    portfolio => portfolio._id !== action.payload.id
+                );
+                // Also clear current portfolio if it's the deleted one
+                if (state.portfolio?._id === action.payload.id) {
+                    state.portfolio = null;
+                }
+                toast.success(action.payload.message);
+            })
+            .addCase(deletePortfolio.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.error = action.payload as string;
