@@ -55,18 +55,27 @@ export const createFeatureRequest = createAsyncThunk<{ feature: Feature; message
 })
 
 export const getAllFeatureRequest = createAsyncThunk<
-    { features: Feature[]; pagination: { currentPage: number; totalPages: number; total: number; pageSize: number }; message: string },
-    { page: number; pageSize: number },
-    { rejectValue: string }
+  { 
+    features: Feature[]; 
+    pagination: { 
+      currentPage: number; 
+      totalPages: number; 
+      total: number; 
+      pageSize: number 
+    }; 
+    message: string 
+  },
+  { page: number; pageSize: number },
+  { rejectValue: string }
 >("feature/getAll", async ({ page, pageSize }, thunkApi) => {
-    try {
-        const response = await featureService.getAllFeatureRequest(page, pageSize);
-        return { features: response.features, pagination: response.pagination, message: response.message };
-    } catch (error: any) {
-        const message = error.response?.data?.message || error.message || "Failed to fetch features";
-        return thunkApi.rejectWithValue(message);
-    }
+  try {
+    return await featureService.getAllFeatureRequest(page, pageSize);
+  } catch (error: any) {
+    const message = error.response?.data?.message || error.message || "Failed to fetch features";
+    return thunkApi.rejectWithValue(message);
+  }
 });
+
 
 export const voteFeatureRequest = createAsyncThunk<{ feature: Feature; message: string }, string, { rejectValue: string }>('feature/vote-feature-request', async (id: string, thunkApi) => {
     try {
@@ -114,29 +123,22 @@ const featureSlice = createSlice({
             .addCase(createFeatureRequest.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-
-                const newFeature = action.payload.feature;
-
-                // Ensure features is always an array (fallback to empty array if null)
-                if (!state.features) {
-                    state.features = [];
-                }
-
-                // Add new feature immutably
-                state.features = [newFeature, ...state.features];
-                // Reset to the first page
+              
+                // Ensure features is always an array
+                const currentFeatures = Array.isArray(state.features) ? state.features : [];
+                state.features = [action.payload.feature, ...currentFeatures];
+                
+                // Reset to first page
                 state.currentPage = 1;
-
-                // Calculate pagination
                 state.totalPages = Math.ceil(state.features.length / state.limit);
+                
+                // Update displayed features
                 const startIndex = (state.currentPage - 1) * state.limit;
                 const endIndex = startIndex + state.limit;
                 state.displayedFeatures = state.features.slice(startIndex, endIndex);
-
-                // Save updated features to localStorage
+              
                 localStorage.setItem('features', JSON.stringify(state.features));
-
-                state.message = action.payload.message
+                state.message = action.payload.message;
             })
             .addCase(createFeatureRequest.rejected, (state, action) => {
                 state.isLoading = false
@@ -151,6 +153,7 @@ const featureSlice = createSlice({
             .addCase(getAllFeatureRequest.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isFetchRequestSuccess = true;
+                
                 // Reset features array if it's the first page
                 if (action.payload.pagination.currentPage === 1) {
                     state.features = action.payload.features;
@@ -158,24 +161,24 @@ const featureSlice = createSlice({
                     // Append new features to the existing features array
                     state.features = [...state.features, ...action.payload.features];
                 }
-
-                if (state.currentPage !== action.payload.pagination.currentPage) {
-                    state.currentPage = action.payload.pagination.currentPage;
-                }
-                if (state.totalPages !== action.payload.pagination.totalPages) {
-                    state.totalPages = action.payload.pagination.totalPages;
-                }
-                if (state.total !== action.payload.pagination.total) {
-                    state.total = action.payload.pagination.total;
-                }
-                if (state.limit !== action.payload.pagination.pageSize) {
-                    state.limit = action.payload.pagination.pageSize;
-                }
-
+            
+                // Safely access pagination properties with fallbacks
+                const pagination = action.payload.pagination || {
+                    currentPage: state.currentPage,
+                    totalPages: state.totalPages,
+                    total: state.total,
+                    pageSize: state.limit
+                };
+            
+                state.currentPage = pagination.currentPage;
+                state.totalPages = pagination.totalPages;
+                state.total = pagination.total;
+                state.limit = pagination.pageSize;
+            
                 const startIndex = (state.currentPage - 1) * state.limit;
                 const endIndex = startIndex + state.limit;
                 state.displayedFeatures = state.features.slice(startIndex, endIndex);
-
+            
                 localStorage.setItem('features', JSON.stringify(state.features));
                 state.message = action.payload.message;
             })
@@ -191,20 +194,27 @@ const featureSlice = createSlice({
                 state.isLoading = true
             })
             .addCase(voteFeatureRequest.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.isVoteSuccess = true
-                state.message = action.payload.message;
-                // Update feature in the list
-                const updatedFeature = action.payload.feature;
-                const index = state.features.findIndex((f) => f._id === updatedFeature._id);
-                if (index !== -1) {
-                    state.features[index] = updatedFeature;
+                state.isLoading = false;
+                state.isVoteSuccess = true;
+                
+                // Update the specific feature
+                const featureIndex = state.features.findIndex(
+                  f => f._id === action.payload.feature._id
+                );
+                
+                if (featureIndex !== -1) {
+                  state.features[featureIndex] = action.payload.feature;
                 }
-                // Update displayed features for the current page
+                
+                // Update displayed features
                 const startIndex = (state.currentPage - 1) * state.limit;
                 const endIndex = startIndex + state.limit;
                 state.displayedFeatures = state.features.slice(startIndex, endIndex);
-            })
+                
+                state.message = action.payload.message;
+              })
+              
+              
             .addCase(voteFeatureRequest.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true

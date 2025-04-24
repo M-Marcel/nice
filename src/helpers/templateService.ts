@@ -67,12 +67,12 @@ const getAllTemplates = async (
             withCredentials: true,
         });
 
-
+        console.log("temp resp", response)
         if (response?.data) {
             return {
-                templates: response.data.data, // Match the API response structure
-                pagination: response.data.pagination, // Match the API response structure
-                message: "Templates fetched successfully", // Custom message
+                templates: response.data.data.data, 
+                pagination: response.data.data.pagination,
+                message: "Templates fetched successfully", 
             };
         } else {
             throw new Error("No data received from the server.");

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
+    AuthResponse,
     CompleteSignUpFormData,
     ForgotFormData,
     LoginFormData,
@@ -27,9 +28,19 @@ type InitialState = {
     isLoading: boolean;
     message: string;
 };
-
-const storedRegisterUser = localStorage.getItem("user");
-const user = storedRegisterUser ? JSON.parse(storedRegisterUser) : null;
+const getSafeLocalStorageUser = () => {
+    try {
+        const storedRegisterUser = localStorage.getItem("user");
+        return storedRegisterUser ? JSON.parse(storedRegisterUser) : null;
+    } catch (error) {
+      console.error("Failed to parse user from localStorage", error);
+      localStorage.removeItem("user");
+      return null;
+    }
+  };
+  const user = getSafeLocalStorageUser();
+// const storedRegisterUser = localStorage.getItem("user");
+// const user = storedRegisterUser ? JSON.parse(storedRegisterUser) : null;
 const storedToken = localStorage.getItem("token");
 
 const initialState: InitialState = {
@@ -103,13 +114,20 @@ export const verifyUser = createAsyncThunk(
 );
 
 export const login = createAsyncThunk<
-    { user: User; token: string; message: string },
+    { user: User; token: string; message: string }, // What the reducer will receive
     LoginFormData,
     { rejectValue: string }
 >("auth/login", async (userData, thunkApi) => {
     try {
-        const response = await authService.login(userData);
-        return response;
+        // Type the response as AuthResponse
+        const response = await authService.login(userData) as AuthResponse;
+        
+        // Extract the nested data
+        return {
+            user: response.data.user,
+            token: response.data.token,
+            message: response.message
+        };
     } catch (error: any) {
         const message =
             error.response?.data?.message || error.message || "Login failed";

@@ -39,6 +39,8 @@ interface ApiErrorResponse {
 //         'Authorization': `Bearer ${token}`,
 //     };
 // };
+
+
 // handle API errors
 const handleApiError = (error: AxiosError): never => {
     const errorMessage = (error.response?.data as ApiErrorResponse)?.message ||
@@ -46,7 +48,7 @@ const handleApiError = (error: AxiosError): never => {
     throw new Error(errorMessage);
 };
 
-// Helper to save user data to localStorage
+// save user data to localStorage
 const saveUserToLocalStorage = (data: any) => {
     localStorage.setItem("user", JSON.stringify(data));
 };

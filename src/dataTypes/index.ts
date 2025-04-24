@@ -32,6 +32,15 @@ export type WaitListFormData = {
     email: string
 }
 
+export type AuthResponse = {
+    data: {
+        token: string;
+        user: User;
+    };
+    message: string;
+    success: boolean;
+};
+
 export type SignUpFormData = {
     firstName: string
     lastName: string
