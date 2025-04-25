@@ -56,10 +56,10 @@ const createPortfolio = async (portfolioData: {
             withCredentials: true,
         });
 
-        console.log('port resp', response.data.data)
+        console.log('portfolio resp', response)
 
         return {
-            portfolio: response.data.data.data,
+            portfolio: response.data.data,
             message: response.data.message,
         };
     } catch (error: any) {
