@@ -24,7 +24,7 @@ import { User } from "../../dataTypes";
 
 // const API_URL = `${baseUrl}/api/v1/auth/admin`
 
-const baseUrl = process.env.BASEURL
+const baseUrl = process.env.REACT_APP_BASEURL
 const API_URL = `${baseUrl}/api/v1/auth/admin`
 
 interface ApiErrorResponse {
