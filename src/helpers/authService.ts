@@ -25,6 +25,7 @@ import { logout } from "../slices/auth/authSlice"; // Import the logout action
 //   const { baseUrl } = getApiConfig();
 
 const baseUrl = process.env.REACT_APP_BASEURL
+console.log("baseUrl", baseUrl)
 const API_URL = `${baseUrl}/api/v1/auth`;
 const VERIFY_API_URL = `${baseUrl}/api/v1/auth/signup/confirm`;
 const GET_USER_PROFILE = `${baseUrl}/api/v1/users/profile/me`;
