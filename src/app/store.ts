@@ -25,7 +25,7 @@ const store = configureStore({
      contact:contactSliceReducer,
     }
 })
-// updated new again
+// updated new again and again
 
 export default store
 export type RootState = ReturnType<typeof store.getState>
