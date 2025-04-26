@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useModal } from "../context/ModalContext";
 import Hero from "../components/Hero";
 import Header from "../components/Header";
@@ -10,7 +9,6 @@ import CommunityJoin from "../components/CommunityJoin";
 import Footer from "../components/Footer";
 
 const Company = () => {
-  const [email, setEmail] = useState<string>("");
   const { setActiveModal } = useModal();
   return (
     <>

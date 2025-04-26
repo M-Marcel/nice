@@ -149,6 +149,7 @@ const login = async (userData: { email: string; password: string }): Promise<Aut
             withCredentials: true,
         });
 
+        // eslint-disable-next-line
         const { data: { user, token }, message } = response.data;
         
         localStorage.setItem("token", token);
