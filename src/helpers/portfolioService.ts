@@ -1,25 +1,25 @@
 import axios, { AxiosError } from "axios";
-import {  Portfolio} from "../dataTypes";
+import { Portfolio } from "../dataTypes";
 
 const getApiConfig = () => {
     const env = process.env.REACT_APP_ENV || 'development';
-    
-    const apiConfig = {
-      development: {
-        baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
-      },
-      staging: {
-        baseUrl: "https://apidhykngtwistaging.lanepact.com",
-      },
-      production: {
-        baseUrl: "https://coreapi.lanepact.com",
-      }
-    };
-  
-    return apiConfig[env as keyof typeof apiConfig];
-  };
 
-  const { baseUrl } = getApiConfig();
+    const apiConfig = {
+        development: {
+            baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
+        },
+        staging: {
+            baseUrl: "https://apidhykngtwistaging.lanepact.com",
+        },
+        production: {
+            baseUrl: "https://coreapi.lanepact.com",
+        }
+    };
+
+    return apiConfig[env as keyof typeof apiConfig];
+};
+
+const { baseUrl } = getApiConfig();
 
 const API_URL = `${baseUrl}/api/v1/portfolio-builder/portfolio`;
 
@@ -56,9 +56,10 @@ const createPortfolio = async (portfolioData: {
             withCredentials: true,
         });
 
-      
-        return { 
-            portfolio: response.data,
+        console.log('portfolio resp', response)
+
+        return {
+            portfolio: response.data.data,
             message: response.data.message,
         };
     } catch (error: any) {
@@ -80,14 +81,14 @@ const getPortfolioById = async (id: string): Promise<{
 
         if (response?.data) {
             return {
-                portfolio: response.data, 
+                portfolio: response.data.data,
                 message: "Template fetched successfully",
             };
         } else {
             throw new Error("No data received from the server.");
         }
     } catch (error: any) {
-        if(axios.isAxiosError(error)) {
+        if (axios.isAxiosError(error)) {
             handleApiError(error);
         } else {
             throw new Error("Failed fetching template by ID: " + error.message);
@@ -119,10 +120,10 @@ const getAllPortfolios = async (): Promise<{ portfolios: Portfolio[]; message: s
             headers: getAuthHeaders(),
             withCredentials: true,
         });
-        
+
         if (response?.data) {
             return {
-                portfolios: response.data, // Assuming the backend returns an array of portfolios
+                portfolios: response.data.data,
                 message: "Portfolios fetched successfully",
             };
         } else {
@@ -157,26 +158,26 @@ const getPortfolioBySlug = async (slug: string): Promise<{
         const url = `${API_URL}/view/${slug}`;
         console.log("API URL:", slug); // Debugging line
 
-           const response = await axios.get(url, {
-                 headers: {
-                     "Content-Type": "application/json",
-                 },
-                 withCredentials: true,
-             });
-         
+        const response = await axios.get(url, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            withCredentials: true,
+        });
+
         console.log("API Response:", response); // Debugging line
 
         if (response?.data) {
             console.log("Template Services - Data:", response.data);
             return {
-                portfolio: response.data, 
+                portfolio: response.data.data,
                 message: "Template fetched successfully",
             };
         } else {
             throw new Error("No data received from the server.");
         }
     } catch (error: any) {
-        if(axios.isAxiosError(error)) {
+        if (axios.isAxiosError(error)) {
             handleApiError(error);
         } else {
             throw new Error("Failed fetching template by ID: " + error.message);
@@ -199,13 +200,13 @@ const deletePortfolio = async (id: string): Promise<{ message: string }> => {
 };
 
 const portfolioService = {
-   createPortfolio,
-   getPortfolioById,
-   updatePortfolio,
-   getAllPortfolios,
-   publishPortfolio,
-   getPortfolioBySlug,
-   deletePortfolio
+    createPortfolio,
+    getPortfolioById,
+    updatePortfolio,
+    getAllPortfolios,
+    publishPortfolio,
+    getPortfolioBySlug,
+    deletePortfolio
 };
 
 export default portfolioService;

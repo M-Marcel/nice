@@ -21,7 +21,7 @@ const RequestForm = ({ onNewFeature }: NewFeatureProps) => {
     { value: "personal", label: "Personal" },
     { value: "portfolio", label: "Portfolio" },
     { value: "business", label: "Business" },
-    { value: "telegram bot", label: "Telegram bot" },
+    { value: "telegram-bot", label: "Telegram bot" },
     { value: "blockchain", label: "Blockchain" },
     { value: "web3", label: "Web 3" },
     { value: "crypto", label: "Crypto" },

@@ -13,6 +13,27 @@ import { toast } from 'react-toastify'
 import { login, reset } from '../../slices/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
 
+const getApiConfig = () => {
+    const env = process.env.REACT_APP_ENV || 'development';
+    
+    const apiConfig = {
+      development: {
+        baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
+      },
+      staging: {
+        baseUrl: "https://apidhykngtwistaging.lanepact.com",
+      },
+      production: {
+        baseUrl: "https://coreapi.lanepact.com",
+      }
+    };
+  
+    return apiConfig[env as keyof typeof apiConfig];
+  };
+  
+  const { baseUrl } = getApiConfig();
+  
+  const GOOGLE_URL = `${baseUrl}/api/v1/auth/google`;
 
 type LoginProps = {
     openForgotPasswordModal: () => void;
@@ -60,7 +81,7 @@ const Login = ({ openForgotPasswordModal, openSignUpModal, openTelegramModal }: 
     }
 
     const handleGoogleSignIn = () => {
-        const googleAuthUrl = "https://lanepact-zroleak-staging-f5c9980418f7.herokuapp.com/api/v1/auth/google";
+        const googleAuthUrl = `${GOOGLE_URL}`
         window.location.href = googleAuthUrl;
     };
 
