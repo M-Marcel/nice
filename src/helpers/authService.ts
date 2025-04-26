@@ -4,26 +4,27 @@ import { toast } from "react-toastify";
 import store  from "../app/store"; // Import your Redux store
 import { logout } from "../slices/auth/authSlice"; // Import the logout action
 
-const getApiConfig = () => {
-    const env = process.env.REACT_APP_ENV || 'development';
+// const getApiConfig = () => {
+    // const env = process.env.REACT_APP_ENV || 'development';
     
-    const apiConfig = {
-      development: {
-        baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
-      },
-      staging: {
-        baseUrl: "https://apidhykngtwistaging.lanepact.com",
-      },
-      production: {
-        baseUrl: "https://coreapi.lanepact.com",
-      }
-    };
+//     const apiConfig = {
+//       development: {
+//         baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
+//       },
+//       staging: {
+//         baseUrl: "https://apidhykngtwistaging.lanepact.com",
+//       },
+//       production: {
+//         baseUrl: "https://coreapi.lanepact.com",
+//       }
+//     };
   
-    return apiConfig[env as keyof typeof apiConfig];
-  };
+//     return apiConfig[env as keyof typeof apiConfig];
+//   };
 
-  const { baseUrl } = getApiConfig();
+//   const { baseUrl } = getApiConfig();
 
+const baseUrl = process.env.REACT_APP_BASEURL
 const API_URL = `${baseUrl}/api/v1/auth`;
 const VERIFY_API_URL = `${baseUrl}/api/v1/auth/signup/confirm`;
 const GET_USER_PROFILE = `${baseUrl}/api/v1/users/profile/me`;

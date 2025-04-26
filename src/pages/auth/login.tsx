@@ -83,6 +83,7 @@ const Login = ({ openForgotPasswordModal, openSignUpModal, openTelegramModal }: 
     const handleGoogleSignIn = () => {
         const googleAuthUrl = `${GOOGLE_URL}`
         window.location.href = googleAuthUrl;
+        
     };
 
     useEffect(() => {

@@ -1,25 +1,27 @@
 import axios from "axios";
 import { Feature } from "../dataTypes";
 
-const getApiConfig = () => {
-    const env = process.env.REACT_APP_ENV || 'development';
+// const getApiConfig = () => {
+//     const env = process.env.REACT_APP_ENV || 'development';
 
-    const apiConfig = {
-        development: {
-            baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
-        },
-        staging: {
-            baseUrl: "https://apidhykngtwistaging.lanepact.com",
-        },
-        production: {
-            baseUrl: "https://coreapi.lanepact.com",
-        }
-    };
+//     const apiConfig = {
+//         development: {
+//             baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
+//         },
+//         staging: {
+//             baseUrl: "https://apidhykngtwistaging.lanepact.com",
+//         },
+//         production: {
+//             baseUrl: "https://coreapi.lanepact.com",
+//         }
+//     };
 
-    return apiConfig[env as keyof typeof apiConfig];
-};
+//     return apiConfig[env as keyof typeof apiConfig];
+// };
 
-const { baseUrl } = getApiConfig();
+// const { baseUrl } = getApiConfig();
+
+const baseUrl = process.env.REACT_APP_BASEURL
 
 const API_URL = `${baseUrl}/api/v1/feature`
 
