@@ -57,7 +57,7 @@ const getAllSkills = async (page: number = 1, limit: number = 10): Promise<{ ski
         });
         console.log("Skills API Response:", response.data);
 
-        const skillsData = response.data?.data || [];
+        const skillsData = response.data?.data.data || [];
         console.log("Extracted skills:", skillsData);
 
         return {
@@ -77,7 +77,7 @@ const getAllCategories = async (): Promise<{ categories: Category[]; message: st
             withCredentials: true,
         });
 
-        console.log('Categories Response', response.data.data)
+        console.log('Categories Response', response)
         const categoriesData = response.data?.data || [];
         return {
             categories: categoriesData,

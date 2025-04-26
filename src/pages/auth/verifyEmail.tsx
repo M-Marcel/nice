@@ -58,7 +58,8 @@ const VerifyEmail = () => {
 
       } catch (error: any) {
         console.error('Verification failed:', error);
-        toast.error(error.message || 'Verification failed. Please try again.');
+        toast.error(error.message || 'An account with this email already exists. Please sign in using your email and password instead of Google');
+        navigate('/')
       }
     };
 

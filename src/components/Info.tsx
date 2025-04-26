@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import UploadIcon from '../assets/upload.png';
 import { Portfolio } from "../dataTypes";
 import Button from "./Button";
@@ -39,43 +39,84 @@ const Info = ({ portfolioData, updatePortfolioData, isPublished, templateName }:
     // Create a unique localStorage key based on portfolio ID
     const localStorageKey = `infoDraft_${portfolioData._id}`;
 
-    // Initialize empty form state but check localStorage for drafts
-    // Initialize form state
-    const [formData, setFormData] = useState<FormData>(() => {
-        // 1. Check for unsaved draft in localStorage
-        const savedDraft = localStorage.getItem(localStorageKey);
-        if (savedDraft) return JSON.parse(savedDraft);
-
-        // 2. If no draft, check for existing portfolio data
-        const existingData = portfolioData?.sections?.[0]?.customContent || {};
-        const socialLinks = existingData?.socialLinks?.[0] || {};
+    const getInitialFormData = useCallback(() => {
+        try {
+            const savedDraft = localStorage.getItem(localStorageKey);
+            if (savedDraft) return JSON.parse(savedDraft);
+        } catch (e) {
+            console.error("Failed to parse saved info draft", e);
+        }
+        
+        // If no draft, use empty/default values
         return {
-            profileImage: existingData?.profileImage || '',
-            coverImg: existingData?.coverImg || '', // Always include coverImg in state
-            name: existingData?.name || '',
-            email: existingData?.email || '',
-            about: existingData?.about || '',
-            location: existingData?.location || '',
+            profileImage: '',
+            coverImg: '',
+            name: '',
+            email: '',
+            about: '',
+            location: '',
             socialLinks: {
-                x: socialLinks?.x || '',
-                linkedIn: socialLinks?.linkedIn || '',
-                facebook: socialLinks?.facebook || '',
-                tiktok: socialLinks?.tiktok || '',
-                dribble: socialLinks?.dribble || '',
-                github: socialLinks?.github || '',
-                instagram: socialLinks?.instagram || '',
-                pinterest: socialLinks?.pinterest || '',
-                threads: socialLinks?.threads || '',
-                telegram: socialLinks?.telegram || '',
-                whatsapp: socialLinks?.whatsapp || ''
+                x: '',
+                linkedIn: '',
+                facebook: '',
+                tiktok: '',
+                dribble: '',
+                github: '',
+                instagram: '',
+                pinterest: '',
+                threads: '',
+                telegram: '',
+                whatsapp: ''
             }
         };
-    });
+    }, [localStorageKey]);
+
+    const [formData, setFormData] = useState<FormData>(getInitialFormData);
     const [tempName, setTempName] = useState(portfolioData.name || '');
     const [isEditingName, setIsEditingName] = useState(false);
     const profileInputRef = useRef<HTMLInputElement>(null);
     const coverInputRef = useRef<HTMLInputElement>(null);
     const supportsCoverImage = portfolioData.referenceTemplate === templateIds.Professional;
+
+    useEffect(() => {
+        setFormData(getInitialFormData());
+    }, [getInitialFormData]);
+
+   
+    useEffect(() => {
+        if (portfolioData?.sections?.[0]?.customContent) {
+            const existingData = portfolioData.sections[0].customContent;
+            const socialLinks = existingData?.socialLinks?.[0] || {};
+            
+            // Only update if our current state is empty (no changes made yet)
+            const hasNoChanges = Object.values(formData).every(val => val === '' || (typeof val === 'object' && Object.values(val).every(v => v === '')));
+
+            if (hasNoChanges) {
+                setFormData({
+                    profileImage: existingData?.profileImage || '',
+                    coverImg: existingData?.coverImg || '',
+                    name: existingData?.name || '',
+                    email: existingData?.email || '',
+                    about: existingData?.about || '',
+                    location: existingData?.location || '',
+                    socialLinks: {
+                        x: socialLinks?.x || '',
+                        linkedIn: socialLinks?.linkedIn || '',
+                        facebook: socialLinks?.facebook || '',
+                        tiktok: socialLinks?.tiktok || '',
+                        dribble: socialLinks?.dribble || '',
+                        github: socialLinks?.github || '',
+                        instagram: socialLinks?.instagram || '',
+                        pinterest: socialLinks?.pinterest || '',
+                        threads: socialLinks?.threads || '',
+                        telegram: socialLinks?.telegram || '',
+                        whatsapp: socialLinks?.whatsapp || ''
+                    }
+                });
+            }
+        }
+        // eslint-disable-next-line
+    }, [portfolioData]); 
 
     // Save to localStorage when formData changes
    useEffect(() => {
@@ -191,7 +232,6 @@ const Info = ({ portfolioData, updatePortfolioData, isPublished, templateName }:
         });
 
         // Clear draft after successful save
-        localStorage.removeItem(localStorageKey);
         toast.success('Changes saved successfully');
     };
 

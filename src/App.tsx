@@ -43,6 +43,7 @@ import FreePlans from "./pages/freePlan";
 import PlansModal from "./components/PlansModal";
 import WelcomePage from "./pages/WelcomePage";
 import PortfolioShow from "./pages/PortfolioShow";
+import Company from "./pages/company";
 
 
 
@@ -74,6 +75,7 @@ function App() {
           <Route path="/features" element={<FeaturesPage />} />
           <Route path="/feature-details" element={<FeatureDetails />} />
           <Route path="/community" element={<Community />} />
+          <Route path="/company" element={<Company />} />
           <Route path="/request-a-feature" element={<RequestAFeature />} />
           <Route path="/waitlist" element={<WaitList />} />
           <Route path="/draganddrop" element={<DragandDrop />} />

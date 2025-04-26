@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from "axios";
-import { User } from "../dataTypes";
+import { AuthResponse, User } from "../dataTypes";
 import { toast } from "react-toastify";
 import store  from "../app/store"; // Import your Redux store
 import { logout } from "../slices/auth/authSlice"; // Import the logout action
@@ -51,7 +51,7 @@ const handleApiError = (error: AxiosError): never => {
     throw new Error(errorMessage);
 };
 
-// Helper to save user data to localStorage
+// save user data to localStorage
 const saveUserToLocalStorage = (data: any) => {
     localStorage.setItem("user", JSON.stringify(data));
 };
@@ -142,17 +142,19 @@ const verifyUser = async (token: string): Promise<{ user: User; message: string;
 };
 
 // Login user
-const login = async (userData: { email: string; password: string }): Promise<{ user: User; token: string; message: string }> => {
+const login = async (userData: { email: string; password: string }): Promise<AuthResponse> => {
     try {
-        const response = await axios.post(`${API_URL}/login`, userData, {
+        const response = await axios.post<AuthResponse>(`${API_URL}/login`, userData, {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
         });
 
-        const { user, token, message } = response.data;
+        // eslint-disable-next-line
+        const { data: { user, token }, message } = response.data;
+        
         localStorage.setItem("token", token);
         saveUserToLocalStorage(user);
-        return { user, token, message };
+        return response.data;
     } catch (error: any) {
         handleApiError(error);
         throw new Error("Login failed");
