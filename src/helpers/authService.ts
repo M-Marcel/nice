@@ -32,7 +32,15 @@ const GET_USER_PROFILE = `${baseUrl}/api/v1/users/profile/me`;
 interface ApiErrorResponse {
     message: string;
 }
-
+// interface ApiResponse {
+//     user: {
+//       data: User; // This matches your actual response structure
+//       message: string;
+//       success: boolean;
+//     };
+//     message: string;
+//     token: string;
+//   }
 // Helper to get auth headers
 const getAuthHeaders = (): Record<string, string> => {
     const token = localStorage.getItem("token");
@@ -107,11 +115,12 @@ const register = async (userData: { firstName: string; lastName: string; email: 
 };
 
 // Verify email
-const verifyEmail = async (token: string): Promise<{ email: string; provider: string; message: string }> => {
+const verifyEmail = async (token: string): Promise<{ data:{firstName:string, lastName:string, provider:string, email:string}; message: string; success:boolean }> => {
     try {
         const response = await axios.get(VERIFY_API_URL, {
             params: { token },
         });
+      
         console.log("Confirm resp", response.data);
         return response.data;
     } catch (error: any) {
@@ -122,17 +131,20 @@ const verifyEmail = async (token: string): Promise<{ email: string; provider: st
 
 // Verify user
 const verifyUser = async (token: string): Promise<{ user: User; message: string; token: string }> => {
-    console.log('Token:', token); // Debugging log
     localStorage.setItem("token", token);
     try {
         const response = await getProfile();
-
         console.log("User AuthService Response", response);
-        const { user, message } = response;
+
+        // Handle both possible response structures (nested or flat)
+        const userData = (response as any).data || response;
+        const message = response.message || "User verified successfully";
+
         localStorage.setItem("token", token);
-        saveUserToLocalStorage(user);
+        saveUserToLocalStorage(userData);
+
         return {
-            user: user,
+            user: userData,
             message: message,
             token: token,
         };
@@ -140,7 +152,7 @@ const verifyUser = async (token: string): Promise<{ user: User; message: string;
         handleApiError(error);
         throw new Error("Verification failed");
     }
-};
+}
 
 // Login user
 const login = async (userData: { email: string; password: string }): Promise<AuthResponse> => {
@@ -149,6 +161,7 @@ const login = async (userData: { email: string; password: string }): Promise<Aut
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
         });
+        console.log("login response", response)
 
         // eslint-disable-next-line
         const { data: { user, token }, message } = response.data;
@@ -226,15 +239,16 @@ const completeSignUp = async (userData: {
             headers: { 'Content-Type': 'application/json' },
             withCredentials: true,
         });
-
-        localStorage.setItem("token", response.data.token);
-        saveUserToLocalStorage(response.data.user);
+        console.log('comp response', response)
+        localStorage.setItem("token", response.data.data.token);
+        saveUserToLocalStorage(response.data.data.user);
         return {
-            user: response.data.user,
-            token:response.data.token,
+            user: response.data.data.user,
+            token:response.data.data.token,
             message: response.data.message,
         };
     } catch (error: any) {
+       
         handleApiError(error);
         throw new Error("Registration failed");
     }

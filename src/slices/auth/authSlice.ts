@@ -76,7 +76,7 @@ export const register = createAsyncThunk<
 });
 
 export const verifyEmail = createAsyncThunk<
-    { message: string, email: string, provider:string },
+    { data:{firstName:string, lastName:string, email: string, provider:string}, message:string, success:boolean},
     string,
     { rejectValue: string }
 >("auth/verifyEmail", async (token, thunkApi) => {
@@ -97,22 +97,23 @@ export const verifyUser = createAsyncThunk(
             localStorage.setItem("token", token);
             const response = await authService.getProfile();
 
-
-            console.log("v-user response", response)
-            localStorage.setItem("user", JSON.stringify(response));
+            console.log("v-user response", response);
+            
+            // Handle the nested data structure
+            const userData = (response as any).data || response;
+            
+            localStorage.setItem("user", JSON.stringify(userData));
         
             return {
-                user: response.user || response, 
+                user: userData, 
                 message: response.message || "No message", 
                 token: token,
             };
         } catch (error: any) {
-            
             return rejectWithValue("Verification failed");
         }
     }
 );
-
 export const login = createAsyncThunk<
     { user: User; token: string; message: string }, // What the reducer will receive
     LoginFormData,
