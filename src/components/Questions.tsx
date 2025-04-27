@@ -90,10 +90,10 @@ const Questions = () => {
 
   return (
     <div className="relative lg:top-[98px] w-[100%] flex flex-col flex-wrap items-center justify-center ">
-      <h2 className="text-lg font-medium lg:text-3xl text-gray-200 w-[100%] lg:w-[58%]">
+      <h2 className="text-xl text-center font-medium lg:text-4xl text-gray-200 w-[100%] lg:w-[58%]">
         Questions you may have
       </h2>
-      <div className="overflow-y-scroll h-[60vh]  w-[100%] lg:w-[60%] pe-8 ">
+      <div className="overflow-y-scroll h-[60vh]  w-[100%] lg:w-[60%] px-2 lg:px-0 lg:pe-8 ">
         {faqData.map((item, index) => (
           <div
             key={index}
