@@ -13,25 +13,27 @@ import { toast } from 'react-toastify'
 import { login, reset } from '../../slices/auth/authSlice'
 import { useNavigate } from 'react-router-dom'
 
-const getApiConfig = () => {
-    const env = process.env.REACT_APP_ENV || 'development';
+// const getApiConfig = () => {
+//     const env = process.env.REACT_APP_ENV || 'development';
     
-    const apiConfig = {
-      development: {
-        baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
-      },
-      staging: {
-        baseUrl: "https://apidhykngtwistaging.lanepact.com",
-      },
-      production: {
-        baseUrl: "https://coreapi.lanepact.com",
-      }
-    };
+//     const apiConfig = {
+//       development: {
+//         baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
+//       },
+//       staging: {
+//         baseUrl: "https://apidhykngtwistaging.lanepact.com",
+//       },
+//       production: {
+//         baseUrl: "https://coreapi.lanepact.com",
+//       }
+//     };
   
-    return apiConfig[env as keyof typeof apiConfig];
-  };
+//     return apiConfig[env as keyof typeof apiConfig];
+//   };
   
-  const { baseUrl } = getApiConfig();
+//   const { baseUrl } = getApiConfig();
+
+  const baseUrl = process.env.REACT_APP_BASEURL
   
   const GOOGLE_URL = `${baseUrl}/api/v1/auth/google`;
 
@@ -83,6 +85,7 @@ const Login = ({ openForgotPasswordModal, openSignUpModal, openTelegramModal }: 
     const handleGoogleSignIn = () => {
         const googleAuthUrl = `${GOOGLE_URL}`
         window.location.href = googleAuthUrl;
+        
     };
 
     useEffect(() => {
