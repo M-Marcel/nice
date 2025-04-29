@@ -72,8 +72,6 @@ const Info = ({ portfolioData, updatePortfolioData, isPublished, templateName }:
     }, [localStorageKey]);
 
     const [formData, setFormData] = useState<FormData>(getInitialFormData);
-    const [tempName, setTempName] = useState(portfolioData.name || '');
-    const [isEditingName, setIsEditingName] = useState(false);
     const profileInputRef = useRef<HTMLInputElement>(null);
     const coverInputRef = useRef<HTMLInputElement>(null);
     const supportsCoverImage = portfolioData.referenceTemplate === templateIds.Professional;
@@ -291,69 +289,7 @@ const Info = ({ portfolioData, updatePortfolioData, isPublished, templateName }:
                         )}
 
                         {/* Form Fields */}
-                        <div className="flex flex-col mb-6 mt-6">
-                            <label className="text-sm mb-2 text-gray-400">Portfolio Name</label>
-                            {isEditingName ? (
-                                <input
-                                    type="text"
-                                    value={tempName}
-                                    onChange={(e) => setTempName(e.target.value)}
-                                    onKeyUp={(e) => {
-                                        updatePortfolioData({ name: tempName });
-                                    }}
-                                    onBlur={() => {
-                                        setIsEditingName(false);
-                                    }}
-                                    autoFocus
-                                    className="border border-gray-900 text-black-500 font-light rounded-lg outline-0 py-1 px-1"
-                                />
-                            ) : (
-                                <>
-                                    <div className="flex items-center">
-                                        <div className="text-lg font-medium flex-1">
-                                            {portfolioData.name || 'Untitled Portfolio'}
-                                        </div>
-                                        <button
-                                            type="button"
-                                            onClick={() => {
-                                                setTempName(portfolioData.name || '');
-                                                setIsEditingName(true);
-                                            }}
-                                            className="px-2 rounded-full py-2 hover:scale-105 hover:bg-gray-600 cursor-pointer transform transition-transform duration-300"
-                                            aria-label="Edit portfolio name"
-                                        >
-                                            <svg
-                                                width="18"
-                                                height="18"
-                                                viewBox="0 0 20 21"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                            >
-                                                <path
-                                                    d="M11.7284 3.7382C12.3494 3.06539 12.6599 2.72899 12.9898 2.53276C13.7859 2.05929 14.7662 2.04457 15.5756 2.49393C15.9111 2.68016 16.2311 3.00709 16.8712 3.66096C17.5113 4.31483 17.8313 4.64176 18.0136 4.98443C18.4535 5.81126 18.4391 6.81265 17.9756 7.62591C17.7835 7.96296 17.4542 8.28014 16.7956 8.9145L8.95918 16.4622C7.71106 17.6644 7.08699 18.2655 6.30704 18.5701C5.52709 18.8747 4.66966 18.8523 2.9548 18.8075L2.72147 18.8014C2.19941 18.7877 1.93838 18.7809 1.78665 18.6087C1.63491 18.4365 1.65563 18.1706 1.69706 17.6388L1.71956 17.35C1.83617 15.8533 1.89447 15.1049 2.18675 14.4322C2.47903 13.7594 2.98319 13.2132 3.99151 12.1207L11.7284 3.7382Z"
-                                                    stroke="#141B34"
-                                                    strokeWidth="1.5"
-                                                    strokeLinejoin="round"
-                                                />
-                                                <path
-                                                    d="M10.834 3.83398L16.6673 9.66732"
-                                                    stroke="#141B34"
-                                                    strokeWidth="1.5"
-                                                    strokeLinejoin="round"
-                                                />
-                                                <path
-                                                    d="M11.667 18.834L18.3337 18.834"
-                                                    stroke="#141B34"
-                                                    strokeWidth="1.5"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </>
-                            )}
-                        </div>
+                        {/* Portfolio Name form Input */}
                         <div className="flex flex-col mb-4">
                             <label className="text-xs mb-1 text-gray-400">Name</label>
                             <input type="text" name="name" className="border border-gray-900 rounded-lg outline-0 py-1 px-1"
