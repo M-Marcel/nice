@@ -53,7 +53,7 @@ const More = ({ portfolioId, portfolioName, portfolioUrl,onDeleteClick }: MorePr
 
     return (
         <>
-            <Menu>
+            <Menu as="div" className="relative">
                 <MenuButton as={Fragment}>
                     {({ active }) => (
                          <button className={clsx(
@@ -64,7 +64,7 @@ const More = ({ portfolioId, portfolioName, portfolioUrl,onDeleteClick }: MorePr
                           </button>
                     )}
                 </MenuButton>
-                <MenuItems className="absolute bg-white w-[120px] p-1 border-none shadow-lg rounded-md mt-2 right-0 z-50">
+                <MenuItems className="absolute bg-white w-[120px] right-0 p-1 border-none shadow-lg rounded-md mt-2 z-50">
                     {links.map((link) => (
                         <MenuItem key={link.label} as={Fragment}>
                             {({ focus }) => (
