@@ -337,6 +337,7 @@ const PortfolioBuilder = () => {
                 <PublishModal
                     onClose={closeModal}
                     portfolioData={memoizedPortfolioData}
+                    updatePortfolioData={updatePortfolioData} 
                     onSuccess={handlePublishSuccess}
                 />
             </Modal>

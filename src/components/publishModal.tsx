@@ -1,6 +1,6 @@
 import { useAppDispatch } from "../hooks";
 import { updatePortfolio, publishPortfolio } from "../slices/portfolio/portfolioSlice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Button from "./Button";
 import { Portfolio } from "../dataTypes";
@@ -8,12 +8,13 @@ import { useNavigate } from "react-router-dom";
 import LoaderIcon from "../assets/loader.svg";
 
 type PublishModalProps = {
-  onClose: () => void;
-  portfolioData: Portfolio | null;
-  onSuccess?: () => void; // Added onSuccess prop
+    onClose: () => void;
+    portfolioData: Portfolio | null;
+    updatePortfolioData?: (updatedData: Partial<Portfolio>) => void;
+    onSuccess?: () => void; // Added onSuccess prop
 };
 
-const PublishModal = ({ onClose, portfolioData, onSuccess }: PublishModalProps) => {
+const PublishModal = ({ onClose, portfolioData, updatePortfolioData, onSuccess }: PublishModalProps) => {
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [publishStatus, setPublishStatus] = useState<{
@@ -23,34 +24,39 @@ const PublishModal = ({ onClose, portfolioData, onSuccess }: PublishModalProps) 
         saving: false,
         generatingUrl: false
     });
+    const [portfolioName, setPortfolioName] = useState(portfolioData?.name || '');
+      // Initialize name when portfolioData changes
+      useEffect(() => {
+        setPortfolioName(portfolioData?.name || '');
+    }, [portfolioData]);
 
     const handlePublish = async () => {
         if (!portfolioData) return;
 
         try {
             setPublishStatus({ saving: true, generatingUrl: false });
-            
+
             // First save the portfolio updates
             const cleanedSections = portfolioData.sections.map((section) => ({
                 sectionId: section.sectionId,
                 customContent: section.customContent,
             }));
-            
+
             const payload = {
-                name: portfolioData.name, 
+                name: portfolioName,
                 sections: cleanedSections,
             };
 
-            await dispatch(updatePortfolio({ 
-                id: portfolioData._id, 
-                portfolioData: payload 
+            await dispatch(updatePortfolio({
+                id: portfolioData._id,
+                portfolioData: payload
             })).unwrap();
-            
+
             setPublishStatus({ saving: false, generatingUrl: true });
-            
+
             // Then publish to generate URL
             const result = await dispatch(publishPortfolio(portfolioData._id)).unwrap();
-            
+
             // Success actions
             toast.success(result.message);
             if (onSuccess) onSuccess(); // Call onSuccess callback
@@ -64,6 +70,10 @@ const PublishModal = ({ onClose, portfolioData, onSuccess }: PublishModalProps) 
     };
 
     const isPublishing = publishStatus.saving || publishStatus.generatingUrl;
+    const isNameValid = portfolioName.trim().length > 0 && portfolioName.trim() !== "Untitled";
+    const showNameWarning = !isNameValid && portfolioName.trim().length > 0;
+
+
 
     return (
         <div className="py-4 flex flex-col justify-center items-center">
@@ -76,10 +86,32 @@ const PublishModal = ({ onClose, portfolioData, onSuccess }: PublishModalProps) 
                         </svg>
                     </span>
                 </div>
+                {/* Add Portfolio Name Form Here */}
+                <div className="w-full px-4">
+                    <div className="flex flex-col mb-4">
+                        <label className="text-sm mb-2 text-gray-400">Portfolio Name</label>
+                        <input
+                            type="text"
+                            value={portfolioName}
+                            onChange={(e) => {
+                                setPortfolioName(e.target.value);
+                                updatePortfolioData?.({ name: e.target.value });
+                            }}
+                            className="border border-gray-900 text-black-500 font-light rounded-lg outline-0 py-2 px-3 w-full"
+                            placeholder="Enter portfolio name"
+                            required
+                        />
+                        {showNameWarning && (
+                            <p className="text-red-500 text-xs mt-1">
+                                Please enter a valid portfolio name (cannot be "Untitled")
+                            </p>
+                        )}
+                    </div>
+                </div>
                 <p className="text-black-500 text-2xl w-[100%] text-center font-semibold leading-7">Publish project</p>
-                <p>{portfolioData?.name || "My Portfolio"}</p>
+                <p>www.lanepact.com/{portfolioData?.name || "My Portfolio"}</p>
             </div>
-            
+
             <p className="text-left mt-6 flex gap-1 items-center text-gray-930 text-xs w-[auto] lg:w-[70%]">
                 {publishStatus.saving ? (
                     <img src={LoaderIcon} alt="loader" width={20} height={20} className="animate-spin" />
@@ -88,7 +120,7 @@ const PublishModal = ({ onClose, portfolioData, onSuccess }: PublishModalProps) 
                 )}
                 Saving portfolio data to database
             </p>
-            
+
             <p className="text-left flex gap-1 items-center mt-6 text-gray-930 text-xs w-[auto] lg:w-[70%]">
                 {publishStatus.generatingUrl ? (
                     <img src={LoaderIcon} alt="loader" width={20} height={20} className="animate-spin" />
@@ -99,18 +131,18 @@ const PublishModal = ({ onClose, portfolioData, onSuccess }: PublishModalProps) 
                 )}
                 Generating URL for portfolio
             </p>
-            
+
             <div className="flex gap-2 w-full px-2 mt-6">
-                <Button 
-                    onClick={onClose} 
+                <Button
+                    onClick={onClose}
                     className="px-6 w-full flex-1 py-3 items-center text-sm border border-gray-600 rounded-xl bg-white shadow-lg text-black-500"
                     disabled={isPublishing}
                 >
                     Cancel
                 </Button>
-                <Button 
-                    onClick={handlePublish} 
-                    disabled={isPublishing}
+                <Button
+                    onClick={handlePublish}
+                    disabled={isPublishing || !isNameValid}
                     className="w-full flex-1 text-sm items-center gap-2 custom-bg shadow-lg text-white px-6 py-3 rounded-xl"
                 >
                     {isPublishing ? "Publishing..." : "Publish"}
