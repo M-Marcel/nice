@@ -2,8 +2,10 @@ import portfolioImg from "../assets/portfolio-mobile1.png";
 import thunderGreen from "../assets/thunder-green.png";
 import thunderBlue from "../assets/thunder-blue.png";
 import thunderPurple from "../assets/thunder-purple.png";
+import { useNavigate } from "react-router-dom";
 
 const ShowCase = () => {
+  const navigate = useNavigate()
   return (
       <div className="flex flex-col max-w-3xl items-center text-center justify-center pt-8 ">
         <h2 className="font-title mb-3 text-xl w-[70%] lg:w-[70%] lg:text-4xl text-black-300 leading-[25px] text-center font-medium ">
@@ -44,7 +46,7 @@ const ShowCase = () => {
             </p>
           </div>
         </div>
-        <button className="flex items-center text-xs mt-24 ">
+        <button onClick={() => navigate('/dashboard')} className="flex items-center text-xs mt-24 ">
           Create a portfolio
           <span className="px-2" >
             <svg
