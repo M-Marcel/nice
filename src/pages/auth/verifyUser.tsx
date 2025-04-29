@@ -20,6 +20,7 @@ const VerifyUser = () => {
         navigate("/");
         return;
       }
+     
 
       try {
         // Attempt to verify the user

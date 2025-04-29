@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
+    AuthResponse,
     CompleteSignUpFormData,
     ForgotFormData,
     LoginFormData,
@@ -27,9 +28,19 @@ type InitialState = {
     isLoading: boolean;
     message: string;
 };
-
-const storedRegisterUser = localStorage.getItem("user");
-const user = storedRegisterUser ? JSON.parse(storedRegisterUser) : null;
+const getSafeLocalStorageUser = () => {
+    try {
+        const storedRegisterUser = localStorage.getItem("user");
+        return storedRegisterUser ? JSON.parse(storedRegisterUser) : null;
+    } catch (error) {
+      console.error("Failed to parse user from localStorage", error);
+      localStorage.removeItem("user");
+      return null;
+    }
+  };
+  const user = getSafeLocalStorageUser();
+// const storedRegisterUser = localStorage.getItem("user");
+// const user = storedRegisterUser ? JSON.parse(storedRegisterUser) : null;
 const storedToken = localStorage.getItem("token");
 
 const initialState: InitialState = {
@@ -65,7 +76,7 @@ export const register = createAsyncThunk<
 });
 
 export const verifyEmail = createAsyncThunk<
-    { message: string, email: string, provider:string },
+    { data:{firstName:string, lastName:string, email: string, provider:string}, message:string, success:boolean},
     string,
     { rejectValue: string }
 >("auth/verifyEmail", async (token, thunkApi) => {
@@ -86,30 +97,38 @@ export const verifyUser = createAsyncThunk(
             localStorage.setItem("token", token);
             const response = await authService.getProfile();
 
-
-            console.log("v-user response", response)
-            localStorage.setItem("user", JSON.stringify(response));
+            console.log("v-user response", response);
+            
+            // Handle the nested data structure
+            const userData = (response as any).data || response;
+            
+            localStorage.setItem("user", JSON.stringify(userData));
         
             return {
-                user: response.user || response, 
+                user: userData, 
                 message: response.message || "No message", 
                 token: token,
             };
         } catch (error: any) {
-            
             return rejectWithValue("Verification failed");
         }
     }
 );
-
 export const login = createAsyncThunk<
-    { user: User; token: string; message: string },
+    { user: User; token: string; message: string }, // What the reducer will receive
     LoginFormData,
     { rejectValue: string }
 >("auth/login", async (userData, thunkApi) => {
     try {
-        const response = await authService.login(userData);
-        return response;
+        // Type the response as AuthResponse
+        const response = await authService.login(userData) as AuthResponse;
+        
+        // Extract the nested data
+        return {
+            user: response.data.user,
+            token: response.data.token,
+            message: response.message
+        };
     } catch (error: any) {
         const message =
             error.response?.data?.message || error.message || "Login failed";

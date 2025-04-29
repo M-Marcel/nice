@@ -1,6 +1,4 @@
 import axios, { AxiosError } from "axios";
-import { User } from "../../dataTypes";
-
 
 // const getApiConfig = () => {
 //     const env = process.env.REACT_APP_ENV || 'development';
@@ -22,11 +20,9 @@ import { User } from "../../dataTypes";
 
 // const { baseUrl } = getApiConfig();
 
-// const API_URL = `${baseUrl}/api/v1/auth/admin`
-
 const baseUrl = process.env.REACT_APP_BASEURL
 
-const API_URL = `${baseUrl}/api/v1/auth/admin`
+const API_URL = `${baseUrl}/api/v1/email/contact-us`;
 
 interface ApiErrorResponse {
     message: string;
@@ -44,40 +40,51 @@ interface ApiErrorResponse {
 //     };
 // };
 
-
-// handle API errors
+// Handle API errors
 const handleApiError = (error: AxiosError): never => {
     const errorMessage = (error.response?.data as ApiErrorResponse)?.message ||
         "An unexpected error occurred. Please try again.";
     throw new Error(errorMessage);
 };
 
-// save user data to localStorage
-const saveUserToLocalStorage = (data: any) => {
-    localStorage.setItem("user", JSON.stringify(data));
-};
+interface ContactFormData {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+    files?: File | null;
+}
 
-
-// Login user
-const login = async (userData: { email: string; password: string }): Promise<{ user: User; token: string; message: string }> => {
+const sendContactMessage = async (contactData: ContactFormData): Promise<{ message: string }> => {
     try {
-        const response = await axios.post(`${API_URL}/login`, userData, {
-            headers: { 'Content-Type': 'application/json' },
+        const formData = new FormData();
+        formData.append('name', contactData.name);
+        formData.append('email', contactData.email);
+        formData.append('subject', contactData.subject);
+        formData.append('message', contactData.message);
+        
+        if (contactData.files) {
+            formData.append('files', contactData.files);
+        }
+
+        const response = await axios.post(API_URL, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
             withCredentials: true,
         });
 
-        const { user, token, message } = response.data;
-        localStorage.setItem("token", token);
-        saveUserToLocalStorage(user);
-        return { user, token, message };
+        return {
+            message: response.data.message || "Message sent successfully",
+        };
     } catch (error: any) {
         handleApiError(error);
-        throw new Error("login failed");
+        throw new Error("Sending message failed");
     }
 };
 
-const AdminAuthService = {
-    login
-}
+const contactService = {
+    sendContactMessage,
+};
 
-export default AdminAuthService;
+export default contactService;

@@ -28,8 +28,21 @@ const saveToLocalStorage = (portfolioId: string, data: Portfolio) => {
     localStorage.setItem(`${PORTFOLIO_LOCALSTORAGE_KEY}_${portfolioId}`, JSON.stringify(data));
 };
 
+const clearAllDrafts = (portfolioId: string) => {
+    const draftKeys = [
+      `infoDraft_${portfolioId}`,
+      `skillsDraft_${portfolioId}`,
+      `projectsDraft_${portfolioId}`,
+      `workDraft_${portfolioId}`,
+      `educationDraft_${portfolioId}`,
+      `certificationDraft_${portfolioId}`
+    ];
+  
+    draftKeys.forEach(key => localStorage.removeItem(key));
+  };
+
 const clearLocalStorage = (portfolioId: string) => {
-    localStorage.removeItem(`${PORTFOLIO_LOCALSTORAGE_KEY}_${portfolioId}`);
+    localStorage.removeItem(`${PORTFOLIO_LOCALSTORAGE_KEY}_${portfolioId}`,);
 };
 
 
@@ -89,6 +102,7 @@ const PortfolioBuilder = () => {
     const handlePublishSuccess = () => {
         if (portfolioId) {
             clearLocalStorage(portfolioId);
+            clearAllDrafts(portfolioId);
         }
     };
 

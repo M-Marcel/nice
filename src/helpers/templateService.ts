@@ -1,25 +1,27 @@
 import axios, { AxiosError } from "axios";
 import { Template } from "../dataTypes";
 
-const getApiConfig = () => {
-    const env = process.env.REACT_APP_ENV || 'development';
+// const getApiConfig = () => {
+//     const env = process.env.REACT_APP_ENV || 'development';
 
-    const apiConfig = {
-        development: {
-            baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
-        },
-        staging: {
-            baseUrl: "https://apidhykngtwistaging.lanepact.com",
-        },
-        production: {
-            baseUrl: "https://coreapi.lanepact.com",
-        }
-    };
+//     const apiConfig = {
+//         development: {
+//             baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
+//         },
+//         staging: {
+//             baseUrl: "https://apidhykngtwistaging.lanepact.com",
+//         },
+//         production: {
+//             baseUrl: "https://coreapi.lanepact.com",
+//         }
+//     };
 
-    return apiConfig[env as keyof typeof apiConfig];
-};
+//     return apiConfig[env as keyof typeof apiConfig];
+// };
 
-const { baseUrl } = getApiConfig();
+// const { baseUrl } = getApiConfig();
+
+const baseUrl = process.env.REACT_APP_BASEURL
 
 const API_URL = `${baseUrl}/api/v1/portfolio-builder/templates`;
 
@@ -67,12 +69,12 @@ const getAllTemplates = async (
             withCredentials: true,
         });
 
-
+        console.log("temp resp", response)
         if (response?.data) {
             return {
-                templates: response.data.data, // Match the API response structure
-                pagination: response.data.pagination, // Match the API response structure
-                message: "Templates fetched successfully", // Custom message
+                templates: response.data.data.data, 
+                pagination: response.data.data.pagination,
+                message: "Templates fetched successfully", 
             };
         } else {
             throw new Error("No data received from the server.");

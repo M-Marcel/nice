@@ -1,25 +1,27 @@
 import axios, { AxiosError } from "axios";
 import { Category, Skill } from "../dataTypes";
 
-const getApiConfig = () => {
-    const env = process.env.REACT_APP_ENV || 'development';
+// const getApiConfig = () => {
+//     const env = process.env.REACT_APP_ENV || 'development';
 
-    const apiConfig = {
-        development: {
-            baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
-        },
-        staging: {
-            baseUrl: "https://apidhykngtwistaging.lanepact.com",
-        },
-        production: {
-            baseUrl: "https://coreapi.lanepact.com",
-        }
-    };
+//     const apiConfig = {
+//         development: {
+//             baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
+//         },
+//         staging: {
+//             baseUrl: "https://apidhykngtwistaging.lanepact.com",
+//         },
+//         production: {
+//             baseUrl: "https://coreapi.lanepact.com",
+//         }
+//     };
 
-    return apiConfig[env as keyof typeof apiConfig];
-};
+//     return apiConfig[env as keyof typeof apiConfig];
+// };
 
-const { baseUrl } = getApiConfig();
+// const { baseUrl } = getApiConfig();
+
+const baseUrl = process.env.REACT_APP_BASEURL
 
 const API_URL = `${baseUrl}/api/v1/portfolio-builder/portfolio`;
 
@@ -57,7 +59,7 @@ const getAllSkills = async (page: number = 1, limit: number = 10): Promise<{ ski
         });
         console.log("Skills API Response:", response.data);
 
-        const skillsData = response.data?.data || [];
+        const skillsData = response.data?.data.data || [];
         console.log("Extracted skills:", skillsData);
 
         return {
@@ -77,7 +79,7 @@ const getAllCategories = async (): Promise<{ categories: Category[]; message: st
             withCredentials: true,
         });
 
-        console.log('Categories Response', response.data.data)
+        console.log('Categories Response', response)
         const categoriesData = response.data?.data || [];
         return {
             categories: categoriesData,

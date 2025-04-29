@@ -15,6 +15,7 @@ import CommunityBotPlan from "../components/communityBotPlan copy";
 import WorkFlows from "../components/Workflows";
 import Remittance from "../components/Remittance";
 import NoCode from "../components/NoCode";
+import Questions from "../components/Questions";
 
 const Home = () => {
   const { setActiveModal } = useModal();
@@ -109,7 +110,10 @@ const Home = () => {
         {/* mapping logic ends here */}
         <Plans />
         <CommunityBotPlan />
-        <div className="relative top-[310px] lg:top-[500px]">
+        <div className="mt-[400px] lg:mt-[500px]">
+        <Questions />
+        </div>
+        <div className="relative top-[70px] lg:top-[170px]">
           <Join />
           <Footer />
         </div>

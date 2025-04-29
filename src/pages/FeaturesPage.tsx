@@ -7,7 +7,7 @@ import Join from "../components/Join";
 import Modals from "../components/Modals";
 import { useModal } from "../context/ModalContext";
 import MainFeatures from "../components/MainFeatures";
-import TawkTo from "../components/TawkTo";
+
 
 
 const FeaturesPage = () => {
@@ -32,7 +32,7 @@ const FeaturesPage = () => {
         </Hero>
       </div>
       {/* Tawk.to Script */}
-      <TawkTo />
+    
       {/* Modals */}
       <Modals email={email} setEmail={setEmail} />
     </>

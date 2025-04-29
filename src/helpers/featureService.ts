@@ -1,25 +1,27 @@
 import axios from "axios";
 import { Feature } from "../dataTypes";
 
-const getApiConfig = () => {
-    const env = process.env.REACT_APP_ENV || 'development';
-    
-    const apiConfig = {
-      development: {
-        baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
-      },
-      staging: {
-        baseUrl: "https://apidhykngtwistaging.lanepact.com",
-      },
-      production: {
-        baseUrl: "https://coreapi.lanepact.com",
-      }
-    };
-  
-    return apiConfig[env as keyof typeof apiConfig];
-  };
+// const getApiConfig = () => {
+//     const env = process.env.REACT_APP_ENV || 'development';
 
-  const { baseUrl } = getApiConfig();
+//     const apiConfig = {
+//         development: {
+//             baseUrl: "https://apijhnvuokjgsbgyerbfgdev.lanepact.com",
+//         },
+//         staging: {
+//             baseUrl: "https://apidhykngtwistaging.lanepact.com",
+//         },
+//         production: {
+//             baseUrl: "https://coreapi.lanepact.com",
+//         }
+//     };
+
+//     return apiConfig[env as keyof typeof apiConfig];
+// };
+
+// const { baseUrl } = getApiConfig();
+
+const baseUrl = process.env.REACT_APP_BASEURL
 
 const API_URL = `${baseUrl}/api/v1/feature`
 
@@ -57,7 +59,10 @@ const createFeatureRequest = async (featureData: { title: string; tag: string; d
     throw new Error('feature creation failed')
 }
 
-const getAllFeatureRequest = async (page: number = 1, pageSize: number = 5): Promise<{
+const getAllFeatureRequest = async (
+    page: number = 1,
+    pageSize: number = 5
+): Promise<{
     features: Feature[];
     pagination: {
         total: number;
@@ -67,21 +72,21 @@ const getAllFeatureRequest = async (page: number = 1, pageSize: number = 5): Pro
     };
     message: string;
 }> => {
-    const response = await axios.get(`${API_URL}?page=${page}&pageSize=${pageSize}`, {
-        headers: {
-            "Content-Type": "application/json",
-        },
-        withCredentials: true,
-    });
+    const response = await axios.get(`${API_URL}?page=${page}&pageSize=${pageSize}`);
 
-    if (response?.data) {
+    if (response?.data?.success) {
         return {
-            features: response.data.data,
-            pagination: response.data.pagination,
-            message: response.data.message,
+            features: response.data.data.data || [], // Access nested data array
+            pagination: response.data.data.pagination || { // Access nested pagination
+                total: 0,
+                currentPage: page,
+                totalPages: 1,
+                pageSize
+            },
+            message: response.data.message || "Features fetched successfully"
         };
     }
-    throw new Error("Fetching features failed");
+    throw new Error(response?.data?.message || "Failed to fetch features");
 };
 
 const voteFeatureRequest = async (id: string): Promise<{ feature: Feature; message: string }> => {
@@ -111,7 +116,7 @@ const featureService = {
     createFeatureRequest,
     getAllFeatureRequest,
     voteFeatureRequest,
- 
+
 
 }
 

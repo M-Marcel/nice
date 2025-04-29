@@ -80,7 +80,7 @@ const LetUsKnowYou = () => {
         setFormData((prev) => ({ ...prev, [name]: value }))
     }
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async(e: React.FormEvent) => {
         e.preventDefault();
 
         console.log('Form submitted:', formData)
@@ -119,7 +119,9 @@ const LetUsKnowYou = () => {
                 userData.password = password;
             }
 
-            dispatch(completeSignUp(userData));
+          const response =  await dispatch(completeSignUp(userData));
+
+          console.log("complete response", response)
         }
     }
 
