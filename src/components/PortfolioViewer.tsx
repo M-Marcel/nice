@@ -55,7 +55,9 @@ const PortfolioViewer = () => {
                 </div>
                 <div className="flex items-center gap-1 lg:justify-center">
                     <UntitledIcon />
-                    <p>untitled</p>
+                    <p>
+                        {portfolio?.name}
+                    </p>
                 </div>
                 <div className="flex items-center gap-4 justify-end">
                     <div className="flex">
