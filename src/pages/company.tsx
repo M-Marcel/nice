@@ -18,9 +18,9 @@ const Company = () => {
             openSignUpModal={() => setActiveModal("signup")}
             openLoginModal={() => setActiveModal("login")}
           />
-          <Heading className="">
-            <div className="flex flex-wrap w-[100%] items-center justify-between  lg:ps-16 lg:mx-[0] pt-32 lg:pt-4  ">
-              <div className="left w-[100%] lg:w-[55%] p-4 ">
+          <Heading className="relative top-[40px]">
+            <div className="flex flex-wrap w-[100%] items-center justify-between  lg:ps-16 lg:mx-[0]  lg:pt-4  ">
+              <div className="left w-[100%] lg:w-[55%] p-4  ">
                 <h1 className=" text-2xl lg:text-4xl  font-medium w-[50%] lg:w-[10%]  text-black-990">
                   About Lanepact
                 </h1>
@@ -39,8 +39,8 @@ const Company = () => {
                   impact.
                 </p>
               </div>
-              <div className="right w-[100%] lg:w-[40%] pt-24  ">
-                <img src={companyImg} width={500} height={500} alt="" />
+              <div className="right w-[100%] lg:w-[30%] pt-24   ">
+                <img src={companyImg} width={500} height={200} alt="" />
               </div>
             </div>
 
@@ -93,7 +93,7 @@ const Company = () => {
               </div>
             </div>
 
-            <div className=" w-[100%] p-4 lg:ps-16 justify-between relative top-[40px] ">
+            <div className=" w-[100%] p-4 lg:ps-16 justify-between relative top-[10px] ">
               <h2 className=" text-gray-500 text-sm lg:text-lg font-medium ">
                 SMARTER WITH AI
               </h2>
@@ -101,7 +101,7 @@ const Company = () => {
                 Simpler with No-Code
               </h1>
               <div className="flex flex-wrap w-[100%]">
-                <div className="w-[100%] lg:w-[60%]  lg:py-4 ">
+                <div className="w-[100%] lg:w-[60%]  lg:py-1 ">
                   <div className=" lg:w-[56%] text-black-600 py-4 ">
                     <span className="text-lg font-semibold  ">
                       AI-Powered Insights
@@ -133,17 +133,17 @@ const Company = () => {
                 </div>
 
                 <div className="w-[100%] lg:w-[32%] ">
-                  <img src={botBuild} alt="" width={450} height={300} />
+                  <img src={botBuild} alt="" width={450} height={200} />
                 </div>
               </div>
             </div>
 
-            <div className="flex flex-wrap w-[100%] gap-5 lg:w-[90%] p-6 lg:px-8 lg:py-7 mt-10 lg:mt-20 items-start justify-between bg-gray-700 mx-auto rounded-2xl  ">
+            <div className="flex flex-wrap w-[100%] gap-5 lg:w-[90%] p-6 lg:px-8 lg:py-7 mt-10 lg:mt-8 items-start justify-between bg-gray-700 mx-auto rounded-2xl  ">
               <div className="w-[100%] lg:w-[48%]  ">
                 <h2 className="text-2xl lg:text-4xl text-black-990 font-medium  ">
                   Our Vision
                 </h2>
-                <p className="w-[100%]  lg:w-[70%] text-sm text-black-600 leading-7 pt-4 ">
+                <p className="w-[100%]  lg:w-[65%] text-sm text-black-600 leading-7 pt-4 ">
                   To empower individuals and businesses to create, grow, and
                   thrive with cutting-edge, no-barrier technology, bridging
                   creativity, data, and financial tools into one beautiful
