@@ -14,6 +14,7 @@ ENV REACT_APP_BASEURL=$REACT_APP_BASEURL
 # Copy and install dependencies
 COPY package*.json ./
 RUN npm install
+RUN docker network create lanepact-network
 
 # Copy the rest of the code
 COPY . .
