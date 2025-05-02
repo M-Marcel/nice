@@ -44,6 +44,8 @@ import PlansModal from "./components/PlansModal";
 import WelcomePage from "./pages/WelcomePage";
 import PortfolioShow from "./pages/PortfolioShow";
 import Company from "./pages/company";
+import AdminPortfolio from "./pages/admin/portfolioTemplate";
+import DisplayCv from "./components/displayCv";
 
 
 
@@ -90,12 +92,14 @@ function App() {
           <Route path="/free-tier" element={<FreePlans />} />
           <Route path="/welcome" element={<WelcomePage />} />
           <Route path="/plans-modal" element={<PlansModal />} />
+          <Route path="/displayCv" element={<DisplayCv />} />
           <Route path="/portfolio/view/:slug" element={<PortfolioShow />} />
 
           <Route element={<ProtectedAdminRoute />}>
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/feature-request" element={<FeatureRequest />} />
             <Route path="/admin/community" element={<AdminCommunity />} />
+            <Route path="/admin/portfolio" element={<AdminPortfolio />} />
             <Route path="/admin/users" element={<AdminUsers />} />
             <Route path="/admin/admins" element={<Admins />} />
             <Route path="/admin/payment" element={<AdminPayment />} />

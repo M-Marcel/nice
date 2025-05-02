@@ -14,6 +14,7 @@ import CommunityIcon from '../assets/svg/users/communityIcon'
 import AdminDashboardIcon from '../assets/svg/admin/dashboardIcon'
 import AdminFeatureRequestIcon from '../assets/svg/admin/featureRequest'
 import AdminCommunityIcon from '../assets/svg/admin/communityIcon'
+import AdminPortfolioIcon from '../assets/svg/admin/Computer'
 import AdminUsersIcon from '../assets/svg/admin/adminsUsersIcon'
 import AdminPaymentIcon from '../assets/svg/admin/paymentIcon'
 import AdminsIcon from '../assets/svg/admin/adminsIcon'
@@ -88,20 +89,27 @@ export const SidebarLinks = [
   },
   {
     id: 5,
+    title: "Portfolio template",
+    icon: AdminPortfolioIcon,
+    isAdmin: true,
+    url: "/admin/portfolio"
+  },
+  {
+    id: 6,
     title: "Users",
     icon: AdminUsersIcon,
     isAdmin: true,
     url: "/admin/users"
   },
   {
-    id: 6,
+    id: 7,
     title: "Payments",
     icon: AdminPaymentIcon,
     isAdmin: true,
     url: "/admin/payment"
   },
   {
-    id: 7,
+    id: 8,
     title: "Admins",
     icon: AdminsIcon,
     isAdmin: true,
