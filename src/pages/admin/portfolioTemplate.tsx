@@ -4,6 +4,7 @@ import { useDashboard } from "../../context/DashboardContext";
 import AdminHeader from "../../components/admin/Header";
 import AdminSearch from "../../components/AdminSearch";
 import femaleImg from "../../assets/female-avatar.jpeg"
+import PortfolioAdminHeader from "../../components/admin/PortfolioHeader";
 
 
 const AdminPortfolio = () => {
@@ -16,11 +17,11 @@ const AdminPortfolio = () => {
           className="mainDashboardFeatures bg-white h-[full] overflow-y-scroll rounded-[40px] w-[100%] lg:w-[80%] 
                 lg:relative md:z-30 lg:z-40 left-[20%] px-4 scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-black-300"
         >
-          <AdminHeader />
+          <PortfolioAdminHeader />
           <div className="relative top-[90px] z-2">
             <div className="mx-10">
               <div className="flex justify-between items-center ">
-                <h2 className="mb-0 lg:mb-4 text-lg lg:text-xl font-medium text-black-990">
+                <h2 className="mb-0 lg:mb-2 text-lg lg:text-xl font-medium text-black-990">
                   Portfolio templates
                 </h2>
                 <button className="flex items-center justify-center  gap-2 bg-gray-700 border border-gray-900 rounded-xl py-3 px-3">
