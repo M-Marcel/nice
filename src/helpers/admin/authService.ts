@@ -66,7 +66,7 @@ const login = async (userData: { email: string; password: string }): Promise<{ u
             withCredentials: true,
         });
 
-        const { user, token, message } = response.data;
+        const { user, token, message } = response.data.data;
         localStorage.setItem("token", token);
         saveUserToLocalStorage(user);
         return { user, token, message };
