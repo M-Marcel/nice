@@ -30,6 +30,6 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copy build output to nginx folder
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Expose port 80 and start Nginx
-EXPOSE 80
+# Expose port 3030 and start Nginx
+EXPOSE 3030
 CMD ["nginx", "-g", "daemon off;"]
