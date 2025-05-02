@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+    react-app:
+        image: lanepact-test
+        build:
+            context: .
+            dockerfile: Dockerfile
+            args:
+                REACT_APP_ENV: ${REACT_APP_ENV}
+                REACT_APP_BASEURL: ${REACT_APP_BASEURL}
+        ports:
+            - '3000:80'
+        environment:
+            - REACT_APP_ENV=${REACT_APP_ENV}
+            - REACT_APP_BASEURL=${REACT_APP_BASEURL}
