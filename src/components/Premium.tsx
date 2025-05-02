@@ -1,4 +1,4 @@
-import Search from "../components/Search";
+import Search from "./AdminSearch";
 import SearchSide from "../assets/svg/SearchSide";
 import AdminAvatar from "../assets/adminAvatar.png";
 

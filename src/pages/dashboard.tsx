@@ -4,7 +4,7 @@ import LeftSidebar from "../components/LeftSidebar"
 import DashboardHero from "../assets/dbherro.png"
 import BotDesign from '../assets/zrobot.png'
 import TelegramIcon from '../assets/telegram2.png'
-import Search from "../components/Search"
+import Search from "../components/AdminSearch"
 import { useAppDispatch, useAppSelector } from "../hooks"
 import { enablePageScroll } from "scroll-lock"
 import Person from '../assets/dbavatar.png'

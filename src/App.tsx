@@ -46,6 +46,7 @@ import PortfolioShow from "./pages/PortfolioShow";
 import Company from "./pages/company";
 import AdminPortfolio from "./pages/admin/portfolioTemplate";
 import DisplayCv from "./components/displayCv";
+import DeactivatePortfolio from "./pages/admin/deactivate-portfolio";
 
 
 
@@ -93,6 +94,7 @@ function App() {
           <Route path="/welcome" element={<WelcomePage />} />
           <Route path="/plans-modal" element={<PlansModal />} />
           <Route path="/displayCv" element={<DisplayCv />} />
+          <Route path="/deactivate-portfolio" element={<DeactivatePortfolio />} />
           <Route path="/portfolio/view/:slug" element={<PortfolioShow />} />
 
           <Route element={<ProtectedAdminRoute />}>

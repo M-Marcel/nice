@@ -69,6 +69,9 @@
   .telegram {
     background: linear-gradient(to bottom, #FD903E, #FECFAB, #FFFFFF )
   }
+  .deactivate {
+    background: linear-gradient(to bottom, #FF6262, #F04D4D)
+  }
   .botoimg {
     width:25px;
     height: 22px;
