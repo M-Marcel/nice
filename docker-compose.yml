@@ -15,11 +15,3 @@ services:
         environment:
             - REACT_APP_ENV=${REACT_APP_ENV}
             - REACT_APP_BASEURL=${REACT_APP_BASEURL}
-        labels:
-            - traefik.enable=true
-            - traefik.http.routers.react-app.rule=Host(`react-app.lanepact.com`)
-            - traefik.http.services.react-app.loadbalancer.server.port=3030
-            - traefik.http.routers.react-app.entrypoints=websecure
-            - traefik.http.routers.react-app.tls=true
-            - traefik.http.routers.react-app.tls.certresolver=myresolver
-            - traefik.http.routers.react-app.middlewares=redirect-to-https@file
