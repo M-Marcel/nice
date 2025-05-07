@@ -31,5 +31,5 @@ RUN rm -rf /usr/share/nginx/html/*
 COPY --from=build /app/build /usr/share/nginx/html
 
 # Expose port 3000 and start Nginx
-EXPOSE 3000
+EXPOSE 3300
 CMD ["nginx", "-g", "daemon off;"]
