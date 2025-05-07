@@ -11,8 +11,8 @@ services:
                 REACT_APP_BASEURL: ${REACT_APP_BASEURL}
         restart: always
         ports:
-            - '3300:80'
-            - '80:3300'
+            - '3300:5500'
+            - '5500:3300'
         environment:
             - REACT_APP_ENV=${REACT_APP_ENV}
             - REACT_APP_BASEURL=${REACT_APP_BASEURL}
