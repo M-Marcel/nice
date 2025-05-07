@@ -22,14 +22,22 @@ COPY . .
 RUN npm run build
 
 # Step 2: Serve with a lightweight web server (Nginx)
-FROM nginx:stable-alpine
+# FROM nginx:stable-alpine
+FROM ubuntu
+RUN apt-get update && apt-get install -y nginx
 
 # Remove default nginx website
-RUN rm -rf /usr/share/nginx/html/*
+# RUN rm -rf /usr/share/nginx/html/*
 
 # Copy build output to nginx folder
-COPY --from=build /app/build /usr/share/nginx/html
+COPY --from=build /app/build /var/www/html/
+
+# Copy nginx config file
+COPY default.conf /etc/nginx/sites-available/default
+
+# Create a symlink to enable the site
+RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 # Expose port 3000 and start Nginx
-EXPOSE 3300
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
