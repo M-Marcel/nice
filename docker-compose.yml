@@ -1,17 +1,15 @@
-version: '3.8'
-
 services:
-    react-app:
-        image: lanepact-test1
-        build:
-            context: .
-            dockerfile: Dockerfile
-            args:
-                REACT_APP_ENV: ${REACT_APP_ENV}
-                REACT_APP_BASEURL: ${REACT_APP_BASEURL}
-        restart: always
-        ports:
-            - '5174:5174'
-        environment:
-            - REACT_APP_ENV=${REACT_APP_ENV}
-            - REACT_APP_BASEURL=${REACT_APP_BASEURL}
+  react-app:
+    image: lanepact-test1
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_ENV: ${REACT_APP_ENV}
+        REACT_APP_BASEURL: ${REACT_APP_BASEURL}
+    restart: always
+    ports:
+      - "5500:80"
+    environment:
+      - REACT_APP_ENV=${REACT_APP_ENV}
+      - REACT_APP_BASEURL=${REACT_APP_BASEURL}

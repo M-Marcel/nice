@@ -1,56 +1,39 @@
-# Step 1: Use Node.js image to build the app
-FROM node:22-alpine AS build
-
+# Stage 1: build the React app
+FROM node:22-alpine AS builder
 WORKDIR /app
 
 # Accept env vars during build
 ARG REACT_APP_ENV
 ARG REACT_APP_BASEURL
 
-# Set them so CRA can use them
+# Expose them to Create React App
 ENV REACT_APP_ENV=$REACT_APP_ENV
 ENV REACT_APP_BASEURL=$REACT_APP_BASEURL
 
-# Copy and install dependencies
+# Install dependencies and build
 COPY package*.json ./
 RUN npm install
-
-# Copy the rest of the code
 COPY . .
-
-# Build the app
 RUN npm run build
 
-# Step 2: Serve with a lightweight web server (Nginx)
-# FROM nginx:stable-alpine
-# FROM ubuntu
-# RUN apt-get update && apt-get install -y nginx
+# Stage 2: serve with Nginx\ nFROM nginx:alpine
 
-# Remove default nginx website
-# RUN rm -rf /usr/share/nginx/html/*
-
-# Copy build output to nginx folder
-# COPY --from=build /app/build /var/www/html/
-
-FROM nginx:alpine
-
-# Copy nginx config file
-# COPY default.conf /etc/nginx/sites-available/default
+# Copy build artifacts from the "builder" stage
 COPY --from=builder /app/build /usr/share/nginx/html
 
-# Create a symlink to enable the site
-# RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+# Remove default config and deploy custom server block
+RUN rm /etc/nginx/conf.d/default.conf
 RUN echo 'server { \
-    listen 5174; \
+    listen 80; \
     server_name localhost; \
     root /usr/share/nginx/html; \
     index index.html; \
     location / { \
-        try_files $uri $uri/ /index.html; \
+        try_files \$uri \$uri/ /index.html; \
     } \
     location = /favicon.ico { access_log off; log_not_found off; } \
     location = /robots.txt  { access_log off; log_not_found off; } \
-    location ~* \.(?:css|js|jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc)$ { \
+    location ~* \\.(?:css|js|jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc)$ { \
         expires 1M; \
         access_log off; \
         add_header Cache-Control "public"; \
@@ -58,7 +41,6 @@ RUN echo 'server { \
     error_page 404 /index.html; \
 }' > /etc/nginx/conf.d/default.conf
 
-
-# Expose port 5174 and start Nginx
-EXPOSE 5174
+# Expose port 80 and run Nginx
+EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
