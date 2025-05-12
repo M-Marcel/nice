@@ -16,7 +16,8 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-# Stage 2: serve with Nginx\ nFROM nginx:alpine
+# Stage 2: serve with Nginx
+FROM nginx:alpine
 
 # Copy build artifacts from the "builder" stage
 COPY --from=builder /app/build /usr/share/nginx/html
@@ -29,7 +30,7 @@ RUN echo 'server { \
     root /usr/share/nginx/html; \
     index index.html; \
     location / { \
-        try_files \$uri \$uri/ /index.html; \
+        try_files $uri $uri/ /index.html; \
     } \
     location = /favicon.ico { access_log off; log_not_found off; } \
     location = /robots.txt  { access_log off; log_not_found off; } \
