@@ -23,21 +23,42 @@ RUN npm run build
 
 # Step 2: Serve with a lightweight web server (Nginx)
 # FROM nginx:stable-alpine
-FROM ubuntu
-RUN apt-get update && apt-get install -y nginx
+# FROM ubuntu
+# RUN apt-get update && apt-get install -y nginx
 
 # Remove default nginx website
 # RUN rm -rf /usr/share/nginx/html/*
 
 # Copy build output to nginx folder
-COPY --from=build /app/build /var/www/html/
+# COPY --from=build /app/build /var/www/html/
+
+FROM nginx:alpine
 
 # Copy nginx config file
-COPY default.conf /etc/nginx/sites-available/default
+# COPY default.conf /etc/nginx/sites-available/default
+COPY --from=builder /app/build /usr/share/nginx/html
 
 # Create a symlink to enable the site
-RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+# RUN ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+RUN echo 'server { \
+    listen 5174; \
+    server_name localhost; \
+    root /usr/share/nginx/html; \
+    index index.html; \
+    location / { \
+        try_files $uri $uri/ /index.html; \
+    } \
+    location = /favicon.ico { access_log off; log_not_found off; } \
+    location = /robots.txt  { access_log off; log_not_found off; } \
+    location ~* \.(?:css|js|jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc)$ { \
+        expires 1M; \
+        access_log off; \
+        add_header Cache-Control "public"; \
+    } \
+    error_page 404 /index.html; \
+}' > /etc/nginx/conf.d/default.conf
 
-# Expose port 3000 and start Nginx
-EXPOSE 80
+
+# Expose port 5174 and start Nginx
+EXPOSE 5174
 CMD ["nginx", "-g", "daemon off;"]
