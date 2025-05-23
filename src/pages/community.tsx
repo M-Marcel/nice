@@ -30,9 +30,9 @@ const Community = () => {
                     <Heading className="">
                         <div className="relative top-[150px]">
                             <div className='flex flex-col items-center justify-center mx-[8px] lg:mx-[0]'>
-                                <div className='flex flex-col items-center max-w-lg justify-center'>
+                                <div className='flex flex-col items-center max-w-lg lg:max-w-xl justify-center'>
                                     <h2 className='font-title text-4xl lg:text-5xl mb-3 text-black-300 text-center leading-[48px]'>
-                                        Discover and Use Bots Built by the Community
+                                    Explore and Use built AI solutions by the community
                                     </h2>
 
                                     <p className='text-center w-auto lg:w-[70%] text-black-400 mb-1'>
