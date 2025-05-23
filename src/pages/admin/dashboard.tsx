@@ -89,14 +89,14 @@ const AdminDashboard = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="mt-4 h-[50vh] overflow-y-scroll scrollbar-none lg:px-4 lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
+                                <div className="mt-4 h-[50vh] overflow-y-scroll scrollbar-none lg:px-4 lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600">
                                     <div className="w-full">{renderContent()}</div>
                                 </div>
                             </div>
                             <div className="lg:col-span-1">
                                 <div className="flex flex-col">
                                     <h2 className="text-black-940 font-semibold lg:fixed lg:mb-3">New Signups</h2>
-                                    <div className="signups h-[75vh] overflow-y-scroll scrollbar-none lg:px-4 lg:scrollbar-thin lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 lg:mt-8">
+                                    <div className="signups h-[75vh] overflow-y-scroll scrollbar-none lg:px-4 lg:scrollbar-none lg:scrollbar-thumb-gray-300 lg:scrollbar-track-gray-600 lg:mt-8">
                                         <NewSignUps />
                                     </div>
                                 </div>

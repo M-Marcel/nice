@@ -141,11 +141,11 @@ const Dashboard = () => {
                             </div>
                             <div className="absolute flex justify-between top-2 w-full">
                                 <div className="px-3 py-2 lg:py-4 md:mt-[20px] lg:mt-[2px]">
-                                    <p className="text-white text-xl leading-9 font-normal w-[100%] mb-4">Welcome {user?.firstName || "User"}!</p>
+                                    <p className="text-white text-xl leading-9 font-normal w-[100%] mb-2">Welcome {user?.firstName || "User"}!</p>
                                     <p className="text-white text-xl leading-6 font-medium w-[100%] lg:w-[90%]">
                                         Take the first step in your solution creation journey
                                     </p>
-                                    <div className="mt-8">
+                                    <div className="mt-6">
                                         <Button
                                             onClick={() => setActiveModal("createProjectModal")}
                                             className="flex bg-white px-4 rounded-xl py-4 items-center gap-2 justify-center">
