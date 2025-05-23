@@ -74,8 +74,8 @@ const getAllUsers = async (page: number = 1, pageSize: number = 5): Promise<{
         if (response?.data) {
             console.log("authService features", response.data.data)
             return {
-                users: response.data.data,
-                pagination: response.data.pagination,
+                users: response.data.data.data,
+                pagination: response.data.data.pagination,
                 message: response.data.message,
             };
         } else {

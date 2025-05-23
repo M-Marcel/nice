@@ -14,7 +14,7 @@ const DisplayCv = () => {
         <div className="flex justify-between items-center w-[100%]">
           <div className="flex gap-2  ">
             <a
-              href=""
+              href="/"
               className="flex items-center justify-center bg-white rounded-3xl border border-gray-600 px-2 py-1"
             >
               <span className="">
@@ -24,7 +24,7 @@ const DisplayCv = () => {
             </a>
 
             <a
-              href=""
+              href="/"
               className="flex items-center justify-center bg-white rounded-3xl border border-gray-600 px-2 py-1"
             >
               <span className="">
@@ -52,7 +52,7 @@ const DisplayCv = () => {
             </a>
 
             <a
-              href=""
+              href="/"
               className="flex items-center justify-center bg-white rounded-3xl border border-gray-600 px-2 py-1"
             >
               <span className="">
@@ -73,7 +73,7 @@ const DisplayCv = () => {
             </a>
 
             <a
-              href=""
+              href="/"
               className="flex items-center justify-center bg-white rounded-3xl border border-gray-600 px-2 py-1"
             >
               <span className="">
@@ -102,7 +102,7 @@ const DisplayCv = () => {
           </div>
 
           <div className="flex items-center justify-center gap-3 ">
-            <a href="" className="flex items-center justify-center">
+            <a href="/" className="flex items-center justify-center">
               <span>
                 <svg
                   width="10"
@@ -121,7 +121,7 @@ const DisplayCv = () => {
               </span>
               <span className="text-xs ps-1">Bandung</span>
             </a>
-            <a href="" className="flex items-center justify-center">
+            <a href="/" className="flex items-center justify-center">
               <span>
                 <svg
                   width="11"
