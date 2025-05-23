@@ -7,6 +7,7 @@ import Professional from "./Professional";
 
 
 const templateIds = getTemplateIds();
+console.log('templates id', templateIds)
 const templateMap: { [key: string]: React.ComponentType<{ templateId: string; templateData: Portfolio }> } = {
   
     [templateIds.Professional]:Professional,
