@@ -130,7 +130,7 @@ const LeftSidebar = ({ dashboardType }: LeftSidebarProps) => {
       <div
         ref={sidebarRef}
         className={`fixed top-0 left-0 h-[100%] ${dashboardType === "superadmin" || dashboardType === "admin"
-          ? "bg-black-800 text-white border-none"
+          ? "bg-black-800 text-white border-none overflow-y-scroll scrollbar-none"
           : "bg-white border-r border-gray-600"
           } z-50 shadow-lg transform ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
           } lg:translate-x-0 transition-transform duration-300 lg:w-[18%] flex flex-col gap-3 px-4 py-4`}
